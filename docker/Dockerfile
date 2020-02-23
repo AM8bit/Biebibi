@@ -1,4 +1,4 @@
-FROM ffmpeg:3.2-alpine
+FROM ffmpeg:4.1-alpine
 RUN apk update && apk add --no-cache supervisor lighttpd python3 aria2
 COPY ./conf/lighttpd.conf /etc/lighttpd/lighttpd.conf
 COPY ./conf/aria2.conf /aria2.conf
