@@ -1,14 +1,10 @@
 #!/usr/bin/python3
 # -*- coding: utf-8 -*-
-import cgi
-import gzip
-import hashlib
-import json
-import os
-import re
-import socket
-import urllib.request
+import cgi, subprocess, pipes, re, json, urllib.request, gzip, urllib.parse, os
 from xmlrpc import client
+import hashlib
+import socket
+import urllib
 
 USER_AGENT = 'Mozilla/5.0  AppleWebKit/601.1.46 (KHTML, like Gecko) Mobile/13C75 MicroMessenger/6.5.15 NetType/4G Language/zh_CN'
 cache_root = os.path.realpath('../caches/')
@@ -37,7 +33,6 @@ def add_Download_job(gid_group):
     finally:
         sock.close()
 
-
 def is_cached(v_md5):
     sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     try:
@@ -52,7 +47,6 @@ def is_cached(v_md5):
             return True
     finally:
         sock.close()
-
 
 def respone(log = '', **kw):
     print(json.dumps({
@@ -70,10 +64,8 @@ def response_err(log):
     }))
     exit()
 
-
 def get_vmd5(path):
     return os.path.splitext(os.path.basename(path))[0]
-
 
 def task_status(vgid, agid):
     video_down_status = s.aria2.tellStatus(vgid)
@@ -95,7 +87,7 @@ def task_status(vgid, agid):
         'status': status,
         'vgid': vgid,
         'agid': agid,
-        'cached': cached
+        'cached' : cached
     }
 
 
@@ -118,7 +110,7 @@ def flv_task_status(vgid):
         'status': status,
         'vgid': vgid,
         'agid': '',
-        'cached': cached,
+        'cached' : cached,
     }
 
 
@@ -151,7 +143,7 @@ if action == 'GET':
         vgid = s.aria2.addUri([video_m4s], { "dir": cache_root + '/video', 'out': video_sum + '.video' })
         agid = s.aria2.addUri([audio_m4s], { "dir": cache_root + '/audio', 'out': video_sum + '.audio' })
         add_Download_job(f'{vgid}:{agid}')
-        video_base = { 'title': title, 'vgid': vgid, 'agid': agid, 'type': 'latest', 'v_md5': video_sum }
+        video_base = { 'title': title, 'vgid': vgid, 'agid': agid, 'type': 'latest', 'v_md5' : video_sum  }
         video_base.update(task_status(vgid, agid))
         respone(data = video_base)
     # old video regex
@@ -161,7 +153,7 @@ if action == 'GET':
         video_sum = hashlib.md5(flv_video_urlfile.encode()).hexdigest()
         vgid = s.aria2.addUri([flv_video_urlfile], { "dir": cache_root + '/video', 'out': video_sum + '.video' })
         add_Download_job(f'{vgid}')
-        video_base = { 'title': title, 'vgid': vgid, 'type': 'old', 'v_md5': video_sum }
+        video_base = { 'title': title, 'vgid': vgid, 'type': 'old', 'v_md5' : video_sum }
         video_base.update(flv_task_status(vgid))
         respone(data = video_base)
     else:
@@ -177,10 +169,10 @@ elif action == 'progress':
         type = v_data['data']['type']
         v_md5 = v_data['data']['v_md5']
         if type == 'latest':
-            # latest video
+            #latest video
             agid = video_list_json[task]['data']['agid']
             resp_list.append({ 'task_id': v_data['task_id'], 'detail': task_status(vgid, agid) })
         elif type == 'old':
-            # old video
+            #old video
             resp_list.append({ 'task_id': v_data['task_id'], 'detail': flv_task_status(vgid) })
     respone(data = resp_list)

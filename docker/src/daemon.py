@@ -17,7 +17,6 @@ work_dir = pathlib.Path(__file__).parent.absolute()
 os.chdir(work_dir)
 s = client.ServerProxy("http://localhost:6800/rpc")
 
-
 def m4s_to_mp4(name):
     out = f'download/{name}.mp4'
     video_m4s_dir = 'caches/video/'
@@ -41,12 +40,11 @@ def m4s_to_mp4(name):
         proc.kill()
         outs, errs = proc.communicate()
 
-
 def flv_to_mp4(name):
     out = f'download/{name}.mp4'
     video_dir = 'caches/video/'
     video_file = video_dir + name + '.video'
-    if not os.path.exists(video_file): return
+    if not os.path.exists(video_file) : return
     if os.path.exists(out):
         print(f'{out} video has exist!')
         return
@@ -62,11 +60,9 @@ def flv_to_mp4(name):
         proc.kill()
         outs, errs = proc.communicate()
 
-
 def is_convertd(v_md5):
     if v_md5 in converted_list:
         return True
-
 
 def rev_jobs():
     sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -93,7 +89,6 @@ def rev_jobs():
         finally:
             connection.close()
 
-
 def m4s_video_convert(g):
     gid_group = g.decode().split(':')
     video_gid, audio_gid = gid_group[0], gid_group[1]
@@ -108,7 +103,6 @@ def m4s_video_convert(g):
     thr = threading.Thread(target = m4s_to_mp4, args = (name,))
     thr.start()
 
-
 def flv_video_convert(g):
     gid = g.decode()
     v_status = s.aria2.tellStatus(gid)
@@ -119,7 +113,6 @@ def flv_video_convert(g):
     name = os.path.splitext(os.path.basename(path))[0]
     thr = threading.Thread(target = flv_to_mp4, args = (name,))
     thr.start()
-
 
 def runner():
     watch_thr = threading.Thread(target = rev_jobs)
@@ -133,7 +126,6 @@ def runner():
                 # old video progress
                 flv_video_convert(g)
         time.sleep(1)
-
 
 if __name__ == "__main__":
     os.system('mkdir -p caches/video caches/audio')

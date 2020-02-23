@@ -11,7 +11,6 @@
     <!-- inject:css -->
     <link href="dist/styles.css" rel="stylesheet">
     <!-- endinject -->
-    aaff
     <!-- inject:js -->
     <script src="dist/all.js"></script>
     <!-- endinject -->
@@ -95,7 +94,6 @@
             border: solid 1px #50b94e;
             font-size: 12px;
         }
-
 
     </style>
 </head>
@@ -186,17 +184,17 @@
         function download_video(vid, filename){
 
             $.ajax({
-                url: "/download/" + vid + ".mp4",
-                xhr: function() {
+                url: "download/" + vid + ".mp4",
+                xhr: function () {
                     var xhr = $.ajaxSettings.xhr();
                     xhr.responseType = 'blob'
-                    xhr.onprogress = function(e) {
-                        $('#download_progress > p').text(Math.floor(e.loaded / e.total *100) + '%')
+                    xhr.onprogress = function (e) {
+                        $('#download_progress > p').text(Math.floor(e.loaded / e.total * 100) + '%')
                         $('#download_progress > progress').val(e.loaded / e.total)
                     };
                     return xhr;
                 },
-                success: function(response) {
+                success: function (response) {
                     //saveAs(response, filename + '.mp4')
                     saveData(response, safe_name(filename) + '.mp4')
                 }
@@ -323,7 +321,7 @@
             update_interval = setInterval(function () {
                 $.ajax({
                     method: "POST",
-                    url: "/cgi-bin/process.py",
+                    url: "cgi-bin/process.py",
                     data: {action: "progress", list: JSON.stringify(video_cache_tasks)}
                 }).done(function (msg) {
                     if (!msg.succ) return;
@@ -391,7 +389,7 @@
             this.loading = true;
             $.ajax({
                 method: "POST",
-                url: "/cgi-bin/process.py",
+                url: "cgi-bin/process.py",
                 data: {action: "GET", url: $('#video_url').val()}
             }).done(function (msg) {
                 $("#get_btn")[0].loading = false;
@@ -428,7 +426,6 @@
         });
 
     })();
-
 
 
 </script>
