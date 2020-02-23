@@ -1,1 +1,5 @@
-while true; do sleep 2; df -h; done
+#!/bin/sh
+while true; do
+  sleep 2
+  df -h
+done
