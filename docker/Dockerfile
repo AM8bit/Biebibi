@@ -4,8 +4,6 @@ COPY ./conf/lighttpd.conf /etc/lighttpd/lighttpd.conf
 COPY ./conf/aria2.conf /aria2.conf
 COPY ./src /var/www/localhost/htdocs/
 COPY ./conf/supervisor.ini /etc/supervisor.d/
-COPY ./entry.sh /
-RUN chmod +x /entry.sh
+RUN chown -R lighttpd. /var/www/localhost/
 EXPOSE 80
-ENTRYPOINT ["/entry.sh"]
-#ENTRYPOINT ["/usr/bin/supervisord","-n", "-c","/etc/supervisord.conf"]
+ENTRYPOINT ["/usr/bin/supervisord","-n", "-c","/etc/supervisord.conf"]
