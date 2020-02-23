@@ -1,4 +1,12868 @@
-!function(e,t){"function"==typeof define&&define.amd?define([],t):"undefined"!=typeof exports?t():(t(),e.FileSaver={})}(this,function(){"use strict";function f(e,t,o){var n=new XMLHttpRequest;n.open("GET",e),n.responseType="blob",n.onload=function(){a(n.response,t,o)},n.onerror=function(){console.error("could not download file")},n.send()}function r(e){var t=new XMLHttpRequest;t.open("HEAD",e,!1);try{t.send()}catch(e){}return 200<=t.status&&t.status<=299}function l(t){try{t.dispatchEvent(new MouseEvent("click"))}catch(e){var o=document.createEvent("MouseEvents");o.initMouseEvent("click",!0,!0,window,0,0,0,80,20,!1,!1,!1,!1,0,null),t.dispatchEvent(o)}}var d="object"==typeof window&&window.window===window?window:"object"==typeof self&&self.self===self?self:"object"==typeof global&&global.global===global?global:void 0,u=/AppleWebKit/.test(navigator.userAgent),a=d.saveAs||("object"!=typeof window||window!==d?function(){}:"download"in HTMLAnchorElement.prototype&&!u?function(e,t,o){var n=d.URL||d.webkitURL,a=document.createElement("a");t=t||e.name||"download",a.download=t,a.rel="noopener","string"==typeof e?(a.href=e,a.origin===location.origin?l(a):r(a.href)?f(e,t,o):l(a,a.target="_blank")):(a.href=n.createObjectURL(e),setTimeout(function(){n.revokeObjectURL(a.href)},4e4),setTimeout(function(){l(a)},0))}:"msSaveOrOpenBlob"in navigator?function(e,t,o){if(t=t||e.name||"download","string"!=typeof e)navigator.msSaveOrOpenBlob((a=e,void 0===(i=o)?i={autoBom:!1}:"object"!=typeof i&&(console.warn("Deprecated: Expected third argument to be a object"),i={autoBom:!i}),i.autoBom&&/^\s*(?:text\/\S*|application\/xml|\S*\/\S*\+xml)\s*;.*charset\s*=\s*utf-8/i.test(a.type)?new Blob(["\ufeff",a],{type:a.type}):a),t);else if(r(e))f(e,t,o);else{var n=document.createElement("a");n.href=e,n.target="_blank",setTimeout(function(){l(n)})}var a,i}:function(e,t,o,n){if((n=n||open("","_blank"))&&(n.document.title=n.document.body.innerText="downloading..."),"string"==typeof e)return f(e,t,o);var a="application/octet-stream"===e.type,i=/constructor/i.test(d.HTMLElement)||d.safari,r=/CriOS\/[\d]+/.test(navigator.userAgent);if((r||a&&i||u)&&"undefined"!=typeof FileReader){var l=new FileReader;l.onloadend=function(){var e=l.result;e=r?e:e.replace(/^data:[^;]*;/,"data:attachment/file;"),n?n.location.href=e:location=e,n=null},l.readAsDataURL(e)}else{var c=d.URL||d.webkitURL,s=c.createObjectURL(e);n?n.location=s:location.href=s,n=null,setTimeout(function(){c.revokeObjectURL(s)},4e4)}});d.saveAs=a.saveAs=a,"undefined"!=typeof module&&(module.exports=a)});
-!function(t){"object"==typeof exports&&"undefined"!=typeof module?module.exports=t():"function"==typeof define&&(define.amd||define.cmd)?define(t):t()}(function(){var h=document,p=window;if(p.isKeyEventBind||!h.addEventListener)return{};var t=navigator.userAgent,e="windows";/Mac\sOS\sX/i.test(t)&&(e="mac");var l="chrome";void 0!==h.mozFullScreen?l="moz":void 0===h.msHidden&&void 0!==h.hidden||(l="ie");function d(t){if(!h.hasTipsShow){var o=h.documentElement.scrollTop||h.body.scrollTop,s=h.documentElement.scrollLeft||h.body.scrollLeft;t.forEach(function(t){if(t.clientHeight*t.clientWidth!=0){var e=t.getAttribute("accesskey"),i=[];for(var a in c)c[a]&&i.push(a);i.push(e);var n=t.getBoundingClientRect(),r=h.createElement("div");r.className="ui-kbd-tips AK_Tips",r.setAttribute("style","top:"+(n.top+o)+"px;left:"+(n.left+s)+"px;"),r.innerHTML=i.map(function(t){return"<kbd>"+t.replace("Key","")+"</kbd>"}).join("+"),h.body.appendChild(r),r.fromTarget=t}}),h.hasTipsShow=!0,i=setTimeout(function(){u()},3e3)}}var c={windows:"moz"==l?{ctrlKey:!1,altKey:!0,shiftKey:!0}:{ctrlKey:!1,altKey:!0,shiftKey:!1},mac:{ctrlKey:!0,altKey:!0,shiftKey:!1}}[e],i=null,u=function(){clearTimeout(i);var t=h.querySelectorAll(".AK_Tips");[].slice.call(t).forEach(function(t){t.fromTarget&&(t.fromTarget.hasTipsShow=null),h.body.removeChild(t)}),h.hasTipsShow=null};h.addEventListener("keydown",function(i){var t=!1,e=i.target||h.activeElement,a=e.tagName.toLowerCase();("textarea"==a||"input"==a&&0==/checkbox|radio|select|file|button|image|hidden/i.test(e.type))&&(t=!0);var n=h.querySelectorAll("a[accesskey],area[accesskey],button[accesskey],input[accesskey],label[accesskey],legend[accesskey],textarea[accesskey]");if(0!=n.length){var r=[].slice.call(n),o=r.map(function(t){return t.getAttribute("accesskey")}),s=-1;if(o.forEach(function(t,e){if(i.key&&i.key==t||i.keyIdentifier&&parseInt(i.keyIdentifier.toLowerCase().replace("u+",""),16)==parseInt(function(t,e){if(!t)return"";e=e||"x";for(var i,a="",n=0;n<t.length;n+=1)55296<=t.charCodeAt(n)&&t.charCodeAt(n)<=56319?(i=(65536+1024*(Number(t.charCodeAt(n))-55296)+Number(t.charCodeAt(n+1))-56320).toString(16),n+=1):i=t.charCodeAt(n).toString(16),a+=e+i;return a.substr(e.length)}(t),16))return s=e,!1}),0==i.altKey&&0==i.shiftKey&&0==i.ctrlKey){if(t)return;r[s]&&(r[s].focus(),i.preventDefault())}else 0==i.altKey&&1==i.shiftKey&&0==i.ctrlKey?191!=i.keyCode||t||(h.hasTipsShow?u():d(r)):i.altKey==c.altKey&&i.shiftKey==c.shiftKey&&i.ctrlKey==c.ctrlKey&&(-1==s?(i.preventDefault(),h.hasTipsShow?u():d(r)):u(),"ie"==l&&r[s]&&!t&&r[s].click())}}),h.addEventListener("mousedown",function(){u()});var f={37:"left",38:"up",39:"right",40:"down",13:"enter",9:"tab",27:"esc"},m="ui-outline",v={add:function(t){t.className=t.className+" "+m},remove:function(t){t.className&&t.className.split&&(t.className=t.className.split(/\s+/).filter(function(t){if(t!=m)return t}).join(" "))},removeAll:function(){[].slice.call(h.querySelectorAll("."+m)).forEach(function(t){v.remove(t)})},has:function(t){return!(!t.className||!t.className.split)&&0<t.className.split(/\s+/).filter(function(t){if(t==m)return t}).length}};return p.isKeyEvent=!1,h.addEventListener("keydown",function(t){p.isKeyEvent=!0,setTimeout(function(){p.isKeyEvent=!1},100);var e=f[t.keyCode];if(e){var i=h.activeElement;if(i&&!/body/i.test(i.tagName)){if(/^radio|checkbox$/i.test(i.type)&&"enter"==e)return i.click(),void t.preventDefault();var a=null,n=h.querySelectorAll(".ESC");"esc"==e&&n.length&&[].slice.call(n).forEach(function(t){var e=t.id;(a=e&&h.querySelector('a[data-target="'+e+'"],input[data-target="'+e+'"],button[data-target="'+e+'"]'))&&"none"!==t.style.display&&0<t.clientHeight?a.click():t==document.activeElement&&t.click&&t.click()});var r=i.getAttribute("data-focus"),o=i.getAttribute("data-target"),s=null;if((r||o)&&(r?s=h.getElementById(r):o&&(s=h.getElementById(o)),s&&(0!=s.clientWidth||0!=s.clientHeight))){if("tab"==e){v.removeAll();var l=s;return s.getAttribute("tabindex")||(l=s.querySelector("a[href], button:not(:disabled), input:not(:disabled)")),void(l&&l.focus())}if("enter"==e){var d=s.querySelector("."+m);if(d&&r)return t.preventDefault(),void d.click();if(o)return}if("esc"==e)return a=h.querySelector('a[data-target="'+o+'"],input[data-target="'+o+'"]'),void(r?i.blur():a&&0==/ESC/.test(a.className)&&a.click());var c=[].slice.call(s.querySelectorAll("a[href], button:not(:disabled), input:not(:disabled)")),u=-1;0!=c.length&&(c.forEach(function(t,e){r?v.has(t)&&(u=e):i==t&&(u=e),v.remove(t)}),t.preventDefault(),"left"==e||"up"==e?--u<0&&(u=-1):"right"!=e&&"down"!=e||++u>c.length-1&&(u=c.length),c[u]&&(r?v.add(c[u]):c[u].focus()))}}}}),h.addEventListener("mousedown",function(t){var e=t.target;e&&!v.has(e)&&v.removeAll()}),h.addEventListener("click",function(t){var e=t.target,i=h.activeElement,a=e.getAttribute("tabindex")||"-1";e&&e==i&&(/^radio|checkbox$/i.test(i.type)||0<=a)&&0==p.isKeyEvent&&i.blur()}),h.addEventListener("focusin",function(t){var e=t.target;e&&(/^javascript/.test(e.href)&&!e.getAttribute("role")&&e.setAttribute("role","button"),!p.isKeyEvent||"none"==window.getComputedStyle(e).outlineStyle&&v.add(e))}),h.addEventListener("focusout",function(t){var e=t.target;e&&v.remove(e)}),p.isKeyEventBind=!0,{}}),function(t,e){"object"==typeof exports&&"undefined"!=typeof module?module.exports=e():"function"==typeof define&&(define.amd||define.cmd)?define(e):t.Follow=e()}("undefined"!=typeof global?global:"undefined"!=typeof window?window:"undefined"!=typeof self?self:this,function(){function t(t,e,i){var a={offsets:{x:0,y:0},position:"4-1",edgeAdjust:!0},n=Object.assign({},a,i||{});if(e){e.style.position="absolute";var r=t.getBoundingClientRect(),o=e.getBoundingClientRect();if(o.width*o.height!=0){var s=e.offsetParent,l=s.getBoundingClientRect();this.element={trigger:t,target:e},this.params=n;var d=window.pageYOffset,c=window.pageXOffset,u=window.innerWidth,h=window.innerHeight,p=n.offsets,f=l.top+d,m=l.left+c;s==document.body&&"static"==window.getComputedStyle(s).position&&(m=f=0),p.x-=m,p.y-=f;var v,g,y=n.position;if("string"!=typeof y&&2==y.length){return v=y[0]+p.x,g=y[1]+p.y,1==n.edgeAdjust&&(v+o.width>u+c&&(v=u+c-o.width-p.x),g+o.height>h+d&&(g=h+d-o.height-p.y)),e.style.left=v+"px",e.style.top=g+"px",e.setAttribute("data-align","3-1"),void this.zIndex()}0==["4-1","1-4","5-7","2-3","2-1","6-8","3-4","4-3","8-6","1-2","7-5","3-2"].some(function(t){return t==y})&&(y=a.position);function b(t){var e="bottom";switch(t){case"1-4":case"5-7":case"2-3":e="top";break;case"2-1":case"6-8":case"3-4":e="right";break;case"1-2":case"8-6":case"4-3":e="left";break;case"4-1":case"7-5":case"3-2":e="bottom"}return e}function w(t){return"5-7"===t||"6-8"===t||"8-6"===t||"7-5"===t}function E(t){return{left:o.width+p.x>r.left-c,top:o.height+p.y>r.top-d,right:r.right+o.width+p.x>u+c,bottom:r.bottom+o.height+p.y>h+d}[t]||!1}var L=b(y);if(n.edgeAdjust&&E(L))if(w(y)){y={"5-7":"7-5","7-5":"5-7","6-8":"8-6","8-6":"6-8"}[y]}else{var A={top:{left:"3-2",right:"4-1"},right:{bottom:"1-2",top:"4-3"},bottom:{left:"2-3",right:"1-4"},left:{bottom:"2-1",top:"3-4"}}[L],x=Object.keys(A);y=!E(x[0])||E(x[1])?A[x[0]]:A[x[1]]}var S=b(y),j=y.split("-")[0];switch(S){case"top":g=r.top-o.height+d,v="1"==j?r.left:"5"===j?r.left-(o.width-r.width)/2:r.left-(o.width-r.width),v+=c;break;case"right":v=r.right+c,g="2"==j?r.top:"6"===j?r.top-(o.height-r.height)/2:r.top-(o.height-r.height),g+=d;break;case"bottom":g=r.bottom+d,v="4"==j?r.left:"7"===j?r.left-(o.width-r.width)/2:r.left-(o.width-r.width),v+=c;break;case"left":v=r.left-o.width+c,g="1"==j?r.top:"8"==j?r.top-(o.height-r.height)/2:r.top-(o.height-r.height),g+=d}n.edgeAdjust&&w(y)&&("7-5"==y||"5-7"==y?v-c<.5*u?v-c<0&&(v=c):v-c+o.width>u&&(v=u+c-o.width):g-d<.5*h?g-d<0&&(g=d):g-d+o.height>h&&(g=h+d-o.height)),"top"==S||"left"==S?(v-=p.x,g-=p.y):(v+=p.x,g+=p.y),e.style.left=Math.round(v)+"px",e.style.top=Math.round(g)+"px",e.setAttribute("data-align",y),e.setAttribute("data-direction",S),this.zIndex()}}}return t.prototype.zIndex=function(){var a=this.element.target,t=window.getComputedStyle(a).zIndex,n=19;document.body.childNodes.forEach(function(t){if(1==t.nodeType){var e=window.getComputedStyle(t),i=+e.zIndex;i&&a!=t&&"none"!=e.display&&(n=Math.max(1+i,n))}}),n!=t&&(a.style.zIndex=n)},t}),function(t,e){"object"==typeof exports&&"undefined"!=typeof module?module.exports=e():"function"==typeof define&&(define.amd||define.cmd)?define(e):t.Tab=e()}("undefined"!=typeof global?global:"undefined"!=typeof window?window:"undefined"!=typeof self?self:this,function(){function t(t,e){var i=t;if(i){"string"==typeof t&&(i=document.querySelectorAll(t)),"function"==typeof(e=e||{})&&(e={onSwitch:e});var a=Object.assign({},{eventType:"click",index:"auto",history:!0,slide:!1,onSwitch:function(){}},e),n=a.index,r=[];i.forEach(function(t,e){"number"!=typeof n&&t.classList.contains(p)&&(n=e),t.setAttribute("data-index",e),t.setAttribute("role","tab"),t.setAttribute("aria-selected","false");var i=this.getPanel(t);r.push(i),i&&i.setAttribute("role","tabpanel")}.bind(this)),"number"!=typeof n&&(n=0),this.element={tabs:i,tab:i[n],panels:r,panel:r[n]},a.index=n,this.params=a,this.callback={switch:a.onSwitch},this.events(),window.addEventListener("DOMContentLoaded",function(){i[n].dispatchEvent(new CustomEvent(a.eventType)),a.onSwitch.call(this,i[n],r[n],null,null)}.bind(this)),1<i.length&&i[0].parentElement==i[1].parentElement&&i[0].parentElement.setAttribute("role","tablist")}}var p="active",f=function(){return["ui-tab"].concat([].slice.call(arguments)).join("-")};return t.prototype.getPanel=function(t){var e=(t=t||this.element.tab).getAttribute("data-rel")||t.getAttribute("href");return e?/^#/.test(e)?document.querySelector(e):document.querySelector("#"+e)||document.querySelector("."+e):null},t.prototype.show=function(t){var e=this.index,i=this.element.tabs,a=this.params;if(t=t||this.element.tab){var n=this.getPanel(t),r=t.parentElement;this.element.tab=t,this.element.panel=n;var o=t.getAttribute("href");if(!t.classList.contains(p)){e=r.querySelector("."+p).getAttribute("data-index"),t.classList.add(p);var s,l=i[e],d=this.getPanel(l);if(l.classList.remove(p),n.classList.add(p),d.classList.remove(p),e=t.getAttribute("data-index"),this.params.index=+e,1==a.slide&&history.pushState&&((s=r.querySelector("."+f("line")))||((s=document.createElement("i")).className=f("line"),r.insertBefore(s,i[0])),s.style.display="block",s.style.width=t.clientWidth+"px",s.style.left=t.offsetLeft+"px"),this.callback.switch.call(this,t,l,n,d),/^(:?javas|#)/.test(o)){var c=(t.getAttribute("data-rel")||o||"").replace(/^#/,"");if(1==a.history){var u=new URLSearchParams(location.search);u.set("tab",c);var h=location.hash;o==h&&(location.hash=h=""),history.replaceState?history.replaceState(null,document.title,location.href.split("?")[0]+"?"+u.toString()+h):location.replace("#tab="+c)}}}}},t.prototype.events=function(){var t=this.element.tabs,e=this.params;t.forEach(function(t){t.addEventListener(e.eventType,function(t){/^(:?javas|#)/.test(t.target.getAttribute("href"))&&t.preventDefault(),this.show(t.target)}.bind(this),!1)}.bind(this))},t}),function(t,e){"object"==typeof exports&&"undefined"!=typeof module?module.exports=e():"function"==typeof define&&(define.amd||define.cmd)?define(e):t.Select=e()}("undefined"!=typeof global?global:"undefined"!=typeof window?window:"undefined"!=typeof self?self:this,function(){function t(t){if(!t)return this;var e=t;if(!e.data||!e.data.select){var i=e.style.width||e.getAttribute("width");i=i||e.offsetWidth,this.offsetWidth=i;var a=e.id;a=a?"lulu_"+a:("lulu_"+Math.random()).replace("0.",""),this.id=a;var n="string"==typeof e.getAttribute("multiple");this.multiple=n;var r=document.createElement("div");r.setAttribute("role","combobox");var o=document.createElement("a");e[v]||o.setAttribute("href","javascript:"),o.setAttribute("data-target",a),o.setAttribute("role","button"),o.setAttribute("aria-expanded","false"),o.setAttribute("aria-owns",a),o.classList.add(b.add("button"));var s=document.createElement("div");s.id=a,s.setAttribute("role","listbox"),s.setAttribute("aria-expanded","true"),s.classList.add(b.add("datalist")),0==n?(r.appendChild(o),r.appendChild(s),e.style.display="none",e.insertAdjacentElement("afterend",r)):(r.appendChild(s),e.style.position="absolute",e.style.zIndex=1,e.insertAdjacentElement("afterend",r),s.setAttribute("aria-hidden","true")),this.element={select:e,combobox:r,button:o,datalist:s},this.refresh(),this.events(),e.data?e.data.select=this:e.data={select:this}}}var i="select",m="selected",v="disabled",g="active",y="reverse",b={add:function(){return["ui",i].concat([].slice.call(arguments)).join("-")},toString:function(){return"ui-"+i}};t.prototype.events=function(){var c=this.element,u=c.select,h=c.combobox,p=c.button,f=c.datalist;if(0==this.multiple){document.isSelectMouseEvent||(document.addEventListener("click",function(t){var e=t.target;if(e&&e.closest&&(h=e.closest("."+b),(u=h&&h.previousElementSibling)&&u.data&&u.data.select))if(c=u.data.select.element,p=c.button,f=c.datalist,p.contains(e)){if(u[v])return!1;if(h.classList.toggle(g),h.classList.contains(g)){var i=f.getBoundingClientRect().bottom+window.pageYOffset>Math.max(document.body.clientHeight,window.innerHeight);h.classList[i?"add":"remove"](y),p.setAttribute("aria-expanded","true");var a=h.dataScrollTop,n=f.querySelector("."+m);a&&a[1]==n.getAttribute("data-index")&&a[2]==n.innerText&&(f.scrollTop=a[0],delete h.dataScrollTop)}else h.classList.remove(y),p.setAttribute("aria-expanded","false")}else if(f.contains(e)){var r=e,o=null,s=r.classList.contains(v),l=r.getAttribute("data-index"),d=f.scrollTop;h.dataScrollTop=[d,l,r.innerText],0==s&&(o=u[l])&&(o[m]=!0),h.classList.remove(g),p.setAttribute("aria-expanded","false"),p.focus(),p.blur(),0==s&&(u.refresh(),u.dispatchEvent(new CustomEvent("change",{bubbles:!0})))}}),document.addEventListener("mouseup",function(t){var e=t.target;e&&(h=document.querySelector(i+"+."+b+"."+g))&&0==h.contains(e)&&(h.classList.remove(g),h.classList.remove(y))}),document.isSelectMouseEvent=!0);function e(){u[v]?p.removeAttribute("href"):p.href="javascript:"}if(window.MutationObserver)new MutationObserver(function(t){t.forEach(function(t){"attributes"==t.type&&e()})}).observe(u,{attributes:!0,attributeFilter:[v]});else u.addEventListener("DOMAttrModified",function(t){t.attrName==v&&e()})}else u.addEventListener("change",function(){this.refresh()}.bind(this)),u.addEventListener("scroll",function(){f.scrollTop=u.scrollTop}),u.addEventListener("mousedown",function(){u.setAttribute("data-active","true")}),u.addEventListener("mousemove",function(t){if(u.getAttribute("data-active"))this.refresh();else for(var e=t.clientY,i=f.querySelectorAll("a"),a=0;a<i.length;a++){var n=i[a];n.removeAttribute("href");var r=n.getBoundingClientRect().top,o=r+n.clientHeight;if(r<=e&&e<=o){0==n.classList.contains(m)&&0==n.classList.contains(v)&&(n.href="javascript:");break}}}.bind(this)),u.addEventListener("mouseout",function(){f.querySelectorAll("a[href]").forEach(function(t){t.removeAttribute("href")})}),document.addEventListener("mouseup",function(){u.removeAttribute("data-active")})},t.prototype.getData=function(){var t=this.element.select.querySelectorAll("option");return 0==t.length?[{html:""}]:[].slice.call(t).map(function(t){return{html:t.innerHTML,value:t.value,selected:t.selected,disabled:t.disabled,className:t.className}})},t.prototype.refresh=function(t){var a=this.id,n=this.multiple,e=this.element,i=e.select,r=e.combobox,o=e.button,s=e.datalist;t=t||this.getData(),r.className=(i.className+" "+b).trim();var l,d=this.offsetWidth;return/\D$/.test(d)?r.style.width=d:r.style.width=d+"px",n?r.style.height=i.style.height||i.offsetHeight+"px":o.innerHTML='<span class="'+b.add("text")+'">'+(l="",t.forEach(function(t){t.selected&&(l=t.html)}),l||t[0].html)+'</span><i class="'+b.add("icon")+'" aria-hidden="true"></i>',s.innerHTML=t.map(function(t,e){var i=[b.add("datalist","li"),t.className];return t[m]&&i.push(m),t[v]&&i.push(v),n?'<a class="'+i.join(" ")+'" data-index='+e+">"+t.html+"</a>":"<a "+(t[v]?"":'href="javascript:" ')+'class="'+i.join(" ")+'" data-index='+e+' data-target="'+a+'" role="option" aria-selected="'+t[m]+'">'+t.html+"</a>"}).join(""),this},t.prototype.remove=function(){var t=this.element.combobox;t&&t.remove()},Object.defineProperty(HTMLSelectElement.prototype,"value",{configurable:!0,enumerable:!0,writeable:!0,get:function(){var e=[];return this.querySelectorAll("option").forEach(function(t){1==t[m]&&e.push(t.value)}),e.join()},set:function(e){var i=!1,a="string"==typeof this.getAttribute("multiple");e=a?e.split(","):[e.toString()],this.querySelectorAll("option").forEach(function(t){0==a&&1==i||(-1!=e.indexOf(t.value)?t[m]=i=!0:a&&(t[m]=!1))}),1==i&&this.refresh()}}),HTMLSelectElement.prototype.refresh=function(){this.data&&this.data.select?this.data.select.refresh():new t(this)};var o=function(){if(!1!==window.autoInit&&(document.querySelectorAll("select").forEach(function(t){"1"!=window.getComputedStyle(t).opacity&&t.refresh()}),!1!==window.watching)){var a=function(t,e){if(1==t.nodeType)if("SELECT"==t.tagName)"remove"==e?t.data&&t.data.select?t.data.select[e]():t.parentNode.removeChild(t):t[e]();else if("OPTION"==t.tagName){var i=t.parentElement;i?i.data&&i.data.select&&setTimeout(function(){i.refresh()},16):this.target&&"SELECT"==this.target.tagName&&this.target.refresh()}else"refresh"==e&&(o.flag=!1,t.querySelectorAll("select").forEach(function(t){a(t,e)}),o.flag=!0)};if(window.MutationObserver){new MutationObserver(function(t){!1!==o.flag&&!1!==window.watching&&t.forEach(function(e){var t=e.addedNodes,i=e.removedNodes;t.length&&t.forEach(function(t){a.call(e,t,"refresh")}),i.length&&i.forEach(function(t){a.call(e,t,"remove")})})}).observe(document.body,{childList:!0,subtree:!0})}else{function e(t,e,i){!1!==o.flag&&!1!==window.watching&&1==t.nodeType&&(clearTimeout(r),"SELECT"==t.tagName?n.push({action:e,node:t}):"OPTION"!=t.tagName||0!=n.length&&0!=n[n.length-1].node.contains(t)||n.push({action:"refresh",node:i.relatedNode||t}),r=setTimeout(function(){o.flag=!1,n.forEach(function(t){a(t.node,t.action)}),o.flag=!0,n=[]},16))}var n=[],r=null;document.body.addEventListener("DOMNodeInserted",function(t){e(t.target,"refresh",t)}),document.body.addEventListener("DOMNodeRemoved",function(t){e(t.target,"remove",t)})}}};return"loading"!=document.readyState?o():window.addEventListener("DOMContentLoaded",o),t}),function(t,e){"object"==typeof exports&&"undefined"!=typeof module?(this.Follow=require("./Follow"),module.exports=e()):"function"==typeof define&&(define.amd||define.cmd)?define(e):t.Drop=e()}("undefined"!=typeof global?global:"undefined"!=typeof window?window:"undefined"!=typeof self?self:this,function(t){var i=this.Follow;if("function"!=typeof t||i){if(!i)return window.console.error("need Follow.js"),{}}else i=t("common/ui/Follow");function e(t,e,i){return this.init(t,e,i),this}return e.prototype.init=function(t,e,i){"string"==typeof t&&(t=document.querySelector(t)),"string"==typeof e&&(e=document.querySelector(e)),"object"==typeof e&&"number"!=typeof e.nodeType&&(i=e,e=null);var a=Object.assign({},{eventType:"null",offsets:{x:0,y:0},position:"7-5",selector:"",edgeAdjust:!0,onShow:function(){},onHide:function(){}},i||{});return this.element={trigger:t,target:e},this.callback={show:a.onShow,hide:a.onHide},this.params={eventType:a.eventType,offsets:a.offsets,position:a.position,selector:a.selector,edgeAdjust:a.edgeAdjust},this.display=!1,e&&t?(this.events(),t.data||(t.data={}),t.data.drop=this):this},e.prototype.events=function(){function i(t){if(!n.selector)return null;var e=t.closest(n.selector);return 0==a.contains(e)?null:e}var a=this.element.trigger,t=this.element.target,n=this.params;switch(n.eventType){case"null":this.show();break;case"hover":var r,o;a.addEventListener("mouseover",function(t){if(t.relatedTarget!==t.target){var e=i(t.target);e&&(this.element.trigger=e),n.selector&&!e||(r=setTimeout(function(){this.show()}.bind(this),150),clearTimeout(o))}}.bind(this)),a.addEventListener("mouseleave",function(){clearTimeout(r),o=setTimeout(function(){this.hide()}.bind(this),200)}.bind(this)),t.isBindDropHover||(t.addEventListener("mouseenter",function(){clearTimeout(o)}),t.addEventListener("mouseleave",function(){o=setTimeout(function(){this.hide()}.bind(this),100)}.bind(this)),t.isBindDropHover=!0),a.addEventListener("click",function(t){if(window.isKeyEvent){t.preventDefault();var e=i(t.target);e&&(this.element.trigger=e),n.selector&&!e||(0==this.display?this.show():this.hide())}}.bind(this));break;case"click":case"contextmenu":a.addEventListener(n.eventType,function(t){t.preventDefault();var e=i(t.target);if(e&&(this.element.trigger=e),!n.selector||e){if("contextmenu"==n.eventType)return n.position=[t.pageX,t.pageY],void this.show();0==this.display?this.show():this.hide()}}.bind(this))}document.addEventListener("click",function(t){var e=t&&t.target;if(e&&1==this.display){var i=this.element.trigger,a=this.element.target;a&&i&&0==i.contains(e)&&0==a.contains(e)&&this.hide()}}.bind(this)),window.addEventListener("resize",function(){this.follow()}.bind(this))},e.prototype.follow=function(){var t=this.element.trigger,e=this.element.target;return 1==this.display&&"none"!=window.getComputedStyle(t).display&&new i(t,e,{offsets:this.params.offsets,position:this.params.position,edgeAdjust:this.params.edgeAdjust}),this},e.prototype.show=function(){var t=this.element.trigger,e=this.element.target;e&&0==document.body.contains(e)&&document.body.appendChild(e),this.display=!0,e.style.position="absolute",e.style.display="inline",e.classList.add("ESC");var i=e.id;return i||(i=("lulu_"+Math.random()).replace("0.",""),e.id=i),t.setAttribute("data-target",i),t.setAttribute("aria-expanded","true"),this.follow(),"function"==typeof this.callback.show&&this.callback.show.call(this,t,e),this},e.prototype.hide=function(){var t=this.element.trigger,e=this.element.target;return e.style.display="none",e.classList.remove("ESC"),t.setAttribute("aria-expanded","false"),window.isKeyEvent&&t.focus(),this.display=!1,"function"==typeof this.callback.hide&&this.callback.hide.call(this,t,e),this},e.prototype.list=function(d,i,a){if([].slice.call(arguments).forEach(function(t){var e=typeof t;"string"==e?d=document.querySelector(t):"function"==e?i=t:"object"==e&&("number"==typeof t.nodeType?d=t:t.map?i=t:a=t)}),d&&"number"!=typeof d.nodeType&&(d=null),!(d=d||this.element.trigger)||!i)return this;if(d.data&&d.data.drop)return d.data.drop;var c=Object.assign({},{eventType:"click",offsets:{x:0,y:0},position:"4-1",selector:"",width:"",onShow:function(){},onHide:function(){},onSelect:function(){}},a||{}),h="selected",p="disabled",f=function(){return["ui-droplist"].concat([].slice.call(arguments)).join("-")},u="innerHTML";d.matches("input")&&(u="value");var t=this.data=i;"function"==typeof i&&(t=i());var m="-1",n=!1,v=document.createElement("div");v.setAttribute("role","listbox"),v.setAttribute("tabindex","-1"),/^\d+$/.test(c.width)?v.style.width=c.width+"px":v.style.width=c.width,v.className=f("x");var r=function(t,a){t&&t.length&&t.forEach(function(t,e){var i=a.concat(e);t&&t.data?r(t.data,i):(t&&t[h]&&!t[p]&&t.value&&(d[u]=t.value,m=i.join("-")),t&&t[h]&&(n=!0))})};r(t,[]);var o=(d[u]||"").trim();0==n&&o&&(r=function(t,a){t&&t.length&&t.forEach(function(t,e){var i=a.concat(e);t&&t.data?r(t.data,i):"string"==typeof t.value&&t.value.trim()==o&&(m=i.join("-"),t[h]=!0)})})(t,[]);return this.init(d,v,{eventType:c.eventType,offsets:c.offsets,selector:c.selector,position:c.position,onShow:function(){(function(t,e){"function"==typeof e&&(e=e()),e&&0!=e.length||(e=[{value:"没有数据",disabled:!0}]);var i,c,u=e.some(function(t){return t&&t[h]});t.innerHTML=(i="",i+=(c=function(t,l){var d="";return t.forEach(function(t,e){if("-"!=t&&null!==t&&"{}"!=JSON.stringify(t)){var i=l.concat(e),a=t.href||"javascript:",n="";t.target&&(n=' target="'+t.target+'"');var r=f("li");t[h]&&(r=r+" "+h);var o="";t.data&&(o=" data-sublist");var s="";t.label&&(s=' aria-label="'+t.label+'"'),0==u&&m==i.join("-")&&(t[h]=!0),1!=t[p]?(d+='<a href="'+a+'"'+n+s+' class="'+r+'" data-index="'+i.join("-")+'" role="option" aria-selected="'+(t[h]||"false")+'" '+o+">"+t.value+"</a>",t.data&&(d+='<div class="'+f("xx")+'"><div class="'+f("x")+'" role="listbox">'+c(t.data,i)+"</div></div>")):d+='<span class="'+r+'"'+s+">"+t.value+"</span>"}else d+='<hr class="'+f("hr")+'">'}),d})(e,[])),t.listData=e}).call(this,v,this.data),c.onShow.apply(this,arguments)},onHide:c.onHide}),v.addEventListener("click",function(t){if(1==t.target.nodeType&&t.target.closest){var e=t.target.closest("a");if(e){var i=v.listData,a=e.getAttribute("data-index");if(a){var n=null;if(a.split("-").forEach(function(t){n=null===n?i[t]:n.data?n.data[t]:n[t]}),n){if("string"==typeof e.getAttribute("data-sublist")){e.classList.add(h);var r=e.nextElementSibling.querySelector("."+f("x"));if(!r)return;var o=r.getBoundingClientRect();o.right>window.innerWidth?r.classList.add("reverse"):r.classList.remove("reverse");var s=0;return o.bottom>window.innerHeight&&(s=window.innerHeight-o.bottom),r.style.msTransform="translateY("+s+"px)",void(r.style.transform="translateY("+s+"px)")}if(a!=m){var l=null;"-1"!=m&&(m.split("-").forEach(function(t){l=null===l?i[t]:l.data?l.data[t]:l[t]}),l&&delete l[h]),n[h]=!0,m=a}c.onSelect.call(this,n,e),"contextmenu"==c.eventType||""!=c.selector||n.href||(d[u]=n.value),this.hide()}}}}}.bind(this)),v.addEventListener("mouseover",function(t){if(1==t.target.nodeType&&t.target.closest){var e=t.target.closest("a");if(e){var i=e.parentElement.querySelector("."+h+"[data-sublist]");i&&i!=e&&i.classList.remove(h),0==e.classList.contains(h)&&"string"==typeof e.getAttribute("data-sublist")&&e.click()}}}),this},e.prototype.panel=function(t,e){if(2===arguments.length?(t=t,e=e):1===arguments.length&&(e=t,t=null),"string"==typeof t&&(t=document.querySelector(t)),!(t=t||this.element.trigger))return this;if(t.data&&t.data.drop)return t.data.drop;var i=Object.assign({},{title:"",content:"",buttons:[{},{}],width:"auto",eventType:"click",selector:"",offsets:{x:0,y:0},position:"4-1",onShow:function(){},onHide:function(){}},e||{}),s={add:function(){return["ui-dropanel"].concat([].slice.call(arguments)).join("-")},toString:function(){return"ui-dropanel"}},a=document.createElement("div");a.className=s.add("x"),/^\d+$/.test(i.width)?a.style.width=i.width+"px":/^\d+\D+$/.test(i.width)&&(a.style.width=i.width);var n=document.createElement("h5");n.className=s.add("title"),n.innerHTML=i.title;var r=document.createElement("button");r.setAttribute("aria-label","关闭"),r.innerHTML='<svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="200" height="200" viewBox="0 0 200 200"><path d="M116.152,99.999l36.482-36.486c2.881-2.881,2.881-7.54,0-10.42 l-5.215-5.215c-2.871-2.881-7.539-2.881-10.42,0l-36.484,36.484L64.031,47.877c-2.881-2.881-7.549-2.881-10.43,0l-5.205,5.215 c-2.881,2.881-2.881,7.54,0,10.42l36.482,36.486l-36.482,36.482c-2.881,2.881-2.881,7.549,0,10.43l5.205,5.215 c2.881,2.871,7.549,2.871,10.43,0l36.484-36.488L137,152.126c2.881,2.871,7.549,2.871,10.42,0l5.215-5.215 c2.881-2.881,2.881-7.549,0-10.43L116.152,99.999z"/></svg>',r.className=s.add("close");var o=document.createElement("content");o.className=s.add("content"),o.innerHTML=i.content;var l=document.createElement("div");return l.className=s.add("footer"),a.appendChild(n),a.appendChild(r),a.appendChild(o),a.appendChild(l),this.init(t,a,{eventType:i.eventType,offsets:i.offsets,selector:i.selector,position:i.position,onShow:i.onShow,onHide:i.onHide}),Object.assign(this.element,{panel:a,title:n,close:r,content:o,footer:l}),r.addEventListener("click",function(){this.hide()}.bind(this),!1),i.buttons.forEach(function(t,e){var i=(t=t||{}).type||"";i||0!=e||(i="danger");var a=t.value;a=a||["确定","取消"][e];var n=t.events||{click:function(){this.hide()}.bind(this)};"function"==typeof n&&(n={click:n});var r=null;for(var o in t.for?((r=document.createElement("label")).setAttribute("for",t.for),r.setAttribute("role","button")):(r=document.createElement("button"),this.element["button"+e]=r),r.innerHTML=a,r.className=String(s).replace("dropanel","button")+" "+s.add("button")+" "+(t.className||""),i&&r.setAttribute("data-type",i),this.element["button"+e]=r,n)r.addEventListener(o,function(t){t.drop=this,n[o](t)}.bind(this),!1);this.element.footer.appendChild(r)}.bind(this)),this},e}),function(t,e){"object"==typeof exports&&"undefined"!=typeof module?(t.Follow=require("./Follow"),module.exports=e()):"function"==typeof define&&(define.amd||define.cmd)?define(e):t.Tips=e()}("undefined"!=typeof global?global:"undefined"!=typeof window?window:"undefined"!=typeof self?self:this,function(t){var c=this.Follow;if("function"!=typeof t||c){if(!c)return window.console.error("need Follow.js"),{}}else c=t("common/ui/Follow");var u={add:function(){return["ui-tips"].concat([].slice.call(arguments)).join("-")},toString:function(){return"ui-tips"}},h="reverse",n=function(t,e){if(!t)return this;var i=t;if("string"==typeof t&&0==(i=document.querySelectorAll(t)).length)return this;if(i.data&&i.data.tips)return i.data.tips;if(i.length&&i.forEach)return i.forEach(function(t){new n(t,e)}),i[0].data.tips;var a=Object.assign({},{eventType:"hover",align:"auto",content:"",onShow:function(){},onHide:function(){}},e||{});return this.element={trigger:i},this.callback={show:a.onShow,hide:a.onHide},this.params={eventType:a.eventType,align:a.align},a.content&&(this.content=a.content),this.events(),i.data||(i.data={}),i.data.tips=this};return Object.defineProperty(n.prototype,"content",{configurable:!0,enumerable:!0,writeable:!0,get:function(){var t=this.element&&this.element.trigger;if(!t)return"";var e=t.getAttribute("title")||t.getAttribute("data-title")||"";return t.setAttribute("data-title",e),t.setAttribute("aria-label",e),t.removeAttribute("title"),e},set:function(t){var e=this.element&&this.element.trigger;e&&(e.setAttribute("data-title",t),e.setAttribute("aria-label",t))}}),n.prototype.events=function(){var i=this.element.trigger;if(0==/^a|input|button|area$/i.test(i.tagName)&&(i.setAttribute("tabindex","0"),i.setAttribute("role","tooltip")),i.classList.contains(u))return this.content,void i.addEventListener("click",function(){window.isKeyEvent||this.blur()},!1);var t,e=this.params;getComputedStyle(document.documentElement).getPropertyValue("--hoverNone")&&"hover"==e.eventType&&(e.eventType="click"),"hover"==e.eventType?(i.addEventListener("mouseenter",function(){t=setTimeout(function(){this.show()}.bind(this),100)}.bind(this)),i.addEventListener("mouseleave",function(){clearTimeout(t),this.hide()}.bind(this)),i.addEventListener("focus",function(){window.isKeyEvent&&this.show()}.bind(this)),i.addEventListener("blur",function(){this.hide()}.bind(this))):"click"==e.eventType?(i.addEventListener("click",function(){this.show()}.bind(this)),document.addEventListener("mouseup",function(t){var e=t.target;1==this.display&&0==i.contains(e)&&0==this.element.tips.contains(e)&&this.hide()}.bind(this))):this.show()},n.prototype.show=function(){var t=this.content;if(!t)return this;var e,i,a=this.element.trigger,n=this.element.tips;if(n)n.style.display="block",e=n.querySelector("span"),(i=n.querySelector("i")).style.left="",e.innerHTML=t;else{if((n=document.createElement("div")).classList.add(u.add("x")),(e=document.createElement("span")).classList.add(u.add("content")),e.innerHTML=t,(i=document.createElement("i")).classList.add(u.add("arrow")),!a.getAttribute("aria-label")){var r="lulu_"+(Math.random()+"").replace("0.","");e.id=r,a.setAttribute("aria-labelledby",r)}n.appendChild(e),n.appendChild(i),document.body.appendChild(n)}var o="5-7",s=this.params.align;"auto"==s&&(s=a.getAttribute("data-align")||a.getAttribute("data-position")||"center"),"center"==s?(o="5-7",a.classList.contains(h)&&(o="7-5")):"left"==s?(o="1-4",a.classList.contains(h)&&(o="4-1")):"right"==s?(o="2-3",a.classList.contains(h)&&(o="3-2")):/^\d-\d$/.test(s)&&(o=s),new c(a,n,{position:o,edgeAdjust:!1});var l=n.getAttribute("data-align");if(l&&5==l.split("-").reduce(function(t,e){return+t+ +e})){var d=a.getBoundingClientRect().width/2-i.getBoundingClientRect().width/2;i.style.left="1-4"==l||"4-1"==l?d+"px":"calc(100% - "+(i.getBoundingClientRect().width+d)+"px)"}return this.callback.show.call(this,a,n),this.element.tips=n,this.display=!0,this},n.prototype.hide=function(){var t=this.element.tips;return t&&(t.style.display="none",this.callback.hide.call(this,this.element.trigger,t)),this.display=!1,this},window.addEventListener("DOMContentLoaded",function(){new n("."+u+", .jsTips")}),document.addEventListener("mouseover",function(t){var e=t.target;if(e&&e.closest&&(e=e.closest("."+u+", .jsTips"))&&(!e.data||!e.data.tips)){new n(e);var i=e.data.tips;i&&e.classList.contains("jsTips")&&i.show()}}),n}),function(t,e){"object"==typeof exports&&"undefined"!=typeof module?module.exports=e():"function"==typeof define&&(define.amd||define.cmd)?define(e):t.LightTip=e()}("undefined"!=typeof global?global:"undefined"!=typeof window?window:"undefined"!=typeof self?self:this,function(){function t(t,e){"object"==typeof t&&(e=t,t=void 0),this.params=Object.assign({},{status:"normal",duration:3e3},e||{}),this.params.type&&(this.params.status=this.params.type);var i=document.createElement("a");i.href="javascript:",i.setAttribute("role","tooltip"),i.className=n+" ESC";var a=document.createElement("div");a.className=n.add("text"),i.appendChild(a),document.body.appendChild(i),this.element={container:i,content:a},this.timerRemove=null,this.events(),this.content=t,this.show()}var n={add:function(){return["ui-lightip"].concat([].slice.call(arguments)).join("-")},toString:function(){return"ui-lightip"}};return t.prototype.events=function(){this.element.container.addEventListener("click",function(){this.remove()}.bind(this))},t.prototype.tabIndex=function(){var t=this.element.container,e=this.lastActiveElement;if(1==this.display){var i=document.activeElement;t!==i&&(this.lastActiveElement=i),t.focus()}else e&&!e.matches("body")&&(e.focus({preventScroll:!0}),window.isKeyEvent||e.blur(),this.lastActiveElement=null);return this},t.prototype.show=function(){var t=this.element,e=t.container,i=t.content,a=this.params,n=this.content;if(n)return clearTimeout(this.timerRemove),e.setAttribute("data-status",a.status),a.type&&e.setAttribute("data-type",a.type),i.innerHTML=n,e.setAttribute("open","open"),this.display=!0,this.tabIndex(),this.zIndex(),this.timerRemove=setTimeout(function(){this.remove()}.bind(this),a.duration),this},t.prototype.remove=function(){var t=this.element.container;t&&t.remove&&(clearTimeout(this.timerRemove),t.remove()),this.display=!1,this.tabIndex()},t.prototype.hide=function(){var t=this.element.container;t&&(clearTimeout(this.timerRemove),t.removeAttribute("open")),this.display=!1,this.tabIndex()},t.prototype.success=function(t,e){return"function"==typeof t&&(t=t()),"string"==typeof t?this.content=t:"number"==typeof t&&(e=t),this.params.status="success",e&&(this.params.duration=e),this.element.container&&this.element.container.setAttribute("aria-label","操作成功"),this.show(),this},t.prototype.error=function(t,e){return"function"==typeof t&&(t=t()),"string"==typeof t?this.content=t:"number"==typeof t&&(e=t),this.params.status="error",e&&(this.params.duration=e),this.element.container&&this.element.container.setAttribute("aria-label","操作失败"),this.show(),this},t.prototype.zIndex=function(){var a=this.element.container,t=window.getComputedStyle(a).zIndex,n=19;document.body.childNodes.forEach(function(t){if(1==t.nodeType){var e=window.getComputedStyle(t),i=+e.zIndex;i&&a!=t&&"none"!=e.display&&(n=Math.max(1+i,n))}}),n!=t&&(a.style.zIndex=n)},t}),function(t,e){"object"==typeof exports&&"undefined"!=typeof module?(t.Follow=require("./Follow"),module.exports=e()):"function"==typeof define&&(define.amd||define.cmd)?define(e):t.ErrorTip=e()}("undefined"!=typeof global?global:"undefined"!=typeof window?window:"undefined"!=typeof self?self:this,function(t){var n=this.Follow;if("function"!=typeof t||n){if(!n)return window.console.error("need Follow.js"),{}}else n=t("common/ui/Follow");function e(t,e,i){var a=Object.assign({},{unique:!0,onShow:function(){},onHide:function(){}},i||{}),n=e;if("function"==typeof n&&(n=n()),"string"!=typeof n)return this;var r,o,s,l=t,d=window.uniqueErrorTip;return 1==a.unique&&d?r=d.element.tips:0==a.unique&&l.data&&l.data.errorTip?r=l.data.errorTip.element.tips:((r=document.createElement("div")).className=c("x")+" "+c("error"),(o=document.createElement("span")).className=c("content"),(s=document.createElement("i")).className=c("arrow"),r.appendChild(o),r.appendChild(s),document.body.appendChild(r),document.addEventListener("keydown",function(t){16!=t.keyCode&&17!=t.keyCode&&(window.uniqueErrorTip||this).hide()}.bind(this)),document.addEventListener("mousedown",function(t){var e=document.activeElement,i=r.trigger,a=t.target;e&&i&&e==a&&e==i&&!i.getAttribute("data-focus")||(window.uniqueErrorTip||this).hide()}.bind(this)),window.addEventListener("resize",function(){(window.uniqueErrorTip||this).hide()}.bind(this))),1==a.unique&&(window.uniqueErrorTip=this),r.trigger=l,this.element={trigger:l,tips:r,content:o||r.querySelector("span"),arrow:s||r.querySelector("i")},this.callback={show:a.onShow,hide:a.onHide},this.params={unique:a.unique},this.content=n,l.data||(l.data={}),(l.data.errorTip=this).show(),this}var c=function(){return["ui-tips"].concat([].slice.call(arguments)).join("-")};return e.prototype.show=function(){var t=this.element,e=t.tips,i=t.trigger,a=t.content;return a.innerHTML=this.content,e.style.display="",new n(i,e,{position:"5-7",edgeAdjust:!1}),i.setAttribute("aria-label","错误提示："+a.textContent||a.innerText),i.classList.add("error"),i.classList.add("valided"),this.display=!0,this.callback&&this.callback.show&&this.callback.show.call(this,i,e),this},e.prototype.hide=function(){var t=this.element.tips,e=this.element.trigger;return e.removeAttribute("aria-label"),"none"!=window.getComputedStyle(t).display&&(t.style.display="none",e.classList.remove("error"),this.callback&&this.callback.hide&&this.callback.hide.call(this,e,t),this.display=!1),this},e}),function(t,e){"object"==typeof exports&&"undefined"!=typeof module?module.exports=e():"function"==typeof define&&(define.amd||define.cmd)?define(e):t.Loading=e()}("undefined"!=typeof global?global:"undefined"!=typeof window?window:"undefined"!=typeof self?self:this,function(){var i="loading",a={add:function(){return["ui",i].concat([].slice.call(arguments)).join("-")},toString:function(){return"ui-"+i}};if(Object.defineProperty(HTMLElement.prototype,"loading",{configurable:!0,enumerable:!0,writeable:!0,get:function(){return!!(this.classList.contains(a)||this.classList.contains(i)||this.matches(a))},set:function(t){var e="remove";if(t&&(e="add",this.loading))return t;this.classList.contains(a.toString().replace(i,"button"))?this.classList[e](i):(this.classList[e](a),"function"==typeof n&&n(this)),this.setAttribute("aria-busy",!!t),t&&""==this.innerHTML.trim()?this.setAttribute("aria-label","正在加载中"):this.removeAttribute("aria-label")}}),void 0===window.getComputedStyle(document.head).transition){var n=function(e){var i;if(e)if(1==e.loading){if(!e.getAttribute("spin")){(i=document.createElement("i")).className=a.add("before"),e.insertAdjacentElement("afterbegin",i),e.setAttribute("spin",""),clearInterval(e.timerLoading);e.timerLoading=setInterval(function(){var t=e.rotate||0;360<(t+=22.5)&&(t-=360),e.rotate=t,i.style.msTransform="rotate("+t+"deg)"},62.5)}}else!1===e.loading&&(e.removeAttribute("spin"),(i=e.querySelector("."+a.add("before")))&&i.remove(),clearInterval(e.timerLoading))};window.addEventListener("DOMContentLoaded",function(){document.querySelectorAll(a).forEach(n)}),document.body.addEventListener("DOMNodeInserted",function(t){t.target&&1==t.target.nodeType&&t.target.matches(a)&&n(t.target)})}function t(t,e){if("string"==typeof t&&(t=document.querySelector(t)),!t)return this;var i=t,a=Object.assign({},{observer:"childList",size:2},e||{});this.params=a,this.element={target:t},i.data||(i.data={}),(i.data.loading=this).show()}return t.prototype.show=function(){var t=this.params,e=this.element.target;if("attributes"==t.observer)e.loading=!0,e.setAttribute("size",t.size),this.loading=!0,this.display=!0;else if("childList"==t.observer){"static"==window.getComputedStyle(e).position?(e.style&&e.style.position?this.position="static-inline":this.position="static-computed",e.style.position="relative"):this.position="",e.initHTML=e.innerHTML,e.innerHTML="<"+a+' size="'+t.size+' align="center"></'+a+">",this.loading=!0,this.display=!0}},t.prototype.hide=function(){var t=this.params,e=this.element.target;if("attributes"==t.observer)e.loading=!1,this.loading=!1,this.display=!1;else if("childList"==t.observer){var i=this.position;"static-inline"==i?e.style.position="static":"static-computed"==i&&(e.style.position=""),"string"==typeof e.initHTML?e.innerHTML=e.initHTML:e.querySelector(a)&&e.querySelector(a).remove(),this.loading=!1,this.display=!1}},t}),function(t,e){"object"==typeof exports&&"undefined"!=typeof module?(t.Tips=require("./Tips"),module.exports=e()):"function"==typeof define&&(define.amd||define.cmd)?define(e):t.Range=e()}("undefined"!=typeof global?global:"undefined"!=typeof window?window:"undefined"!=typeof self?self:this,function(t){var c=window.Tips;if("function"!=typeof t||c){if(!c)return window.console.error("need Tips.js"),{}}else c=t("common/ui/Tips");var h="reverse",u="active",p="disabled",f={add:function(){return["ui","range"].concat([].slice.call(arguments)).join("-")},toString:function(){return"ui-range"}},m={start:"mousedown",move:"mousemove",end:"mouseup"};"ontouchstart"in document&&(m={start:"touchstart",move:"touchmove",end:"touchend"});function n(t,e){e=e||{};var i=Object.assign({},{reverse:!1,tips:function(t){return t}},e),a=t;if("string"==typeof t&&(a=document.querySelector(t)),!a)return this;if(a.data&&a.data.range)return a.data.range;var n=a.getAttribute("min")||0,r=a.getAttribute("max")||100,o=a.getAttribute("step")||1,s=document.createElement("div"),l=a.className;s.setAttribute("class",l),s.classList.add(f);var d=document.createElement("div");d.classList.add(f.add("track"));var c=document.createElement("a");c.setAttribute("href","javascript:"),c.setAttribute("aria-valuenow",a.value),c.setAttribute("aria-valuemax",r),c.setAttribute("aria-valuemin",n),c.setAttribute("role","slider"),c.setAttribute("draggable","false"),c.classList.add(f.add("thumb")),(i.reverse||a.classList.contains(h))&&(i.reverse=!0,c.classList.add(h));var u=a.getAttribute("data-tips");return u&&!e.tips&&(i.tips="null"==u?null:function(t){return u.replace("${value}",t)}),a.insertAdjacentElement("afterend",s),"100%"!=a.getAttribute("width")&&0==a.parentElement.classList.contains(f.add("input"))?s.style.width=window.getComputedStyle(a).width:s.style.display="block",s.style.height=window.getComputedStyle(a).height,a.style.display="none",d.appendChild(c),s.appendChild(d),this.number={min:+n,max:+r,step:+o},this.element={input:a,container:s,track:d,thumb:c},this.params=i,this.value(),this.event(),1==a[p]&&(this.disabled=!0),a.data||(a.data={}),a.data.range=this}n.prototype.event=function(){var t=this.element,e=this.number,n=t.input,r=t.container,o=t.thumb,s=e.min,l=e.max,i=e.step;r.addEventListener("click",function(t){var e=t&&t.target;if(e&&e!==o&&!n.disabled){var i=t.clientX-n.offsetLeft-o.offsetLeft-parseInt(window.getComputedStyle(o).width)/2,a=+n.value+(l-s)*i/parseInt(r.style.width||r.clientWidth);this.value(a)}}.bind(this));function a(){if(this.params.tips){var t=this.params.tips.call(o,n.value);this.tips?(this.tips.content=t,this.tips.show()):this.tips=new c(o,{eventType:"null",content:t})}}var d={};(o.addEventListener(m.start,function(t){n.disabled||(t.preventDefault(),t.touches&&t.touches.length&&(t=t.touches[0]),d.x=t.clientX,d.value=+n.value,a.call(this),o.classList.add(u))}.bind(this)),"mousedown"==m.start&&(o.addEventListener("mouseenter",function(){0==o.classList.contains(u)&&a.call(this)}.bind(this)),o.addEventListener("mouseout",function(){0==o.classList.contains(u)&&this.tips&&this.tips.hide()}.bind(this))),document.addEventListener(m.move,function(t){if("number"==typeof d.x&&o.classList.contains(u)){t.preventDefault(),t.touches&&t.touches.length&&(t=t.touches[0]);var e=t.clientX-d.x,i=d.value+(l-s)*e/parseInt(r.style.width||r.clientWidth);this.value(i),this.tips&&(this.tips.content=this.params.tips.call(o,n.value),this.tips.show())}}.bind(this)),document.addEventListener(m.end,function(){o.classList.contains(u)&&(d.x=null,d.value=null,this.tips&&this.tips.hide(),o.classList.remove(u))}.bind(this)),o.addEventListener("keydown",function(t){if(!n.disabled){var e=+n.value;37!=t.keyCode&&39!=t.keyCode||(t.preventDefault(),37==t.keyCode?e=Math.max(s,e-i):39==t.keyCode&&(e=Math.min(l,e+ +i)),this.value(e))}}.bind(this)),"block"==r.style.display&&window.addEventListener("resize",function(){this.position()}.bind(this)),window.MutationObserver)?new MutationObserver(function(t){t.forEach(function(t){"attributes"==t.type&&(this[p]=n[p])}.bind(this))}.bind(this)).observe(n,{attributes:!0,attributeFilter:[p]}):n.addEventListener("DOMAttrModified",function(t){t.attrName==p&&(this[p]=n[p])}.bind(this))},n.prototype.value=function(t){var e=this.element.input,i=e.value,a=this.number,n=a.max,r=a.min,o=a.step;return t||0===t||(i=t,t=e.value||Math.floor(r/2+n/2)),t=n<t||n-t<o/2?n:""===t||t<r||t-r<o/2?r:r+Math.round((t-r)/o)*o,e.value=t,this.position(),t!==i&&e.dispatchEvent(new CustomEvent("change",{bubbles:!0})),this},n.prototype.position=function(){var t=this.element.input,e=this.element.container,i=this.number,a=t.value,n=i.max,r=i.min;return this.element.track.style.borderLeftWidth=parseInt(e.style.width||e.clientWidth)*(a-r)/(n-r)+"px",this.element.thumb.setAttribute("aria-valuenow",a),this},Object.defineProperty(n.prototype,p,{configurable:!0,enumerable:!0,writeable:!0,get:function(){return this.element.input[p]},set:function(t){var e=this.element,i=e.container,a=e.thumb;if(t)return i.classList.add(f.add(p)),void a.removeAttribute("href");i.classList.remove(f.add(p)),a.setAttribute("href","javascript:")}});function e(){if(!1!==window.autoInit){var i='input[type="range"]',t=document.createElement("input");if(t.setAttribute("type","range"),"range"!=t.getAttribute("type")&&(i="input."+f.add("input")+",."+f.add("input")+">input"),document.querySelectorAll(i).forEach(function(t){t.data&&t.data.range||"hidden"!=window.getComputedStyle(t).visibility||new n(t)}),!1!==window.watching){function a(t,e){1==t.nodeType&&t.matches(i)&&("remove"==e&&t.data&&t.data.range?t.data.range.element.container.remove():"hidden"==window.getComputedStyle(t).visibility&&"add"==e&&new n(t))}if(window.MutationObserver)new MutationObserver(function(t){t.forEach(function(e){var t=e.addedNodes,i=e.removedNodes;t.length&&t.forEach(function(t){a(t,"add")}),i.length&&i.forEach(function(t){a.call(e,t,"remove")})})}).observe(document.body,{childList:!0,subtree:!0});else document.body.addEventListener("DOMNodeInserted",function(t){a(t.target,"add")}),document.body.addEventListener("DOMNodeRemoved",function(t){a(t.target,"remove")})}}}return"loading"!=document.readyState?e():window.addEventListener("DOMContentLoaded",e),n}),function(t,e){"object"==typeof exports&&"undefined"!=typeof module?(t.Drop=require("./Drop"),module.exports=e()):"function"==typeof define&&(define.amd||define.cmd)?define(e):t.Color=e()}("undefined"!=typeof global?global:"undefined"!=typeof window?window:"undefined"!=typeof self?self:this,function(t){var r=this.Drop;if("function"!=typeof t||r){if(!r)return window.console.error("need Drop.js"),{}}else r=t("common/ui/Drop");var c=function(){return["ui-color"].concat([].slice.call(arguments)).join("-")},e={start:"mousedown",move:"mousemove",end:"mouseup"};"ontouchstart"in document&&(e={start:"touchstart",move:"touchmove",end:"touchend"});function o(t,e,i){var a,n,r;if(0==e)a=n=r=i;else{function o(t,e,i){return i<0&&(i+=1),1<i&&--i,i<1/6?t+6*(e-t)*i:i<.5?e:i<2/3?t+(e-t)*(2/3-i)*6:t}var s=i<.5?i*(1+e):i+e-i*e,l=2*i-s;a=o(l,s,t+1/3),n=o(l,s,t),r=o(l,s,t-1/3)}return[Math.round(255*a),Math.round(255*n),Math.round(255*r)].map(function(t){return 1==(t=t.toString(16)).length?"0"+t:t}).join("")}function y(t){if(!t)return u;var e;if(t=t.replace("#","").toLowerCase(),/^[0-9A-F]{1,6}$/i.test(t))return"#"+t.repeat(Math.ceil(6/t.length)).slice(0,6);function i(t){return("0"+parseInt(t,10).toString(16)).slice(-2)}return 4==(e=t.match(/^rgba?\((\d+),\s*(\d+),\s*(\d+)/i)).length?"#"+i(e[1])+i(e[2])+i(e[3]):u}function n(t,e){var i=Object.assign({},{offsets:{x:0,y:0},edgeAdjust:!1,position:"7-5",onShow:function(){},onHide:function(){}},e||{});if("string"==typeof t&&(t=document.querySelector(t)),t){var a=t;if(a.data&&a.data.color)return a.data.color;var n=a.id;n||(n="lulu_"+(Math.random()+"").split(".")[1],a.id=n),a.setAttribute("readonly","readonly"),a.addEventListener("click",function(t){t.preventDefault()}),"color"==a.type&&window.msCredentials&&a.addEventListener("focus",function(t){this.blur()});var r=document.createElement("label");r.setAttribute("for",n),r.classList.add(c("track"));var o=document.createElement("span");o.classList.add(c("thumb")),r.appendChild(o),a.insertAdjacentElement("beforebegin",r);var s=document.createElement("div");s.classList.add(c("container")),this.element={input:a,container:s,track:r,thumb:o},this.callback={show:i.onShow,hide:i.onHide},this.params={offsets:i.offsets,edgeAdjust:i.edgeAdjust,position:i.position};var l=["0","3","6","9","c","f"],d=l.concat("eb4646","1cad70","2a80eb","f59b00");return this.color={basic:l,fixed:d},this.initEvents(),this.value(a.value),a.data&&(a.data={}),a.data.color=this}}var b="active",w="background-color",u="#000000";n.prototype.initEvents=function(){var t=this.element,e=t.input,i=t.track,a=t.container,n=this.params;this.drop=new r(e,a,{eventType:"click",offsets:n.offsets,edgeAdjust:n.edgeAdjust,position:n.position,onShow:function(){if(this.show(),0==n.edgeAdjust){var t=a.getBoundingClientRect();t.left<3?a.style.left="3px":3<t.right-screen.width&&(a.style.left=screen.width-t.width-3+"px")}}.bind(this),onHide:function(){this.hide(),a.style.marginLeft=0}.bind(this)}),e.addEventListener("focus",function(){window.isKeyEvent&&i.classList.add("ui-outline")}),e.addEventListener("blur",function(){i.classList.remove("ui-outline")})},n.prototype.events=function(){var h=this.element,t=h.container,p=h.circle,f=h.fill,m=h.arrow,v=h.field;t.addEventListener("click",function(t){var e=t.target;if(e.matches&&e.matches("a, button")){var i="",a=e.className;if(/cancel/.test(a))this.hide();else if(/ensure/.test(a))(i=v.value)&&this.value("#"+i),this.hide();else if(/lump/.test(a))i=e.getAttribute("data-color"),v.value=i,this.match();else if(/switch/.test(a))"更多"==e.innerHTML?(h.more.style.display="block",h.basic.style.display="none",e.innerHTML="基本"):(h.more.style.display="none",h.basic.style.display="block",e.innerHTML="更多"),this.match();else if(/cover/.test(a)){var n,r,o=e.getBoundingClientRect(),s=t.pageX-o.left,l=t.pageY-window.pageYOffset-o.top,d=e.clientWidth,c=e.clientHeight;if(p&&f&&m){if(1==/white/.test(a)){n=s/d,r=1-l/c,p.style.left=s+"px",p.style.top=l+"px";var u="hsl("+[360*n,100*r+"%","50%"].join()+")";p.style[w]=u}else m.style.top=l+"px";v.value=this.getValueByStyle().replace("#",""),this.match()}}}}.bind(this)),v.addEventListener("input",function(){var t=this.value;/^[0-9A-F]{6}$/i.test(t)?this.match():/^[0-9A-F]{3}$/i.test(t)&&this.match(y("#"+t).replace("#",""))}.bind(this)),v.addEventListener("keyup",function(t){if(13==t.keyCode){var e=v.value,i=e;e&&((e=$.rgbToHex("#"+e))!=i&&(v.value=e),this.value("#"+e)),this.hide()}}.bind(this));var l={},d={};return m.addEventListener(e.start,function(t){t.preventDefault(),t.touches&&t.touches.length&&(t=t.touches[0]),l.pageY=t.pageY,l.top=parseFloat(window.getComputedStyle(m).top)}),p.addEventListener(e.start,function(t){t.preventDefault(),t.touches&&t.touches.length&&(t=t.touches[0]),d.pageY=t.pageY,d.pageX=t.pageX;var e=window.getComputedStyle(p);d.top=parseFloat(e.top),d.left=parseFloat(e.left)}),document.addEventListener(e.move,function(t){if("number"==typeof l.top){t.preventDefault(),t.touches&&t.touches.length&&(t=t.touches[0]);var e=l.top+(t.pageY-l.pageY),i=m.parentElement.clientHeight;e<0?e=0:i<e&&(e=i),m.style.top=e+"px",v.value=this.getValueByStyle().replace("#",""),this.match(!1)}else if("number"==typeof d.top){t.preventDefault(),t.touches&&t.touches.length&&(t=t.touches[0]);var a={top:d.top+(t.pageY-d.pageY),left:d.left+(t.pageX-d.pageX)},n={top:p.parentElement.clientHeight,left:p.parentElement.clientWidth};a.left<0?a.left=0:a.left>n.left&&(a.left=n.left),a.top<0?a.top=0:a.top>n.top&&(a.top=n.top);var r=a.left/n.left,o=1-a.top/n.top;p.style.left=a.left+"px",p.style.top=a.top+"px";var s="hsl("+[360*r,100*o+"%","50%"].join()+")";p.style[w]=s,v.value=this.getValueByStyle().replace("#",""),this.match(!1)}}.bind(this),{passive:!1}),document.addEventListener(e.end,function(){l.top=null,d.top=null}),f.parentElement.querySelectorAll("a").forEach(function(t){t.addEventListener("keydown",function(t){if(38==t.keyCode||40==t.keyCode){t.preventDefault();var e=parseFloat(window.getComputedStyle(m).top),i=f.clientHeight;38==t.keyCode?--e<0&&(e=0):i<++e&&(e=i);var a=m.getAttribute("aria-label");m.style.top=e+"px",m.setAttribute("aria-label",a.replace(/\d+/,Math.round(100*e/i))),v.value=this.getValueByStyle().replace("#",""),this.match(!1)}}.bind(this))}.bind(this)),p.parentElement.querySelectorAll("a").forEach(function(d){d.addEventListener("keydown",function(t){if(37<=t.keyCode&&t.keyCode<=40){t.preventDefault();var e=window.getComputedStyle(p),i=parseFloat(e.top),a=parseFloat(e.left),n=d.clientHeight,r=d.clientWidth;38==t.keyCode?--i<0&&(i=0):40==t.keyCode?n<++i&&(i=n):37==t.keyCode?--a<0&&(a=0):39==t.keyCode&&r<++a&&(a=r);var o=a/r,s=1-i/n;p.style.left=a+"px",p.style.top=i+"px";var l="hsl("+[360*o,100*s+"%","50%"].join()+")";p.style[w]=l,v.value=this.getValueByStyle().replace("#",""),this.match()}}.bind(this))}.bind(this)),this},n.prototype.create=function(){var n,t,e,i=this.element.container,a='<button class="'+c("switch")+'" role="button">更多</button>',r='<div class="'+c("current")+'">            <i class="'+c("current","square")+' colorCurrent"></i>            #<input class="'+c("current","input")+'">        </div>',o=this.color.basic,s=this.color.fixed,l='<div class="'+c("body")+'">'+(t='<div class="'+c("basic")+' colorBasicX" role="listbox">',e=(localStorage.commonColors||"").split(","),(t=(t=t+'<aside class="'+c("basic","l")+'">'+s.concat(e[0]||"0ff",e[1]||"800180").map(function(t){var e=y(t).replace("#","");return'<a href="javascript:" class="'+c("lump")+'" data-color="'+e+'" aria-label="'+e+'" style="'+w+":#"+e+'" role="option"></a>'}).join("")+"</aside>")+'<div class="'+c("basic","r")+'">'+(n="",o.forEach(function(a){n+='<div class="'+c("lump","group")+'">',o.forEach(function(i){o.forEach(function(t){var e=a+a+i+i+t+t;n=n+'<a href="javascript:" class="'+c("lump")+'" data-color="'+e+'" style="'+w+":#"+e+'" aria-label="'+e+'" role="option"></a>'})}),n+="</div>"}),n)+"</div>")+"</div>")+('<div class="'+c("more")+' colorMoreX">'+'<div class="'+c("more","l")+'">                <a href="javascript:" class="'+c("cover","white")+'" aria-label="色域背景块" role="region"></a><div class="'+c("circle")+' colorCircle"></div>                <svg>                    <defs>                        <linearGradient x1="0" y1="0" x2="1" y2="0" id="colorGradient">                            <stop offset="0%" stop-color="#ff0000"></stop>                            <stop offset="16.66%" stop-color="#ffff00"></stop>                            <stop offset="33.33%" stop-color="#00ff00"></stop>                            <stop offset="50%" stop-color="#00ffff"></stop>                            <stop offset="66.66%" stop-color="#0000ff"></stop>                            <stop offset="83.33%" stop-color="#ff00ff"></stop>                            <stop offset="100%" stop-color="#ff0000"></stop>                        </linearGradient>                    </defs>                    <rect x="0" y="0" width="180" height="100" fill="url(#colorGradient)"></rect>                </svg></div><div class="'+c("more","r")+'">                    <div class="'+c("more","fill")+' colorFill">                        <a href="javascript:" class="'+c("more","cover")+'" aria-label="明度控制背景条" role="region"></a>                        <svg>                        <defs>                            <linearGradient x1="0" y1="0" x2="0" y2="1" id="colorGradient2">                                <stop offset="0%" stop-color="#ffffff"></stop>                                <stop offset="50%" stop-color="rgba(255,255,255,0)"></stop>                                <stop offset="50%" stop-color="rgba(0,0,0,0)"></stop>                                <stop offset="100%" stop-color="'+u+'"></stop>                            </linearGradient>                        </defs>                        <rect x="0" y="0" width="16" height="100" fill="url(#colorGradient2)"></rect>                    </svg>                    </div>                    <a href="javascript:" class="'+c("more","arrow")+' colorArrow" role="slider" aria-label="明度控制按钮：100%"></a>                </div>'+"</div>")+"</div>",d='<div class="'+c("footer")+'">            <button class="'+c("button","cancel")+'">取消</button><button class="'+c("button","ensure")+'">确定</button>        </div>';return i.innerHTML=a+r+l+d,Object.assign(this.element,{field:i.querySelector("input"),basic:i.querySelector(".colorBasicX"),more:i.querySelector(".colorMoreX"),circle:i.querySelector(".colorCircle"),fill:i.querySelector(".colorFill"),arrow:i.querySelector(".colorArrow"),current:i.querySelector(".colorCurrent")}),this.events(),this},n.prototype.value=function(t){var e=t,i=this.element.input,a=this.element.thumb,n=i.value;if("string"!=typeof t)return n||(n=u,i.value=n,a.style[w]=n),n;/^[a-z]{3,}$/.test(e)&&(document.head.style.backgroundColor=e,e=window.getComputedStyle(document.head).backgroundColor,document.head.style.backgroundColor=""),e=y(e),i.value=e,a.style[w]=e;var r=(localStorage.commonColors||"").split(",");if(0==this.color.fixed.some(function(t){return y(t)==e})){(r=r.filter(function(t){return t&&t!=e.replace("#","")})).unshift(e.replace("#","")),localStorage.commonColors=r.join();var o=this.element.basic;if(o){var s=o.querySelectorAll("aside a"),l=s[s.length-2],d=s[s.length-1];l.setAttribute("data-color",r[0]),l.setAttribute("aria-label",r[0]),l.style[w]=e;var c=r[1]||"0ff";d.setAttribute("data-color",c),d.setAttribute("aria-label",c),d.style[w]="#"+c}}return this.match(),n&&e!=n&&i.dispatchEvent(new CustomEvent("change",{bubbles:!0})),this},Object.defineProperty(n.prototype,"getValueByStyle",{value:function(){var t,e,i,a=this.element.circle,n=this.element.arrow;return a.length*n.length==0?u:(t=a.style.left?parseFloat(window.getComputedStyle(a).left)/a.parentElement.clientWidth:0,e=a.style.top?1-parseFloat(window.getComputedStyle(a).top)/a.parentElement.clientHeight:1,i=n.style.top?1-parseFloat(window.getComputedStyle(n).top)/n.parentElement.clientHeight:0,"#"+o(t,e,i))}}),n.prototype.match=function(t){if(1!=this.display)return this;var e=this.element,i=e.container,a=e.current,n=e.more,r=e.circle,o=e.fill,s=e.arrow,l=e.field,d=!0;!1===t&&(d=t);var c=t||l.value;if(""==c&&(c=y(window.getComputedStyle(a)[w]).replace("#",""),l.value=c),c=c.replace("#",""),a.style[w]="#"+c,"none"==window.getComputedStyle(n).display){var u=i.querySelector("."+b);u&&u.classList.remove(b);var h=i.querySelector('a[data-color="'+c.toUpperCase()+'"]');h&&h.classList.add(b)}else{var p=function(t){var e,i,a=parseInt(t.slice(0,2),16)/255,n=parseInt(t.slice(2,4),16)/255,r=parseInt(t.slice(4,6),16)/255,o=Math.max(a,n,r),s=Math.min(a,n,r),l=(o+s)/2;if(o==s)e=i=0;else{var d=o-s;switch(i=.5<l?d/(2-o-s):d/(o+s),o){case a:e=(n-r)/d+(n<r?6:0);break;case n:e=(r-a)/d+2;break;case r:e=(a-n)/d+4}e/=6}return[e,i,l]}(c),f=p[0],m=p[1],v=p[2],g="hsl("+[360*f,100*m+"%","50%"].join()+")";"000000"!=c&&(r.style[w]=g,o.style[w]=g),1==d&&(0!=v&&(r.style.left=r.parentElement.clientWidth*f,r.style.top=r.parentElement.clientHeight*m),s.style.top=s.parentElement.clientHeight*(1-v))}return this},n.prototype.show=function(){var t=this.element.container;""==t.innerHTML.trim()&&this.create(),0==this.drop.display&&this.drop.show(),this.display=this.drop.display;var e=this.element.current;return e.getAttribute("style")||(e.style[w]=this.element.input.value),this.match(),"function"==typeof this.callback.show&&this.callback.show.call(this,this.element.track,t),this},n.prototype.hide=function(){return 1==this.drop.display&&this.drop.hide(),this.display=this.drop.display,this.element.input.focus(),"function"==typeof this.callback.hide&&this.callback.hide.call(this,this.element.trigger,this.element.container),this};function i(){if(!1!==window.autoInit){var i='input[type="color"]';if(document.querySelectorAll(i).forEach(function(t){t.data&&t.data.color||"0"!=window.getComputedStyle(t).opacity||new n(t)}),!1!==window.watching){function a(t,e){1==t.nodeType&&t.matches(i)&&("remove"==e&&t.data&&t.data.color?(t.data.color.element.track.remove(),t.data.color.element.container.remove()):"add"==e&&"0"==window.getComputedStyle(t).opacity&&new n(t))}if(window.MutationObserver)new MutationObserver(function(t){t.forEach(function(e){var t=e.addedNodes,i=e.removedNodes;t.length&&t.forEach(function(t){a(t,"add")}),i.length&&i.forEach(function(t){a.call(e,t,"remove")})})}).observe(document.body,{childList:!0,subtree:!0});else document.body.addEventListener("DOMNodeInserted",function(t){a(t.target,"add")}),document.body.addEventListener("DOMNodeRemoved",function(t){a(t.target,"remove")})}}}return"loading"!=document.readyState?i():window.addEventListener("DOMContentLoaded",i),n}),function(t,e){"object"==typeof exports&&"undefined"!=typeof module?module.exports=e():"function"==typeof define&&(define.amd||define.cmd)?define(e):t.Dialog=e()}("undefined"!=typeof global?global:"undefined"!=typeof window?window:"undefined"!=typeof self?self:this,function(){function t(t){var e=Object.assign({},{title:"",content:"",width:"auto",height:"auto",buttons:[],onShow:function(){},onHide:function(){},onRemove:function(){}},t||{}),i=document.createElement(u);i.classList.add(h.add("container")),0==(p="open"in i)&&i.setAttribute("role",u);var a=document.createElement("div");a.classList.add(h),/^\d+$/.test(e.width)?a.style.width=e.width+"px":a.style.width=e.width,/^\d+$/.test(e.height)?a.style.height=e.height+"px":"stretch"==e.height?a.classList.add(h.add(e.height)):"auto"!=e.height&&(a.style.height=e.height),a.setAttribute("tabindex","-1");var n=document.createElement("h4");n.classList.add(h.add("title")),n.innerHTML=e.title;var r=("lulu_"+Math.random()).replace("0.",""),o=document.createElement("button");o.classList.add(h.add("close")),o.classList.add("ESC"),o.setAttribute("aria-label","关闭"),o.id=r,o.setAttribute("data-target",r),o.innerHTML='<svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="200" height="200" viewBox="0 0 200 200"><path d="M116.152,99.999l36.482-36.486c2.881-2.881,2.881-7.54,0-10.42 l-5.215-5.215c-2.871-2.881-7.539-2.881-10.42,0l-36.484,36.484L64.031,47.877c-2.881-2.881-7.549-2.881-10.43,0l-5.205,5.215 c-2.881,2.881-2.881,7.54,0,10.42l36.482,36.486l-36.482,36.482c-2.881,2.881-2.881,7.549,0,10.43l5.205,5.215 c2.881,2.871,7.549,2.871,10.43,0l36.484-36.488L137,152.126c2.881,2.871,7.549,2.871,10.42,0l5.215-5.215 c2.881-2.881,2.881-7.549,0-10.43L116.152,99.999z"/></svg>';var s=e.content||"";"function"==typeof s&&(s=s()),this.closeMode="string"==typeof s?"remove":"hide";var l=document.createElement("div");l.classList.add(h.add("body")),"remove"==this.closeMode?l.innerHTML=s:l.appendChild(s);var d=document.createElement("div");d.classList.add(h.add("footer")),a.appendChild(o),a.appendChild(n),a.appendChild(l),a.appendChild(d),i.appendChild(a);var c=document.querySelectorAll(u);return c.length?c[0].insertAdjacentElement("beforebegin",i):(e.container||document.body).appendChild(i),this.element={container:i,dialog:a,close:o,title:n,body:l,footer:d},this.params={title:e.title,width:e.width,buttons:e.buttons,content:s},this.callback={show:e.onShow,hide:e.onHide,remove:e.onRemove},this.display=!1,this.button(),this.events(),s&&this.show(),this}var u="dialog",h={add:function(){return["ui",u].concat([].slice.call(arguments)).join("-")},toString:function(){return"ui-"+u}},p=!1;return t.prototype.button=function(){var t=this.params,r=this.element;for(var e in r.footer.innerHTML="",r)/^button/.test(e)&&delete r[e];t.buttons.forEach(function(t,e){var i=(t=t||{}).type,a=t.value;"remind"!=i&&(i||0!=e)||(i="primary"),a=a||["确定","取消"][e];var n=document.createElement("button");t.for&&(n=document.createElement("label")).setAttribute("for",t.for),t.className&&(n.className=t.className),n.classList.add(String(h).replace(u,"button")),i&&n.setAttribute("data-type",i),n.innerHTML=a,r.footer.appendChild(n),r["button"+e]=n}),t.buttons.forEach(function(t,e){var i=r["button"+e];if(i&&!t.for){var a=t.events||{click:function(){this[this.closeMode]()}.bind(this)};for(var n in"function"==typeof a&&(a={click:a}),a)i.addEventListener(n,function(t){t.dialog=this,a[n](t)}.bind(this));i.addEventListener("focus",function(){window.isKeyEvent?this.style.outline="":this.style.outline="none"})}}.bind(this))},t.prototype.events=function(){var t=this.element,e=t.container;e.addEventListener("animationend",function(t){t.target.tagName.toLowerCase()==u&&e.classList.remove(h.add("animation"))}),1==p&&e.addEventListener("close",function(){this.scrollbar(),this.display=!1,this.tabindex()}.bind(this));var a=t.close;return a&&a.addEventListener("click",function(){var t=document.activeElement,e=t.getAttribute("data-target"),i=null;e&&(i=document.getElementById(e)),window.isKeyEvent&&i&&t!=a&&document.querySelector('a[data-target="'+e+'"],input[data-target="'+e+'"],button[data-target="'+e+'"]')&&0<i.clientWidth||this[this.closeMode]()}.bind(this)),this},t.prototype.open=function(t,e){var i=this.element,a=t||"";return"function"==typeof a&&(a=a()),this.closeMode="string"==typeof a?"remove":"hide",this.params=Object.assign({},{title:"",buttons:[]},e||{},{content:a}),i.container.className=h.add("container"),"remove"==this.closeMode?i.body.innerHTML=a:i.body.appendChild(a),i.title.innerHTML=this.params.title,this.button(),this.show(),this},t.prototype.loading=function(){var t=this.element;return t.container.className=[h.add("container"),h.add("loading")].join(" "),t.body.innerHTML='<ui-loading rows="10" size="3"></ui-loading>',this.show(),this},t.prototype.alert=function(t,e){var i=this.element;if(t){var a=t,n={title:"",type:"remind",buttons:[{}]},r=Object.assign({},n,e||{});return"error"!=r.type&&"fail"!=r.type||(r.type="danger"),"primary"==r.type&&(r.type="remind"),r.buttons.length&&!r.buttons[0].type&&(r.buttons[0].type=r.type,0==/^remind|success|warning|danger$/.test(r.type)&&(r.buttons[0].type=n.type)),i.container.className=[h.add("container"),h.add("container","alert")].join(" "),i.dialog.style.width="auto",i.title.innerHTML=r.title,0==/<[\w\W]+>/.test(a)&&(a="<p>"+a+"</p>"),i.body.innerHTML='<div class="'+h.add(r.type)+" "+h.add("alert")+'">'+a+"</div>",this.params={width:"auto",title:r.title,buttons:r.buttons,content:a},this.button(),this.show(),i.button0&&i.button0.focus(),this}},t.prototype.confirm=function(t,e){var i=this.element;if(t){var a=t,n={title:"",type:"danger",buttons:[{},{}]},r=Object.assign({},n,e||{});return"error"!=r.type&&"fail"!=r.type||(r.type="danger"),"primary"==r.type&&(r.type="remind"),r.buttons.length&&!r.buttons[0].type&&(r.buttons[0].type=r.type,0==/^remind|success|warning|danger$/.test(r.type)&&(r.buttons[0].type=n.type)),i.container.className=[h.add("container"),h.add("container","confirm")].join(" "),i.dialog.style.width="auto",i.title.innerHTML=r.title,0==/<[\w\W]+>/.test(a)&&(a="<p>"+a+"</p>"),i.body.innerHTML='<div class="'+h.add(r.type)+" "+h.add("confirm")+'">'+a+"</div>",this.params={width:"auto",title:r.title,buttons:r.buttons,content:a},this.button(),this.show(),i.button0&&i.button0.focus(),this}},t.prototype.scrollbar=function(){var t=document.querySelectorAll(u);if([].slice.call(t).some(function(t){return"none"!=window.getComputedStyle(t).display})){var e=17;1!=this.display&&(e=window.innerWidth-document.documentElement.clientWidth),document.documentElement.style.overflow="hidden",1!=this.display&&(document.body.style.borderRight=e+"px solid transparent")}else document.documentElement.style.overflow="",document.body.style.borderRight="";return this},t.prototype.tabindex=function(){var t=this.element.dialog,e=this.lastActiveElement;if(1==this.display){var i=document.activeElement;t!=i&&(this.lastActiveElement=i),t&&t.focus()}else e&&"body"!=e.tagName.toLowerCase()&&(e.focus(),e.blur(),this.lastActiveElement=null);return this},t.prototype.zIndex=function(){var a=this.element.container,t=window.getComputedStyle(a).zIndex,n=19;document.body.childNodes.forEach(function(t){if(1==t.nodeType){var e=window.getComputedStyle(t),i=+e.zIndex;i&&a!=t&&"none"!=e.display&&(n=Math.max(1+i,n))}}),n!=t&&(a.style.zIndex=n)},t.prototype.show=function(){var t=this.element.container;return p?t.open||t.show():(t.setAttribute("open","open"),this.zIndex()),1!=this.display&&t.classList.add(h.add("animation")),this.scrollbar(),this.display=!0,this.tabindex(),"function"==typeof this.callback.show&&this.callback.show.call(this,t),this},t.prototype.hide=function(){var t=this.element.container;return p?t.close():t.removeAttribute("open"),this.scrollbar(),this.display=!1,this.tabindex(),"function"==typeof this.callback.hide&&this.callback.hide.call(this,t),this},t.prototype.remove=function(){var t=this.element.container;return t.remove(),this.scrollbar(),this.display=!1,this.tabindex(),"function"==typeof this.callback.remove&&this.callback.remove.call(this,t),this},t}),function(t,e){"object"==typeof exports&&"undefined"!=typeof module?(t.Follow=require("./Follow"),module.exports=e()):"function"==typeof define&&(define.amd||define.cmd)?define(e):t.Datalist=e()}("undefined"!=typeof global?global:"undefined"!=typeof window?window:"undefined"!=typeof self?self:this,function(t){var i=this.Follow;if("function"!=typeof t||i){if(!i)return window.console.error("need Follow.js"),{}}else i=t("common/ui/Follow");var m="datalist",c="selected",u="disabled",a="reverse",h={add:function(){return["ui",m].concat([].slice.call(arguments)).join("-")},toString:function(){return"ui-"+m}},e={start:"mousedown",move:"mousemove",end:"mouseup"};"ontouchstart"in document&&(e={start:"touchstart",move:"touchmove",end:"touchend"});function p(t){return"string"==typeof t?t.replace(/<\/?[^>]*>/g,""):""}function n(t,e){if("string"==typeof t&&(t=document.querySelector(t)),t)if(1==t.nodeType){var i={data:"auto",max:8,width:"auto",container:document.body,placeholder:"auto",filter:function(t,e){var i=[];return t.forEach&&t.forEach(function(t){""!=e&&0!=t.value.indexOf(e)||i.push(t)}),i},onSelect:function(){},onShow:function(){},onHide:function(){}};e=e||{};var a=t;if(a.data&&a.data.datalist)return a.data.datalis;var n=a.getAttribute("results"),r=Number(n);n&&(e.max=r);var o=Object.assign({},i,e),s=o.container;"string"==s&&(s=document.querySelector(s)),this.element={input:a,trigger:a,form:a.closest("form"),container:s},this.callback={filter:o.filter,select:o.onSelect,show:o.onShow,hide:o.onHide},this.params={width:o.width,max:o.max,data:o.data,index:-1};var l=a.getAttribute("placeholder");l&&(this.params.placeholder=l),this.display=!1,"auto"==o.placeholder&&(this.placeholder=!0);var d=a.name;if("auto"==o.data){var c=a.getAttribute("list"),u=a.getAttribute("autocomplete");if(c){var h=document.getElementById(c);if(!h)return;this.element.datalist=h,a.removeAttribute("list"),this.callback.data=function(){return[].slice.call(h.querySelectorAll("option")).map(function(t){var e={};return[].slice.call(t.attributes).forEach(function(t){e[t.name]=t.value}),e.value=e.value||"",e.label=e.label||"",e})}}else d&&"off"!=u?(this.callback.data=function(){var e=[],t=localStorage[m+"-"+d];return t&&t.split(",").forEach(function(t){t&&e.push({label:"",value:t})}),e},this.params.twice=!0,this.placeholder=!1,this.element.form&&this.element.form.addEventListener("submit",function(){this.store()}.bind(this))):this.callback.data=function(){return[]}}else if(o.data instanceof Array)this.callback.data=function(){return o.data};else if("function"==typeof o.data)this.callback.data=o.data;else if("object"==typeof o.data&&o.data.url){e.filter||(this.callback.filter=function(t){return t});var p=null,f=this;this.callback.data=function(){clearTimeout(p),d=d||"k";var t=a.value.trim();if(""==t)return f.data=[],[];var e=new URLSearchParams(o.data.data);e.append(d,t);var i=o.data.url.split("#")[0];i=1<i.split("?").length?i+"&"+e.toString():i+"?"+e.toString();p=setTimeout(function(){var e=new XMLHttpRequest;e.open("GET",i),e.onload=function(){var t={};try{(t=JSON.parse(e.responseText))&&t.data?(f.refresh(f.callback.filter.call(f,t.data)),o.data.success&&o.data.success(t)):o.data.error&&o.data.error(t)}catch(t){o.data.error&&o.data.error(t)}},e.onloadend=function(){a.removeAttribute("aria-busy")},e.onerror=function(t){o.data.error&&o.data.error(t)},e.send(),a.setAttribute("aria-busy","true")},200)},this.placeholder=!1}a.setAttribute("autocomplete","off"),this.events(),a.data||(a.data={}),a.data.datalist=this}else window.console.error("element参数不合法");else window.console.error("Datalist实例方法参数缺失")}return n.prototype.store=function(){var t=this.element.input,e=this.value(),i=t.name;if(e&&i){var a=(localStorage[m+"-"+i]||"").split(","),n=a.indexOf(e);if(-1==n)a.unshift(e);else if(0!=n){a=a.splice(n,1).concat(a)}localStorage[m+"-"+i]=a.join()}return this},n.prototype.removeStore=function(t){var e=this.element.input.name,i=t||this.value();if(i&&e)if(!0===i)localStorage.removeItem(m+"-"+e);else if("string"==typeof i){var a=(localStorage[m+"-"+e]||"").split(","),n=a.indexOf(i);-1!=n&&(a.splice(n,1),localStorage[m+"-"+e]=a.join())}return this},n.prototype.refresh=function(t){var e=this.element.target,i=this.element.input;e||(this.create(),e=this.element.target);var r=this.value(),a=t;if(void 0===a){if("function"!=typeof this.callback.data)return this;if((a=this.callback.filter.call(this,this.callback.data(),r))instanceof Array==0)return this}"number"==typeof this.params.max&&(a=a.slice(0,this.params.max)),this.data=a;var o="";if(a&&a.length){this.params.index=-1;var s=i.getAttribute("placeholder"),l=this.params.placeholder;a.forEach(function(t,e){var i=p(t.value||"").trim(),a=p(t.label||"").trim(),n="";(r&&i==r||!r&&i==s&&i!=l)&&(n=" "+c,this.params.index=e),!t[u]&&"string"!=typeof t[u]||(n=" "+u),o=t.label?o+'<li class="'+h.add("option")+n+'" data-value="'+i+'" label="'+a+'" data-index="'+e+'"><label class="'+h.add("label")+'">'+t.label+'</label><span class="'+h.add("value")+'">'+t.value+"</span></li>":o+'<li class="'+h.add("option")+n+'" data-value="'+i+'" data-index="'+e+'"><span class="'+h.add("value")+'">'+t.value+"</span></li>"}.bind(this))}""!=o&&(o='<ul class="'+h.add(m)+'">'+o+"</ul>"),e.innerHTML=o;var n=e.querySelector("."+c);if(1==this.display&&n){var d=n.offsetTop-(e.lastScrollTop||0);d<0||d>=n.parentElement.clientHeight?(n.parentElement.scrollTop=n.offsetTop,e.lastScrollTop=n.offsetTop):n.parentElement.scrollTop=e.lastScrollTop||0}o?0==this.display&&this.show():1==this.display&&this.hide()},Object.defineProperty(n.prototype,"create",{value:function(){var t=this.element.trigger;if(!this.element.target){var e=this.element.datalist&&this.element.datalist.id;e||(e=("lulu_"+Math.random()).replace("0.",""),t.setAttribute("data-target",e));var i=document.createElement("div");i.classList.add(h),i.addEventListener("click",function(t){t.touches&&t.touches.length&&(t=t.touches[0]);var e=t.target.closest&&t.target.closest("li");if(e&&0==e.classList.contains(u)){var i=e.getAttribute("data-value"),a=e.getAttribute("data-index");this.params.index=Number(a),this.value(i),this.hide(),this.select()}}.bind(this)),t.id&&i.classList.add(h.add(t.id.replace(/[A-Z]/g,function(t){return"-"+t.toLowerCase()}).replace(/^-+|-+$/g,""))),this.element.container.appendChild(i),this.element.target=i,this.display=!1}return this}}),n.prototype.value=function(t){var e,i=this.element.input;if(void 0===t)return"string"==typeof(e=i.value.trim())?e.replace(/<|&|>/g,function(t){return{"<":"&lt;",">":"&gt;","&":"&amp;"}[t]}):"";var a,n=t.toString();return i.value="string"==typeof(a=n.trim())?a.replace(/&lt;|&gt;|&amp;/g,function(t){return{"&lt;":"<","&gt;":">","&amp;":"&"}[t]}):"",n!=i.oldValue&&(i.dispatchEvent(new CustomEvent("change",{bubbles:!0})),i.dispatchEvent(new CustomEvent("input",{bubbles:!0}))),i.oldValue=n,this},n.prototype.events=function(){var d=this.element.trigger;return document.activeElement!=d&&(d.isFocus=!1),d.addEventListener("blur",function(){d.isFocus=!1}),d.addEventListener("focus",function(){window.isKeyEvent&&d.click()}),d.addEventListener("click",function(){0==this.display&&(!0===this.placeholder&&(d.focusValue=d.value.trim(),d.focusValue&&d.setAttribute("placeholder",d.focusValue),d.value=""),(1!=this.params.twice||1!=d.isFocus)&&this.params.twice||this.refresh()),d.isFocus=!0}.bind(this)),d.addEventListener("input",function(t){!1!==t.isTrusted&&(null==document.msHidden||""!=d.value.trim()||d.lastValue||!d.getAttribute("placeholder")?1==this.placeholder||d.value.trim()?this.refresh():this.hide():d.lastValue=d.value)}.bind(this)),d.addEventListener("keydown",function(t){var e=this.data,i=this.params.index,a=this.element.target;if(a){var n=a.querySelector("."+c);switch(t.keyCode){case 27:case 13:1==this.display&&(this.hide(),t.preventDefault(),n&&(n.click(),t.preventDefault(),setTimeout(function(){var e=d;if(d.setSelectionRange)try{e.setSelectionRange(e.value.length,e.value.length)}catch(t){e.value=e.value}else e.value=e.value;e.dispatchEvent(new CustomEvent("input",{bubbles:!0}))},17)));break;case 38:case 40:if(1==this.display&&e&&e.length){t.preventDefault();var r=[];if(e.forEach(function(t,e){t[u]||""===t[u]||r.push(e)}),0==r.length)return;var o=r.indexOf(i);38==t.keyCode?o--:o++,i=o<0?r[r.length-1]:o>r.length-1?r[0]:r[o]}e[i]&&this.value(p(e[i].value)),d.select(),this.refresh(e);break;case 46:if(1==this.display&&1==this.params.twice&&n){var s=n.getAttribute("data-value");this.removeStore(s),e=e.filter(function(t){return t.value!=s}),t.preventDefault();var l=e[i]||e[i-1];l?(this.value(p(l.value)),this.refresh(e)):(this.value="",this.hide())}}}}.bind(this)),document.addEventListener(e.end,function(t){t.touches&&t.touches.length&&(t=t.touches[0]);var e=t.target,i=this.element.target;i&&1==e.nodeType&&0==i.contains(e)&&this.hide(),e!=d&&""==d.value.trim()&&(d.focusValue?d.value=d.focusValue:this.params.placeholder&&d.setAttribute("placeholder",this.params.placeholder))}.bind(this)),window.addEventListener("resize",function(){1==this.display&&this.position()}.bind(this)),this},n.prototype.position=function(){var t=this.element.trigger,e=this.element.target;return t&&e&&(new i(t,e,{edgeAdjust:this.params.edgeAdjust||!1}),1==this.display&&t.classList.add("active")),this},n.prototype.select=function(){this.callback.select.call(this,this.data[this.params.index],this.element.trigger,this.element.target)},n.prototype.show=function(){var t=this.element.trigger,e=this.element.target;e||(this.create(),e=this.element.target);var i=this.display,a=this.params.width,n=t.getBoundingClientRect().width||t.clientWidth;"auto"==a?a=n:"function"==typeof a&&(a=a.call(this,t,e)),"auto"!=a&&"number"!=typeof a&&(a=n),e.style.display="block",e.style.width=a+"px","number"==typeof e.lastScrollTop&&e.querySelector("ul")&&(e.querySelector("ul").scrollTop=e.lastScrollTop),this.display=!0,this.position(),0==i&&this.callback.show.call(this,t,e)},n.prototype.hide=function(){var t=this.element.trigger,e=this.element.target;e&&1==this.display&&(e.querySelector("ul")&&(e.lastScrollTop=e.querySelector("ul").scrollTop),e.style.display="none",e.classList.remove(a),this.callback.hide.call(this,t,e)),t.classList.remove("active"),t.classList.remove(a),this.display=!1},n}),function(t,e){"object"==typeof exports&&"undefined"!=typeof module?(t.Follow=require("./Follow"),module.exports=e()):"function"==typeof define&&(define.amd||define.cmd)?define(e):t.DateTime=e()}("undefined"!=typeof global?global:"undefined"!=typeof window?window:"undefined"!=typeof self?self:this,function(t){var r=this.Follow;if("function"!=typeof t||r){if(!r)return window.console.error("need Follow.js"),{}}else r=t("common/ui/Follow");var S={toString:function(){return"ui-datetime"}};["date","range","day","year","month","hour","minute"].forEach(function(t){S[t]=function(){return["ui",t].concat([].slice.call(arguments)).join("-")}});var j="selected",T=/-|\//g;String.prototype.toDate=function(){var t,e,i,a=this.split(T);return t=+a[0],e=a[1]||1,i=a[2]||1,t?new Date(t,e-1,i):new Date},Date.prototype.toArray=function(){var t=this.getFullYear(),e=this.getMonth()+1,i=this.getDate();return e<10&&(e="0"+e),i<10&&(i="0"+i),[t,e,i]};function a(t,e){var i=t;if("string"==typeof t&&(i=document.querySelector(t)),!i)return this;var a=Object.assign({},{value:"",type:"auto",min:"auto",max:"auto",onShow:function(){},onHide:function(){}},e||{}),n=null,r=null;if(i.getAttribute("type")?i=(r=i).parentElement:r=i.querySelector("input"),r||(r=document.createElement("input"),"auto"!=a.min&&r.setAttribute("min",a.min),"auto"!=a.max&&r.setAttribute("max",a.max),"auto"!=a.type&&r.setAttribute("type",a.type),n=i),r.data&&r.data.dateTime)return r.data.dateTime;r.setAttribute("readonly","readonly");var o=a.type;"auto"==o&&(o=r.getAttribute("type")||"date");var s=r.id;s||(s=("lulu_"+Math.random()).replace("0.",""),r.id=s);var l=document.createElement("label");l.classList.add(S.date("arrow")),r.insertAdjacentElement("afterend",l),r.setAttribute("lang","zh-Hans-CN");var d=r.value;switch(""==d&&a.value&&(d=r.value=a.value),o){case"date":case"year":case"month":var c=d.toDate().toArray();""==d&&("date"==o?r.value=c.join("-"):"year"==o?r.value=c[0]:"month"==o&&(r.value=c.slice(0,2).join("-"))),this[j]=c;break;case"time":case"hour":case"minute":var u=d.split(":"),h=u[0],p=u[1];""!=d&&h<24&&0<h?(0<p&&p<60&&"hour"!=o?1==p.length&&(p="0"+p):p="00",1==h.length&&(h="0"+h)):p=h="00",r.value=[h,p].join(":"),this[j]=[h,p];break;case"date-range":case"month-range":var f=new Date,m=new Date,v=d.split(" ");if(""!=d&&1==v.length){var g=v[0].toDate();g.getTime()>f.getTime()?m=g:f=g}else f=v[0].toDate(),m=v[v.length-1].toDate();var y=f.toArray(),b=m.toArray();r.value="date-range"==o?y.join("-")+" 至 "+b.join("-"):y.slice(0,2).join("-")+" 至 "+b.slice(0,2).join("-"),this[j]=[y,b]}if(!n){(n=document.createElement("div")).classList.add(S.date("container"));var w=("lulu_"+Math.random()).replace("0.","");n.setAttribute("id",w),n.classList.add("ESC"),r.setAttribute("data-target",w),n.setAttribute("data-id",s)}return this.element={container:n,trigger:i,input:r},this.params={type:o,max:a.max,min:a.min},this.callback={show:a.onShow,hide:a.onHide},this.svg='<svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="200" height="200" viewBox="0 0 200 200"><path d="M85.876,100.5l49.537-50.526c4.089-4.215,4.089-11.049,0-15.262 c-4.089-4.218-10.719-4.218-14.808,0L63.586,92.868c-4.089,4.215-4.089,11.049,0,15.264l57.018,58.156 c4.089,4.215,10.719,4.215,14.808,0c4.089-4.215,4.089-11.049,0-15.262L85.876,100.5z"/></svg>',this.events(),r.data||(r.data={}),r.data.dateTime=this,n==i&&(n.data={dateTime:this},this.show()),this}a.prototype.events=function(){var t=this.element,f=t.container,i=t.trigger,e=t.input;f.addEventListener("click",function(t){if(1==t.target.nodeType&&t.target.closest){var e=t.target.closest("a, button");if(e){var i,a=0,n=0,r=0,o=0,s=[],l="";switch(f.getAttribute("data-type")){case"date":if(/prev|next/.test(e.className)){n=e.getAttribute("data-month"),this[j][1]=+n;var d=this.getMonthDay(this[j]),c=n-1<0?d[11]:n>d.length?d[0]:d[n-1];o=this[j][2];var u=f.dataDayOverflow;u?this[j][2]=Math.min(u,c):this[j][2]>c&&(this[j][2]=c,f.dataDayOverflow=o),this[j]=this[j].join("-").toDate().toArray(),this.date(),f.querySelector("."+j+"[href]")&&this.value()}else/item/.test(e.className)?(o=e.innerHTML,/\D/.test(o)?this[j]=(new Date).toArray():(o<10&&(o="0"+o),this[j][2]=o),this.value(),this.hide(),delete f.dataDayOverflow):"month"==e.getAttribute("data-type")&&this.month();break;case"date-range":/prev|next/.test(e.className)?(n=+e.getAttribute("data-month"),s=f.dataDate||this[j][0],f.dataDate=new Date(s[0],n-1,1).toArray(),this["date-range"]()):/item/.test(e.className)?(a=e.getAttribute("data-year"),n=e.getAttribute("data-month"),o=e.innerHTML,n<10&&(n="0"+n),o<10&&(o="0"+o),(i=this[j])[0].join()==i[1].join()?a+n+o>i[0].join("")?i[1]=[a,n,o]:i[0]=[a,n,o]:i=[[a,n,o],[a,n,o]],this[j]=i,this["date-range"]()):/button/.test(e.className)&&("primary"==(l=e.getAttribute("data-type"))?(this.value(),this.dataRangeSelected=this[j],this.hide()):"normal"==l&&(this.dataRangeSelected&&(this[j]=this.dataRangeSelected),this.hide()));break;case"month-range":/prev|next/.test(e.className)?(a=+e.getAttribute("data-year"),s=f.dataDate||this[j][0],f.dataDate=new Date(a,s[1],1).toArray(),this["month-range"]()):/item/.test(e.className)?(a=e.getAttribute("data-year"),n=e.getAttribute("data-value"),o="01",(i=this[j])[0].join()==i[1].join()?a+n+o>i[0].join("")?i[1]=[a,n,o]:i[0]=[a,n,o]:i=[[a,n,o],[a,n,o]],this[j]=i,this["month-range"]()):/button/.test(e.className)&&("primary"==(l=e.getAttribute("data-type"))?(this.value(),this.dataRangeSelected=this[j],this.hide()):"normal"==l&&(this.dataRangeSelected&&(this[j]=this.dataRangeSelected),this.hide()));break;case"month":if(/prev|next/.test(e.className))a=e.getAttribute("data-year"),this[j][0]=+a,this.month(),f.querySelector("."+j+"[href]")&&this.value();else if(/item/.test(e.className)){var h=e.getAttribute("data-value");if(h)this[j][1]=h;else{var p=(new Date).toArray();this[j][0]=p[0],this[j][1]=p[1]}this.value(),"month"==this.params.type?this.hide():this.date()}else"year"==e.getAttribute("data-type")&&this.year();break;case"year":/prev|next/.test(e.className)?(a=e.getAttribute("data-year"),this[j][0]=+a,this.year(),f.querySelector("."+j+"[href]")&&this.value()):/item/.test(e.className)&&("今年"==e.innerHTML?this[j][0]=(new Date).getFullYear():this[j][0]=+e.innerHTML,this.value(),"year"==this.params.type?this.hide():this.month());break;case"minute":/prev|next/.test(e.className)?(1==(r=e.getAttribute("data-hour")).length&&(r="0"+r),this[j][0]=r,this.minute(),f.querySelector("."+j+"[href]")&&this.value()):/item/.test(e.className)?(this[j]=e.innerHTML.split(":"),this.value(),this.hide()):"hour"==e.getAttribute("data-type")&&this.hour();break;case"hour":/item/.test(e.className)&&(this[j][0]=e.innerHTML.split(":")[0],this.value(),"hour"==this.params.type?this.hide():this.minute())}}}}.bind(this)),i.addEventListener("click",function(t){t.preventDefault(),this.display?this.hide():this.show()}.bind(this)),e.addEventListener("keydown",function(t){13==t.keyCode&&(t.preventDefault(),this.click())}),document.addEventListener("mouseup",function(t){var e=t.target;e&&0==i.contains(e)&&0==f.contains(e)&&this.hide()}.bind(this))},a.prototype.format=function(){var t=this.params.type,e=this.element.input,i=e&&e.value.trim();if(!i)return this;switch(t){case"date":case"year":case"month":var a=i.toDate().toArray();this[j]=a;break;case"time":case"hour":case"minute":var n=i.split(":"),r=n[0],o=n[1];2==n.length&&(0<o&&o<60&&"hour"!=t?1==o.length&&(o="0"+o):o="00",1==r.length&&(r="0"+r),e.value=[r,o].join(":"),this[j]=[r,o]);break;case"date-range":case"month-range":var s=new Date,l=new Date,d=i.split(" ");3==d.length&&(s=d[0].toDate(),l=d[d.length-1].toDate(),this[j]=[s.toArray(),l.toArray()])}return this},a.prototype.value=function(){var t=this.element.input,e=this[j],i=t.value;switch(this.params.type){case"date":t.value=e.join("-");break;case"month":t.value=e.slice(0,2).join("-");break;case"year":t.value=e[0];break;case"date-range":t.value=e[0].join("-")+" 至 "+e[1].join("-");break;case"month-range":t.value=e[0].slice(0,2).join("-")+" 至 "+e[1].slice(0,2).join("-");break;case"time":case"minute":t.value=e.join(":");break;case"hour":t.value=e[0]+":00"}return t.value!=i&&t.dispatchEvent(new CustomEvent("change",{bubbles:!0})),t.value},Object.defineProperty(a.prototype,"getCalendarData",{value:function(p){var t="",e=this.element.input,f=this.params.type,m=e.getAttribute("min")||this.params.min,v=e.getAttribute("max")||this.params.max,i=[m,v].map(function(t,e){return"string"==typeof t&&1==/^\d{8}$/.test(t.replace(T,""))?t=t.toDate():"object"==typeof t&&t.getTime||(t=e?new Date(9999,0,1):new Date(0,0,1)),t});m=i[0],v=i[1];var a,n=["日","一","二","三","四","五","六"],g=this.getMonthDay(p),y=p.join("-").toDate();t=t+'<div class="'+S.day("x")+'">'+(a="",n.forEach(function(t,e){a=a+'<span class="'+S.day("item")+" col"+e+'">'+t+"</span>"}),a)+"</div>";var b,w=p.join("-").toDate();w.setDate(1),2==w.getDate()&&w.setDate(0),b=w.getDay();var E=w.getMonth()-1;E<0&&(E=11);var L='data-year="'+p[0]+'" data-month="'+(w.getMonth()+1)+'"',A="data-date=",x="";return t=t+'<div class="'+S.date("body")+'">'+function(){for(var t="",e="",i=0;i<6;i++){t=t+'<div class="'+S.date("tr")+'">';for(var a=0;a<7;a++){e=S.date("item")+" col"+a;var n,r,o=p[0],s=w.getMonth()+1;if("date"==f)t=0==i&&a<b?(n=g[E]-b+a+1,r=new Date(o,E,n),t+'<span class="'+e+'" '+(x=A+r.toArray().join("-"))+">"+n+"</span>"):(n=7*i+a-b+1)<=g[w.getMonth()]?(r=new Date(o,w.getMonth(),n),x=A+r.toArray().join("-"),y.getDate()==n&&(e=e+" "+j),m<=r&&r<=v?t+'<a href="javascript:;" '+L+' class="'+e+'" '+x+">"+n+"</a>":t+'<span class="'+e+'" '+x+">"+n+"</span>"):(n-=g[w.getMonth()],t+'<span class="'+e+'" '+(x=A+new Date(o,s,n).toArray().join("-"))+">"+n+"</span>");else if("date-range"==f)if(0==i&&a<b)t=t+'<span class="'+e+'"></span>';else if((n=7*i+a-b+1)<=g[w.getMonth()]){r=new Date(o,w.getMonth(),n),x=A+r.toArray().join("-");var l=this[j][0].join("-").toDate(),d=this[j][1].join("-").toDate(),c=r.getTime(),u=l.getTime(),h=d.getTime();u<=c&&c<=h&&(e=e+" "+j,c==u&&(e=e+" "+S.date("begin")),c==h&&(e=e+" "+S.date("end")),1==n?e=e+" "+S.date("first"):n==g[w.getMonth()]&&(e=e+" "+S.date("last"))),t=m<=r&&r<=v?t+'<a href="javascript:;" '+L+' class="'+e+'" '+x+">"+n+"</a>":t+'<span class="'+e+'" '+x+">"+n+"</span>"}else t=t+'<span class="'+e+'"></span>'}t+="</div>"}return t}.call(this)+"</div>",{monthDay:g,html:t,min:m,max:v}}}),Object.defineProperty(a.prototype,"getMonthData",{value:function(s){var t=this.element.input,l=t.getAttribute("min")||this.params.min,d=t.getAttribute("max")||this.params.max,e=[l,d].map(function(t,e){return t="object"==typeof t&&t.getTime?t.toArray().slice(0,2).join(""):"string"==typeof t&&0==/\D/.test(t.replace(T,""))?t.replace(T,"").slice(0,6):e?"999912":"000000"});l=e[0],d=e[1];var c=["一","二","三","四","五","六","七","八","九","十","十一","十二"],u=+s[0],h=this.params.type;return{html:'<div class="'+S.month("body")+'">'+function(){for(var t="",e="",i="",a=1;a<=12;a+=1){if(i=a<10?"0"+a:a+"",e=S.date("item"),"month"==h)a==s[1]&&(e=e+" "+j);else if("month-range"==h){var n=this[j][0].slice(0,2).join(""),r=this[j][1].slice(0,2).join(""),o=u+i;n<=o&&o<=r&&(e=e+" "+j)}t=l<=u+i&&u+i<=d?t+'<a href="javascript:" class="'+e+'" data-year="'+u+'" data-value="'+i+'">'+c[a-1]+"月</a>":t+'<span class="'+e+'" data-value="'+i+'">'+c[a-1]+"月</span>"}return t}.call(this)+"</div>",min:l,max:d}}}),Object.defineProperty(a.prototype,"getMonthDay",{value:function(t){var e=t;"object"==typeof t||t.map||(e=t.toArray());var i=[31,28,31,30,31,30,31,31,30,31,30,31];return(e[0]%4==0&&e[0]%100!=0||e[0]%400==0)&&(i[1]=29),i}}),Object.defineProperty(a.prototype,"getDatePrevMonth",{value:function(t){var e=t;"object"==typeof t||t.map||(e=t.toArray());var i=+e[1],a=this.getMonthDay(e);return 1==i?[e[0]-1,12,e[2]].join("-").toDate():a[i-2]<e[2]?[e[0],i-1,a[i-2]].join("-").toDate():[e[0],i-1,e[2]].join("-").toDate()}}),Object.defineProperty(a.prototype,"getDateNextMonth",{value:function(t){var e=t;"object"==typeof t||t.map||(e=t.toArray());var i=+e[1],a=this.getMonthDay(e);return 12==i?[e[0]+1,1,e[2]].join("-").toDate():a[i]<e[2]?[e[0],1+i,a[i]].join("-").toDate():[e[0],1+i,e[2]].join("-").toDate()}}),a.prototype.date=function(){var t=this.element.container,e=this[j],i=e[1]-1,a=+e[1]+1,n=this.getCalendarData(e),r='<div class="'+S.date("x")+'">';r=r+'<div class="'+S.date("head")+'">';var o=this.getDatePrevMonth(e),s=o.getMonth(),l=o.getFullYear();r=new Date(l,s,n.monthDay[s])>=n.min&&o<=n.max?r+'<a href="javascript:" class="'+S.date("prev")+'" data-month="'+i+'" role="button" aria-label="上一月">'+this.svg+"</a>":r+'<span class="'+S.date("prev")+'" aria-label="上一月">'+this.svg+"</span>";var d=this.getDateNextMonth(e),c=d.getMonth(),u=d.getFullYear();return r=(r=d>=n.min&&new Date(u,c,1)<=n.max?r+'<a href="javascript:" class="'+S.date("next")+'" data-month="'+a+'" role="button" aria-label="下一月">'+this.svg+"</a>":r+'<span class="'+S.date("next")+'" aria-label="下一月">'+this.svg+"</span>")+'<a href="javascript:" class="'+S.date("switch")+'" data-type="month" role="button" aria-label="快速切换月份">'+e.slice(0,2).join("-")+"</a>        </div>",r+=n.html,r=new Date>=n.min&&new Date<=n.max?r+'<a href="javascript:" class="'+S.date("item")+" "+S.date("now")+'" role="button">今天</a>':r+'<span class="'+S.date("item")+" "+S.date("now")+'">今天</span>',r+="</div>",t.setAttribute("data-type","date"),t.innerHTML=r,this},a.prototype["date-range"]=function(){var t=this.element.container,e=this[j],i=t.dataDate||e[0],a=(t.dataDate=i)[1]-1,n=+i[1]+1,r=this.getCalendarData(i),o='<div class="'+S.range("x")+'">';o=o+'<div class="'+S.date("head")+'">            <div class="'+S.date("half")+'">';var s=new Date(i[0],a-1,i[2]);o=(o=s>=r.min&&s<=r.max?o+'<a href="javascript:" class="'+S.date("prev")+'" data-month="'+a+'" aria-label="上一个月，当前'+i[1]+'月">'+this.svg+"</a>":o+'<span class="'+S.date("prev")+'">'+this.svg+"</span>")+'<span class="'+S.date("switch")+'">'+new Date(i[0],a,i[2]).toArray().slice(0,2).join("-")+'</span>        </div>        <div class="'+S.date("half")+'">';var l=new Date(i[0],i[1],1),d=new Date(i[0],n,i[2]);return o=(o=d>=r.min&&d<=r.max?o+'<a href="javascript:" class="'+S.date("next")+'" data-month="'+n+'" aria-label="下一个月，当前'+n+'月">'+this.svg+"</a>":o+'<span class="'+S.date("next")+'">'+this.svg+"</span>")+'<span class="'+S.date("switch")+'">'+l.toArray().slice(0,2).join("-")+"</span>        </div>",o=(o=(o+="</div>")+'<div class="'+S.range("body")+" "+S.range("date","body")+'"><div class="'+S.date("half")+'">'+r.html+'</div><div class="'+S.date("half")+'">'+this.getCalendarData(l.toArray()).html+"</div></div>")+'<div class="'+S.range("footer")+'"><button class="ui-button" data-type="primary">确定</button><button class="ui-button" data-type="normal">取消</button></div>',o+="</div>",t.setAttribute("data-type","date-range"),t.innerHTML=o,this},a.prototype.month=function(){var t=this.element.container,e=this[j],i=this.getMonthData(e),a=i.min,n=i.max,r='<div class="'+S.month("x")+'">',o=+e[0];r=r+'<div class="'+S.date("head")+'">',r=o-1>=Math.floor(a/100)&&o-1<=Math.floor(n/100)?r+'<a href="javascript:" class="'+S.date("prev")+'" data-year="'+(o-1)+'" role="button" aria-label="上一年">'+this.svg+"</a>":r+'<span class="'+S.date("prev")+'" aria-label="上一年">'+this.svg+"</span>",r=(r=1+o>=Math.floor(a/100)&&1+o<=Math.floor(n/100)?r+'<a href="javascript:" class="'+S.date("next")+'" data-year="'+(1+o)+'" role="button" aria-label="下一年">'+this.svg+"</a>":r+'<span class="'+S.date("next")+'">'+this.svg+"</span>")+'<a href="javascript:" class="'+S.date("switch")+'" data-type="year" role="button" aria-label="快速切换年份">'+o+"</a>        </div>",r+=i.html;var s=(new Date).toArray().slice(0,2).join("");return r=a<=s&&s<=n?r+'<a href="javascript:" class="'+S.date("item")+" "+S.date("now")+'">今月</a>':r+'<span class="'+S.date("item")+" "+S.date("now")+'">今月</span>',r+="</div>",t.setAttribute("data-type","month"),t.innerHTML=r,this},a.prototype["month-range"]=function(){var t=this.element.container,e=this[j],i=t.dataDate||e[0],a=(t.dataDate=i)[0]-1,n=+i[0]+1,r=this.getMonthData(i),o=r.max.slice(0,4),s=r.min.slice(0,4),l='<div class="'+S.range("x")+'">';return l=l+'<div class="'+S.date("head")+'">            <div class="'+S.date("half")+'">',l=(l=s<=a&&a<=o?l+'<a href="javascript:" class="'+S.date("prev")+'" data-year="'+a+'" role="button" aria-label="上一年">'+this.svg+"</a>":l+'<span class="'+S.date("prev")+'" aria-label="上一年">'+this.svg+"</span>")+'<span class="'+S.date("switch")+'">'+i[0]+'</span>        </div>        <div class="'+S.date("half")+'">',l=(l=s<=n&&n<o?l+'<a href="javascript:" class="'+S.date("next")+'" data-year="'+n+'" role="button" aria-label="下一年">'+this.svg+"</a>":l+'<span class="'+S.date("next")+'" aria-label="下一年">'+this.svg+"</span>")+'<span class="'+S.date("switch")+'">'+n+"</span>        </div>",l=(l=(l+="</div>")+'<div class="'+S.range("body")+" "+S.range("month","body")+'"><div class="'+S.date("half")+'">'+r.html+'</div><div class="'+S.date("half")+'">'+this.getMonthData([n,i[1],i[2]]).html+"</div></div>")+'<div class="'+S.range("footer")+'"><button class="ui-button" data-type="primary">确定</button><button class="ui-button" data-type="normal">取消</button></div>',l+="</div>",t.setAttribute("data-type","month-range"),t.innerHTML=l,this},a.prototype.year=function(){var t=this.element.input,e=this.element.container,i=this[j],a=t.getAttribute("min")||this.params.min,n=t.getAttribute("max")||this.params.max;a="object"==typeof a&&a.getFullYear?a.getFullYear():"string"==typeof a&&0==/\D/.test(a.replace(T,""))?a.toDate().getFullYear():0,n="object"==typeof n&&n.getFullYear?n.getFullYear():"string"==typeof n&&0==/\D/.test(n.replace(T,""))?n.toDate().getFullYear():9999;var r='<div class="'+S.year("x")+'">',o=i[0];r=r+'<div class="'+S.date("head")+'">',r=a<=o-12&&o-12<=n?r+'<a href="javascript:" class="'+S.date("prev")+'" data-year="'+(o-12)+'" role="button" aria-label="上一个12年">'+this.svg+"</a>":r+'<span class="'+S.date("prev")+'">'+this.svg+"</span>",r=(r=(r=a<=o+12&&o+12<=n?r+'<a href="javascript:" class="'+S.date("next")+'" data-year="'+(o+12)+'" role="button" aria-label="下一个12年">'+this.svg+"</a>":r+'<span class="'+S.date("next")+'">'+this.svg+"</span>")+'<span class="'+S.date("switch")+'">'+[o-6,o+5].join("-")+"</span></div>")+'<div class="'+S.year("body")+'">'+function(){for(var t="",e="",i=o-6;i<o+6;i+=1)e=S.date("item"),i==o&&(e=e+" "+j),t=a<=i&&i<=n?t+'<a href="javascript:" class="'+e+'">'+i+"</a>":t+'<span class="'+e+'">'+i+"</span>";return t}()+"</div>";var s=(new Date).getFullYear();return r=a<=s&&s<=n?r+'<a href="javascript:" class="'+S.date("item")+" "+S.date("now")+'" role="button">今年</a>':r+'<span class="'+S.date("item")+" "+S.date("now")+'">今年</span>',r+="</div>",r+="</div>",e.setAttribute("data-type","year"),e.innerHTML=r,this},a.prototype.hour=function(){var t=this.element.container,e=this.element.input,n=this[j],r=+e.getAttribute("step");r="hour"!=this.params.type||!r||r<1?1:Math.round(r);var o=(e.getAttribute("min")||this.params.min.toString()).split(":")[0],s=(e.getAttribute("max")||this.params.max.toString()).split(":")[0];/\D/.test(o)?o=0:o*=1,/\D/.test(s)?s=24:s*=1;var i='<div class="'+S.hour("x")+'">';return i=i+'<div class="'+S.hour("body")+'">'+function(){for(var t="",e="",i="",a=0;a<24;a+=r)1==(e=a+"").length&&(e="0"+e),i=S.date("item"),e==n[0]&&(i=i+" "+j),t=o<=e&&e<=s?t+'<a href="javascript:" class="'+i+'">'+e+":00</a>":t+'<span class="'+i+'">'+e+":00</span>";return t}()+"</div>",i+="</div>",t.setAttribute("data-type","hour"),t.innerHTML=i,this},a.prototype.minute=function(){var t=this.element.container,e=this.element.input,n=this[j],r=+e.getAttribute("step")||5,o=e.getAttribute("min")||this.params.min+"",s=e.getAttribute("max")||this.params.max+"";o="auto"==o||/\D/.test(o.replace(":",""))||2!=o.split(":").length?0:+o.replace(":",""),s="auto"==s||/\D/.test(s.replace(":",""))||2!=s.split(":").length?2359:+s.replace(":","");var i='<div class="'+S.minute("x")+'" data-step="'+r+'">',a=+n[0];return i=i+'<div class="'+S.date("head")+'">',i=a<=Math.floor(o/100)?i+'<span class="'+S.date("prev")+'">'+this.svg+"</span>":i+'<a href="javascript:" class="'+S.date("prev")+'" data-hour="'+(a-1)+'" role="button" aria-label="上一个小时">'+this.svg+"</a>",i=(i=(i=a>=Math.floor(s/100)?i+'<span class="'+S.date("next")+'">'+this.svg+"</span>":i+'<a href="javascript:" class="'+S.date("next")+'" data-hour="'+(1+a)+'" role="button" aria-label="下一个小时">'+this.svg+"</a>")+'<a href="javascript:" class="'+S.date("switch")+'" data-type="hour">'+n[0]+":00</a></div>")+'<div class="'+S.minute("body")+'">'+function(){for(var t="",e="",i="",a=0;a<60;a+=r)1==(e=a+"").length&&(e="0"+e),i=S.date("item"),t=+(n[0]+e)>=o&&+(n[0]+e)<=s?(e==n[1]&&(i=i+" "+j),t+'<a href="javascript:" class="'+i+'">'+[n[0],e].join(":")+"</a>"):t+'<span class="'+i+'">'+[n[0],e].join(":")+"</span>";return t}()+"</div>",i+="</div>",t.setAttribute("data-type","minute"),t.innerHTML=i,this},a.prototype.show=function(){var t=this.element.container,e=this.element.trigger,i=this.element.input;if(i.disabled)return this;if(this.format(),"time"==this.params.type?this.minute():"date-range"==this.params.type?(this.dataRangeSelected||(this.dataRangeSelected=this[j]),this["date-range"]()):"month-range"==this.params.type?(this.dataRangeSelected||(this.dataRangeSelected=this[j]),this["month-range"]()):this[this.params.type]?this[this.params.type]():this.date(),0==document.body.contains(t)&&document.body.appendChild(t),e!=t){t.style.display="block",e.classList.add("active"),new r(e,t,{position:"4-1"});var a=parseFloat(t.style.left),n=t.offsetWidth;a+n+3>screen.width&&(t.style.left=Math.max(screen.width-n-3,0)+"px")}return"function"==typeof this.callback.show&&this.callback.show.call(this,i,t),this.display=!0,this},a.prototype.hide=function(){var t=this.element.container,e=this.element.trigger,i=this.element.input;return 1==this.display&&e!=t&&(t.style.display="none",e.classList.remove("active"),i.focus(),i.blur(),"function"==typeof this.callback.hide&&this.callback.hide.call(this,i,t)),this.display=!1,this};function e(){if(!1!==window.autoInit){function i(t){if(!(1!=t.nodeType||"INPUT"!=t.tagName||t.data&&t.data.dateTime)){var e=t.getAttribute("type");/^date|year|month|time|hour|minute/.test(e)&&new a(t)}}if(document.querySelectorAll("input[type]").forEach(i),!1!==window.watching)if(window.MutationObserver)new MutationObserver(function(t){t.forEach(function(e){var t=e.addedNodes;t.length&&t.forEach(function(t){i.call(e,t)})})}).observe(document.body,{childList:!0,subtree:!0});else document.body.addEventListener("DOMNodeInserted",function(t){i(t.target)})}}return"loading"!=document.readyState?e():window.addEventListener("DOMContentLoaded",e),a}),function(t,e){"object"==typeof exports&&"undefined"!=typeof module?(t.Tips=require("./ErrorTip"),module.exports=e()):"function"==typeof define&&(define.amd||define.cmd)?define(e):t.Validate=e()}("undefined"!=typeof global?global:"undefined"!=typeof window?window:"undefined"!=typeof self?self:this,function(t){var s=this.ErrorTip;if("function"!=typeof t||s){if(!s)return window.console.error("need ErrorTip.js"),{}}else s=t("common/ui/ErrorTip");window.DBC2SBC=function(t){var e,i,a="";for(e=0;e<t.length;e++)a+=65281<=(i=t.charCodeAt(e))&&i<=65373?String.fromCharCode(t.charCodeAt(e)-65248):12288==i?String.fromCharCode(t.charCodeAt(e)-12288+32):t.charAt(e);return a},window.scrollTopTo=function(t,e){var i=document.scrollingElement.scrollTop,a=function(){if(i+=(t-i)/2,Math.abs(i-t)<=1)return document.scrollingElement.scrollTop=t,void(e&&e());document.scrollingElement.scrollTop=i,requestAnimationFrame(a)};a()},document.validate={reg:{email:"^[a-z0-9._%-]+@([a-z0-9-]+\\.)+[a-z]{2,4}$",number:"^\\-?\\d+(\\.\\d+)?$",url:"^(http|https)\\:\\/\\/[a-z0-9\\-\\.]+\\.[a-z]{2,3}(:[a-z0-9]*)?\\/?([a-z0-9\\-\\._\\:\\?\\,\\'\\/\\\\\\+&amp;%\\$#\\=~])*$",tel:"^1\\d{10}$",zipcode:"^\\d{6}$",date:"^\\d{4}\\-(0\\d|1[0-2])\\-([0-2]\\d|3[0-1])$",time:"^[0-2]\\d\\:[0-5]\\d$",hour:"^[0-2]\\d\\:00$",minute:"^[0-2]\\d\\:[0-5]\\d$","date-range":"^\\d{4}(\\-\\d{2}){2}\\s至\\s\\d{4}(\\-\\d{2}){2}$","month-range":"^\\d{4}\\-\\d{2}\\s至\\s\\d{4}\\-\\d{2}$"},name:{email:"邮箱",tel:"手机号码",url:"网址",zipcode:"邮编",password:"密码",number:"数值",range:"数值",date:"日期",year:"年份",month:"月份",hour:"小时",minute:"分钟",time:"时间",datetime:"日期时间","date-range":"日期范围","month-range":"月份范围"},selectRange:function(t,e,i){if(t)if(t.createTextRange){var a=t.createTextRange();a.collapse(!0),a.moveEnd("character",i),a.moveStart("character",e),a.select()}else t.focus&&(t.focus(),t.setSelectionRange(e,i))},getTel:function(t){var e=t||"";return(e=e.replace("+86","")).match(/\d/)&&11==e.match(/\d/g).length&&(e=e.replace(/\D/g,"")),e},getLength:function(t,i){if("password"==t.type)return i||t.value.length;var e=t.getAttribute("lang"),a=t.value.trim();if(!e)return i||a.length;if(""==a)return 0;var n=1,r=1;if(/zh/i.test(e)?r=.5:/en/i.test(e)&&(n=2),!i){var o=a.replace(/[\x00-\xff]/g,"").length,s=a.length-o;return Math.ceil(s*r)+Math.ceil(o*n)}var l=0,d=i;return a.split("").forEach(function(t,e){i<=l||(/[\x00-\xff]/.test(t)?l+=r:l+=n,i<=l&&(d=e+1))}),d},getType:function(t){var e=t.getAttribute("type"),i=e||t.type||"";if(i=i.toLowerCase().replace(/\W+$/,""),e&&e!=i&&!t.isTypeReset){var a=document.createElement("input");if(a.type=i,a.getAttribute("type")==i)try{t.type=i,t.isTypeReset=!0}catch(t){}}return"select-one"==i&&(i="select"),i.replace(/_/g,"")},getReportText:function(a){var t={name:this.name,badInput:"值无效",customError:"包含错误",patternMismatch:{pattern:"内容格式不符合要求",multiple:"某项内容格式不符合要求"},valueMissing:{radio:"请选择一个选项",checkbox:"如果要继续，请选中此框",select:"请选择列表中的一项","select-one":"请选择列表中的一项",empty:"请填写此字段"},rangeOverflow:"值偏大",rangeUnderflow:"值偏小",stepMismatch:"值不在间隔要求范围内",tooLong:"内容长度偏大",tooShort:"内容长度偏小",typeMismatch:"值和输入框类型不匹配"};if(!a)return"";var e=a.validity;if(1==e.valid)return"";var i="",n=a.id,r=this.getType(a),o=a.customValidate||{},s=o.report||{},l=t.name[r]||function(){if(o.label&&n&&!/checkbox|radio/.test(r)){var a="";return document.querySelectorAll("label[for="+n+"]").forEach(function(t){var e=t.cloneNode(!0);[].slice.call(e.children).forEach(function(t){t.remove()});var i=e.innerHTML.trim().replace(/\d/g,"").replace("：","");i.length>a.length&&(a=i)}),2<=a.length?a:void 0}}();if(e.valueMissing)i=(i=s.valueMissing)||(i=r&&l?"select"!=r?l+"不能为空":"您尚未选择"+l:t.valueMissing[r])||t.valueMissing.empty;else if(e.patternMismatch){if(!(i=s.patternMismatch)){var d=a.hasAttribute("multiple")&&1<a.value.split(",").length;i=t.patternMismatch[d?"multiple":"pattern"],r&&l&&(i=l+i)}}else if(e.badInput)i=(i=s.badInput)||(l||"")+t.badInput;else if(e.typeMismatch)(i=s.typeMismatch)||(i=t.typeMismatch,l&&(i=i.replace("输入框",l)));else if(e.rangeUnderflow||e.rangeOverflow){if(!(i=s.rangeUnderflow||s.rangeOverflow)&&r&&l){var c=a.getAttribute("min"),u=a.getAttribute("max");"month-range"==r&&(c=c.slice(0,7),u=u.slice(0,7));var h="必须要大于或等于"+c,p="必须要小于或等于"+u;e.rangeUnderflow&&e.rangeOverflow?i="起始日期"+h+"，结束日期"+p:e.rangeUnderflow?(i=l+h,"-range"==r.slice(-6)&&(i="起始日期"+h)):(i=l+p,"-range"==r.slice(-6)&&(i="结束日期"+p))}i=i||"值不在要求的范围内"}else if(e.stepMismatch){if(!(i=s.stepMismatch)){var f=+a.getAttribute("min"),m=+a.getAttribute("max"),v=+a.getAttribute("step")||1;i="number"==r||"range"==r?"请输入有效的值。两个最接近的有效值是"+function(){for(var t=+a.value.trim(),e=f,i=f;i<m;i+=v)if(i<t&&t<i+v){e=i;break}return[e,e+v].join("和")}():"请"+(a.hasAttribute("readonly")?"选择":"输入")+"有效的值。"+(l||"")+"间隔是"+v}i=i||t.stepMismatch}else if(e.tooLong||e.tooShort){var g=a.getAttribute("lang"),y="";/zh/i.test(g)?y="个汉字(2字母=1汉字)":/en/i.test(g)&&(y="个字符(1汉字=2字符)"),e.tooLong?(i=s.tooLong)||(i=(l||"")+"内容长度不能大于"+(a.maxlength||a.getAttribute("maxlength")).replace(/\D/g,"")+y):(i=s.tooShort)||(i="内容长度不能小于"+a.getAttribute("minlength")+y)}else e.customError&&(i=s.customError||t.customError);return"function"==typeof i&&(i=i.call(a,a)),i},getMissingState:function(t){var e={valueMissing:!1};if(!t||t.disabled)return e;var i=this.getType(t),a=t.value;if(t.hasAttribute("required")){if("radio"==i){var n=[t],r=t.closest("form")||t.parentElement.parentElement;return t.name&&r&&(n=r.querySelectorAll('input[type="radio"][name="'+t.name+'"]')),0==[].slice.call(n).some(function(t){return t.checked})&&(e.valueMissing=!0),e}if("checkbox"==i)return 0==t.checked&&(e.valueMissing=!0),e;"password"!=i&&(a=a.trim()),""==a&&(history.pushState&&(t.value=""),e.valueMissing=!0)}return e},isMissing:function(t){return this.getMissingState(t).valueMissing},getMismatchState:function(t,e,i){var a={patternMismatch:!1,typeMismatch:!1};if(!t||t.disabled)return!1;var n=t.value,r=n,o=this.getType(t);if(/^radio|checkbox|select$/i.test(o))return a;if("password"!=o&&(r=n.trim()),0==/^text|textarea|password$/i.test(o)&&(r=window.DBC2SBC(r)),"tel"==o&&(r=this.getTel(r)),!1!==document.validate.focusable&&0!==document.validate.focusable&&r!=n&&(t.value=r),""==r)return a;if(!(e=e||t.getAttribute("pattern")||o&&o.split("|").map(function(t){var e=document.validate.reg[t];if(e)return e}).join("|")))return a;var s=t.hasAttribute("multiple"),l=new RegExp(e,i||"i"),d=!0;return s&&0==/^number|range$/i.test(o)?r.split(",").forEach(function(t){t=t.trim(),d&&!l.test(t)&&(d=!1)}):d=l.test(r),0==d&&(t.hasAttribute("pattern")?a.patternMismatch=!0:a.typeMismatch=!0),a},isMismatch:function(t,e,i){var a=this.getMismatchState(t,e,i);return a.patternMismatch||a.typeMismatch},getRangeState:function(t){var e={badInput:!1,rangeOverflow:!1,rangeUnderflow:!1,stepMismatch:!1};if(!t||t.disabled)return e;var i=this.getType(t),a=t.value.trim();if(/radio|checkbox|select|textarea/i.test(i)||""==a)return e;var n=t.getAttribute("min"),r=t.getAttribute("max"),o=Number(t.getAttribute("step"))||1;if("number"!=i&&"range"!=i||/[-+]?[0-9]/.test(a)||(e.badInput=!0),"-range"!=i.slice(-6)){if("0"!=a&&Number(a)!=a||(a=+a),n&&a<n&&(e.rangeUnderflow=!0),r&&r<a&&(e.rangeOverflow=!0),"number"!=i&&"range"!=i||!o||!n||/^\d+$/.test(Math.abs(a-n)/o)||(e.stepMismatch=!0),("hour"==i||"minute"==i||"time"==i)&&n&&o){var s=a.split(":")[1],l=n.split(":")[1];("hour"!=i||s==l&&(a.split(":")[0]-n.split(":")[0])%o==0)&&(s-l)%o==0||(e.stepMismatch=!0)}}else{var d=a.split(" ");"month-range"==i&&(n=n&&n.slice(0,7),r=r&&r.slice(0,7)),3==d.length&&(n&&d[0]<n&&(e.rangeUnderflow=!0),r&&d[2]>r&&(e.rangeOverflow=!0))}return e},isOut:function(t){var e=this.getRangeState(t);return e.badInput||e.rangeOverflow||e.rangeUnderflow||e.stepMismatch},getLengthState:function(t){var e={tooLong:!1,tooShort:!1};if(!t||t.disabled||/^radio|checkbox|select$/i.test(t.type))return e;var i=t.getAttribute("minlength"),a=t.maxlength||t.getAttribute("maxlength");if(""==t.value)return e;var n=this.getLength(t);return i&&n<i&&(e.tooShort=!0),a&&(a=a.replace(/\D/g,""))<n&&(e.tooLong=!0),e},isOverflow:function(t){var e=this.getLengthState(t);return e.tooLong||e.tooShort},getCustomState:function(t){var e={customError:!1},i=t.customValidate;if(i&&"function"==typeof i.method){var a=i.method.call(i.owner,t);a&&(e.customError=!0,"object"==typeof a&&a.customError?this.setCustomValidity(t,a.customError):this.setCustomValidity(t,a))}return e},setCustomValidity:function(t,e){e&&(t.customValidate||(t.customValidate={report:{}}),t.customValidate.report||(t.customValidate.report={}),t.customValidate.report.customError=e)},checkValidity:function(t){if(!t||t.disabled)return!0;var e=t.getAttribute("type")||t.type,i=t.tagName.toLowerCase();return 1==/^button|submit|reset|file|image$/.test(e)||"button"==i||(0==t.matches("input, select, textarea")&&t.children&&(t=t.querySelectorAll("input, select, textarea")),1==t.nodeType?this.getValidity(t).valid:!t.length||[].slice.call(t).every(function(t){return this.checkValidity(t)}.bind(this)))},getValidity:function(t){if(t.lastValidateState&&t.lastValue===t.value&&0==/radio|checkbox/.test(t.type))return t.lastValidateState;var e={badInput:!1,customError:!1,patternMismatch:!1,rangeOverflow:!1,rangeUnderflow:!1,stepMismatch:!1,tooLong:!1,tooShort:!1,typeMismatch:!1,valid:!0,valueMissing:!1};e=Object.assign({},e,this.getMissingState(t),this.getMismatchState(t),this.getRangeState(t),this.getLengthState(t),this.getCustomState(t));var i=!1;for(var a in e)"valid"!=a&&1==e[a]&&(i=!0);return e.valid=!i,t.lastValue=t.value,t.lastValidateState=e,setTimeout(function(){delete t.lastValidateState},1),e},reportValidity:function(t,e){e=e||this.getReportText(t),this.errorTip(t,e);var i=!e;return this.styleError(t,i),i},styleError:function(t,i){if(!t)return this;void 0===i&&(i=t.validity.valid);var e=this.getTarget(t);if(!e)return i;var a=t.closest("form")||t.customValidate&&t.customValidate.owner;return"radio"==t.type&&t.name&&a?a.querySelectorAll("input[type=radio][name="+t.name+"]").forEach(function(t){var e=this.getTarget(t);i?(e.classList.remove("error"),e.removeAttribute("aria-label")):e.classList.add("error")}.bind(this)):i?(e.classList.remove("error"),e.removeAttribute("aria-label")):e.classList.add("error"),i},errorTip:function(n,r){var t=this.getTarget(n);if(!t||!r)return this;var e=window.getComputedStyle(t);if("none"==e.display||"hidden"==e.visibility)return this;function i(){var e=document.validate.errorTip.control,a=document.validate.errorTip.target;if(new s(a,r,{onShow:function(t,e){var i=.5*(e.clientWidth-a.clientWidth);e.style.marginLeft=i<0?.5*(e.clientWidth-a.clientWidth)+"px":0,!1===document.validate.focusable?e.classList.add("none"):e.classList.remove("none")},onHide:function(){var t=e.closest("form");t&&t.isImmediated&&document.validate.styleError(e)}}),!1!==document.validate.focusable&&0!==document.validate.focusable&&(document.validate.focusable=null,document.validate.getType(e)))if(-1!=r.indexOf("内容长度")&&-1!=r.indexOf("大")){var t=e.value.length,i=e.maxlength||e.getAttribute("maxlength").replace(/\D/g,"");t&&i&&document.validate.selectRange(n,document.validate.getLength(n,i),t)}else e.focus&&e.select&&(e.focus(),e.select())}document.validate.errorTip.control=n;var a=(document.validate.errorTip.target=t).getBoundingClientRect(),o=-1;return a.top<50?o=window.pageYOffset-(50-a.top):a.bottom>window.innerHeight&&(o=window.pageYOffset+(a.bottom-window.innerHeight)),0<=o?window.scrollTopTo(o,i):i(),this},getTarget:function(t){if(!t)return null;var e=t,i=t.getAttribute("type")||t.type,a=t.id,n=t.tagName.toLowerCase(),r=window.getComputedStyle(t);if("radio"==i&&"1"!=r.opacity)e=t.parentElement.querySelector("label.ui-radio[for="+a+"]");else if("checkbox"==i&&"1"!=r.opacity)e=t.parentElement.querySelector("label.ui-checkbox[for="+a+"]");else if("select"==i||"select"==n)"1"!=r.opacity&&(e=t.nextElementSibling);else if("range"==i)"none"==r.display&&(e=t.nextElementSibling);else if("hidden"==i||"none"==r.display||"hidden"==r.visibility){var o=document.getElementById(e.getAttribute("data-target"))||t.dataTarget;o&&(e=document.validate.getTarget(o))}else"textarea"==i||"textarea"==n?0==t.classList.contains("ui-textarea")&&t.parentElement.querySelector(".ui-textarea")&&(e=t.parentElement.querySelector(".ui-textarea")):"input"==n&&0==t.classList.contains("ui-input")&&t.parentElement.querySelector(".ui-input")&&(e=t.parentElement.querySelector(".ui-input"));return e}},[HTMLInputElement.prototype,HTMLSelectElement.prototype,HTMLTextAreaElement.prototype].forEach(function(t){Object.defineProperty(t,"validity",{get:function(){return document.validate.getValidity(this)},configurable:!0}),Object.defineProperty(t,"checkValidity",{value:function(){return this.validity.valid},configurable:!0}),Object.defineProperty(t,"reportValidity",{value:function(t){return document.validate.reportValidity(this,t)},configurable:!0}),Object.defineProperty(t,"setCustomValidity",{value:function(e){if(e){this.customValidate||(this.customValidate={}),this.customValidate.report||(this.customValidate.report={}),"string"==typeof e?["badInput","customError","patternMismatch","rangeOverflow","rangeUnderflow","stepMismatch","tooLong","tooShort","typeMismatch","valueMissing"].forEach(function(t){this.customValidate.report[t]=e}):"object"==typeof e&&Object.assign(this.customValidate.report,e)}},configurable:!0})}),Object.defineProperty(HTMLFormElement.prototype,"checkValidity",{value:function(){return document.validate.checkValidity(this)},configurable:!0});function e(t,e,i){if("string"==typeof t&&(t=document.querySelector(t)),!t)return this;var a=t;if(a.data&&a.data.validate)return a.data.validate;a.setAttribute("novalidate","novalidate");var n=Object.assign({},{multiple:!0,immediate:!0,label:!0,validate:[],onError:function(){},onSuccess:function(){}},i||{});a.querySelectorAll('[type="submit"]:disabled, [type="image"]:disabled').forEach(function(t){t.disabled=!1}),a.addEventListener("submit",function(t){if(!this.stopValidate)return t.preventDefault(),this.checkValidity()&&"function"==typeof e&&e.call(this,a),!1}.bind(this));var r=n.validate;r&&!r.forEach&&r.id&&(r=[r]);var o=n.label;return a.querySelectorAll("input, select, textarea").forEach(function(t){var e=t.id,i={label:o,owner:this};e&&r&&r.length&&r.forEach(function(t){t.id==e&&(t.label=o,t.owner=this,i=t)}.bind(this)),t.lastValue=t.value||"",t.customValidate=i}.bind(this)),this.element={form:a},this.callback={error:n.onError,success:n.onSuccess},this.data=r,this.params={multiple:n.multiple,immediate:n.immediate,label:o},this.count(),this.enhance(),a.data||(a.data={}),a.data.validate=this}return Object.defineProperty(e.prototype,"count",{value:function(){var d=this.element.form;return d.querySelectorAll("input, textarea").forEach(function(e){var i=e.getAttribute("maxlength");if(i)try{e.setAttribute("maxlength","_"+i+"_")}catch(t){e.removeAttribute("maxlength"),e.maxlength=i}var a=e.getAttribute("minlength");if(i){i=i&&i.replace(/\D/g,"");var t=e.tagName.toLowerCase(),n=function(){return["ui",t].concat([].slice.call(arguments)).join("-")},r=e.parentElement.querySelector("."+n("count"))||d.querySelector("."+n("count")+'[for="'+e.id+'"]');if(r||e.parentElement.classList.contains(n("x"))){var o=e.id;o||(o=("lulu_"+Math.random()).replace("0.",""),e.id=o),r?r.hasAttribute("for")||r.setAttribute("for",o):((r=document.createElement("label")).className=n("count"),r.setAttribute("for",o),r.innerHTML="<span>0</span><slash>/</slash><span>"+(a?a+"-":"")+i+"</span>",e.parentElement.appendChild(r));function s(){var t=document.validate.getLength(e);0!=(l.innerHTML=t)&&(i<t||a&&t<a)?l.classList.add("error"):l.classList.remove("error")}var l=r.querySelector("span")||r;e.addEventListener("input",s),s(),history.pushState||e.addEventListener("blur",s)}}}),this}}),Object.defineProperty(e.prototype,"enhance",{value:function(){this.element.form.querySelectorAll("input, textarea").forEach(function(r){var t=document.validate.getType(r);0==/^checkbox|radio|range$/i.test(t)&&r.addEventListener("paste",function(t){var e=this.getAttribute("type")||this.type,i=t.clipboardData||window.clipboardData,a="";if(i){var n="";window.getSelection?n=this.value.slice(r.selectionStart,r.selectionEnd):document.selection&&(n=document.selection.createRange().text),""!=this.value.trim()&&n!==this.value||(t.preventDefault(),t.stopPropagation(),a=i.getData("text")||"","password"!=e&&(a=a.trim()),"email"==e?a=a.replace("#","@"):"tel"==e&&(a=document.validate.getTel(a)),this.value=a),r.dispatchEvent(new CustomEvent("input"))}})})}}),e.prototype.immediate=function(){var t=this.element.form;return t.isImmediated||(t.querySelectorAll("input, select, textarea").forEach(function(t){var e=t.type,i=t.getAttribute("type");"button"!=e&&"submit"!=e&&"reset"!=e&&"file"!=e&&"image"!=e&&("radio"==e||"checkbox"==e?t.addEventListener("click",function(){0!=this.params.immediate&&this.reportValidity(t)}.bind(this)):/select/.test(e)||/range|date|time|hour|minute|hidden/.test(i)?t.addEventListener("change",function(){0!=this.params.immediate&&this.reportValidity(t)}.bind(this)):(t.addEventListener("focus",function(){this.params.immediate&&setTimeout(function(){document.validate.focusable=0,this.reportValidity(t)}.bind(this),20)}.bind(this)),t.addEventListener("input",function(){0!=this.params.immediate&&(null!=document.msHidden&&""==t.value&&!t.lastValue&&t.getAttribute("placeholder")||(document.validate.focusable=!1,this.reportValidity(t)),t.lastValue=t.value)}.bind(this))))}.bind(this)),t.isImmediated=!0),this},e.prototype.checkValidity=function(){var t=this.element.form,i=!0;return document.validate.focusable=!0,t.querySelectorAll("input, select, textarea").forEach(function(t){if(1==i||this.params.multiple){var e=document.validate.styleError(t);1==i&&0==e&&(this.reportValidity(t),i=!1),this.callback[e?"success":"error"].call(this,t)}}.bind(this)),!t.isImmediated&&this.params.immediate&&this.immediate(),i},e.prototype.reportValidity=function(t,e){t&&document.validate.reportValidity(t,e)},e}),function(t,e){"object"==typeof exports&&"undefined"!=typeof module?module.exports=e():"function"==typeof define&&(define.amd||define.cmd)?define(e):t.Pagination=e()}("undefined"!=typeof global?global:"undefined"!=typeof window?window:"undefined"!=typeof self?self:this,function(){function a(t,e){var i={total:0,current:1,per:15,mode:"long",href:null,onClick:function(){}},a=t;if("string"==typeof t&&(a=document.querySelector(t)),a){var n={};for(var r in i)a.hasAttribute(r)&&(n[r]=t.getAttribute(r));if(a.data&&a.data.pagination)return a.data.pagination}var o=Object.assign({},i,n,e||{});if(this.params=Object.assign({},o),delete this.params.onClick,this.callback={click:o.onClick},this.element={container:a,pagination:a},this.svg='<svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="200" height="200" viewBox="0 0 200 200"><path d="M85.876,100.5l49.537-50.526c4.089-4.215,4.089-11.049,0-15.262 c-4.089-4.218-10.719-4.218-14.808,0L63.586,92.868c-4.089,4.215-4.089,11.049,0,15.264l57.018,58.156 c4.089,4.215,10.719,4.215,14.808,0c4.089-4.215,4.089-11.049,0-15.262L85.876,100.5z"/></svg>',!a)return this;this.events(),this.show(),a.data||(a.data={}),a.data.pagination=this,Object.keys(this.params).forEach(function(e){Object.defineProperty(a,e,{writeable:!0,enumerable:!0,get:function(){return this.getAttribute(e)||function(){return this.data&&this.data.pagination&&this.data.pagination.params[e]||null}()},set:function(t){this.setAttribute(e,t),this.data&&this.data.pagination&&(this.data.pagination.params[e]=t,this.data.pagination.show())}})})}var c={add:function(){return["ui-page"].concat([].slice.call(arguments)).join("-")},join:function(){return c+" "+this.add.apply(this,arguments)},toString:function(){return"ui-page"}};a.prototype.events=function(){var n=this.element.pagination;n.addEventListener("click",function(t){var e=t.target.closest("a");if(e){var i=e.getAttribute("data-page");this.params.current=+i;var a=e.className;this.show(),(e=/prev/.test(a)?n.querySelector("."+c.add("prev")):/next/.test(a)?n.querySelector("."+c.add("next")):n.querySelector("."+c.add("current")))&&(e.focus(),0==window.isKeyEvent&&e.blur(),/^javascript/.test(e.href)&&t.preventDefault()),this.callback.click.call(this,e,this.params.current)}}.bind(this))},a.prototype.create=function(){var e,t=this.params,i=+t.total||0,a=+t.current||1,n=+t.per||1;e="string"==typeof t.href?t.href:e||"javascript:";function r(t){return"function"==typeof e?e(t):e.toString().replace("${current}",t)}var o=Math.ceil(i/n)||1,s="";s=1<a?s+'<a href="'+r(a-1)+'" class="'+c.join("prev")+'" data-page="'+(a-1)+'" aria-label="上一页，当前第'+a+'页">'+this.svg+"</a>":s+'<span class="'+c.join("prev")+'">'+this.svg+"</span>";if("long"==t.mode){function l(t){s=t==a?s+'<span class="'+c.join("current")+'" aria-label="第'+t+"页，共"+o+'页" aria-selected="true" role="option">'+t+"</span>":s+'<a href="'+r(t)+'" class="'+c+'" data-page="'+t+'" aria-label="第'+t+"页，共"+o+'页">'+t+"</a>"}if(o<=6)for(var d=1;d<=o;d++)l(d);else if(a<.5*o&&a<5){if(a<5)for(d=1;d<6;d++)l(d);s=s+'<span class="'+c.join("ellipsis")+'">...</span>',l(o)}else if(.5*o<a&&o-6+2<a)for(l(1),s=s+'<span class="'+c.join("ellipsis")+'">...</span>',d=o-6+2;d<=o;d++)l(d);else l(1),s=s+'<span class="'+c.join("ellipsis")+'">...</span>',l(a-1),l(a),l(a+1),s=s+'<span class="'+c.join("ellipsis")+'">...</span>',l(o)}else"short"==t.mode&&(s=s+'<span class="'+c.join("text")+'" aria-label="第'+a+"页，共"+o+'页" role="option">'+[a,o].join("/")+"</span>");return s=a<o?s+'<a href="'+r(a+1)+'" class="'+c.join("next")+'" data-page="'+(a+1)+'" aria-label="下一页，当前第'+a+'页">'+this.svg+"</a>":s+'<span class="'+c.join("next")+'">'+this.svg+"</span>",'<div class="'+c.add("x")+'">'+s+"</div>"},a.prototype.show=function(){var t=this.params;t.total=Math.max(t.total,0),t.per=Math.max(t.per,0);var e=Math.ceil(t.total/t.per);return t.current>e?t.current=e:t.current<1&&(t.current=1),this.element.pagination.innerHTML=this.create(),this},a.prototype.refresh=function(){var t=this.params,e=this.element.pagination;for(var i in t)e.hasAttribute(i)&&(this.params[i]=e.getAttribute(i));this.show()};function t(){if(document.querySelectorAll("ui-pagination").forEach(function(t){new a(t)}),!1!==window.watching){function e(t){if(1==t.nodeType&&0!=t.matches("ui-pagination")){var e=t,i=e.data&&e.data.pagination;i?i.refresh():new a(e)}}if(window.MutationObserver)new MutationObserver(function(t){t.forEach(function(t){"childList"==t.type&&t.addedNodes.forEach(function(t){e(t)})})}).observe(document.body,{childList:!0,subtree:!0});else document.body.addEventListener("DOMNodeInserted",function(t){e(t.target)})}}return"loading"!=document.readyState?t():window.addEventListener("DOMContentLoaded",t),a}),function(t,e){"object"==typeof exports&&"undefined"!=typeof module?(t.Drop=require("../ui/Drop"),t.Pagination=require("../ui/Pagination"),t.Loading=require("../ui/Loading"),module.exports=e()):"function"==typeof define&&(define.amd||define.cmd)?define(e):t.Table=e()}("undefined"!=typeof global?global:"undefined"!=typeof window?window:"undefined"!=typeof self?self:this,function(t){var r=this.Drop,e=this.Pagination,i=this.Loading;"function"==typeof t?(e=e||t("common/ui/Pagination"),r=r||t("common/ui/Drop"),i=i||t("common/ui/Loading")):i||window.console.warn("suggest include Loading.js"),window.scrollTopTo=function(t,e){var i=document.scrollingElement.scrollTop,a=function(){if(i+=(t-i)/2,Math.abs(i-t)<=1)return document.scrollingElement.scrollTop=t,void(e&&e());document.scrollingElement.scrollTop=i,requestAnimationFrame(a)};a()};function a(t,e){if("string"==typeof t&&(t=document.querySelector(t)),!t)return this;if(t.data&&t.data.table)return t.data.table;var i={total:0,per:15,current:1,keyMap:{key:"",total:"total",per:"per",current:"current"}},a={ajaxOptions:{},pageList:[15,30,50],pageOptions:i,parse:function(t){return"string"==typeof t?t:""},onShow:function(){},onPage:null,onCheck:function(){}},n=Object.assign({},a,e||{});e.pageOptions&&(n.pageOptions=Object.assign({},i,e.pageOptions));var r=t,o=r.parentElement,s=o.querySelector("."+S),l=o.querySelector(T+", ."+T),d=o.querySelector("."+f),c=o.querySelector("."+m),u=o.querySelector("."+v),h=o.querySelector("."+g);this.element={container:o,table:r,empty:s,loading:l,total:d,per:c,data:u,page:h},this.callback={parse:n.parse,page:n.onPage,check:n.onCheck,show:n.onShow},this.params={page:n.pageOptions,ajax:n.ajaxOptions,list:n.pageList},this.events();var p=r.querySelector("tbody");p?(""==p.innerHTML.trim()?(this.isFirstAjax=!0,this.ajax()):this.page(),r.data||(r.data={}),r.data.table=this):window.console.error("<tbody>元素必需")}var x="loading",d="checked",S="table-null-x",j="table-error-x",T="ui-loading",f="table-page-total",m="table-page-per",v="table-page-data",g="table-page",c='[type="checkbox"]';return a.prototype.events=function(){var i=this.params,t=this.element,s=this.callback,l=t.table;l.addEventListener("click",function(t){var e=t.target;if(e&&"checkbox"==e.type&&e.closest("tr").querySelector(":first-child "+c)===e){var i=[];l.querySelectorAll("tr").forEach(function(t){if(0!=t.clientWidth){var e=t.querySelector("td:first-child "+c+":enabled");e&&i.push(e)}});var a=!1,n=!1;if(e.closest("th"))n=!(a=e[d]),i.forEach(function(t){t[d]=a});else{var r=[].slice.call(i).filter(function(t){return t[d]}).length;a=i.length==r,n=0==r}var o=l.querySelector("th:first-child "+c);o&&(o[d]=a),i.forEach(function(t){t.closest("tr").classList[t[d]?"add":"remove"]("selected")}),s.check.call(this,a,n,e,i)}}.bind(this)),l.addEventListener("click",function(t){var e=t.target,i=null;e&&0==/^(?:a|input|textarea|tbody|i|select|label|th)$/i.test(e.tagName)&&(i=e.closest("tr")&&e.closest("tr").querySelector("td:first-child "+c+":enabled"))&&i.click()});var a=l.id,e=i.page.per,n=t.per;if(n){if(a&&window.localStorage&&localStorage[a]&&(e=localStorage[a],i.page.per=e),n.innerHTML=e,!r)return void window.console.error("need Drop.js");this.dropList=new r(n).list(i.list.map(function(t){return{value:t}}),{width:60,onSelect:function(t){var e=t.value;window.localStorage&&a&&(localStorage[a]=e),i.page.per!=e&&(i.page.per=e,i.page.current=1,this.ajax())}.bind(this)})}},a.prototype.ajax=function(t){t=t||{};var s=this.params,l=this.element,d=this.callback,c=l.table,i=l.container;if("true"==c.getAttribute("aria-busy"))return this;var u=c.querySelector("tbody"),h=Object.assign({},s.ajax,t);if(!h.url)return this;/^\/\//.test(h.url)&&(h.url=location.protocol+h.url);var e=t.data||{},a=s.ajax.data||{};"function"==typeof a&&(a=a()||{});var n={},p=s.page.keyMap;p&&(n[p.current]=s.page.current,n[p.per]=s.page.per);var r=Object.assign({},n,a,e);p&&(s.page.current=r[p.current],s.page.per=r[p.per]);var o=new URLSearchParams(r),f=h.url,m="?";1<f.split("?").length&&(m+=f.split("?")[1]),f=f.split("?")[0]+m+"&"+o.toString();function v(t){var e=i.querySelector("."+j);e||((e=document.createElement("div")).className=j,c.insertAdjacentElement("afterend",e),l.error=e),e.style.display="block",e.innerHTML=t||"数据没有获取成功","function"==typeof h.error&&h.error()}function g(){if(c.removeAttribute("aria-busy"),l.loading&&(l.loading.style.display="none"),this.pagination){var t=this.pagination.element.container.querySelector("."+x);t&&t.classList.remove(x)}"function"==typeof h.complete&&h.complete(),this.show()}function y(){if(!history.pushState&&/\/\//.test(f)&&f.split("//")[1].split("/")[0]!=location.host)return g.call(this),void v("当前浏览器不支持跨域数据请求");var o=new XMLHttpRequest;o.open("GET",f),o.onload=function(){var t={};try{t=JSON.parse(o.responseText)||{}}catch(t){return void v("解析异常，请稍后重试")}if(0===t.code||0===t.error){var e=d.parse(t);if(history.pushState)u.innerHTML=e||"";else{var i=document.createElement("div");i.innerHTML="<table><tbody>"+(e||"")+"</tbody></table>",u.parentNode.replaceChild(i.firstChild.firstChild,u)}var a=l.empty;e&&e.trim()||(a||((a=document.querySelector("div")).className=S,c.insertAdjacentElement("afterend",a),l.empty=a),a.style.display="block");var n,r=p.key;!(n=r?t.data[r][p.total]:t.data[p.total])&&0!=n||(l.total&&(l.total.innerHTML=n),s.page.total=n),l.data&&(l.data.style.display="block"),this.page(),"function"==typeof h.success&&h.success(t),g.call(this)}else v(t.msg||"返回数据格式不符合要求")}.bind(this),o.onerror=function(){v("网络异常，数据没有获取成功，您可以稍后重试！"),g.call(this)},o.send(),c.setAttribute("aria-busy","true")}var b=window.pageYOffset,w=l.loading;if(w||((w=document.createElement("div")).className=T,c.insertAdjacentElement("afterend",w),l.loading=w),w.style.paddingBottom="","none"==window.getComputedStyle(w).display){var E=c.querySelector("thead");w.style.height=c.clientHeight-(E?E.clientHeight:0)+"px",""==u.innerHTML.trim()&&(w.style.height="")}var L=parseFloat(w.style.height)-window.innerHeight;0<L&&(w.style.paddingBottom=L+"px"),w.style.display="block",l.empty&&(l.empty.style.display="none"),l.error&&(l.error.style.display="none"),u.innerHTML="";var A=c.getBoundingClientRect();return!this.isFirstAjax&&A.top<0?(b=A.top+b,window.scrollTopTo(b,function(){y.call(this)}.bind(this))):!this.isFirstAjax&&A.top>window.innerHeight?(b-=A.top,window.scrollTopTo(b,function(){y.call(this)}.bind(this))):(y.call(this),this.isFirstAjax=!1),this},a.prototype.page=function(t){if(!this.element.page)return this;if(!e)return window.console.error("need Pagination.js"),this;var i=this.params.page;this.pagination?(this.pagination.params=Object.assign(this.pagination.params,i),this.pagination.show()):this.pagination=new e(this.element.page,{total:t||i.total,current:i.current,per:i.per,mode:i.mode||"long",onClick:function(t,e){i.current=e,"function"==typeof this.callback.page?this.callback.page.call(this,t,e):(t.classList.add(x),this.ajax())}.bind(this)})},a.prototype.show=function(){this.element.loading&&(this.element.loading.style.paddingBottom="");var t=this.element.table.querySelector("th:first-child "+c);return t&&(t[d]=!1),"function"==typeof this.callback.show&&this.callback.show.call(this),this},a}),function(t,e){"object"==typeof exports&&"undefined"!=typeof module?(t.LightTip=require("../ui/LightTip"),t.Loading=require("../ui/Loading"),t.Validate=require("../ui/Validate"),module.exports=e()):"function"==typeof define&&(define.amd||define.cmd)?define(e):t.Form=e()}("undefined"!=typeof global?global:"undefined"!=typeof window?window:"undefined"!=typeof self?self:this,function(t){var c=this.LightTip,e=this.Loading,r=this.Validate;if("function"==typeof t)c=c||t("common/ui/LightTip"),e=e||t("common/ui/Loading"),r=r||t("common/ui/Validate");else{if(!r)return window.console.error("need Validate.js"),{};if(!c)return window.console.error("need LightTip.js"),{};e||window.console.warn("need Loading.js")}function i(t,e,i){if("string"==typeof t&&(t=document.querySelector(t)),!t)return this;if(t.data&&t.data.form)return t.data.form;"function"==typeof(e=e||function(){})&&(e={success:e}),i=i||{};var a=t,n=a.querySelector('[type="submit"], [type="image"]');return(n=n||a.querySelector("button:nth-of-last-type()"))?(!1===window.autoInit&&a.querySelectorAll("select").forEach(function(t){t.refresh&&t.refresh()}),this.element={form:a,submit:n},this.callback=e,this.validate=new r(a,function(){e.avoidSend&&e.avoidSend.call(this,a)||this.ajax()}.bind(this),i),a.data||(a.data={}),a.data.form=this):this}var u="disabled";return i.prototype.ajax=function(){var i=this.callback,t=this.element.form,e=null,a=this.element.submit;e=(e=a.id&&document.querySelector("label[for="+a.id+"]"))||a,this.element.button=e;var n=t.action.split("#")[0]||location.href.split("#")[0],r=t.method||"POST";if(history.pushState||new URL(n).host==location.host){e.loading=!0,a.setAttribute(u,u);var o=new FormData(t);i.beforeSend&&i.beforeSend.call(this,l,o);var s="";"get"==r.toLowerCase()&&(s=new URLSearchParams(o).toString(),n=1<n.split("?").length?n+"&"+s:n+"?"+s);var l=new XMLHttpRequest;l.open(r,n),l.onload=function(){var e={};try{!(e=JSON.parse(l.responseText))||0!=e.code&&0!=e.error?((new c).error(e&&e.msg||"返回数据格式不符合要求。"),i.error&&i.error.call(this,e)):i.success?i.success.call(this,e):(new c).success(e.msg||"操作成功。")}catch(t){(new c).error(e.msg||"返回数据解析出错。"),i.error&&i.error.call(this,t)}d(e)}.bind(this),l.onerror=function(){(new c).error("网络异常，刚才的操作没有成功，您可以稍后重试。"),i.error&&i.error.apply(this,arguments),d()}.bind(this);var d=function(){e.loading=!1,a.removeAttribute(u),i.complete&&i.complete.apply(this,arguments)};l.send(o)}else(new c).error("当前浏览器不支持跨域数据请求。")},i.prototype.submit=function(){return this.element.form.dispatchEvent(new CustomEvent("submit")),this},i});
-!function(e,t){"use strict";"object"==typeof module&&"object"==typeof module.exports?module.exports=e.document?t(e,!0):function(e){if(!e.document)throw new Error("jQuery requires a window with a document");return t(e)}:t(e)}("undefined"!=typeof window?window:this,function(C,e){"use strict";function g(e){return null!=e&&e===e.window}var t=[],E=C.document,r=Object.getPrototypeOf,s=t.slice,v=t.concat,u=t.push,i=t.indexOf,n={},o=n.toString,y=n.hasOwnProperty,a=y.toString,l=a.call(Object),m={},x=function(e){return"function"==typeof e&&"number"!=typeof e.nodeType},c={type:!0,src:!0,nonce:!0,noModule:!0};function b(e,t,n){var r,i,o=(n=n||E).createElement("script");if(o.text=e,t)for(r in c)(i=t[r]||t.getAttribute&&t.getAttribute(r))&&o.setAttribute(r,i);n.head.appendChild(o).parentNode.removeChild(o)}function w(e){return null==e?e+"":"object"==typeof e||"function"==typeof e?n[o.call(e)]||"object":typeof e}var f="3.4.1",S=function(e,t){return new S.fn.init(e,t)},p=/^[\s\uFEFF\xA0]+|[\s\uFEFF\xA0]+$/g;function d(e){var t=!!e&&"length"in e&&e.length,n=w(e);return!x(e)&&!g(e)&&("array"===n||0===t||"number"==typeof t&&0<t&&t-1 in e)}S.fn=S.prototype={jquery:f,constructor:S,length:0,toArray:function(){return s.call(this)},get:function(e){return null==e?s.call(this):e<0?this[e+this.length]:this[e]},pushStack:function(e){var t=S.merge(this.constructor(),e);return t.prevObject=this,t},each:function(e){return S.each(this,e)},map:function(n){return this.pushStack(S.map(this,function(e,t){return n.call(e,t,e)}))},slice:function(){return this.pushStack(s.apply(this,arguments))},first:function(){return this.eq(0)},last:function(){return this.eq(-1)},eq:function(e){var t=this.length,n=+e+(e<0?t:0);return this.pushStack(0<=n&&n<t?[this[n]]:[])},end:function(){return this.prevObject||this.constructor()},push:u,sort:t.sort,splice:t.splice},S.extend=S.fn.extend=function(){var e,t,n,r,i,o,a=arguments[0]||{},s=1,u=arguments.length,l=!1;for("boolean"==typeof a&&(l=a,a=arguments[s]||{},s++),"object"==typeof a||x(a)||(a={}),s===u&&(a=this,s--);s<u;s++)if(null!=(e=arguments[s]))for(t in e)r=e[t],"__proto__"!==t&&a!==r&&(l&&r&&(S.isPlainObject(r)||(i=Array.isArray(r)))?(n=a[t],o=i&&!Array.isArray(n)?[]:i||S.isPlainObject(n)?n:{},i=!1,a[t]=S.extend(l,o,r)):void 0!==r&&(a[t]=r));return a},S.extend({expando:"jQuery"+(f+Math.random()).replace(/\D/g,""),isReady:!0,error:function(e){throw new Error(e)},noop:function(){},isPlainObject:function(e){var t,n;return!(!e||"[object Object]"!==o.call(e)||(t=r(e))&&("function"!=typeof(n=y.call(t,"constructor")&&t.constructor)||a.call(n)!==l))},isEmptyObject:function(e){var t;for(t in e)return!1;return!0},globalEval:function(e,t){b(e,{nonce:t&&t.nonce})},each:function(e,t){var n,r=0;if(d(e))for(n=e.length;r<n&&!1!==t.call(e[r],r,e[r]);r++);else for(r in e)if(!1===t.call(e[r],r,e[r]))break;return e},trim:function(e){return null==e?"":(e+"").replace(p,"")},makeArray:function(e,t){var n=t||[];return null!=e&&(d(Object(e))?S.merge(n,"string"==typeof e?[e]:e):u.call(n,e)),n},inArray:function(e,t,n){return null==t?-1:i.call(t,e,n)},merge:function(e,t){for(var n=+t.length,r=0,i=e.length;r<n;r++)e[i++]=t[r];return e.length=i,e},grep:function(e,t,n){for(var r=[],i=0,o=e.length,a=!n;i<o;i++)!t(e[i],i)!=a&&r.push(e[i]);return r},map:function(e,t,n){var r,i,o=0,a=[];if(d(e))for(r=e.length;o<r;o++)null!=(i=t(e[o],o,n))&&a.push(i);else for(o in e)null!=(i=t(e[o],o,n))&&a.push(i);return v.apply([],a)},guid:1,support:m}),"function"==typeof Symbol&&(S.fn[Symbol.iterator]=t[Symbol.iterator]),S.each("Boolean Number String Function Array Date RegExp Object Error Symbol".split(" "),function(e,t){n["[object "+t+"]"]=t.toLowerCase()});var h=function(n){function f(e,t,n){var r="0x"+t-65536;return r!=r||n?t:r<0?String.fromCharCode(65536+r):String.fromCharCode(r>>10|55296,1023&r|56320)}function i(){T()}var e,d,b,o,a,h,p,g,w,u,l,T,C,s,E,v,c,y,m,S="sizzle"+ +new Date,x=n.document,k=0,r=0,N=ue(),A=ue(),D=ue(),j=ue(),q=function(e,t){return e===t&&(l=!0),0},L={}.hasOwnProperty,t=[],H=t.pop,O=t.push,P=t.push,R=t.slice,M=function(e,t){for(var n=0,r=e.length;n<r;n++)if(e[n]===t)return n;return-1},I="checked|selected|async|autofocus|autoplay|controls|defer|disabled|hidden|ismap|loop|multiple|open|readonly|required|scoped",W="[\\x20\\t\\r\\n\\f]",$="(?:\\\\.|[\\w-]|[^\0-\\xa0])+",F="\\["+W+"*("+$+")(?:"+W+"*([*^$|!~]?=)"+W+"*(?:'((?:\\\\.|[^\\\\'])*)'|\"((?:\\\\.|[^\\\\\"])*)\"|("+$+"))|)"+W+"*\\]",B=":("+$+")(?:\\((('((?:\\\\.|[^\\\\'])*)'|\"((?:\\\\.|[^\\\\\"])*)\")|((?:\\\\.|[^\\\\()[\\]]|"+F+")*)|.*)\\)|)",_=new RegExp(W+"+","g"),z=new RegExp("^"+W+"+|((?:^|[^\\\\])(?:\\\\.)*)"+W+"+$","g"),U=new RegExp("^"+W+"*,"+W+"*"),X=new RegExp("^"+W+"*([>+~]|"+W+")"+W+"*"),V=new RegExp(W+"|>"),G=new RegExp(B),Y=new RegExp("^"+$+"$"),Q={ID:new RegExp("^#("+$+")"),CLASS:new RegExp("^\\.("+$+")"),TAG:new RegExp("^("+$+"|[*])"),ATTR:new RegExp("^"+F),PSEUDO:new RegExp("^"+B),CHILD:new RegExp("^:(only|first|last|nth|nth-last)-(child|of-type)(?:\\("+W+"*(even|odd|(([+-]|)(\\d*)n|)"+W+"*(?:([+-]|)"+W+"*(\\d+)|))"+W+"*\\)|)","i"),bool:new RegExp("^(?:"+I+")$","i"),needsContext:new RegExp("^"+W+"*[>+~]|:(even|odd|eq|gt|lt|nth|first|last)(?:\\("+W+"*((?:-\\d)?\\d*)"+W+"*\\)|)(?=[^-]|$)","i")},J=/HTML$/i,K=/^(?:input|select|textarea|button)$/i,Z=/^h\d$/i,ee=/^[^{]+\{\s*\[native \w/,te=/^(?:#([\w-]+)|(\w+)|\.([\w-]+))$/,ne=/[+~]/,re=new RegExp("\\\\([\\da-f]{1,6}"+W+"?|("+W+")|.)","ig"),ie=/([\0-\x1f\x7f]|^-?\d)|^-$|[^\0-\x1f\x7f-\uFFFF\w-]/g,oe=function(e,t){return t?"\0"===e?"�":e.slice(0,-1)+"\\"+e.charCodeAt(e.length-1).toString(16)+" ":"\\"+e},ae=be(function(e){return!0===e.disabled&&"fieldset"===e.nodeName.toLowerCase()},{dir:"parentNode",next:"legend"});try{P.apply(t=R.call(x.childNodes),x.childNodes),t[x.childNodes.length].nodeType}catch(e){P={apply:t.length?function(e,t){O.apply(e,R.call(t))}:function(e,t){for(var n=e.length,r=0;e[n++]=t[r++];);e.length=n-1}}}function se(e,t,n,r){var i,o,a,s,u,l,c,f=t&&t.ownerDocument,p=t?t.nodeType:9;if(n=n||[],"string"!=typeof e||!e||1!==p&&9!==p&&11!==p)return n;if(!r&&((t?t.ownerDocument||t:x)!==C&&T(t),t=t||C,E)){if(11!==p&&(u=te.exec(e)))if(i=u[1]){if(9===p){if(!(a=t.getElementById(i)))return n;if(a.id===i)return n.push(a),n}else if(f&&(a=f.getElementById(i))&&m(t,a)&&a.id===i)return n.push(a),n}else{if(u[2])return P.apply(n,t.getElementsByTagName(e)),n;if((i=u[3])&&d.getElementsByClassName&&t.getElementsByClassName)return P.apply(n,t.getElementsByClassName(i)),n}if(d.qsa&&!j[e+" "]&&(!v||!v.test(e))&&(1!==p||"object"!==t.nodeName.toLowerCase())){if(c=e,f=t,1===p&&V.test(e)){for((s=t.getAttribute("id"))?s=s.replace(ie,oe):t.setAttribute("id",s=S),o=(l=h(e)).length;o--;)l[o]="#"+s+" "+xe(l[o]);c=l.join(","),f=ne.test(e)&&ye(t.parentNode)||t}try{return P.apply(n,f.querySelectorAll(c)),n}catch(t){j(e,!0)}finally{s===S&&t.removeAttribute("id")}}}return g(e.replace(z,"$1"),t,n,r)}function ue(){var r=[];return function e(t,n){return r.push(t+" ")>b.cacheLength&&delete e[r.shift()],e[t+" "]=n}}function le(e){return e[S]=!0,e}function ce(e){var t=C.createElement("fieldset");try{return!!e(t)}catch(e){return!1}finally{t.parentNode&&t.parentNode.removeChild(t),t=null}}function fe(e,t){for(var n=e.split("|"),r=n.length;r--;)b.attrHandle[n[r]]=t}function pe(e,t){var n=t&&e,r=n&&1===e.nodeType&&1===t.nodeType&&e.sourceIndex-t.sourceIndex;if(r)return r;if(n)for(;n=n.nextSibling;)if(n===t)return-1;return e?1:-1}function de(t){return function(e){return"input"===e.nodeName.toLowerCase()&&e.type===t}}function he(n){return function(e){var t=e.nodeName.toLowerCase();return("input"===t||"button"===t)&&e.type===n}}function ge(t){return function(e){return"form"in e?e.parentNode&&!1===e.disabled?"label"in e?"label"in e.parentNode?e.parentNode.disabled===t:e.disabled===t:e.isDisabled===t||e.isDisabled!==!t&&ae(e)===t:e.disabled===t:"label"in e&&e.disabled===t}}function ve(a){return le(function(o){return o=+o,le(function(e,t){for(var n,r=a([],e.length,o),i=r.length;i--;)e[n=r[i]]&&(e[n]=!(t[n]=e[n]))})})}function ye(e){return e&&void 0!==e.getElementsByTagName&&e}for(e in d=se.support={},a=se.isXML=function(e){var t=e.namespaceURI,n=(e.ownerDocument||e).documentElement;return!J.test(t||n&&n.nodeName||"HTML")},T=se.setDocument=function(e){var t,n,r=e?e.ownerDocument||e:x;return r!==C&&9===r.nodeType&&r.documentElement&&(s=(C=r).documentElement,E=!a(C),x!==C&&(n=C.defaultView)&&n.top!==n&&(n.addEventListener?n.addEventListener("unload",i,!1):n.attachEvent&&n.attachEvent("onunload",i)),d.attributes=ce(function(e){return e.className="i",!e.getAttribute("className")}),d.getElementsByTagName=ce(function(e){return e.appendChild(C.createComment("")),!e.getElementsByTagName("*").length}),d.getElementsByClassName=ee.test(C.getElementsByClassName),d.getById=ce(function(e){return s.appendChild(e).id=S,!C.getElementsByName||!C.getElementsByName(S).length}),d.getById?(b.filter.ID=function(e){var t=e.replace(re,f);return function(e){return e.getAttribute("id")===t}},b.find.ID=function(e,t){if(void 0!==t.getElementById&&E){var n=t.getElementById(e);return n?[n]:[]}}):(b.filter.ID=function(e){var n=e.replace(re,f);return function(e){var t=void 0!==e.getAttributeNode&&e.getAttributeNode("id");return t&&t.value===n}},b.find.ID=function(e,t){if(void 0!==t.getElementById&&E){var n,r,i,o=t.getElementById(e);if(o){if((n=o.getAttributeNode("id"))&&n.value===e)return[o];for(i=t.getElementsByName(e),r=0;o=i[r++];)if((n=o.getAttributeNode("id"))&&n.value===e)return[o]}return[]}}),b.find.TAG=d.getElementsByTagName?function(e,t){return void 0!==t.getElementsByTagName?t.getElementsByTagName(e):d.qsa?t.querySelectorAll(e):void 0}:function(e,t){var n,r=[],i=0,o=t.getElementsByTagName(e);if("*"!==e)return o;for(;n=o[i++];)1===n.nodeType&&r.push(n);return r},b.find.CLASS=d.getElementsByClassName&&function(e,t){if(void 0!==t.getElementsByClassName&&E)return t.getElementsByClassName(e)},c=[],v=[],(d.qsa=ee.test(C.querySelectorAll))&&(ce(function(e){s.appendChild(e).innerHTML="<a id='"+S+"'></a><select id='"+S+"-\r\\' msallowcapture=''><option selected=''></option></select>",e.querySelectorAll("[msallowcapture^='']").length&&v.push("[*^$]="+W+"*(?:''|\"\")"),e.querySelectorAll("[selected]").length||v.push("\\["+W+"*(?:value|"+I+")"),e.querySelectorAll("[id~="+S+"-]").length||v.push("~="),e.querySelectorAll(":checked").length||v.push(":checked"),e.querySelectorAll("a#"+S+"+*").length||v.push(".#.+[+~]")}),ce(function(e){e.innerHTML="<a href='' disabled='disabled'></a><select disabled='disabled'><option/></select>";var t=C.createElement("input");t.setAttribute("type","hidden"),e.appendChild(t).setAttribute("name","D"),e.querySelectorAll("[name=d]").length&&v.push("name"+W+"*[*^$|!~]?="),2!==e.querySelectorAll(":enabled").length&&v.push(":enabled",":disabled"),s.appendChild(e).disabled=!0,2!==e.querySelectorAll(":disabled").length&&v.push(":enabled",":disabled"),e.querySelectorAll("*,:x"),v.push(",.*:")})),(d.matchesSelector=ee.test(y=s.matches||s.webkitMatchesSelector||s.mozMatchesSelector||s.oMatchesSelector||s.msMatchesSelector))&&ce(function(e){d.disconnectedMatch=y.call(e,"*"),y.call(e,"[s!='']:x"),c.push("!=",B)}),v=v.length&&new RegExp(v.join("|")),c=c.length&&new RegExp(c.join("|")),t=ee.test(s.compareDocumentPosition),m=t||ee.test(s.contains)?function(e,t){var n=9===e.nodeType?e.documentElement:e,r=t&&t.parentNode;return e===r||!(!r||1!==r.nodeType||!(n.contains?n.contains(r):e.compareDocumentPosition&&16&e.compareDocumentPosition(r)))}:function(e,t){if(t)for(;t=t.parentNode;)if(t===e)return!0;return!1},q=t?function(e,t){if(e===t)return l=!0,0;var n=!e.compareDocumentPosition-!t.compareDocumentPosition;return n||(1&(n=(e.ownerDocument||e)===(t.ownerDocument||t)?e.compareDocumentPosition(t):1)||!d.sortDetached&&t.compareDocumentPosition(e)===n?e===C||e.ownerDocument===x&&m(x,e)?-1:t===C||t.ownerDocument===x&&m(x,t)?1:u?M(u,e)-M(u,t):0:4&n?-1:1)}:function(e,t){if(e===t)return l=!0,0;var n,r=0,i=e.parentNode,o=t.parentNode,a=[e],s=[t];if(!i||!o)return e===C?-1:t===C?1:i?-1:o?1:u?M(u,e)-M(u,t):0;if(i===o)return pe(e,t);for(n=e;n=n.parentNode;)a.unshift(n);for(n=t;n=n.parentNode;)s.unshift(n);for(;a[r]===s[r];)r++;return r?pe(a[r],s[r]):a[r]===x?-1:s[r]===x?1:0}),C},se.matches=function(e,t){return se(e,null,null,t)},se.matchesSelector=function(e,t){if((e.ownerDocument||e)!==C&&T(e),d.matchesSelector&&E&&!j[t+" "]&&(!c||!c.test(t))&&(!v||!v.test(t)))try{var n=y.call(e,t);if(n||d.disconnectedMatch||e.document&&11!==e.document.nodeType)return n}catch(e){j(t,!0)}return 0<se(t,C,null,[e]).length},se.contains=function(e,t){return(e.ownerDocument||e)!==C&&T(e),m(e,t)},se.attr=function(e,t){(e.ownerDocument||e)!==C&&T(e);var n=b.attrHandle[t.toLowerCase()],r=n&&L.call(b.attrHandle,t.toLowerCase())?n(e,t,!E):void 0;return void 0!==r?r:d.attributes||!E?e.getAttribute(t):(r=e.getAttributeNode(t))&&r.specified?r.value:null},se.escape=function(e){return(e+"").replace(ie,oe)},se.error=function(e){throw new Error("Syntax error, unrecognized expression: "+e)},se.uniqueSort=function(e){var t,n=[],r=0,i=0;if(l=!d.detectDuplicates,u=!d.sortStable&&e.slice(0),e.sort(q),l){for(;t=e[i++];)t===e[i]&&(r=n.push(i));for(;r--;)e.splice(n[r],1)}return u=null,e},o=se.getText=function(e){var t,n="",r=0,i=e.nodeType;if(i){if(1===i||9===i||11===i){if("string"==typeof e.textContent)return e.textContent;for(e=e.firstChild;e;e=e.nextSibling)n+=o(e)}else if(3===i||4===i)return e.nodeValue}else for(;t=e[r++];)n+=o(t);return n},(b=se.selectors={cacheLength:50,createPseudo:le,match:Q,attrHandle:{},find:{},relative:{">":{dir:"parentNode",first:!0}," ":{dir:"parentNode"},"+":{dir:"previousSibling",first:!0},"~":{dir:"previousSibling"}},preFilter:{ATTR:function(e){return e[1]=e[1].replace(re,f),e[3]=(e[3]||e[4]||e[5]||"").replace(re,f),"~="===e[2]&&(e[3]=" "+e[3]+" "),e.slice(0,4)},CHILD:function(e){return e[1]=e[1].toLowerCase(),"nth"===e[1].slice(0,3)?(e[3]||se.error(e[0]),e[4]=+(e[4]?e[5]+(e[6]||1):2*("even"===e[3]||"odd"===e[3])),e[5]=+(e[7]+e[8]||"odd"===e[3])):e[3]&&se.error(e[0]),e},PSEUDO:function(e){var t,n=!e[6]&&e[2];return Q.CHILD.test(e[0])?null:(e[3]?e[2]=e[4]||e[5]||"":n&&G.test(n)&&(t=h(n,!0))&&(t=n.indexOf(")",n.length-t)-n.length)&&(e[0]=e[0].slice(0,t),e[2]=n.slice(0,t)),e.slice(0,3))}},filter:{TAG:function(e){var t=e.replace(re,f).toLowerCase();return"*"===e?function(){return!0}:function(e){return e.nodeName&&e.nodeName.toLowerCase()===t}},CLASS:function(e){var t=N[e+" "];return t||(t=new RegExp("(^|"+W+")"+e+"("+W+"|$)"))&&N(e,function(e){return t.test("string"==typeof e.className&&e.className||void 0!==e.getAttribute&&e.getAttribute("class")||"")})},ATTR:function(n,r,i){return function(e){var t=se.attr(e,n);return null==t?"!="===r:!r||(t+="","="===r?t===i:"!="===r?t!==i:"^="===r?i&&0===t.indexOf(i):"*="===r?i&&-1<t.indexOf(i):"$="===r?i&&t.slice(-i.length)===i:"~="===r?-1<(" "+t.replace(_," ")+" ").indexOf(i):"|="===r&&(t===i||t.slice(0,i.length+1)===i+"-"))}},CHILD:function(h,e,t,g,v){var y="nth"!==h.slice(0,3),m="last"!==h.slice(-4),x="of-type"===e;return 1===g&&0===v?function(e){return!!e.parentNode}:function(e,t,n){var r,i,o,a,s,u,l=y!=m?"nextSibling":"previousSibling",c=e.parentNode,f=x&&e.nodeName.toLowerCase(),p=!n&&!x,d=!1;if(c){if(y){for(;l;){for(a=e;a=a[l];)if(x?a.nodeName.toLowerCase()===f:1===a.nodeType)return!1;u=l="only"===h&&!u&&"nextSibling"}return!0}if(u=[m?c.firstChild:c.lastChild],m&&p){for(d=(s=(r=(i=(o=(a=c)[S]||(a[S]={}))[a.uniqueID]||(o[a.uniqueID]={}))[h]||[])[0]===k&&r[1])&&r[2],a=s&&c.childNodes[s];a=++s&&a&&a[l]||(d=s=0)||u.pop();)if(1===a.nodeType&&++d&&a===e){i[h]=[k,s,d];break}}else if(p&&(d=s=(r=(i=(o=(a=e)[S]||(a[S]={}))[a.uniqueID]||(o[a.uniqueID]={}))[h]||[])[0]===k&&r[1]),!1===d)for(;(a=++s&&a&&a[l]||(d=s=0)||u.pop())&&((x?a.nodeName.toLowerCase()!==f:1!==a.nodeType)||!++d||(p&&((i=(o=a[S]||(a[S]={}))[a.uniqueID]||(o[a.uniqueID]={}))[h]=[k,d]),a!==e)););return(d-=v)===g||d%g==0&&0<=d/g}}},PSEUDO:function(e,o){var t,a=b.pseudos[e]||b.setFilters[e.toLowerCase()]||se.error("unsupported pseudo: "+e);return a[S]?a(o):1<a.length?(t=[e,e,"",o],b.setFilters.hasOwnProperty(e.toLowerCase())?le(function(e,t){for(var n,r=a(e,o),i=r.length;i--;)e[n=M(e,r[i])]=!(t[n]=r[i])}):function(e){return a(e,0,t)}):a}},pseudos:{not:le(function(e){var r=[],i=[],s=p(e.replace(z,"$1"));return s[S]?le(function(e,t,n,r){for(var i,o=s(e,null,r,[]),a=e.length;a--;)(i=o[a])&&(e[a]=!(t[a]=i))}):function(e,t,n){return r[0]=e,s(r,null,n,i),r[0]=null,!i.pop()}}),has:le(function(t){return function(e){return 0<se(t,e).length}}),contains:le(function(t){return t=t.replace(re,f),function(e){return-1<(e.textContent||o(e)).indexOf(t)}}),lang:le(function(n){return Y.test(n||"")||se.error("unsupported lang: "+n),n=n.replace(re,f).toLowerCase(),function(e){var t;do{if(t=E?e.lang:e.getAttribute("xml:lang")||e.getAttribute("lang"))return(t=t.toLowerCase())===n||0===t.indexOf(n+"-")}while((e=e.parentNode)&&1===e.nodeType);return!1}}),target:function(e){var t=n.location&&n.location.hash;return t&&t.slice(1)===e.id},root:function(e){return e===s},focus:function(e){return e===C.activeElement&&(!C.hasFocus||C.hasFocus())&&!!(e.type||e.href||~e.tabIndex)},enabled:ge(!1),disabled:ge(!0),checked:function(e){var t=e.nodeName.toLowerCase();return"input"===t&&!!e.checked||"option"===t&&!!e.selected},selected:function(e){return e.parentNode&&e.parentNode.selectedIndex,!0===e.selected},empty:function(e){for(e=e.firstChild;e;e=e.nextSibling)if(e.nodeType<6)return!1;return!0},parent:function(e){return!b.pseudos.empty(e)},header:function(e){return Z.test(e.nodeName)},input:function(e){return K.test(e.nodeName)},button:function(e){var t=e.nodeName.toLowerCase();return"input"===t&&"button"===e.type||"button"===t},text:function(e){var t;return"input"===e.nodeName.toLowerCase()&&"text"===e.type&&(null==(t=e.getAttribute("type"))||"text"===t.toLowerCase())},first:ve(function(){return[0]}),last:ve(function(e,t){return[t-1]}),eq:ve(function(e,t,n){return[n<0?n+t:n]}),even:ve(function(e,t){for(var n=0;n<t;n+=2)e.push(n);return e}),odd:ve(function(e,t){for(var n=1;n<t;n+=2)e.push(n);return e}),lt:ve(function(e,t,n){for(var r=n<0?n+t:t<n?t:n;0<=--r;)e.push(r);return e}),gt:ve(function(e,t,n){for(var r=n<0?n+t:n;++r<t;)e.push(r);return e})}}).pseudos.nth=b.pseudos.eq,{radio:!0,checkbox:!0,file:!0,password:!0,image:!0})b.pseudos[e]=de(e);for(e in{submit:!0,reset:!0})b.pseudos[e]=he(e);function me(){}function xe(e){for(var t=0,n=e.length,r="";t<n;t++)r+=e[t].value;return r}function be(s,e,t){var u=e.dir,l=e.next,c=l||u,f=t&&"parentNode"===c,p=r++;return e.first?function(e,t,n){for(;e=e[u];)if(1===e.nodeType||f)return s(e,t,n);return!1}:function(e,t,n){var r,i,o,a=[k,p];if(n){for(;e=e[u];)if((1===e.nodeType||f)&&s(e,t,n))return!0}else for(;e=e[u];)if(1===e.nodeType||f)if(i=(o=e[S]||(e[S]={}))[e.uniqueID]||(o[e.uniqueID]={}),l&&l===e.nodeName.toLowerCase())e=e[u]||e;else{if((r=i[c])&&r[0]===k&&r[1]===p)return a[2]=r[2];if((i[c]=a)[2]=s(e,t,n))return!0}return!1}}function we(i){return 1<i.length?function(e,t,n){for(var r=i.length;r--;)if(!i[r](e,t,n))return!1;return!0}:i[0]}function Te(e,t,n,r,i){for(var o,a=[],s=0,u=e.length,l=null!=t;s<u;s++)(o=e[s])&&(n&&!n(o,r,i)||(a.push(o),l&&t.push(s)));return a}function Ce(d,h,g,v,y,e){return v&&!v[S]&&(v=Ce(v)),y&&!y[S]&&(y=Ce(y,e)),le(function(e,t,n,r){var i,o,a,s=[],u=[],l=t.length,c=e||function(e,t,n){for(var r=0,i=t.length;r<i;r++)se(e,t[r],n);return n}(h||"*",n.nodeType?[n]:n,[]),f=!d||!e&&h?c:Te(c,s,d,n,r),p=g?y||(e?d:l||v)?[]:t:f;if(g&&g(f,p,n,r),v)for(i=Te(p,u),v(i,[],n,r),o=i.length;o--;)(a=i[o])&&(p[u[o]]=!(f[u[o]]=a));if(e){if(y||d){if(y){for(i=[],o=p.length;o--;)(a=p[o])&&i.push(f[o]=a);y(null,p=[],i,r)}for(o=p.length;o--;)(a=p[o])&&-1<(i=y?M(e,a):s[o])&&(e[i]=!(t[i]=a))}}else p=Te(p===t?p.splice(l,p.length):p),y?y(null,t,p,r):P.apply(t,p)})}function Ee(e){for(var i,t,n,r=e.length,o=b.relative[e[0].type],a=o||b.relative[" "],s=o?1:0,u=be(function(e){return e===i},a,!0),l=be(function(e){return-1<M(i,e)},a,!0),c=[function(e,t,n){var r=!o&&(n||t!==w)||((i=t).nodeType?u:l)(e,t,n);return i=null,r}];s<r;s++)if(t=b.relative[e[s].type])c=[be(we(c),t)];else{if((t=b.filter[e[s].type].apply(null,e[s].matches))[S]){for(n=++s;n<r&&!b.relative[e[n].type];n++);return Ce(1<s&&we(c),1<s&&xe(e.slice(0,s-1).concat({value:" "===e[s-2].type?"*":""})).replace(z,"$1"),t,s<n&&Ee(e.slice(s,n)),n<r&&Ee(e=e.slice(n)),n<r&&xe(e))}c.push(t)}return we(c)}return me.prototype=b.filters=b.pseudos,b.setFilters=new me,h=se.tokenize=function(e,t){var n,r,i,o,a,s,u,l=A[e+" "];if(l)return t?0:l.slice(0);for(a=e,s=[],u=b.preFilter;a;){for(o in n&&!(r=U.exec(a))||(r&&(a=a.slice(r[0].length)||a),s.push(i=[])),n=!1,(r=X.exec(a))&&(n=r.shift(),i.push({value:n,type:r[0].replace(z," ")}),a=a.slice(n.length)),b.filter)!(r=Q[o].exec(a))||u[o]&&!(r=u[o](r))||(n=r.shift(),i.push({value:n,type:o,matches:r}),a=a.slice(n.length));if(!n)break}return t?a.length:a?se.error(e):A(e,s).slice(0)},p=se.compile=function(e,t){var n,v,y,m,x,r,i=[],o=[],a=D[e+" "];if(!a){for(n=(t=t||h(e)).length;n--;)(a=Ee(t[n]))[S]?i.push(a):o.push(a);(a=D(e,(v=o,m=0<(y=i).length,x=0<v.length,r=function(e,t,n,r,i){var o,a,s,u=0,l="0",c=e&&[],f=[],p=w,d=e||x&&b.find.TAG("*",i),h=k+=null==p?1:Math.random()||.1,g=d.length;for(i&&(w=t===C||t||i);l!==g&&null!=(o=d[l]);l++){if(x&&o){for(a=0,t||o.ownerDocument===C||(T(o),n=!E);s=v[a++];)if(s(o,t||C,n)){r.push(o);break}i&&(k=h)}m&&((o=!s&&o)&&u--,e&&c.push(o))}if(u+=l,m&&l!==u){for(a=0;s=y[a++];)s(c,f,t,n);if(e){if(0<u)for(;l--;)c[l]||f[l]||(f[l]=H.call(r));f=Te(f)}P.apply(r,f),i&&!e&&0<f.length&&1<u+y.length&&se.uniqueSort(r)}return i&&(k=h,w=p),c},m?le(r):r))).selector=e}return a},g=se.select=function(e,t,n,r){var i,o,a,s,u,l="function"==typeof e&&e,c=!r&&h(e=l.selector||e);if(n=n||[],1===c.length){if(2<(o=c[0]=c[0].slice(0)).length&&"ID"===(a=o[0]).type&&9===t.nodeType&&E&&b.relative[o[1].type]){if(!(t=(b.find.ID(a.matches[0].replace(re,f),t)||[])[0]))return n;l&&(t=t.parentNode),e=e.slice(o.shift().value.length)}for(i=Q.needsContext.test(e)?0:o.length;i--&&(a=o[i],!b.relative[s=a.type]);)if((u=b.find[s])&&(r=u(a.matches[0].replace(re,f),ne.test(o[0].type)&&ye(t.parentNode)||t))){if(o.splice(i,1),!(e=r.length&&xe(o)))return P.apply(n,r),n;break}}return(l||p(e,c))(r,t,!E,n,!t||ne.test(e)&&ye(t.parentNode)||t),n},d.sortStable=S.split("").sort(q).join("")===S,d.detectDuplicates=!!l,T(),d.sortDetached=ce(function(e){return 1&e.compareDocumentPosition(C.createElement("fieldset"))}),ce(function(e){return e.innerHTML="<a href='#'></a>","#"===e.firstChild.getAttribute("href")})||fe("type|href|height|width",function(e,t,n){if(!n)return e.getAttribute(t,"type"===t.toLowerCase()?1:2)}),d.attributes&&ce(function(e){return e.innerHTML="<input/>",e.firstChild.setAttribute("value",""),""===e.firstChild.getAttribute("value")})||fe("value",function(e,t,n){if(!n&&"input"===e.nodeName.toLowerCase())return e.defaultValue}),ce(function(e){return null==e.getAttribute("disabled")})||fe(I,function(e,t,n){var r;if(!n)return!0===e[t]?t.toLowerCase():(r=e.getAttributeNode(t))&&r.specified?r.value:null}),se}(C);S.find=h,S.expr=h.selectors,S.expr[":"]=S.expr.pseudos,S.uniqueSort=S.unique=h.uniqueSort,S.text=h.getText,S.isXMLDoc=h.isXML,S.contains=h.contains,S.escapeSelector=h.escape;function T(e,t,n){for(var r=[],i=void 0!==n;(e=e[t])&&9!==e.nodeType;)if(1===e.nodeType){if(i&&S(e).is(n))break;r.push(e)}return r}function k(e,t){for(var n=[];e;e=e.nextSibling)1===e.nodeType&&e!==t&&n.push(e);return n}var N=S.expr.match.needsContext;function A(e,t){return e.nodeName&&e.nodeName.toLowerCase()===t.toLowerCase()}var D=/^<([a-z][^\/\0>:\x20\t\r\n\f]*)[\x20\t\r\n\f]*\/?>(?:<\/\1>|)$/i;function j(e,n,r){return x(n)?S.grep(e,function(e,t){return!!n.call(e,t,e)!==r}):n.nodeType?S.grep(e,function(e){return e===n!==r}):"string"!=typeof n?S.grep(e,function(e){return-1<i.call(n,e)!==r}):S.filter(n,e,r)}S.filter=function(e,t,n){var r=t[0];return n&&(e=":not("+e+")"),1===t.length&&1===r.nodeType?S.find.matchesSelector(r,e)?[r]:[]:S.find.matches(e,S.grep(t,function(e){return 1===e.nodeType}))},S.fn.extend({find:function(e){var t,n,r=this.length,i=this;if("string"!=typeof e)return this.pushStack(S(e).filter(function(){for(t=0;t<r;t++)if(S.contains(i[t],this))return!0}));for(n=this.pushStack([]),t=0;t<r;t++)S.find(e,i[t],n);return 1<r?S.uniqueSort(n):n},filter:function(e){return this.pushStack(j(this,e||[],!1))},not:function(e){return this.pushStack(j(this,e||[],!0))},is:function(e){return!!j(this,"string"==typeof e&&N.test(e)?S(e):e||[],!1).length}});var q,L=/^(?:\s*(<[\w\W]+>)[^>]*|#([\w-]+))$/;(S.fn.init=function(e,t,n){var r,i;if(!e)return this;if(n=n||q,"string"!=typeof e)return e.nodeType?(this[0]=e,this.length=1,this):x(e)?void 0!==n.ready?n.ready(e):e(S):S.makeArray(e,this);if(!(r="<"===e[0]&&">"===e[e.length-1]&&3<=e.length?[null,e,null]:L.exec(e))||!r[1]&&t)return!t||t.jquery?(t||n).find(e):this.constructor(t).find(e);if(r[1]){if(t=t instanceof S?t[0]:t,S.merge(this,S.parseHTML(r[1],t&&t.nodeType?t.ownerDocument||t:E,!0)),D.test(r[1])&&S.isPlainObject(t))for(r in t)x(this[r])?this[r](t[r]):this.attr(r,t[r]);return this}return(i=E.getElementById(r[2]))&&(this[0]=i,this.length=1),this}).prototype=S.fn,q=S(E);var H=/^(?:parents|prev(?:Until|All))/,O={children:!0,contents:!0,next:!0,prev:!0};function P(e,t){for(;(e=e[t])&&1!==e.nodeType;);return e}S.fn.extend({has:function(e){var t=S(e,this),n=t.length;return this.filter(function(){for(var e=0;e<n;e++)if(S.contains(this,t[e]))return!0})},closest:function(e,t){var n,r=0,i=this.length,o=[],a="string"!=typeof e&&S(e);if(!N.test(e))for(;r<i;r++)for(n=this[r];n&&n!==t;n=n.parentNode)if(n.nodeType<11&&(a?-1<a.index(n):1===n.nodeType&&S.find.matchesSelector(n,e))){o.push(n);break}return this.pushStack(1<o.length?S.uniqueSort(o):o)},index:function(e){return e?"string"==typeof e?i.call(S(e),this[0]):i.call(this,e.jquery?e[0]:e):this[0]&&this[0].parentNode?this.first().prevAll().length:-1},add:function(e,t){return this.pushStack(S.uniqueSort(S.merge(this.get(),S(e,t))))},addBack:function(e){return this.add(null==e?this.prevObject:this.prevObject.filter(e))}}),S.each({parent:function(e){var t=e.parentNode;return t&&11!==t.nodeType?t:null},parents:function(e){return T(e,"parentNode")},parentsUntil:function(e,t,n){return T(e,"parentNode",n)},next:function(e){return P(e,"nextSibling")},prev:function(e){return P(e,"previousSibling")},nextAll:function(e){return T(e,"nextSibling")},prevAll:function(e){return T(e,"previousSibling")},nextUntil:function(e,t,n){return T(e,"nextSibling",n)},prevUntil:function(e,t,n){return T(e,"previousSibling",n)},siblings:function(e){return k((e.parentNode||{}).firstChild,e)},children:function(e){return k(e.firstChild)},contents:function(e){return void 0!==e.contentDocument?e.contentDocument:(A(e,"template")&&(e=e.content||e),S.merge([],e.childNodes))}},function(r,i){S.fn[r]=function(e,t){var n=S.map(this,i,e);return"Until"!==r.slice(-5)&&(t=e),t&&"string"==typeof t&&(n=S.filter(t,n)),1<this.length&&(O[r]||S.uniqueSort(n),H.test(r)&&n.reverse()),this.pushStack(n)}});var R=/[^\x20\t\r\n\f]+/g;function M(e){return e}function I(e){throw e}function W(e,t,n,r){var i;try{e&&x(i=e.promise)?i.call(e).done(t).fail(n):e&&x(i=e.then)?i.call(e,t,n):t.apply(void 0,[e].slice(r))}catch(e){n.apply(void 0,[e])}}S.Callbacks=function(r){var n;r="string"==typeof r?(n={},S.each(r.match(R)||[],function(e,t){n[t]=!0}),n):S.extend({},r);function i(){for(a=a||r.once,t=o=!0;u.length;l=-1)for(e=u.shift();++l<s.length;)!1===s[l].apply(e[0],e[1])&&r.stopOnFalse&&(l=s.length,e=!1);r.memory||(e=!1),o=!1,a&&(s=e?[]:"")}var o,e,t,a,s=[],u=[],l=-1,c={add:function(){return s&&(e&&!o&&(l=s.length-1,u.push(e)),function n(e){S.each(e,function(e,t){x(t)?r.unique&&c.has(t)||s.push(t):t&&t.length&&"string"!==w(t)&&n(t)})}(arguments),e&&!o&&i()),this},remove:function(){return S.each(arguments,function(e,t){for(var n;-1<(n=S.inArray(t,s,n));)s.splice(n,1),n<=l&&l--}),this},has:function(e){return e?-1<S.inArray(e,s):0<s.length},empty:function(){return s=s&&[],this},disable:function(){return a=u=[],s=e="",this},disabled:function(){return!s},lock:function(){return a=u=[],e||o||(s=e=""),this},locked:function(){return!!a},fireWith:function(e,t){return a||(t=[e,(t=t||[]).slice?t.slice():t],u.push(t),o||i()),this},fire:function(){return c.fireWith(this,arguments),this},fired:function(){return!!t}};return c},S.extend({Deferred:function(e){var o=[["notify","progress",S.Callbacks("memory"),S.Callbacks("memory"),2],["resolve","done",S.Callbacks("once memory"),S.Callbacks("once memory"),0,"resolved"],["reject","fail",S.Callbacks("once memory"),S.Callbacks("once memory"),1,"rejected"]],i="pending",a={state:function(){return i},always:function(){return s.done(arguments).fail(arguments),this},catch:function(e){return a.then(null,e)},pipe:function(){var i=arguments;return S.Deferred(function(r){S.each(o,function(e,t){var n=x(i[t[4]])&&i[t[4]];s[t[1]](function(){var e=n&&n.apply(this,arguments);e&&x(e.promise)?e.promise().progress(r.notify).done(r.resolve).fail(r.reject):r[t[0]+"With"](this,n?[e]:arguments)})}),i=null}).promise()},then:function(t,n,r){var u=0;function l(i,o,a,s){return function(){function e(){var e,t;if(!(i<u)){if((e=a.apply(n,r))===o.promise())throw new TypeError("Thenable self-resolution");t=e&&("object"==typeof e||"function"==typeof e)&&e.then,x(t)?s?t.call(e,l(u,o,M,s),l(u,o,I,s)):(u++,t.call(e,l(u,o,M,s),l(u,o,I,s),l(u,o,M,o.notifyWith))):(a!==M&&(n=void 0,r=[e]),(s||o.resolveWith)(n,r))}}var n=this,r=arguments,t=s?e:function(){try{e()}catch(e){S.Deferred.exceptionHook&&S.Deferred.exceptionHook(e,t.stackTrace),u<=i+1&&(a!==I&&(n=void 0,r=[e]),o.rejectWith(n,r))}};i?t():(S.Deferred.getStackHook&&(t.stackTrace=S.Deferred.getStackHook()),C.setTimeout(t))}}return S.Deferred(function(e){o[0][3].add(l(0,e,x(r)?r:M,e.notifyWith)),o[1][3].add(l(0,e,x(t)?t:M)),o[2][3].add(l(0,e,x(n)?n:I))}).promise()},promise:function(e){return null!=e?S.extend(e,a):a}},s={};return S.each(o,function(e,t){var n=t[2],r=t[5];a[t[1]]=n.add,r&&n.add(function(){i=r},o[3-e][2].disable,o[3-e][3].disable,o[0][2].lock,o[0][3].lock),n.add(t[3].fire),s[t[0]]=function(){return s[t[0]+"With"](this===s?void 0:this,arguments),this},s[t[0]+"With"]=n.fireWith}),a.promise(s),e&&e.call(s,s),s},when:function(e){function t(t){return function(e){i[t]=this,o[t]=1<arguments.length?s.call(arguments):e,--n||a.resolveWith(i,o)}}var n=arguments.length,r=n,i=Array(r),o=s.call(arguments),a=S.Deferred();if(n<=1&&(W(e,a.done(t(r)).resolve,a.reject,!n),"pending"===a.state()||x(o[r]&&o[r].then)))return a.then();for(;r--;)W(o[r],t(r),a.reject);return a.promise()}});var $=/^(Eval|Internal|Range|Reference|Syntax|Type|URI)Error$/;S.Deferred.exceptionHook=function(e,t){C.console&&C.console.warn&&e&&$.test(e.name)&&C.console.warn("jQuery.Deferred exception: "+e.message,e.stack,t)},S.readyException=function(e){C.setTimeout(function(){throw e})};var F=S.Deferred();function B(){E.removeEventListener("DOMContentLoaded",B),C.removeEventListener("load",B),S.ready()}S.fn.ready=function(e){return F.then(e).catch(function(e){S.readyException(e)}),this},S.extend({isReady:!1,readyWait:1,ready:function(e){(!0===e?--S.readyWait:S.isReady)||(S.isReady=!0)!==e&&0<--S.readyWait||F.resolveWith(E,[S])}}),S.ready.then=F.then,"complete"===E.readyState||"loading"!==E.readyState&&!E.documentElement.doScroll?C.setTimeout(S.ready):(E.addEventListener("DOMContentLoaded",B),C.addEventListener("load",B));var _=function(e,t,n,r,i,o,a){var s=0,u=e.length,l=null==n;if("object"===w(n))for(s in i=!0,n)_(e,t,s,n[s],!0,o,a);else if(void 0!==r&&(i=!0,x(r)||(a=!0),l&&(t=a?(t.call(e,r),null):(l=t,function(e,t,n){return l.call(S(e),n)})),t))for(;s<u;s++)t(e[s],n,a?r:r.call(e[s],s,t(e[s],n)));return i?e:l?t.call(e):u?t(e[0],n):o},z=/^-ms-/,U=/-([a-z])/g;function X(e,t){return t.toUpperCase()}function V(e){return e.replace(z,"ms-").replace(U,X)}function G(e){return 1===e.nodeType||9===e.nodeType||!+e.nodeType}function Y(){this.expando=S.expando+Y.uid++}Y.uid=1,Y.prototype={cache:function(e){var t=e[this.expando];return t||(t={},G(e)&&(e.nodeType?e[this.expando]=t:Object.defineProperty(e,this.expando,{value:t,configurable:!0}))),t},set:function(e,t,n){var r,i=this.cache(e);if("string"==typeof t)i[V(t)]=n;else for(r in t)i[V(r)]=t[r];return i},get:function(e,t){return void 0===t?this.cache(e):e[this.expando]&&e[this.expando][V(t)]},access:function(e,t,n){return void 0===t||t&&"string"==typeof t&&void 0===n?this.get(e,t):(this.set(e,t,n),void 0!==n?n:t)},remove:function(e,t){var n,r=e[this.expando];if(void 0!==r){if(void 0!==t){n=(t=Array.isArray(t)?t.map(V):(t=V(t))in r?[t]:t.match(R)||[]).length;for(;n--;)delete r[t[n]]}void 0!==t&&!S.isEmptyObject(r)||(e.nodeType?e[this.expando]=void 0:delete e[this.expando])}},hasData:function(e){var t=e[this.expando];return void 0!==t&&!S.isEmptyObject(t)}};var Q=new Y,J=new Y,K=/^(?:\{[\w\W]*\}|\[[\w\W]*\])$/,Z=/[A-Z]/g;function ee(e,t,n){var r,i;if(void 0===n&&1===e.nodeType)if(r="data-"+t.replace(Z,"-$&").toLowerCase(),"string"==typeof(n=e.getAttribute(r))){try{n="true"===(i=n)||"false"!==i&&("null"===i?null:i===+i+""?+i:K.test(i)?JSON.parse(i):i)}catch(e){}J.set(e,t,n)}else n=void 0;return n}S.extend({hasData:function(e){return J.hasData(e)||Q.hasData(e)},data:function(e,t,n){return J.access(e,t,n)},removeData:function(e,t){J.remove(e,t)},_data:function(e,t,n){return Q.access(e,t,n)},_removeData:function(e,t){Q.remove(e,t)}}),S.fn.extend({data:function(n,e){var t,r,i,o=this[0],a=o&&o.attributes;if(void 0!==n)return"object"==typeof n?this.each(function(){J.set(this,n)}):_(this,function(e){var t;if(o&&void 0===e)return void 0!==(t=J.get(o,n))||void 0!==(t=ee(o,n))?t:void 0;this.each(function(){J.set(this,n,e)})},null,e,1<arguments.length,null,!0);if(this.length&&(i=J.get(o),1===o.nodeType&&!Q.get(o,"hasDataAttrs"))){for(t=a.length;t--;)a[t]&&0===(r=a[t].name).indexOf("data-")&&(r=V(r.slice(5)),ee(o,r,i[r]));Q.set(o,"hasDataAttrs",!0)}return i},removeData:function(e){return this.each(function(){J.remove(this,e)})}}),S.extend({queue:function(e,t,n){var r;if(e)return t=(t||"fx")+"queue",r=Q.get(e,t),n&&(!r||Array.isArray(n)?r=Q.access(e,t,S.makeArray(n)):r.push(n)),r||[]},dequeue:function(e,t){t=t||"fx";var n=S.queue(e,t),r=n.length,i=n.shift(),o=S._queueHooks(e,t);"inprogress"===i&&(i=n.shift(),r--),i&&("fx"===t&&n.unshift("inprogress"),delete o.stop,i.call(e,function(){S.dequeue(e,t)},o)),!r&&o&&o.empty.fire()},_queueHooks:function(e,t){var n=t+"queueHooks";return Q.get(e,n)||Q.access(e,n,{empty:S.Callbacks("once memory").add(function(){Q.remove(e,[t+"queue",n])})})}}),S.fn.extend({queue:function(t,n){var e=2;return"string"!=typeof t&&(n=t,t="fx",e--),arguments.length<e?S.queue(this[0],t):void 0===n?this:this.each(function(){var e=S.queue(this,t,n);S._queueHooks(this,t),"fx"===t&&"inprogress"!==e[0]&&S.dequeue(this,t)})},dequeue:function(e){return this.each(function(){S.dequeue(this,e)})},clearQueue:function(e){return this.queue(e||"fx",[])},promise:function(e,t){function n(){--i||o.resolveWith(a,[a])}var r,i=1,o=S.Deferred(),a=this,s=this.length;for("string"!=typeof e&&(t=e,e=void 0),e=e||"fx";s--;)(r=Q.get(a[s],e+"queueHooks"))&&r.empty&&(i++,r.empty.add(n));return n(),o.promise(t)}});var te=/[+-]?(?:\d*\.|)\d+(?:[eE][+-]?\d+|)/.source,ne=new RegExp("^(?:([+-])=|)("+te+")([a-z%]*)$","i"),re=["Top","Right","Bottom","Left"],ie=E.documentElement,oe=function(e){return S.contains(e.ownerDocument,e)},ae={composed:!0};ie.getRootNode&&(oe=function(e){return S.contains(e.ownerDocument,e)||e.getRootNode(ae)===e.ownerDocument});function se(e,t){return"none"===(e=t||e).style.display||""===e.style.display&&oe(e)&&"none"===S.css(e,"display")}function ue(e,t,n,r){var i,o,a={};for(o in t)a[o]=e.style[o],e.style[o]=t[o];for(o in i=n.apply(e,r||[]),t)e.style[o]=a[o];return i}function le(e,t,n,r){var i,o,a=20,s=r?function(){return r.cur()}:function(){return S.css(e,t,"")},u=s(),l=n&&n[3]||(S.cssNumber[t]?"":"px"),c=e.nodeType&&(S.cssNumber[t]||"px"!==l&&+u)&&ne.exec(S.css(e,t));if(c&&c[3]!==l){for(u/=2,l=l||c[3],c=+u||1;a--;)S.style(e,t,c+l),(1-o)*(1-(o=s()/u||.5))<=0&&(a=0),c/=o;c*=2,S.style(e,t,c+l),n=n||[]}return n&&(c=+c||+u||0,i=n[1]?c+(n[1]+1)*n[2]:+n[2],r&&(r.unit=l,r.start=c,r.end=i)),i}var ce={};function fe(e,t){for(var n,r,i,o,a,s,u=[],l=0,c=e.length;l<c;l++)(r=e[l]).style&&(n=r.style.display,t?("none"===n&&(u[l]=Q.get(r,"display")||null,u[l]||(r.style.display="")),""===r.style.display&&se(r)&&(u[l]=(s=o=i=void 0,o=r.ownerDocument,a=r.nodeName,(s=ce[a])||(i=o.body.appendChild(o.createElement(a)),s=S.css(i,"display"),i.parentNode.removeChild(i),"none"===s&&(s="block"),ce[a]=s)))):"none"!==n&&(u[l]="none",Q.set(r,"display",n)));for(l=0;l<c;l++)null!=u[l]&&(e[l].style.display=u[l]);return e}S.fn.extend({show:function(){return fe(this,!0)},hide:function(){return fe(this)},toggle:function(e){return"boolean"==typeof e?e?this.show():this.hide():this.each(function(){se(this)?S(this).show():S(this).hide()})}});var pe=/^(?:checkbox|radio)$/i,de=/<([a-z][^\/\0>\x20\t\r\n\f]*)/i,he=/^$|^module$|\/(?:java|ecma)script/i,ge={option:[1,"<select multiple='multiple'>","</select>"],thead:[1,"<table>","</table>"],col:[2,"<table><colgroup>","</colgroup></table>"],tr:[2,"<table><tbody>","</tbody></table>"],td:[3,"<table><tbody><tr>","</tr></tbody></table>"],_default:[0,"",""]};function ve(e,t){var n;return n=void 0!==e.getElementsByTagName?e.getElementsByTagName(t||"*"):void 0!==e.querySelectorAll?e.querySelectorAll(t||"*"):[],void 0===t||t&&A(e,t)?S.merge([e],n):n}function ye(e,t){for(var n=0,r=e.length;n<r;n++)Q.set(e[n],"globalEval",!t||Q.get(t[n],"globalEval"))}ge.optgroup=ge.option,ge.tbody=ge.tfoot=ge.colgroup=ge.caption=ge.thead,ge.th=ge.td;var me,xe,be=/<|&#?\w+;/;function we(e,t,n,r,i){for(var o,a,s,u,l,c,f=t.createDocumentFragment(),p=[],d=0,h=e.length;d<h;d++)if((o=e[d])||0===o)if("object"===w(o))S.merge(p,o.nodeType?[o]:o);else if(be.test(o)){for(a=a||f.appendChild(t.createElement("div")),s=(de.exec(o)||["",""])[1].toLowerCase(),u=ge[s]||ge._default,a.innerHTML=u[1]+S.htmlPrefilter(o)+u[2],c=u[0];c--;)a=a.lastChild;S.merge(p,a.childNodes),(a=f.firstChild).textContent=""}else p.push(t.createTextNode(o));for(f.textContent="",d=0;o=p[d++];)if(r&&-1<S.inArray(o,r))i&&i.push(o);else if(l=oe(o),a=ve(f.appendChild(o),"script"),l&&ye(a),n)for(c=0;o=a[c++];)he.test(o.type||"")&&n.push(o);return f}me=E.createDocumentFragment().appendChild(E.createElement("div")),(xe=E.createElement("input")).setAttribute("type","radio"),xe.setAttribute("checked","checked"),xe.setAttribute("name","t"),me.appendChild(xe),m.checkClone=me.cloneNode(!0).cloneNode(!0).lastChild.checked,me.innerHTML="<textarea>x</textarea>",m.noCloneChecked=!!me.cloneNode(!0).lastChild.defaultValue;var Te=/^key/,Ce=/^(?:mouse|pointer|contextmenu|drag|drop)|click/,Ee=/^([^.]*)(?:\.(.+)|)/;function Se(){return!0}function ke(){return!1}function Ne(e,t){return e===function(){try{return E.activeElement}catch(e){}}()==("focus"===t)}function Ae(e,t,n,r,i,o){var a,s;if("object"==typeof t){for(s in"string"!=typeof n&&(r=r||n,n=void 0),t)Ae(e,s,n,r,t[s],o);return e}if(null==r&&null==i?(i=n,r=n=void 0):null==i&&("string"==typeof n?(i=r,r=void 0):(i=r,r=n,n=void 0)),!1===i)i=ke;else if(!i)return e;return 1===o&&(a=i,(i=function(e){return S().off(e),a.apply(this,arguments)}).guid=a.guid||(a.guid=S.guid++)),e.each(function(){S.event.add(this,t,i,r,n)})}function De(e,i,o){o?(Q.set(e,i,!1),S.event.add(e,i,{namespace:!1,handler:function(e){var t,n,r=Q.get(this,i);if(1&e.isTrigger&&this[i]){if(r.length)(S.event.special[i]||{}).delegateType&&e.stopPropagation();else if(r=s.call(arguments),Q.set(this,i,r),t=o(this,i),this[i](),r!==(n=Q.get(this,i))||t?Q.set(this,i,!1):n={},r!==n)return e.stopImmediatePropagation(),e.preventDefault(),n.value}else r.length&&(Q.set(this,i,{value:S.event.trigger(S.extend(r[0],S.Event.prototype),r.slice(1),this)}),e.stopImmediatePropagation())}})):void 0===Q.get(e,i)&&S.event.add(e,i,Se)}S.event={global:{},add:function(t,e,n,r,i){var o,a,s,u,l,c,f,p,d,h,g,v=Q.get(t);if(v)for(n.handler&&(n=(o=n).handler,i=o.selector),i&&S.find.matchesSelector(ie,i),n.guid||(n.guid=S.guid++),(u=v.events)||(u=v.events={}),(a=v.handle)||(a=v.handle=function(e){return void 0!==S&&S.event.triggered!==e.type?S.event.dispatch.apply(t,arguments):void 0}),l=(e=(e||"").match(R)||[""]).length;l--;)d=g=(s=Ee.exec(e[l])||[])[1],h=(s[2]||"").split(".").sort(),d&&(f=S.event.special[d]||{},d=(i?f.delegateType:f.bindType)||d,f=S.event.special[d]||{},c=S.extend({type:d,origType:g,data:r,handler:n,guid:n.guid,selector:i,needsContext:i&&S.expr.match.needsContext.test(i),namespace:h.join(".")},o),(p=u[d])||((p=u[d]=[]).delegateCount=0,f.setup&&!1!==f.setup.call(t,r,h,a)||t.addEventListener&&t.addEventListener(d,a)),f.add&&(f.add.call(t,c),c.handler.guid||(c.handler.guid=n.guid)),i?p.splice(p.delegateCount++,0,c):p.push(c),S.event.global[d]=!0)},remove:function(e,t,n,r,i){var o,a,s,u,l,c,f,p,d,h,g,v=Q.hasData(e)&&Q.get(e);if(v&&(u=v.events)){for(l=(t=(t||"").match(R)||[""]).length;l--;)if(d=g=(s=Ee.exec(t[l])||[])[1],h=(s[2]||"").split(".").sort(),d){for(f=S.event.special[d]||{},p=u[d=(r?f.delegateType:f.bindType)||d]||[],s=s[2]&&new RegExp("(^|\\.)"+h.join("\\.(?:.*\\.|)")+"(\\.|$)"),a=o=p.length;o--;)c=p[o],!i&&g!==c.origType||n&&n.guid!==c.guid||s&&!s.test(c.namespace)||r&&r!==c.selector&&("**"!==r||!c.selector)||(p.splice(o,1),c.selector&&p.delegateCount--,f.remove&&f.remove.call(e,c));a&&!p.length&&(f.teardown&&!1!==f.teardown.call(e,h,v.handle)||S.removeEvent(e,d,v.handle),delete u[d])}else for(d in u)S.event.remove(e,d+t[l],n,r,!0);S.isEmptyObject(u)&&Q.remove(e,"handle events")}},dispatch:function(e){var t,n,r,i,o,a,s=S.event.fix(e),u=new Array(arguments.length),l=(Q.get(this,"events")||{})[s.type]||[],c=S.event.special[s.type]||{};for(u[0]=s,t=1;t<arguments.length;t++)u[t]=arguments[t];if(s.delegateTarget=this,!c.preDispatch||!1!==c.preDispatch.call(this,s)){for(a=S.event.handlers.call(this,s,l),t=0;(i=a[t++])&&!s.isPropagationStopped();)for(s.currentTarget=i.elem,n=0;(o=i.handlers[n++])&&!s.isImmediatePropagationStopped();)s.rnamespace&&!1!==o.namespace&&!s.rnamespace.test(o.namespace)||(s.handleObj=o,s.data=o.data,void 0!==(r=((S.event.special[o.origType]||{}).handle||o.handler).apply(i.elem,u))&&!1===(s.result=r)&&(s.preventDefault(),s.stopPropagation()));return c.postDispatch&&c.postDispatch.call(this,s),s.result}},handlers:function(e,t){var n,r,i,o,a,s=[],u=t.delegateCount,l=e.target;if(u&&l.nodeType&&!("click"===e.type&&1<=e.button))for(;l!==this;l=l.parentNode||this)if(1===l.nodeType&&("click"!==e.type||!0!==l.disabled)){for(o=[],a={},n=0;n<u;n++)void 0===a[i=(r=t[n]).selector+" "]&&(a[i]=r.needsContext?-1<S(i,this).index(l):S.find(i,this,null,[l]).length),a[i]&&o.push(r);o.length&&s.push({elem:l,handlers:o})}return l=this,u<t.length&&s.push({elem:l,handlers:t.slice(u)}),s},addProp:function(t,e){Object.defineProperty(S.Event.prototype,t,{enumerable:!0,configurable:!0,get:x(e)?function(){if(this.originalEvent)return e(this.originalEvent)}:function(){if(this.originalEvent)return this.originalEvent[t]},set:function(e){Object.defineProperty(this,t,{enumerable:!0,configurable:!0,writable:!0,value:e})}})},fix:function(e){return e[S.expando]?e:new S.Event(e)},special:{load:{noBubble:!0},click:{setup:function(e){var t=this||e;return pe.test(t.type)&&t.click&&A(t,"input")&&De(t,"click",Se),!1},trigger:function(e){var t=this||e;return pe.test(t.type)&&t.click&&A(t,"input")&&De(t,"click"),!0},_default:function(e){var t=e.target;return pe.test(t.type)&&t.click&&A(t,"input")&&Q.get(t,"click")||A(t,"a")}},beforeunload:{postDispatch:function(e){void 0!==e.result&&e.originalEvent&&(e.originalEvent.returnValue=e.result)}}}},S.removeEvent=function(e,t,n){e.removeEventListener&&e.removeEventListener(t,n)},S.Event=function(e,t){if(!(this instanceof S.Event))return new S.Event(e,t);e&&e.type?(this.originalEvent=e,this.type=e.type,this.isDefaultPrevented=e.defaultPrevented||void 0===e.defaultPrevented&&!1===e.returnValue?Se:ke,this.target=e.target&&3===e.target.nodeType?e.target.parentNode:e.target,this.currentTarget=e.currentTarget,this.relatedTarget=e.relatedTarget):this.type=e,t&&S.extend(this,t),this.timeStamp=e&&e.timeStamp||Date.now(),this[S.expando]=!0},S.Event.prototype={constructor:S.Event,isDefaultPrevented:ke,isPropagationStopped:ke,isImmediatePropagationStopped:ke,isSimulated:!1,preventDefault:function(){var e=this.originalEvent;this.isDefaultPrevented=Se,e&&!this.isSimulated&&e.preventDefault()},stopPropagation:function(){var e=this.originalEvent;this.isPropagationStopped=Se,e&&!this.isSimulated&&e.stopPropagation()},stopImmediatePropagation:function(){var e=this.originalEvent;this.isImmediatePropagationStopped=Se,e&&!this.isSimulated&&e.stopImmediatePropagation(),this.stopPropagation()}},S.each({altKey:!0,bubbles:!0,cancelable:!0,changedTouches:!0,ctrlKey:!0,detail:!0,eventPhase:!0,metaKey:!0,pageX:!0,pageY:!0,shiftKey:!0,view:!0,char:!0,code:!0,charCode:!0,key:!0,keyCode:!0,button:!0,buttons:!0,clientX:!0,clientY:!0,offsetX:!0,offsetY:!0,pointerId:!0,pointerType:!0,screenX:!0,screenY:!0,targetTouches:!0,toElement:!0,touches:!0,which:function(e){var t=e.button;return null==e.which&&Te.test(e.type)?null!=e.charCode?e.charCode:e.keyCode:!e.which&&void 0!==t&&Ce.test(e.type)?1&t?1:2&t?3:4&t?2:0:e.which}},S.event.addProp),S.each({focus:"focusin",blur:"focusout"},function(e,t){S.event.special[e]={setup:function(){return De(this,e,Ne),!1},trigger:function(){return De(this,e),!0},delegateType:t}}),S.each({mouseenter:"mouseover",mouseleave:"mouseout",pointerenter:"pointerover",pointerleave:"pointerout"},function(e,i){S.event.special[e]={delegateType:i,bindType:i,handle:function(e){var t,n=e.relatedTarget,r=e.handleObj;return n&&(n===this||S.contains(this,n))||(e.type=r.origType,t=r.handler.apply(this,arguments),e.type=i),t}}}),S.fn.extend({on:function(e,t,n,r){return Ae(this,e,t,n,r)},one:function(e,t,n,r){return Ae(this,e,t,n,r,1)},off:function(e,t,n){var r,i;if(e&&e.preventDefault&&e.handleObj)return r=e.handleObj,S(e.delegateTarget).off(r.namespace?r.origType+"."+r.namespace:r.origType,r.selector,r.handler),this;if("object"!=typeof e)return!1!==t&&"function"!=typeof t||(n=t,t=void 0),!1===n&&(n=ke),this.each(function(){S.event.remove(this,e,n,t)});for(i in e)this.off(i,t,e[i]);return this}});var je=/<(?!area|br|col|embed|hr|img|input|link|meta|param)(([a-z][^\/\0>\x20\t\r\n\f]*)[^>]*)\/>/gi,qe=/<script|<style|<link/i,Le=/checked\s*(?:[^=]|=\s*.checked.)/i,He=/^\s*<!(?:\[CDATA\[|--)|(?:\]\]|--)>\s*$/g;function Oe(e,t){return A(e,"table")&&A(11!==t.nodeType?t:t.firstChild,"tr")&&S(e).children("tbody")[0]||e}function Pe(e){return e.type=(null!==e.getAttribute("type"))+"/"+e.type,e}function Re(e){return"true/"===(e.type||"").slice(0,5)?e.type=e.type.slice(5):e.removeAttribute("type"),e}function Me(e,t){var n,r,i,o,a,s,u,l;if(1===t.nodeType){if(Q.hasData(e)&&(o=Q.access(e),a=Q.set(t,o),l=o.events))for(i in delete a.handle,a.events={},l)for(n=0,r=l[i].length;n<r;n++)S.event.add(t,i,l[i][n]);J.hasData(e)&&(s=J.access(e),u=S.extend({},s),J.set(t,u))}}function Ie(n,r,i,o){r=v.apply([],r);var e,t,a,s,u,l,c=0,f=n.length,p=f-1,d=r[0],h=x(d);if(h||1<f&&"string"==typeof d&&!m.checkClone&&Le.test(d))return n.each(function(e){var t=n.eq(e);h&&(r[0]=d.call(this,e,t.html())),Ie(t,r,i,o)});if(f&&(t=(e=we(r,n[0].ownerDocument,!1,n,o)).firstChild,1===e.childNodes.length&&(e=t),t||o)){for(s=(a=S.map(ve(e,"script"),Pe)).length;c<f;c++)u=e,c!==p&&(u=S.clone(u,!0,!0),s&&S.merge(a,ve(u,"script"))),i.call(n[c],u,c);if(s)for(l=a[a.length-1].ownerDocument,S.map(a,Re),c=0;c<s;c++)u=a[c],he.test(u.type||"")&&!Q.access(u,"globalEval")&&S.contains(l,u)&&(u.src&&"module"!==(u.type||"").toLowerCase()?S._evalUrl&&!u.noModule&&S._evalUrl(u.src,{nonce:u.nonce||u.getAttribute("nonce")}):b(u.textContent.replace(He,""),u,l))}return n}function We(e,t,n){for(var r,i=t?S.filter(t,e):e,o=0;null!=(r=i[o]);o++)n||1!==r.nodeType||S.cleanData(ve(r)),r.parentNode&&(n&&oe(r)&&ye(ve(r,"script")),r.parentNode.removeChild(r));return e}S.extend({htmlPrefilter:function(e){return e.replace(je,"<$1></$2>")},clone:function(e,t,n){var r,i,o,a,s,u,l,c=e.cloneNode(!0),f=oe(e);if(!(m.noCloneChecked||1!==e.nodeType&&11!==e.nodeType||S.isXMLDoc(e)))for(a=ve(c),r=0,i=(o=ve(e)).length;r<i;r++)s=o[r],"input"===(l=(u=a[r]).nodeName.toLowerCase())&&pe.test(s.type)?u.checked=s.checked:"input"!==l&&"textarea"!==l||(u.defaultValue=s.defaultValue);if(t)if(n)for(o=o||ve(e),a=a||ve(c),r=0,i=o.length;r<i;r++)Me(o[r],a[r]);else Me(e,c);return 0<(a=ve(c,"script")).length&&ye(a,!f&&ve(e,"script")),c},cleanData:function(e){for(var t,n,r,i=S.event.special,o=0;void 0!==(n=e[o]);o++)if(G(n)){if(t=n[Q.expando]){if(t.events)for(r in t.events)i[r]?S.event.remove(n,r):S.removeEvent(n,r,t.handle);n[Q.expando]=void 0}n[J.expando]&&(n[J.expando]=void 0)}}}),S.fn.extend({detach:function(e){return We(this,e,!0)},remove:function(e){return We(this,e)},text:function(e){return _(this,function(e){return void 0===e?S.text(this):this.empty().each(function(){1!==this.nodeType&&11!==this.nodeType&&9!==this.nodeType||(this.textContent=e)})},null,e,arguments.length)},append:function(){return Ie(this,arguments,function(e){1!==this.nodeType&&11!==this.nodeType&&9!==this.nodeType||Oe(this,e).appendChild(e)})},prepend:function(){return Ie(this,arguments,function(e){if(1===this.nodeType||11===this.nodeType||9===this.nodeType){var t=Oe(this,e);t.insertBefore(e,t.firstChild)}})},before:function(){return Ie(this,arguments,function(e){this.parentNode&&this.parentNode.insertBefore(e,this)})},after:function(){return Ie(this,arguments,function(e){this.parentNode&&this.parentNode.insertBefore(e,this.nextSibling)})},empty:function(){for(var e,t=0;null!=(e=this[t]);t++)1===e.nodeType&&(S.cleanData(ve(e,!1)),e.textContent="");return this},clone:function(e,t){return e=null!=e&&e,t=null==t?e:t,this.map(function(){return S.clone(this,e,t)})},html:function(e){return _(this,function(e){var t=this[0]||{},n=0,r=this.length;if(void 0===e&&1===t.nodeType)return t.innerHTML;if("string"==typeof e&&!qe.test(e)&&!ge[(de.exec(e)||["",""])[1].toLowerCase()]){e=S.htmlPrefilter(e);try{for(;n<r;n++)1===(t=this[n]||{}).nodeType&&(S.cleanData(ve(t,!1)),t.innerHTML=e);t=0}catch(e){}}t&&this.empty().append(e)},null,e,arguments.length)},replaceWith:function(){var n=[];return Ie(this,arguments,function(e){var t=this.parentNode;S.inArray(this,n)<0&&(S.cleanData(ve(this)),t&&t.replaceChild(e,this))},n)}}),S.each({appendTo:"append",prependTo:"prepend",insertBefore:"before",insertAfter:"after",replaceAll:"replaceWith"},function(e,a){S.fn[e]=function(e){for(var t,n=[],r=S(e),i=r.length-1,o=0;o<=i;o++)t=o===i?this:this.clone(!0),S(r[o])[a](t),u.apply(n,t.get());return this.pushStack(n)}});var $e,Fe,Be,_e,ze,Ue,Xe,Ve=new RegExp("^("+te+")(?!px)[a-z%]+$","i"),Ge=function(e){var t=e.ownerDocument.defaultView;return t&&t.opener||(t=C),t.getComputedStyle(e)},Ye=new RegExp(re.join("|"),"i");function Qe(e,t,n){var r,i,o,a,s=e.style;return(n=n||Ge(e))&&(""!==(a=n.getPropertyValue(t)||n[t])||oe(e)||(a=S.style(e,t)),!m.pixelBoxStyles()&&Ve.test(a)&&Ye.test(t)&&(r=s.width,i=s.minWidth,o=s.maxWidth,s.minWidth=s.maxWidth=s.width=a,a=n.width,s.width=r,s.minWidth=i,s.maxWidth=o)),void 0!==a?a+"":a}function Je(e,t){return{get:function(){if(!e())return(this.get=t).apply(this,arguments);delete this.get}}}function Ke(){if(Xe){Ue.style.cssText="position:absolute;left:-11111px;width:60px;margin-top:1px;padding:0;border:0",Xe.style.cssText="position:relative;display:block;box-sizing:border-box;overflow:scroll;margin:auto;border:1px;padding:1px;width:60%;top:1%",ie.appendChild(Ue).appendChild(Xe);var e=C.getComputedStyle(Xe);$e="1%"!==e.top,ze=12===Ze(e.marginLeft),Xe.style.right="60%",_e=36===Ze(e.right),Fe=36===Ze(e.width),Xe.style.position="absolute",Be=12===Ze(Xe.offsetWidth/3),ie.removeChild(Ue),Xe=null}}function Ze(e){return Math.round(parseFloat(e))}Ue=E.createElement("div"),(Xe=E.createElement("div")).style&&(Xe.style.backgroundClip="content-box",Xe.cloneNode(!0).style.backgroundClip="",m.clearCloneStyle="content-box"===Xe.style.backgroundClip,S.extend(m,{boxSizingReliable:function(){return Ke(),Fe},pixelBoxStyles:function(){return Ke(),_e},pixelPosition:function(){return Ke(),$e},reliableMarginLeft:function(){return Ke(),ze},scrollboxSize:function(){return Ke(),Be}}));var et=["Webkit","Moz","ms"],tt=E.createElement("div").style,nt={};function rt(e){return S.cssProps[e]||nt[e]||(e in tt?e:nt[e]=function(e){for(var t=e[0].toUpperCase()+e.slice(1),n=et.length;n--;)if((e=et[n]+t)in tt)return e}(e)||e)}var it=/^(none|table(?!-c[ea]).+)/,ot=/^--/,at={position:"absolute",visibility:"hidden",display:"block"},st={letterSpacing:"0",fontWeight:"400"};function ut(e,t,n){var r=ne.exec(t);return r?Math.max(0,r[2]-(n||0))+(r[3]||"px"):t}function lt(e,t,n,r,i,o){var a="width"===t?1:0,s=0,u=0;if(n===(r?"border":"content"))return 0;for(;a<4;a+=2)"margin"===n&&(u+=S.css(e,n+re[a],!0,i)),r?("content"===n&&(u-=S.css(e,"padding"+re[a],!0,i)),"margin"!==n&&(u-=S.css(e,"border"+re[a]+"Width",!0,i))):(u+=S.css(e,"padding"+re[a],!0,i),"padding"!==n?u+=S.css(e,"border"+re[a]+"Width",!0,i):s+=S.css(e,"border"+re[a]+"Width",!0,i));return!r&&0<=o&&(u+=Math.max(0,Math.ceil(e["offset"+t[0].toUpperCase()+t.slice(1)]-o-u-s-.5))||0),u}function ct(e,t,n){var r=Ge(e),i=(!m.boxSizingReliable()||n)&&"border-box"===S.css(e,"boxSizing",!1,r),o=i,a=Qe(e,t,r),s="offset"+t[0].toUpperCase()+t.slice(1);if(Ve.test(a)){if(!n)return a;a="auto"}return(!m.boxSizingReliable()&&i||"auto"===a||!parseFloat(a)&&"inline"===S.css(e,"display",!1,r))&&e.getClientRects().length&&(i="border-box"===S.css(e,"boxSizing",!1,r),(o=s in e)&&(a=e[s])),(a=parseFloat(a)||0)+lt(e,t,n||(i?"border":"content"),o,r,a)+"px"}function ft(e,t,n,r,i){return new ft.prototype.init(e,t,n,r,i)}S.extend({cssHooks:{opacity:{get:function(e,t){if(t){var n=Qe(e,"opacity");return""===n?"1":n}}}},cssNumber:{animationIterationCount:!0,columnCount:!0,fillOpacity:!0,flexGrow:!0,flexShrink:!0,fontWeight:!0,gridArea:!0,gridColumn:!0,gridColumnEnd:!0,gridColumnStart:!0,gridRow:!0,gridRowEnd:!0,gridRowStart:!0,lineHeight:!0,opacity:!0,order:!0,orphans:!0,widows:!0,zIndex:!0,zoom:!0},cssProps:{},style:function(e,t,n,r){if(e&&3!==e.nodeType&&8!==e.nodeType&&e.style){var i,o,a,s=V(t),u=ot.test(t),l=e.style;if(u||(t=rt(s)),a=S.cssHooks[t]||S.cssHooks[s],void 0===n)return a&&"get"in a&&void 0!==(i=a.get(e,!1,r))?i:l[t];"string"==(o=typeof n)&&(i=ne.exec(n))&&i[1]&&(n=le(e,t,i),o="number"),null!=n&&n==n&&("number"!==o||u||(n+=i&&i[3]||(S.cssNumber[s]?"":"px")),m.clearCloneStyle||""!==n||0!==t.indexOf("background")||(l[t]="inherit"),a&&"set"in a&&void 0===(n=a.set(e,n,r))||(u?l.setProperty(t,n):l[t]=n))}},css:function(e,t,n,r){var i,o,a,s=V(t);return ot.test(t)||(t=rt(s)),(a=S.cssHooks[t]||S.cssHooks[s])&&"get"in a&&(i=a.get(e,!0,n)),void 0===i&&(i=Qe(e,t,r)),"normal"===i&&t in st&&(i=st[t]),""===n||n?(o=parseFloat(i),!0===n||isFinite(o)?o||0:i):i}}),S.each(["height","width"],function(e,u){S.cssHooks[u]={get:function(e,t,n){if(t)return!it.test(S.css(e,"display"))||e.getClientRects().length&&e.getBoundingClientRect().width?ct(e,u,n):ue(e,at,function(){return ct(e,u,n)})},set:function(e,t,n){var r,i=Ge(e),o=!m.scrollboxSize()&&"absolute"===i.position,a=(o||n)&&"border-box"===S.css(e,"boxSizing",!1,i),s=n?lt(e,u,n,a,i):0;return a&&o&&(s-=Math.ceil(e["offset"+u[0].toUpperCase()+u.slice(1)]-parseFloat(i[u])-lt(e,u,"border",!1,i)-.5)),s&&(r=ne.exec(t))&&"px"!==(r[3]||"px")&&(e.style[u]=t,t=S.css(e,u)),ut(0,t,s)}}}),S.cssHooks.marginLeft=Je(m.reliableMarginLeft,function(e,t){if(t)return(parseFloat(Qe(e,"marginLeft"))||e.getBoundingClientRect().left-ue(e,{marginLeft:0},function(){return e.getBoundingClientRect().left}))+"px"}),S.each({margin:"",padding:"",border:"Width"},function(i,o){S.cssHooks[i+o]={expand:function(e){for(var t=0,n={},r="string"==typeof e?e.split(" "):[e];t<4;t++)n[i+re[t]+o]=r[t]||r[t-2]||r[0];return n}},"margin"!==i&&(S.cssHooks[i+o].set=ut)}),S.fn.extend({css:function(e,t){return _(this,function(e,t,n){var r,i,o={},a=0;if(Array.isArray(t)){for(r=Ge(e),i=t.length;a<i;a++)o[t[a]]=S.css(e,t[a],!1,r);return o}return void 0!==n?S.style(e,t,n):S.css(e,t)},e,t,1<arguments.length)}}),((S.Tween=ft).prototype={constructor:ft,init:function(e,t,n,r,i,o){this.elem=e,this.prop=n,this.easing=i||S.easing._default,this.options=t,this.start=this.now=this.cur(),this.end=r,this.unit=o||(S.cssNumber[n]?"":"px")},cur:function(){var e=ft.propHooks[this.prop];return e&&e.get?e.get(this):ft.propHooks._default.get(this)},run:function(e){var t,n=ft.propHooks[this.prop];return this.options.duration?this.pos=t=S.easing[this.easing](e,this.options.duration*e,0,1,this.options.duration):this.pos=t=e,this.now=(this.end-this.start)*t+this.start,this.options.step&&this.options.step.call(this.elem,this.now,this),n&&n.set?n.set(this):ft.propHooks._default.set(this),this}}).init.prototype=ft.prototype,(ft.propHooks={_default:{get:function(e){var t;return 1!==e.elem.nodeType||null!=e.elem[e.prop]&&null==e.elem.style[e.prop]?e.elem[e.prop]:(t=S.css(e.elem,e.prop,""))&&"auto"!==t?t:0},set:function(e){S.fx.step[e.prop]?S.fx.step[e.prop](e):1!==e.elem.nodeType||!S.cssHooks[e.prop]&&null==e.elem.style[rt(e.prop)]?e.elem[e.prop]=e.now:S.style(e.elem,e.prop,e.now+e.unit)}}}).scrollTop=ft.propHooks.scrollLeft={set:function(e){e.elem.nodeType&&e.elem.parentNode&&(e.elem[e.prop]=e.now)}},S.easing={linear:function(e){return e},swing:function(e){return.5-Math.cos(e*Math.PI)/2},_default:"swing"},S.fx=ft.prototype.init,S.fx.step={};var pt,dt,ht,gt,vt=/^(?:toggle|show|hide)$/,yt=/queueHooks$/;function mt(){dt&&(!1===E.hidden&&C.requestAnimationFrame?C.requestAnimationFrame(mt):C.setTimeout(mt,S.fx.interval),S.fx.tick())}function xt(){return C.setTimeout(function(){pt=void 0}),pt=Date.now()}function bt(e,t){var n,r=0,i={height:e};for(t=t?1:0;r<4;r+=2-t)i["margin"+(n=re[r])]=i["padding"+n]=e;return t&&(i.opacity=i.width=e),i}function wt(e,t,n){for(var r,i=(Tt.tweeners[t]||[]).concat(Tt.tweeners["*"]),o=0,a=i.length;o<a;o++)if(r=i[o].call(n,t,e))return r}function Tt(o,e,t){var n,a,r=0,i=Tt.prefilters.length,s=S.Deferred().always(function(){delete u.elem}),u=function(){if(a)return!1;for(var e=pt||xt(),t=Math.max(0,l.startTime+l.duration-e),n=1-(t/l.duration||0),r=0,i=l.tweens.length;r<i;r++)l.tweens[r].run(n);return s.notifyWith(o,[l,n,t]),n<1&&i?t:(i||s.notifyWith(o,[l,1,0]),s.resolveWith(o,[l]),!1)},l=s.promise({elem:o,props:S.extend({},e),opts:S.extend(!0,{specialEasing:{},easing:S.easing._default},t),originalProperties:e,originalOptions:t,startTime:pt||xt(),duration:t.duration,tweens:[],createTween:function(e,t){var n=S.Tween(o,l.opts,e,t,l.opts.specialEasing[e]||l.opts.easing);return l.tweens.push(n),n},stop:function(e){var t=0,n=e?l.tweens.length:0;if(a)return this;for(a=!0;t<n;t++)l.tweens[t].run(1);return e?(s.notifyWith(o,[l,1,0]),s.resolveWith(o,[l,e])):s.rejectWith(o,[l,e]),this}}),c=l.props;for(function(e,t){var n,r,i,o,a;for(n in e)if(i=t[r=V(n)],o=e[n],Array.isArray(o)&&(i=o[1],o=e[n]=o[0]),n!==r&&(e[r]=o,delete e[n]),(a=S.cssHooks[r])&&"expand"in a)for(n in o=a.expand(o),delete e[r],o)n in e||(e[n]=o[n],t[n]=i);else t[r]=i}(c,l.opts.specialEasing);r<i;r++)if(n=Tt.prefilters[r].call(l,o,c,l.opts))return x(n.stop)&&(S._queueHooks(l.elem,l.opts.queue).stop=n.stop.bind(n)),n;return S.map(c,wt,l),x(l.opts.start)&&l.opts.start.call(o,l),l.progress(l.opts.progress).done(l.opts.done,l.opts.complete).fail(l.opts.fail).always(l.opts.always),S.fx.timer(S.extend(u,{elem:o,anim:l,queue:l.opts.queue})),l}S.Animation=S.extend(Tt,{tweeners:{"*":[function(e,t){var n=this.createTween(e,t);return le(n.elem,e,ne.exec(t),n),n}]},tweener:function(e,t){for(var n,r=0,i=(e=x(e)?(t=e,["*"]):e.match(R)).length;r<i;r++)n=e[r],Tt.tweeners[n]=Tt.tweeners[n]||[],Tt.tweeners[n].unshift(t)},prefilters:[function(e,t,n){var r,i,o,a,s,u,l,c,f="width"in t||"height"in t,p=this,d={},h=e.style,g=e.nodeType&&se(e),v=Q.get(e,"fxshow");for(r in n.queue||(null==(a=S._queueHooks(e,"fx")).unqueued&&(a.unqueued=0,s=a.empty.fire,a.empty.fire=function(){a.unqueued||s()}),a.unqueued++,p.always(function(){p.always(function(){a.unqueued--,S.queue(e,"fx").length||a.empty.fire()})})),t)if(i=t[r],vt.test(i)){if(delete t[r],o=o||"toggle"===i,i===(g?"hide":"show")){if("show"!==i||!v||void 0===v[r])continue;g=!0}d[r]=v&&v[r]||S.style(e,r)}if((u=!S.isEmptyObject(t))||!S.isEmptyObject(d))for(r in f&&1===e.nodeType&&(n.overflow=[h.overflow,h.overflowX,h.overflowY],null==(l=v&&v.display)&&(l=Q.get(e,"display")),"none"===(c=S.css(e,"display"))&&(l?c=l:(fe([e],!0),l=e.style.display||l,c=S.css(e,"display"),fe([e]))),("inline"===c||"inline-block"===c&&null!=l)&&"none"===S.css(e,"float")&&(u||(p.done(function(){h.display=l}),null==l&&(c=h.display,l="none"===c?"":c)),h.display="inline-block")),n.overflow&&(h.overflow="hidden",p.always(function(){h.overflow=n.overflow[0],h.overflowX=n.overflow[1],h.overflowY=n.overflow[2]})),u=!1,d)u||(v?"hidden"in v&&(g=v.hidden):v=Q.access(e,"fxshow",{display:l}),o&&(v.hidden=!g),g&&fe([e],!0),p.done(function(){for(r in g||fe([e]),Q.remove(e,"fxshow"),d)S.style(e,r,d[r])})),u=wt(g?v[r]:0,r,p),r in v||(v[r]=u.start,g&&(u.end=u.start,u.start=0))}],prefilter:function(e,t){t?Tt.prefilters.unshift(e):Tt.prefilters.push(e)}}),S.speed=function(e,t,n){var r=e&&"object"==typeof e?S.extend({},e):{complete:n||!n&&t||x(e)&&e,duration:e,easing:n&&t||t&&!x(t)&&t};return S.fx.off?r.duration=0:"number"!=typeof r.duration&&(r.duration in S.fx.speeds?r.duration=S.fx.speeds[r.duration]:r.duration=S.fx.speeds._default),null!=r.queue&&!0!==r.queue||(r.queue="fx"),r.old=r.complete,r.complete=function(){x(r.old)&&r.old.call(this),r.queue&&S.dequeue(this,r.queue)},r},S.fn.extend({fadeTo:function(e,t,n,r){return this.filter(se).css("opacity",0).show().end().animate({opacity:t},e,n,r)},animate:function(t,e,n,r){function i(){var e=Tt(this,S.extend({},t),a);(o||Q.get(this,"finish"))&&e.stop(!0)}var o=S.isEmptyObject(t),a=S.speed(e,n,r);return i.finish=i,o||!1===a.queue?this.each(i):this.queue(a.queue,i)},stop:function(i,e,o){function a(e){var t=e.stop;delete e.stop,t(o)}return"string"!=typeof i&&(o=e,e=i,i=void 0),e&&!1!==i&&this.queue(i||"fx",[]),this.each(function(){var e=!0,t=null!=i&&i+"queueHooks",n=S.timers,r=Q.get(this);if(t)r[t]&&r[t].stop&&a(r[t]);else for(t in r)r[t]&&r[t].stop&&yt.test(t)&&a(r[t]);for(t=n.length;t--;)n[t].elem!==this||null!=i&&n[t].queue!==i||(n[t].anim.stop(o),e=!1,n.splice(t,1));!e&&o||S.dequeue(this,i)})},finish:function(a){return!1!==a&&(a=a||"fx"),this.each(function(){var e,t=Q.get(this),n=t[a+"queue"],r=t[a+"queueHooks"],i=S.timers,o=n?n.length:0;for(t.finish=!0,S.queue(this,a,[]),r&&r.stop&&r.stop.call(this,!0),e=i.length;e--;)i[e].elem===this&&i[e].queue===a&&(i[e].anim.stop(!0),i.splice(e,1));for(e=0;e<o;e++)n[e]&&n[e].finish&&n[e].finish.call(this);delete t.finish})}}),S.each(["toggle","show","hide"],function(e,r){var i=S.fn[r];S.fn[r]=function(e,t,n){return null==e||"boolean"==typeof e?i.apply(this,arguments):this.animate(bt(r,!0),e,t,n)}}),S.each({slideDown:bt("show"),slideUp:bt("hide"),slideToggle:bt("toggle"),fadeIn:{opacity:"show"},fadeOut:{opacity:"hide"},fadeToggle:{opacity:"toggle"}},function(e,r){S.fn[e]=function(e,t,n){return this.animate(r,e,t,n)}}),S.timers=[],S.fx.tick=function(){var e,t=0,n=S.timers;for(pt=Date.now();t<n.length;t++)(e=n[t])()||n[t]!==e||n.splice(t--,1);n.length||S.fx.stop(),pt=void 0},S.fx.timer=function(e){S.timers.push(e),S.fx.start()},S.fx.interval=13,S.fx.start=function(){dt||(dt=!0,mt())},S.fx.stop=function(){dt=null},S.fx.speeds={slow:600,fast:200,_default:400},S.fn.delay=function(r,e){return r=S.fx&&S.fx.speeds[r]||r,e=e||"fx",this.queue(e,function(e,t){var n=C.setTimeout(e,r);t.stop=function(){C.clearTimeout(n)}})},ht=E.createElement("input"),gt=E.createElement("select").appendChild(E.createElement("option")),ht.type="checkbox",m.checkOn=""!==ht.value,m.optSelected=gt.selected,(ht=E.createElement("input")).value="t",ht.type="radio",m.radioValue="t"===ht.value;var Ct,Et=S.expr.attrHandle;S.fn.extend({attr:function(e,t){return _(this,S.attr,e,t,1<arguments.length)},removeAttr:function(e){return this.each(function(){S.removeAttr(this,e)})}}),S.extend({attr:function(e,t,n){var r,i,o=e.nodeType;if(3!==o&&8!==o&&2!==o)return void 0===e.getAttribute?S.prop(e,t,n):(1===o&&S.isXMLDoc(e)||(i=S.attrHooks[t.toLowerCase()]||(S.expr.match.bool.test(t)?Ct:void 0)),void 0!==n?null===n?void S.removeAttr(e,t):i&&"set"in i&&void 0!==(r=i.set(e,n,t))?r:(e.setAttribute(t,n+""),n):!(i&&"get"in i&&null!==(r=i.get(e,t)))&&null==(r=S.find.attr(e,t))?void 0:r)},attrHooks:{type:{set:function(e,t){if(!m.radioValue&&"radio"===t&&A(e,"input")){var n=e.value;return e.setAttribute("type",t),n&&(e.value=n),t}}}},removeAttr:function(e,t){var n,r=0,i=t&&t.match(R);if(i&&1===e.nodeType)for(;n=i[r++];)e.removeAttribute(n)}}),Ct={set:function(e,t,n){return!1===t?S.removeAttr(e,n):e.setAttribute(n,n),n}},S.each(S.expr.match.bool.source.match(/\w+/g),function(e,t){var a=Et[t]||S.find.attr;Et[t]=function(e,t,n){var r,i,o=t.toLowerCase();return n||(i=Et[o],Et[o]=r,r=null!=a(e,t,n)?o:null,Et[o]=i),r}});var St=/^(?:input|select|textarea|button)$/i,kt=/^(?:a|area)$/i;function Nt(e){return(e.match(R)||[]).join(" ")}function At(e){return e.getAttribute&&e.getAttribute("class")||""}function Dt(e){return Array.isArray(e)?e:"string"==typeof e&&e.match(R)||[]}S.fn.extend({prop:function(e,t){return _(this,S.prop,e,t,1<arguments.length)},removeProp:function(e){return this.each(function(){delete this[S.propFix[e]||e]})}}),S.extend({prop:function(e,t,n){var r,i,o=e.nodeType;if(3!==o&&8!==o&&2!==o)return 1===o&&S.isXMLDoc(e)||(t=S.propFix[t]||t,i=S.propHooks[t]),void 0!==n?i&&"set"in i&&void 0!==(r=i.set(e,n,t))?r:e[t]=n:i&&"get"in i&&null!==(r=i.get(e,t))?r:e[t]},propHooks:{tabIndex:{get:function(e){var t=S.find.attr(e,"tabindex");return t?parseInt(t,10):St.test(e.nodeName)||kt.test(e.nodeName)&&e.href?0:-1}}},propFix:{for:"htmlFor",class:"className"}}),m.optSelected||(S.propHooks.selected={get:function(e){var t=e.parentNode;return t&&t.parentNode&&t.parentNode.selectedIndex,null},set:function(e){var t=e.parentNode;t&&(t.selectedIndex,t.parentNode&&t.parentNode.selectedIndex)}}),S.each(["tabIndex","readOnly","maxLength","cellSpacing","cellPadding","rowSpan","colSpan","useMap","frameBorder","contentEditable"],function(){S.propFix[this.toLowerCase()]=this}),S.fn.extend({addClass:function(t){var e,n,r,i,o,a,s,u=0;if(x(t))return this.each(function(e){S(this).addClass(t.call(this,e,At(this)))});if((e=Dt(t)).length)for(;n=this[u++];)if(i=At(n),r=1===n.nodeType&&" "+Nt(i)+" "){for(a=0;o=e[a++];)r.indexOf(" "+o+" ")<0&&(r+=o+" ");i!==(s=Nt(r))&&n.setAttribute("class",s)}return this},removeClass:function(t){var e,n,r,i,o,a,s,u=0;if(x(t))return this.each(function(e){S(this).removeClass(t.call(this,e,At(this)))});if(!arguments.length)return this.attr("class","");if((e=Dt(t)).length)for(;n=this[u++];)if(i=At(n),r=1===n.nodeType&&" "+Nt(i)+" "){for(a=0;o=e[a++];)for(;-1<r.indexOf(" "+o+" ");)r=r.replace(" "+o+" "," ");i!==(s=Nt(r))&&n.setAttribute("class",s)}return this},toggleClass:function(i,t){var o=typeof i,a="string"==o||Array.isArray(i);return"boolean"==typeof t&&a?t?this.addClass(i):this.removeClass(i):x(i)?this.each(function(e){S(this).toggleClass(i.call(this,e,At(this),t),t)}):this.each(function(){var e,t,n,r;if(a)for(t=0,n=S(this),r=Dt(i);e=r[t++];)n.hasClass(e)?n.removeClass(e):n.addClass(e);else void 0!==i&&"boolean"!=o||((e=At(this))&&Q.set(this,"__className__",e),this.setAttribute&&this.setAttribute("class",!e&&!1!==i&&Q.get(this,"__className__")||""))})},hasClass:function(e){var t,n,r=0;for(t=" "+e+" ";n=this[r++];)if(1===n.nodeType&&-1<(" "+Nt(At(n))+" ").indexOf(t))return!0;return!1}});var jt=/\r/g;S.fn.extend({val:function(n){var r,e,i,t=this[0];return arguments.length?(i=x(n),this.each(function(e){var t;1===this.nodeType&&(null==(t=i?n.call(this,e,S(this).val()):n)?t="":"number"==typeof t?t+="":Array.isArray(t)&&(t=S.map(t,function(e){return null==e?"":e+""})),(r=S.valHooks[this.type]||S.valHooks[this.nodeName.toLowerCase()])&&"set"in r&&void 0!==r.set(this,t,"value")||(this.value=t))})):t?(r=S.valHooks[t.type]||S.valHooks[t.nodeName.toLowerCase()])&&"get"in r&&void 0!==(e=r.get(t,"value"))?e:"string"==typeof(e=t.value)?e.replace(jt,""):null==e?"":e:void 0}}),S.extend({valHooks:{option:{get:function(e){var t=S.find.attr(e,"value");return null!=t?t:Nt(S.text(e))}},select:{get:function(e){var t,n,r,i=e.options,o=e.selectedIndex,a="select-one"===e.type,s=a?null:[],u=a?o+1:i.length;for(r=o<0?u:a?o:0;r<u;r++)if(((n=i[r]).selected||r===o)&&!n.disabled&&(!n.parentNode.disabled||!A(n.parentNode,"optgroup"))){if(t=S(n).val(),a)return t;s.push(t)}return s},set:function(e,t){for(var n,r,i=e.options,o=S.makeArray(t),a=i.length;a--;)((r=i[a]).selected=-1<S.inArray(S.valHooks.option.get(r),o))&&(n=!0);return n||(e.selectedIndex=-1),o}}}}),S.each(["radio","checkbox"],function(){S.valHooks[this]={set:function(e,t){if(Array.isArray(t))return e.checked=-1<S.inArray(S(e).val(),t)}},m.checkOn||(S.valHooks[this].get=function(e){return null===e.getAttribute("value")?"on":e.value})}),m.focusin="onfocusin"in C;function qt(e){e.stopPropagation()}var Lt=/^(?:focusinfocus|focusoutblur)$/;S.extend(S.event,{trigger:function(e,t,n,r){var i,o,a,s,u,l,c,f,p=[n||E],d=y.call(e,"type")?e.type:e,h=y.call(e,"namespace")?e.namespace.split("."):[];if(o=f=a=n=n||E,3!==n.nodeType&&8!==n.nodeType&&!Lt.test(d+S.event.triggered)&&(-1<d.indexOf(".")&&(d=(h=d.split(".")).shift(),h.sort()),u=d.indexOf(":")<0&&"on"+d,(e=e[S.expando]?e:new S.Event(d,"object"==typeof e&&e)).isTrigger=r?2:3,e.namespace=h.join("."),e.rnamespace=e.namespace?new RegExp("(^|\\.)"+h.join("\\.(?:.*\\.|)")+"(\\.|$)"):null,e.result=void 0,e.target||(e.target=n),t=null==t?[e]:S.makeArray(t,[e]),c=S.event.special[d]||{},r||!c.trigger||!1!==c.trigger.apply(n,t))){if(!r&&!c.noBubble&&!g(n)){for(s=c.delegateType||d,Lt.test(s+d)||(o=o.parentNode);o;o=o.parentNode)p.push(o),a=o;a===(n.ownerDocument||E)&&p.push(a.defaultView||a.parentWindow||C)}for(i=0;(o=p[i++])&&!e.isPropagationStopped();)f=o,e.type=1<i?s:c.bindType||d,(l=(Q.get(o,"events")||{})[e.type]&&Q.get(o,"handle"))&&l.apply(o,t),(l=u&&o[u])&&l.apply&&G(o)&&(e.result=l.apply(o,t),!1===e.result&&e.preventDefault());return e.type=d,r||e.isDefaultPrevented()||c._default&&!1!==c._default.apply(p.pop(),t)||!G(n)||u&&x(n[d])&&!g(n)&&((a=n[u])&&(n[u]=null),S.event.triggered=d,e.isPropagationStopped()&&f.addEventListener(d,qt),n[d](),e.isPropagationStopped()&&f.removeEventListener(d,qt),S.event.triggered=void 0,a&&(n[u]=a)),e.result}},simulate:function(e,t,n){var r=S.extend(new S.Event,n,{type:e,isSimulated:!0});S.event.trigger(r,null,t)}}),S.fn.extend({trigger:function(e,t){return this.each(function(){S.event.trigger(e,t,this)})},triggerHandler:function(e,t){var n=this[0];if(n)return S.event.trigger(e,t,n,!0)}}),m.focusin||S.each({focus:"focusin",blur:"focusout"},function(n,r){function i(e){S.event.simulate(r,e.target,S.event.fix(e))}S.event.special[r]={setup:function(){var e=this.ownerDocument||this,t=Q.access(e,r);t||e.addEventListener(n,i,!0),Q.access(e,r,(t||0)+1)},teardown:function(){var e=this.ownerDocument||this,t=Q.access(e,r)-1;t?Q.access(e,r,t):(e.removeEventListener(n,i,!0),Q.remove(e,r))}}});var Ht=C.location,Ot=Date.now(),Pt=/\?/;S.parseXML=function(e){var t;if(!e||"string"!=typeof e)return null;try{t=(new C.DOMParser).parseFromString(e,"text/xml")}catch(e){t=void 0}return t&&!t.getElementsByTagName("parsererror").length||S.error("Invalid XML: "+e),t};var Rt=/\[\]$/,Mt=/\r?\n/g,It=/^(?:submit|button|image|reset|file)$/i,Wt=/^(?:input|select|textarea|keygen)/i;function $t(n,e,r,i){var t;if(Array.isArray(e))S.each(e,function(e,t){r||Rt.test(n)?i(n,t):$t(n+"["+("object"==typeof t&&null!=t?e:"")+"]",t,r,i)});else if(r||"object"!==w(e))i(n,e);else for(t in e)$t(n+"["+t+"]",e[t],r,i)}S.param=function(e,t){function n(e,t){var n=x(t)?t():t;i[i.length]=encodeURIComponent(e)+"="+encodeURIComponent(null==n?"":n)}var r,i=[];if(null==e)return"";if(Array.isArray(e)||e.jquery&&!S.isPlainObject(e))S.each(e,function(){n(this.name,this.value)});else for(r in e)$t(r,e[r],t,n);return i.join("&")},S.fn.extend({serialize:function(){return S.param(this.serializeArray())},serializeArray:function(){return this.map(function(){var e=S.prop(this,"elements");return e?S.makeArray(e):this}).filter(function(){var e=this.type;return this.name&&!S(this).is(":disabled")&&Wt.test(this.nodeName)&&!It.test(e)&&(this.checked||!pe.test(e))}).map(function(e,t){var n=S(this).val();return null==n?null:Array.isArray(n)?S.map(n,function(e){return{name:t.name,value:e.replace(Mt,"\r\n")}}):{name:t.name,value:n.replace(Mt,"\r\n")}}).get()}});var Ft=/%20/g,Bt=/#.*$/,_t=/([?&])_=[^&]*/,zt=/^(.*?):[ \t]*([^\r\n]*)$/gm,Ut=/^(?:GET|HEAD)$/,Xt=/^\/\//,Vt={},Gt={},Yt="*/".concat("*"),Qt=E.createElement("a");function Jt(o){return function(e,t){"string"!=typeof e&&(t=e,e="*");var n,r=0,i=e.toLowerCase().match(R)||[];if(x(t))for(;n=i[r++];)"+"===n[0]?(n=n.slice(1)||"*",(o[n]=o[n]||[]).unshift(t)):(o[n]=o[n]||[]).push(t)}}function Kt(t,i,o,a){var s={},u=t===Gt;function l(e){var r;return s[e]=!0,S.each(t[e]||[],function(e,t){var n=t(i,o,a);return"string"!=typeof n||u||s[n]?u?!(r=n):void 0:(i.dataTypes.unshift(n),l(n),!1)}),r}return l(i.dataTypes[0])||!s["*"]&&l("*")}function Zt(e,t){var n,r,i=S.ajaxSettings.flatOptions||{};for(n in t)void 0!==t[n]&&((i[n]?e:r=r||{})[n]=t[n]);return r&&S.extend(!0,e,r),e}Qt.href=Ht.href,S.extend({active:0,lastModified:{},etag:{},ajaxSettings:{url:Ht.href,type:"GET",isLocal:/^(?:about|app|app-storage|.+-extension|file|res|widget):$/.test(Ht.protocol),global:!0,processData:!0,async:!0,contentType:"application/x-www-form-urlencoded; charset=UTF-8",accepts:{"*":Yt,text:"text/plain",html:"text/html",xml:"application/xml, text/xml",json:"application/json, text/javascript"},contents:{xml:/\bxml\b/,html:/\bhtml/,json:/\bjson\b/},responseFields:{xml:"responseXML",text:"responseText",json:"responseJSON"},converters:{"* text":String,"text html":!0,"text json":JSON.parse,"text xml":S.parseXML},flatOptions:{url:!0,context:!0}},ajaxSetup:function(e,t){return t?Zt(Zt(e,S.ajaxSettings),t):Zt(S.ajaxSettings,e)},ajaxPrefilter:Jt(Vt),ajaxTransport:Jt(Gt),ajax:function(e,t){"object"==typeof e&&(t=e,e=void 0),t=t||{};var c,f,p,n,d,r,h,g,i,o,v=S.ajaxSetup({},t),y=v.context||v,m=v.context&&(y.nodeType||y.jquery)?S(y):S.event,x=S.Deferred(),b=S.Callbacks("once memory"),w=v.statusCode||{},a={},s={},u="canceled",T={readyState:0,getResponseHeader:function(e){var t;if(h){if(!n)for(n={};t=zt.exec(p);)n[t[1].toLowerCase()+" "]=(n[t[1].toLowerCase()+" "]||[]).concat(t[2]);t=n[e.toLowerCase()+" "]}return null==t?null:t.join(", ")},getAllResponseHeaders:function(){return h?p:null},setRequestHeader:function(e,t){return null==h&&(e=s[e.toLowerCase()]=s[e.toLowerCase()]||e,a[e]=t),this},overrideMimeType:function(e){return null==h&&(v.mimeType=e),this},statusCode:function(e){var t;if(e)if(h)T.always(e[T.status]);else for(t in e)w[t]=[w[t],e[t]];return this},abort:function(e){var t=e||u;return c&&c.abort(t),l(0,t),this}};if(x.promise(T),v.url=((e||v.url||Ht.href)+"").replace(Xt,Ht.protocol+"//"),v.type=t.method||t.type||v.method||v.type,v.dataTypes=(v.dataType||"*").toLowerCase().match(R)||[""],null==v.crossDomain){r=E.createElement("a");try{r.href=v.url,r.href=r.href,v.crossDomain=Qt.protocol+"//"+Qt.host!=r.protocol+"//"+r.host}catch(e){v.crossDomain=!0}}if(v.data&&v.processData&&"string"!=typeof v.data&&(v.data=S.param(v.data,v.traditional)),Kt(Vt,v,t,T),h)return T;for(i in(g=S.event&&v.global)&&0==S.active++&&S.event.trigger("ajaxStart"),v.type=v.type.toUpperCase(),v.hasContent=!Ut.test(v.type),f=v.url.replace(Bt,""),v.hasContent?v.data&&v.processData&&0===(v.contentType||"").indexOf("application/x-www-form-urlencoded")&&(v.data=v.data.replace(Ft,"+")):(o=v.url.slice(f.length),v.data&&(v.processData||"string"==typeof v.data)&&(f+=(Pt.test(f)?"&":"?")+v.data,delete v.data),!1===v.cache&&(f=f.replace(_t,"$1"),o=(Pt.test(f)?"&":"?")+"_="+Ot+++o),v.url=f+o),v.ifModified&&(S.lastModified[f]&&T.setRequestHeader("If-Modified-Since",S.lastModified[f]),S.etag[f]&&T.setRequestHeader("If-None-Match",S.etag[f])),(v.data&&v.hasContent&&!1!==v.contentType||t.contentType)&&T.setRequestHeader("Content-Type",v.contentType),T.setRequestHeader("Accept",v.dataTypes[0]&&v.accepts[v.dataTypes[0]]?v.accepts[v.dataTypes[0]]+("*"!==v.dataTypes[0]?", "+Yt+"; q=0.01":""):v.accepts["*"]),v.headers)T.setRequestHeader(i,v.headers[i]);if(v.beforeSend&&(!1===v.beforeSend.call(y,T,v)||h))return T.abort();if(u="abort",b.add(v.complete),T.done(v.success),T.fail(v.error),c=Kt(Gt,v,t,T)){if(T.readyState=1,g&&m.trigger("ajaxSend",[T,v]),h)return T;v.async&&0<v.timeout&&(d=C.setTimeout(function(){T.abort("timeout")},v.timeout));try{h=!1,c.send(a,l)}catch(e){if(h)throw e;l(-1,e)}}else l(-1,"No Transport");function l(e,t,n,r){var i,o,a,s,u,l=t;h||(h=!0,d&&C.clearTimeout(d),c=void 0,p=r||"",T.readyState=0<e?4:0,i=200<=e&&e<300||304===e,n&&(s=function(e,t,n){for(var r,i,o,a,s=e.contents,u=e.dataTypes;"*"===u[0];)u.shift(),void 0===r&&(r=e.mimeType||t.getResponseHeader("Content-Type"));if(r)for(i in s)if(s[i]&&s[i].test(r)){u.unshift(i);break}if(u[0]in n)o=u[0];else{for(i in n){if(!u[0]||e.converters[i+" "+u[0]]){o=i;break}a=a||i}o=o||a}if(o)return o!==u[0]&&u.unshift(o),n[o]}(v,T,n)),s=function(e,t,n,r){var i,o,a,s,u,l={},c=e.dataTypes.slice();if(c[1])for(a in e.converters)l[a.toLowerCase()]=e.converters[a];for(o=c.shift();o;)if(e.responseFields[o]&&(n[e.responseFields[o]]=t),!u&&r&&e.dataFilter&&(t=e.dataFilter(t,e.dataType)),u=o,o=c.shift())if("*"===o)o=u;else if("*"!==u&&u!==o){if(!(a=l[u+" "+o]||l["* "+o]))for(i in l)if((s=i.split(" "))[1]===o&&(a=l[u+" "+s[0]]||l["* "+s[0]])){!0===a?a=l[i]:!0!==l[i]&&(o=s[0],c.unshift(s[1]));break}if(!0!==a)if(a&&e.throws)t=a(t);else try{t=a(t)}catch(e){return{state:"parsererror",error:a?e:"No conversion from "+u+" to "+o}}}return{state:"success",data:t}}(v,s,T,i),i?(v.ifModified&&((u=T.getResponseHeader("Last-Modified"))&&(S.lastModified[f]=u),(u=T.getResponseHeader("etag"))&&(S.etag[f]=u)),204===e||"HEAD"===v.type?l="nocontent":304===e?l="notmodified":(l=s.state,o=s.data,i=!(a=s.error))):(a=l,!e&&l||(l="error",e<0&&(e=0))),T.status=e,T.statusText=(t||l)+"",i?x.resolveWith(y,[o,l,T]):x.rejectWith(y,[T,l,a]),T.statusCode(w),w=void 0,g&&m.trigger(i?"ajaxSuccess":"ajaxError",[T,v,i?o:a]),b.fireWith(y,[T,l]),g&&(m.trigger("ajaxComplete",[T,v]),--S.active||S.event.trigger("ajaxStop")))}return T},getJSON:function(e,t,n){return S.get(e,t,n,"json")},getScript:function(e,t){return S.get(e,void 0,t,"script")}}),S.each(["get","post"],function(e,i){S[i]=function(e,t,n,r){return x(t)&&(r=r||n,n=t,t=void 0),S.ajax(S.extend({url:e,type:i,dataType:r,data:t,success:n},S.isPlainObject(e)&&e))}}),S._evalUrl=function(e,t){return S.ajax({url:e,type:"GET",dataType:"script",cache:!0,async:!1,global:!1,converters:{"text script":function(){}},dataFilter:function(e){S.globalEval(e,t)}})},S.fn.extend({wrapAll:function(e){var t;return this[0]&&(x(e)&&(e=e.call(this[0])),t=S(e,this[0].ownerDocument).eq(0).clone(!0),this[0].parentNode&&t.insertBefore(this[0]),t.map(function(){for(var e=this;e.firstElementChild;)e=e.firstElementChild;return e}).append(this)),this},wrapInner:function(n){return x(n)?this.each(function(e){S(this).wrapInner(n.call(this,e))}):this.each(function(){var e=S(this),t=e.contents();t.length?t.wrapAll(n):e.append(n)})},wrap:function(t){var n=x(t);return this.each(function(e){S(this).wrapAll(n?t.call(this,e):t)})},unwrap:function(e){return this.parent(e).not("body").each(function(){S(this).replaceWith(this.childNodes)}),this}}),S.expr.pseudos.hidden=function(e){return!S.expr.pseudos.visible(e)},S.expr.pseudos.visible=function(e){return!!(e.offsetWidth||e.offsetHeight||e.getClientRects().length)},S.ajaxSettings.xhr=function(){try{return new C.XMLHttpRequest}catch(e){}};var en={0:200,1223:204},tn=S.ajaxSettings.xhr();m.cors=!!tn&&"withCredentials"in tn,m.ajax=tn=!!tn,S.ajaxTransport(function(i){var o,a;if(m.cors||tn&&!i.crossDomain)return{send:function(e,t){var n,r=i.xhr();if(r.open(i.type,i.url,i.async,i.username,i.password),i.xhrFields)for(n in i.xhrFields)r[n]=i.xhrFields[n];for(n in i.mimeType&&r.overrideMimeType&&r.overrideMimeType(i.mimeType),i.crossDomain||e["X-Requested-With"]||(e["X-Requested-With"]="XMLHttpRequest"),e)r.setRequestHeader(n,e[n]);o=function(e){return function(){o&&(o=a=r.onload=r.onerror=r.onabort=r.ontimeout=r.onreadystatechange=null,"abort"===e?r.abort():"error"===e?"number"!=typeof r.status?t(0,"error"):t(r.status,r.statusText):t(en[r.status]||r.status,r.statusText,"text"!==(r.responseType||"text")||"string"!=typeof r.responseText?{binary:r.response}:{text:r.responseText},r.getAllResponseHeaders()))}},r.onload=o(),a=r.onerror=r.ontimeout=o("error"),void 0!==r.onabort?r.onabort=a:r.onreadystatechange=function(){4===r.readyState&&C.setTimeout(function(){o&&a()})},o=o("abort");try{r.send(i.hasContent&&i.data||null)}catch(e){if(o)throw e}},abort:function(){o&&o()}}}),S.ajaxPrefilter(function(e){e.crossDomain&&(e.contents.script=!1)}),S.ajaxSetup({accepts:{script:"text/javascript, application/javascript, application/ecmascript, application/x-ecmascript"},contents:{script:/\b(?:java|ecma)script\b/},converters:{"text script":function(e){return S.globalEval(e),e}}}),S.ajaxPrefilter("script",function(e){void 0===e.cache&&(e.cache=!1),e.crossDomain&&(e.type="GET")}),S.ajaxTransport("script",function(n){var r,i;if(n.crossDomain||n.scriptAttrs)return{send:function(e,t){r=S("<script>").attr(n.scriptAttrs||{}).prop({charset:n.scriptCharset,src:n.url}).on("load error",i=function(e){r.remove(),i=null,e&&t("error"===e.type?404:200,e.type)}),E.head.appendChild(r[0])},abort:function(){i&&i()}}});var nn,rn=[],on=/(=)\?(?=&|$)|\?\?/;S.ajaxSetup({jsonp:"callback",jsonpCallback:function(){var e=rn.pop()||S.expando+"_"+Ot++;return this[e]=!0,e}}),S.ajaxPrefilter("json jsonp",function(e,t,n){var r,i,o,a=!1!==e.jsonp&&(on.test(e.url)?"url":"string"==typeof e.data&&0===(e.contentType||"").indexOf("application/x-www-form-urlencoded")&&on.test(e.data)&&"data");if(a||"jsonp"===e.dataTypes[0])return r=e.jsonpCallback=x(e.jsonpCallback)?e.jsonpCallback():e.jsonpCallback,a?e[a]=e[a].replace(on,"$1"+r):!1!==e.jsonp&&(e.url+=(Pt.test(e.url)?"&":"?")+e.jsonp+"="+r),e.converters["script json"]=function(){return o||S.error(r+" was not called"),o[0]},e.dataTypes[0]="json",i=C[r],C[r]=function(){o=arguments},n.always(function(){void 0===i?S(C).removeProp(r):C[r]=i,e[r]&&(e.jsonpCallback=t.jsonpCallback,rn.push(r)),o&&x(i)&&i(o[0]),o=i=void 0}),"script"}),m.createHTMLDocument=((nn=E.implementation.createHTMLDocument("").body).innerHTML="<form></form><form></form>",2===nn.childNodes.length),S.parseHTML=function(e,t,n){return"string"!=typeof e?[]:("boolean"==typeof t&&(n=t,t=!1),t||(m.createHTMLDocument?((r=(t=E.implementation.createHTMLDocument("")).createElement("base")).href=E.location.href,t.head.appendChild(r)):t=E),o=!n&&[],(i=D.exec(e))?[t.createElement(i[1])]:(i=we([e],t,o),o&&o.length&&S(o).remove(),S.merge([],i.childNodes)));var r,i,o},S.fn.load=function(e,t,n){var r,i,o,a=this,s=e.indexOf(" ");return-1<s&&(r=Nt(e.slice(s)),e=e.slice(0,s)),x(t)?(n=t,t=void 0):t&&"object"==typeof t&&(i="POST"),0<a.length&&S.ajax({url:e,type:i||"GET",dataType:"html",data:t}).done(function(e){o=arguments,a.html(r?S("<div>").append(S.parseHTML(e)).find(r):e)}).always(n&&function(e,t){a.each(function(){n.apply(this,o||[e.responseText,t,e])})}),this},S.each(["ajaxStart","ajaxStop","ajaxComplete","ajaxError","ajaxSuccess","ajaxSend"],function(e,t){S.fn[t]=function(e){return this.on(t,e)}}),S.expr.pseudos.animated=function(t){return S.grep(S.timers,function(e){return t===e.elem}).length},S.offset={setOffset:function(e,t,n){var r,i,o,a,s,u,l=S.css(e,"position"),c=S(e),f={};"static"===l&&(e.style.position="relative"),s=c.offset(),o=S.css(e,"top"),u=S.css(e,"left"),i=("absolute"===l||"fixed"===l)&&-1<(o+u).indexOf("auto")?(a=(r=c.position()).top,r.left):(a=parseFloat(o)||0,parseFloat(u)||0),x(t)&&(t=t.call(e,n,S.extend({},s))),null!=t.top&&(f.top=t.top-s.top+a),null!=t.left&&(f.left=t.left-s.left+i),"using"in t?t.using.call(e,f):c.css(f)}},S.fn.extend({offset:function(t){if(arguments.length)return void 0===t?this:this.each(function(e){S.offset.setOffset(this,t,e)});var e,n,r=this[0];return r?r.getClientRects().length?(e=r.getBoundingClientRect(),n=r.ownerDocument.defaultView,{top:e.top+n.pageYOffset,left:e.left+n.pageXOffset}):{top:0,left:0}:void 0},position:function(){if(this[0]){var e,t,n,r=this[0],i={top:0,left:0};if("fixed"===S.css(r,"position"))t=r.getBoundingClientRect();else{for(t=this.offset(),n=r.ownerDocument,e=r.offsetParent||n.documentElement;e&&(e===n.body||e===n.documentElement)&&"static"===S.css(e,"position");)e=e.parentNode;e&&e!==r&&1===e.nodeType&&((i=S(e).offset()).top+=S.css(e,"borderTopWidth",!0),i.left+=S.css(e,"borderLeftWidth",!0))}return{top:t.top-i.top-S.css(r,"marginTop",!0),left:t.left-i.left-S.css(r,"marginLeft",!0)}}},offsetParent:function(){return this.map(function(){for(var e=this.offsetParent;e&&"static"===S.css(e,"position");)e=e.offsetParent;return e||ie})}}),S.each({scrollLeft:"pageXOffset",scrollTop:"pageYOffset"},function(t,i){var o="pageYOffset"===i;S.fn[t]=function(e){return _(this,function(e,t,n){var r;if(g(e)?r=e:9===e.nodeType&&(r=e.defaultView),void 0===n)return r?r[i]:e[t];r?r.scrollTo(o?r.pageXOffset:n,o?n:r.pageYOffset):e[t]=n},t,e,arguments.length)}}),S.each(["top","left"],function(e,n){S.cssHooks[n]=Je(m.pixelPosition,function(e,t){if(t)return t=Qe(e,n),Ve.test(t)?S(e).position()[n]+"px":t})}),S.each({Height:"height",Width:"width"},function(a,s){S.each({padding:"inner"+a,content:s,"":"outer"+a},function(r,o){S.fn[o]=function(e,t){var n=arguments.length&&(r||"boolean"!=typeof e),i=r||(!0===e||!0===t?"margin":"border");return _(this,function(e,t,n){var r;return g(e)?0===o.indexOf("outer")?e["inner"+a]:e.document.documentElement["client"+a]:9===e.nodeType?(r=e.documentElement,Math.max(e.body["scroll"+a],r["scroll"+a],e.body["offset"+a],r["offset"+a],r["client"+a])):void 0===n?S.css(e,t,i):S.style(e,t,n,i)},s,n?e:void 0,n)}})}),S.each("blur focus focusin focusout resize scroll click dblclick mousedown mouseup mousemove mouseover mouseout mouseenter mouseleave change select submit keydown keypress keyup contextmenu".split(" "),function(e,n){S.fn[n]=function(e,t){return 0<arguments.length?this.on(n,null,e,t):this.trigger(n)}}),S.fn.extend({hover:function(e,t){return this.mouseenter(e).mouseleave(t||e)}}),S.fn.extend({bind:function(e,t,n){return this.on(e,null,t,n)},unbind:function(e,t){return this.off(e,null,t)},delegate:function(e,t,n,r){return this.on(t,e,n,r)},undelegate:function(e,t,n){return 1===arguments.length?this.off(e,"**"):this.off(t,e||"**",n)}}),S.proxy=function(e,t){var n,r,i;if("string"==typeof t&&(n=e[t],t=e,e=n),x(e))return r=s.call(arguments,2),(i=function(){return e.apply(t||this,r.concat(s.call(arguments)))}).guid=e.guid=e.guid||S.guid++,i},S.holdReady=function(e){e?S.readyWait++:S.ready(!0)},S.isArray=Array.isArray,S.parseJSON=JSON.parse,S.nodeName=A,S.isFunction=x,S.isWindow=g,S.camelCase=V,S.type=w,S.now=Date.now,S.isNumeric=function(e){var t=S.type(e);return("number"===t||"string"===t)&&!isNaN(e-parseFloat(e))},"function"==typeof define&&define.amd&&define("jquery",[],function(){return S});var an=C.jQuery,sn=C.$;return S.noConflict=function(e){return C.$===S&&(C.$=sn),e&&C.jQuery===S&&(C.jQuery=an),S},e||(C.jQuery=C.$=S),S});
-"object"==typeof navigator&&function(e,t){"object"==typeof exports&&"undefined"!=typeof module?module.exports=t():"function"==typeof define&&define.amd?define("Plyr",t):(e=e||self).Plyr=t()}(this,function(){"use strict";function c(e,t){if(!(e instanceof t))throw new TypeError("Cannot call a class as a function")}function n(e,t){for(var i=0;i<t.length;i++){var n=t[i];n.enumerable=n.enumerable||!1,n.configurable=!0,"value"in n&&(n.writable=!0),Object.defineProperty(e,n.key,n)}}function e(e,t,i){return t&&n(e.prototype,t),i&&n(e,i),e}function s(e,t,i){return t in e?Object.defineProperty(e,t,{value:i,enumerable:!0,configurable:!0,writable:!0}):e[t]=i,e}function a(t,e){var i=Object.keys(t);if(Object.getOwnPropertySymbols){var n=Object.getOwnPropertySymbols(t);e&&(n=n.filter(function(e){return Object.getOwnPropertyDescriptor(t,e).enumerable})),i.push.apply(i,n)}return i}function r(t){for(var e=1;e<arguments.length;e++){var i=null!=arguments[e]?arguments[e]:{};e%2?a(Object(i),!0).forEach(function(e){s(t,e,i[e])}):Object.getOwnPropertyDescriptors?Object.defineProperties(t,Object.getOwnPropertyDescriptors(i)):a(Object(i)).forEach(function(e){Object.defineProperty(t,e,Object.getOwnPropertyDescriptor(i,e))})}return t}function g(e,t){return function(e){if(Array.isArray(e))return e}(e)||function(e,t){if(Symbol.iterator in Object(e)||"[object Arguments]"===Object.prototype.toString.call(e)){var i=[],n=!0,a=!1,s=void 0;try{for(var r,o=e[Symbol.iterator]();!(n=(r=o.next()).done)&&(i.push(r.value),!t||i.length!==t);n=!0);}catch(e){a=!0,s=e}finally{try{n||null==o.return||o.return()}finally{if(a)throw s}}return i}}(e,t)||function(){throw new TypeError("Invalid attempt to destructure non-iterable instance")}()}function o(e){return function(e){if(Array.isArray(e)){for(var t=0,i=new Array(e.length);t<e.length;t++)i[t]=e[t];return i}}(e)||function(e){if(Symbol.iterator in Object(e)||"[object Arguments]"===Object.prototype.toString.call(e))return Array.from(e)}(e)||function(){throw new TypeError("Invalid attempt to spread non-iterable instance")}()}var l={addCSS:!0,thumbWidth:15,watch:!0};function t(e){return null!=e?e.constructor:null}function i(e,t){return Boolean(e&&t&&e instanceof t)}function u(e){return t(e)===String}function d(e){return Array.isArray(e)}function h(e){return i(e,NodeList)}function p(e){return i(e,Element)}function m(e){return i(e,Event)}function f(e){return null==e||(u(e)||d(e)||h(e))&&!e.length||t(e)===Object&&!Object.keys(e).length}var y=u,v=d,b=h;function k(e){return null!=e?e.constructor:null}function w(e,t){return Boolean(e&&t&&e instanceof t)}function T(e){return null==e}function C(e){return k(e)===Object}function A(e){return k(e)===String}function E(e){return Array.isArray(e)}function S(e){return w(e,NodeList)}function P(e){return T(e)||(A(e)||E(e)||S(e))&&!e.length||C(e)&&!Object.keys(e).length}function M(e){return k(e)===Boolean}function N(e){return w(e,Event)}function x(e){return w(e,KeyboardEvent)}function I(e){return w(e,TextTrack)||!T(e)&&A(e.kind)}function L(e){if(w(e,window.URL))return!0;if(!A(e))return!1;var t=e;e.startsWith("http://")&&e.startsWith("https://")||(t="http://".concat(e));try{return!P(new URL(t).hostname)}catch(e){return!1}}var _,O,j,q=(e(Y,[{key:"init",value:function(){Y.enabled&&(this.config.addCSS&&(this.element.style.userSelect="none",this.element.style.webKitUserSelect="none",this.element.style.touchAction="manipulation"),this.listeners(!0),this.element.rangeTouch=this)}},{key:"destroy",value:function(){Y.enabled&&(this.listeners(!1),this.element.rangeTouch=null)}},{key:"listeners",value:function(e){var t=this,i=e?"addEventListener":"removeEventListener";["touchstart","touchmove","touchend"].forEach(function(e){t.element[i](e,function(e){return t.set(e)},!1)})}},{key:"get",value:function(e){if(!Y.enabled||!m(e))return null;var t,i=e.target,n=e.changedTouches[0],a=parseFloat(i.getAttribute("min"))||0,s=parseFloat(i.getAttribute("max"))||100,r=parseFloat(i.getAttribute("step"))||1,o=s-a,l=i.getBoundingClientRect(),c=100/l.width*(this.config.thumbWidth/2)/100;return(t=100/l.width*(n.clientX-l.left))<0?t=0:100<t&&(t=100),t<50?t-=(100-2*t)*c:50<t&&(t+=2*(t-50)*c),a+function(e,t){if(t<1){var i=(n="".concat(t).match(/(?:\.(\d+))?(?:[eE]([+-]?\d+))?$/))?Math.max(0,(n[1]?n[1].length:0)-(n[2]?+n[2]:0)):0;return parseFloat(e.toFixed(i))}var n;return Math.round(e/t)*t}(t/100*o,r)}},{key:"set",value:function(e){Y.enabled&&m(e)&&!e.target.disabled&&(e.preventDefault(),e.target.value=this.get(e),function(e,t){if(e&&t){var i=new Event(t);e.dispatchEvent(i)}}(e.target,"touchend"===e.type?"change":"input"))}}],[{key:"setup",value:function(i){var t=1<arguments.length&&void 0!==arguments[1]?arguments[1]:{},e=null;if(f(i)||y(i)?e=Array.from(document.querySelectorAll(y(i)?i:'input[type="range"]')):p(i)?e=[i]:b(i)?e=Array.from(i):v(i)&&(e=i.filter(p)),f(e))return null;var n=Object.assign({},l,t);return y(i)&&n.watch&&new MutationObserver(function(e){Array.from(e).forEach(function(e){Array.from(e.addedNodes).forEach(function(e){var t;p(e)&&function(){return Array.from(document.querySelectorAll(t)).includes(this)}.call(e,t=i)&&new Y(e,n)})})}).observe(document.body,{childList:!0,subtree:!0}),e.map(function(e){return new Y(e,t)})}},{key:"enabled",get:function(){return"ontouchstart"in document.documentElement}}]),Y),H=T,D=C,F=function(e){return k(e)===Number&&!Number.isNaN(e)},R=A,V=function(e){return k(e)===Function},B=E,U=S,W=function(e){return w(e,Element)},z=P,K=(_=document.createElement("span"),O={WebkitTransition:"webkitTransitionEnd",MozTransition:"transitionend",OTransition:"oTransitionEnd otransitionend",transition:"transitionend"},j=Object.keys(O).find(function(e){return void 0!==_.style[e]}),!!R(j)&&O[j]);function Y(e,t){c(this,Y),p(e)?this.element=e:y(e)&&(this.element=document.querySelector(e)),p(this.element)&&f(this.element.rangeTouch)&&(this.config=Object.assign({},l,t),this.init())}function Q(e,t){setTimeout(function(){try{e.hidden=!0,e.offsetHeight,e.hidden=!1}catch(e){}},t)}var X={isIE:!!document.documentMode,isEdge:window.navigator.userAgent.includes("Edge"),isWebkit:"WebkitAppearance"in document.documentElement.style&&!/Edge/.test(navigator.userAgent),isIPhone:/(iPhone|iPod)/gi.test(navigator.platform),isIos:/(iPad|iPhone|iPod)/gi.test(navigator.platform)};function J(e,t){return t.split(".").reduce(function(e,t){return e&&e[t]},e)}function $(){for(var t=0<arguments.length&&void 0!==arguments[0]?arguments[0]:{},e=arguments.length,i=new Array(1<e?e-1:0),n=1;n<e;n++)i[n-1]=arguments[n];if(!i.length)return t;var a=i.shift();return D(a)?(Object.keys(a).forEach(function(e){D(a[e])?(Object.keys(t).includes(e)||Object.assign(t,s({},e,{})),$(t[e],a[e])):Object.assign(t,s({},e,a[e]))}),$.apply(void 0,[t].concat(i))):t}function G(e,s){var t=e.length?e:[e];Array.from(t).reverse().forEach(function(e,t){var i=0<t?s.cloneNode(!0):s,n=e.parentNode,a=e.nextSibling;i.appendChild(e),a?n.insertBefore(i,a):n.appendChild(i)})}function Z(a,e){W(a)&&!z(e)&&Object.entries(e).filter(function(e){var t=g(e,2)[1];return!H(t)}).forEach(function(e){var t=g(e,2),i=t[0],n=t[1];return a.setAttribute(i,n)})}function ee(e,t,i){var n=document.createElement(e);return D(t)&&Z(n,t),R(i)&&(n.innerText=i),n}function te(e,t,i,n){W(t)&&t.appendChild(ee(e,i,n))}function ie(e){U(e)||B(e)?Array.from(e).forEach(ie):W(e)&&W(e.parentNode)&&e.parentNode.removeChild(e)}function ne(e){if(W(e))for(var t=e.childNodes.length;0<t;)e.removeChild(e.lastChild),--t}function ae(e,t){return W(t)&&W(t.parentNode)&&W(e)?(t.parentNode.replaceChild(e,t),e):null}function se(e,t){if(!R(e)||z(e))return{};var r={},o=$({},t);return e.split(",").forEach(function(e){var t=e.trim(),i=t.replace(".",""),n=t.replace(/[[\]]/g,"").split("="),a=g(n,1)[0],s=1<n.length?n[1].replace(/["']/g,""):"";switch(t.charAt(0)){case".":R(o.class)?r.class="".concat(o.class," ").concat(i):r.class=i;break;case"#":r.id=t.replace("#","");break;case"[":r[a]=s}}),$(o,r)}function re(e,t){if(W(e)){var i=t;M(i)||(i=!e.hidden),e.hidden=i}}function oe(e,t,i){if(U(e))return Array.from(e).map(function(e){return oe(e,t,i)});if(W(e)){var n="toggle";return void 0!==i&&(n=i?"add":"remove"),e.classList[n](t),e.classList.contains(t)}return!1}function le(e,t){return W(e)&&e.classList.contains(t)}function ce(e,t){return function(){return Array.from(document.querySelectorAll(t)).includes(this)}.call(e,t)}function ue(e){return this.elements.container.querySelectorAll(e)}function de(e){return this.elements.container.querySelector(e)}function he(){var e=0<arguments.length&&void 0!==arguments[0]?arguments[0]:null,t=1<arguments.length&&void 0!==arguments[1]&&arguments[1];W(e)&&(e.focus({preventScroll:!0}),t&&oe(e,this.config.classNames.tabFocus))}var pe,me={"audio/ogg":"vorbis","audio/wav":"1","video/webm":"vp8, vorbis","video/mp4":"avc1.42E01E, mp4a.40.2","video/ogg":"theora"},fe={audio:"canPlayType"in document.createElement("audio"),video:"canPlayType"in document.createElement("video"),check:function(e,t,i){var n=X.isIPhone&&i&&fe.playsinline,a=fe[e]||"html5"!==t;return{api:a,ui:a&&fe.rangeInput&&("video"!==e||!X.isIPhone||n)}},pip:!(X.isIPhone||!V(ee("video").webkitSetPresentationMode)&&(!document.pictureInPictureEnabled||ee("video").disablePictureInPicture)),airplay:V(window.WebKitPlaybackTargetAvailabilityEvent),playsinline:"playsInline"in document.createElement("video"),mime:function(e){if(z(e))return!1;var t=g(e.split("/"),1)[0],i=e;if(!this.isHTML5||t!==this.type)return!1;Object.keys(me).includes(i)&&(i+='; codecs="'.concat(me[e],'"'));try{return Boolean(i&&this.media.canPlayType(i).replace(/no/,""))}catch(e){return!1}},textTracks:"textTracks"in document.createElement("video"),rangeInput:((pe=document.createElement("input")).type="range")===pe.type,touch:"ontouchstart"in document.documentElement,transitions:!1!==K,reducedMotion:"matchMedia"in window&&window.matchMedia("(prefers-reduced-motion)").matches},ge=function(){var e=!1;try{var t=Object.defineProperty({},"passive",{get:function(){return e=!0,null}});window.addEventListener("test",null,t),window.removeEventListener("test",null,t)}catch(e){}return e}();function ye(t,e,i){var n=this,a=3<arguments.length&&void 0!==arguments[3]&&arguments[3],s=!(4<arguments.length&&void 0!==arguments[4])||arguments[4],r=5<arguments.length&&void 0!==arguments[5]&&arguments[5];if(t&&"addEventListener"in t&&!z(e)&&V(i)){var o=e.split(" "),l=r;ge&&(l={passive:s,capture:r}),o.forEach(function(e){n&&n.eventListeners&&a&&n.eventListeners.push({element:t,type:e,callback:i,options:l}),t[a?"addEventListener":"removeEventListener"](e,i,l)})}}function ve(e){ye.call(this,e,1<arguments.length&&void 0!==arguments[1]?arguments[1]:"",2<arguments.length?arguments[2]:void 0,!0,!(3<arguments.length&&void 0!==arguments[3])||arguments[3],4<arguments.length&&void 0!==arguments[4]&&arguments[4])}function be(e){ye.call(this,e,1<arguments.length&&void 0!==arguments[1]?arguments[1]:"",2<arguments.length?arguments[2]:void 0,!1,!(3<arguments.length&&void 0!==arguments[3])||arguments[3],4<arguments.length&&void 0!==arguments[4]&&arguments[4])}function ke(a){var s=this,r=1<arguments.length&&void 0!==arguments[1]?arguments[1]:"",o=2<arguments.length?arguments[2]:void 0,l=!(3<arguments.length&&void 0!==arguments[3])||arguments[3],c=4<arguments.length&&void 0!==arguments[4]&&arguments[4];ye.call(this,a,r,function e(){be(a,r,e,l,c);for(var t=arguments.length,i=new Array(t),n=0;n<t;n++)i[n]=arguments[n];o.apply(s,i)},!0,l,c)}function we(e){var t=1<arguments.length&&void 0!==arguments[1]?arguments[1]:"",i=2<arguments.length&&void 0!==arguments[2]&&arguments[2],n=3<arguments.length&&void 0!==arguments[3]?arguments[3]:{};if(W(e)&&!z(t)){var a=new CustomEvent(t,{bubbles:i,detail:r({},n,{plyr:this})});e.dispatchEvent(a)}}function Te(e){return(B(e)||R(e)&&e.includes(":"))&&(B(e)?e:e.split(":")).map(Number).every(F)}function Ce(e){if(!B(e)||!e.every(F))return null;var t=g(e,2),i=t[0],n=t[1],a=function e(t,i){return 0===i?t:e(i,t%i)}(i,n);return[i/a,n/a]}function Ae(e){function t(e){return Te(e)?e.split(":").map(Number):null}var i=t(e);if(null===i&&(i=t(this.config.ratio)),null===i&&!z(this.embed)&&B(this.embed.ratio)&&(i=this.embed.ratio),null===i&&this.isHTML5){var n=this.media;i=Ce([n.videoWidth,n.videoHeight])}return i}function Ee(e){if(!this.isVideo)return{};var t=this.elements.wrapper,i=Ae.call(this,e),n=g(B(i)?i:[0,0],2),a=100/n[0]*n[1];if(t.style.paddingBottom="".concat(a,"%"),this.isVimeo&&this.supported.ui){var s=(240-a)/4.8;this.media.style.transform="translateY(-".concat(s,"%)")}else this.isHTML5&&t.classList.toggle(this.config.classNames.videoFixedRatio,null!==i);return{padding:a,ratio:i}}var Se={getSources:function(){var i=this;return this.isHTML5?Array.from(this.media.querySelectorAll("source")).filter(function(e){var t=e.getAttribute("type");return!!z(t)||fe.mime.call(i,t)}):[]},getQualityOptions:function(){return this.config.quality.forced?this.config.quality.options:Se.getSources.call(this).map(function(e){return Number(e.getAttribute("size"))}).filter(Boolean)},setup:function(){if(this.isHTML5){var l=this;l.options.speed=l.config.speed.options,z(this.config.ratio)||Ee.call(l),Object.defineProperty(l.media,"quality",{get:function(){var e=Se.getSources.call(l).find(function(e){return e.getAttribute("src")===l.source});return e&&Number(e.getAttribute("size"))},set:function(t){if(l.quality!==t){if(l.config.quality.forced&&V(l.config.quality.onChange))l.config.quality.onChange(t);else{var e=Se.getSources.call(l).find(function(e){return Number(e.getAttribute("size"))===t});if(!e)return;var i=l.media,n=i.currentTime,a=i.paused,s=i.preload,r=i.readyState,o=i.playbackRate;l.media.src=e.getAttribute("src"),"none"===s&&!r||(l.once("loadedmetadata",function(){l.speed=o,l.currentTime=n,a||l.play()}),l.media.load())}we.call(l,l.media,"qualitychange",!1,{quality:t})}}})}},cancelRequests:function(){this.isHTML5&&(ie(Se.getSources.call(this)),this.media.setAttribute("src",this.config.blankVideo),this.media.load(),this.debug.log("Cancelled network requests"))}};function Pe(i){return B(i)?i.filter(function(e,t){return i.indexOf(e)===t}):i}function Me(e){for(var t=arguments.length,i=new Array(1<t?t-1:0),n=1;n<t;n++)i[n-1]=arguments[n];return z(e)?e:e.toString().replace(/{(\d+)}/g,function(e,t){return i[t].toString()})}function Ne(e,t,i){var n=1<arguments.length&&void 0!==t?t:"",a=2<arguments.length&&void 0!==i?i:"";return(0<arguments.length&&void 0!==e?e:"").replace(new RegExp(n.toString().replace(/([.*+?^=!:${}()|[\]/\\])/g,"\\$1"),"g"),a.toString())}function xe(e){return(0<arguments.length&&void 0!==e?e:"").toString().replace(/\w\S*/g,function(e){return e.charAt(0).toUpperCase()+e.substr(1).toLowerCase()})}function Ie(e){var t=document.createElement("div");return t.appendChild(e),t.innerHTML}function Le(){var e=0<arguments.length&&void 0!==arguments[0]?arguments[0]:"",t=1<arguments.length&&void 0!==arguments[1]?arguments[1]:{};if(z(e)||z(t))return"";var a=J(t.i18n,e);if(z(a))return Object.keys(_e).includes(e)?_e[e]:"";var i={"{seektime}":t.seekTime,"{title}":t.title};return Object.entries(i).forEach(function(e){var t=g(e,2),i=t[0],n=t[1];a=Ne(a,i,n)}),a}var _e={pip:"PIP",airplay:"AirPlay",html5:"HTML5",vimeo:"Vimeo",youtube:"YouTube"},Oe=(e(je,[{key:"get",value:function(e){if(!je.supported||!this.enabled)return null;var t=window.localStorage.getItem(this.key);if(z(t))return null;var i=JSON.parse(t);return R(e)&&e.length?i[e]:i}},{key:"set",value:function(e){if(je.supported&&this.enabled&&D(e)){var t=this.get();z(t)&&(t={}),$(t,e),window.localStorage.setItem(this.key,JSON.stringify(t))}}}],[{key:"supported",get:function(){try{return"localStorage"in window&&(window.localStorage.setItem("___test","___test"),window.localStorage.removeItem("___test"),!0)}catch(e){return!1}}}]),je);function je(e){c(this,je),this.enabled=e.config.storage.enabled,this.key=e.config.storage.key}function qe(e,t){var a=1<arguments.length&&void 0!==t?t:"text";return new Promise(function(t,i){try{var n=new XMLHttpRequest;if(!("withCredentials"in n))return;n.addEventListener("load",function(){if("text"===a)try{t(JSON.parse(n.responseText))}catch(e){t(n.responseText)}else t(n.response)}),n.addEventListener("error",function(){throw new Error(n.status)}),n.open("GET",e,!0),n.responseType=a,n.send()}catch(e){i(e)}})}function He(e,t){if(R(e)){var i=R(t),n=function(){return null!==document.getElementById(t)},a=function(e,t){e.innerHTML=t,i&&n()||document.body.insertAdjacentElement("afterbegin",e)};if(!i||!n()){var s=Oe.supported,r=document.createElement("div");if(r.setAttribute("hidden",""),i&&r.setAttribute("id",t),s){var o=window.localStorage.getItem("".concat("cache","-").concat(t));if(null!==o){var l=JSON.parse(o);a(r,l.content)}}qe(e).then(function(e){z(e)||(s&&window.localStorage.setItem("".concat("cache","-").concat(t),JSON.stringify({content:e})),a(r,e))}).catch(function(){})}}}var De=function(e){return Math.trunc(e/60/60%60,10)},Fe=function(e){return Math.trunc(e/60%60,10)},Re=function(e){return Math.trunc(e%60,10)};function Ve(e,t,i){var n=0<arguments.length&&void 0!==e?e:0,a=1<arguments.length&&void 0!==t&&t,s=2<arguments.length&&void 0!==i&&i;if(!F(n))return Ve(void 0,a,s);function r(e){return"0".concat(e).slice(-2)}var o=De(n),l=Fe(n),c=Re(n);return o=a||0<o?"".concat(o,":"):"","".concat(s&&0<n?"-":"").concat(o).concat(r(l),":").concat(r(c))}var Be={getIconUrl:function(){var e=new URL(this.config.iconUrl,window.location).host!==window.location.host||X.isIE&&!window.svg4everybody;return{url:this.config.iconUrl,cors:e}},findElements:function(){try{return this.elements.controls=de.call(this,this.config.selectors.controls.wrapper),this.elements.buttons={play:ue.call(this,this.config.selectors.buttons.play),pause:de.call(this,this.config.selectors.buttons.pause),restart:de.call(this,this.config.selectors.buttons.restart),rewind:de.call(this,this.config.selectors.buttons.rewind),fastForward:de.call(this,this.config.selectors.buttons.fastForward),mute:de.call(this,this.config.selectors.buttons.mute),pip:de.call(this,this.config.selectors.buttons.pip),airplay:de.call(this,this.config.selectors.buttons.airplay),settings:de.call(this,this.config.selectors.buttons.settings),captions:de.call(this,this.config.selectors.buttons.captions),fullscreen:de.call(this,this.config.selectors.buttons.fullscreen)},this.elements.progress=de.call(this,this.config.selectors.progress),this.elements.inputs={seek:de.call(this,this.config.selectors.inputs.seek),volume:de.call(this,this.config.selectors.inputs.volume)},this.elements.display={buffer:de.call(this,this.config.selectors.display.buffer),currentTime:de.call(this,this.config.selectors.display.currentTime),duration:de.call(this,this.config.selectors.display.duration)},W(this.elements.progress)&&(this.elements.display.seekTooltip=this.elements.progress.querySelector(".".concat(this.config.classNames.tooltip))),!0}catch(e){return this.debug.warn("It looks like there is a problem with your custom controls HTML",e),this.toggleNativeControls(!0),!1}},createIcon:function(e,t){var i=Be.getIconUrl.call(this),n="".concat(i.cors?"":i.url,"#").concat(this.config.iconPrefix),a=document.createElementNS("http://www.w3.org/2000/svg","svg");Z(a,$(t,{role:"presentation",focusable:"false"}));var s=document.createElementNS("http://www.w3.org/2000/svg","use"),r="".concat(n,"-").concat(e);return"href"in s&&s.setAttributeNS("http://www.w3.org/1999/xlink","href",r),s.setAttributeNS("http://www.w3.org/1999/xlink","xlink:href",r),a.appendChild(s),a},createLabel:function(e){var t=1<arguments.length&&void 0!==arguments[1]?arguments[1]:{},i=Le(e,this.config);return ee("span",r({},t,{class:[t.class,this.config.classNames.hidden].filter(Boolean).join(" ")}),i)},createBadge:function(e){if(z(e))return null;var t=ee("span",{class:this.config.classNames.menu.value});return t.appendChild(ee("span",{class:this.config.classNames.menu.badge},e)),t},createButton:function(e,t){var i=this,n=$({},t),a=function(e){var t=(0<arguments.length&&void 0!==e?e:"").toString();return(t=function(e){var t=(0<arguments.length&&void 0!==e?e:"").toString();return t=Ne(t,"-"," "),t=Ne(t,"_"," "),Ne(t=xe(t)," ","")}(t)).charAt(0).toLowerCase()+t.slice(1)}(e),s={element:"button",toggle:!1,label:null,icon:null,labelPressed:null,iconPressed:null};switch(["element","icon","label"].forEach(function(e){Object.keys(n).includes(e)&&(s[e]=n[e],delete n[e])}),"button"!==s.element||Object.keys(n).includes("type")||(n.type="button"),Object.keys(n).includes("class")?n.class.split(" ").some(function(e){return e===i.config.classNames.control})||$(n,{class:"".concat(n.class," ").concat(this.config.classNames.control)}):n.class=this.config.classNames.control,e){case"play":s.toggle=!0,s.label="play",s.labelPressed="pause",s.icon="play",s.iconPressed="pause";break;case"mute":s.toggle=!0,s.label="mute",s.labelPressed="unmute",s.icon="volume",s.iconPressed="muted";break;case"captions":s.toggle=!0,s.label="enableCaptions",s.labelPressed="disableCaptions",s.icon="captions-off",s.iconPressed="captions-on";break;case"fullscreen":s.toggle=!0,s.label="enterFullscreen",s.labelPressed="exitFullscreen",s.icon="enter-fullscreen",s.iconPressed="exit-fullscreen";break;case"play-large":n.class+=" ".concat(this.config.classNames.control,"--overlaid"),a="play",s.label="play",s.icon="play";break;default:z(s.label)&&(s.label=a),z(s.icon)&&(s.icon=e)}var r=ee(s.element);return s.toggle?(r.appendChild(Be.createIcon.call(this,s.iconPressed,{class:"icon--pressed"})),r.appendChild(Be.createIcon.call(this,s.icon,{class:"icon--not-pressed"})),r.appendChild(Be.createLabel.call(this,s.labelPressed,{class:"label--pressed"})),r.appendChild(Be.createLabel.call(this,s.label,{class:"label--not-pressed"}))):(r.appendChild(Be.createIcon.call(this,s.icon)),r.appendChild(Be.createLabel.call(this,s.label))),$(n,se(this.config.selectors.buttons[a],n)),Z(r,n),"play"===a?(B(this.elements.buttons[a])||(this.elements.buttons[a]=[]),this.elements.buttons[a].push(r)):this.elements.buttons[a]=r,r},createRange:function(e,t){var i=ee("input",$(se(this.config.selectors.inputs[e]),{type:"range",min:0,max:100,step:.01,value:0,autocomplete:"off",role:"slider","aria-label":Le(e,this.config),"aria-valuemin":0,"aria-valuemax":100,"aria-valuenow":0},t));return this.elements.inputs[e]=i,Be.updateRangeFill.call(this,i),q.setup(i),i},createProgress:function(e,t){var i=ee("progress",$(se(this.config.selectors.display[e]),{min:0,max:100,value:0,role:"progressbar","aria-hidden":!0},t));if("volume"!==e){i.appendChild(ee("span",null,"0"));var n={played:"played",buffer:"buffered"}[e],a=n?Le(n,this.config):"";i.innerText="% ".concat(a.toLowerCase())}return this.elements.display[e]=i},createTime:function(e,t){var i=se(this.config.selectors.display[e],t),n=ee("div",$(i,{class:"".concat(i.class?i.class:""," ").concat(this.config.classNames.display.time," ").trim(),"aria-label":Le(e,this.config)}),"00:00");return this.elements.display[e]=n},bindMenuItemShortcuts:function(n,a){var s=this;ve.call(this,n,"keydown keyup",function(e){if([32,38,39,40].includes(e.which)&&(e.preventDefault(),e.stopPropagation(),"keydown"!==e.type)){var t,i=ce(n,'[role="menuitemradio"]');!i&&[32,39].includes(e.which)?Be.showMenuPanel.call(s,a,!0):32!==e.which&&(40===e.which||i&&39===e.which?(t=n.nextElementSibling,W(t)||(t=n.parentNode.firstElementChild)):(t=n.previousElementSibling,W(t)||(t=n.parentNode.lastElementChild)),he.call(s,t,!0))}},!1),ve.call(this,n,"keyup",function(e){13===e.which&&Be.focusFirstMenuItem.call(s,null,!0)})},createMenuItem:function(e){var t=this,i=e.value,n=e.list,a=e.type,s=e.title,r=e.badge,o=void 0===r?null:r,l=e.checked,c=void 0!==l&&l,u=se(this.config.selectors.inputs[a]),d=ee("button",$(u,{type:"button",role:"menuitemradio",class:"".concat(this.config.classNames.control," ").concat(u.class?u.class:"").trim(),"aria-checked":c,value:i})),h=ee("span");h.innerHTML=s,W(o)&&h.appendChild(o),d.appendChild(h),Object.defineProperty(d,"checked",{enumerable:!0,get:function(){return"true"===d.getAttribute("aria-checked")},set:function(e){e&&Array.from(d.parentNode.children).filter(function(e){return ce(e,'[role="menuitemradio"]')}).forEach(function(e){return e.setAttribute("aria-checked","false")}),d.setAttribute("aria-checked",e?"true":"false")}}),this.listeners.bind(d,"click keyup",function(e){if(!x(e)||32===e.which){switch(e.preventDefault(),e.stopPropagation(),d.checked=!0,a){case"language":t.currentTrack=Number(i);break;case"quality":t.quality=i;break;case"speed":t.speed=parseFloat(i)}Be.showMenuPanel.call(t,"home",x(e))}},a,!1),Be.bindMenuItemShortcuts.call(this,d,a),n.appendChild(d)},formatTime:function(){var e=0<arguments.length&&void 0!==arguments[0]?arguments[0]:0,t=1<arguments.length&&void 0!==arguments[1]&&arguments[1];return F(e)?Ve(e,0<De(this.duration),t):e},updateTimeDisplay:function(){var e=0<arguments.length&&void 0!==arguments[0]?arguments[0]:null,t=1<arguments.length&&void 0!==arguments[1]?arguments[1]:0,i=2<arguments.length&&void 0!==arguments[2]&&arguments[2];W(e)&&F(t)&&(e.innerText=Be.formatTime(t,i))},updateVolume:function(){this.supported.ui&&(W(this.elements.inputs.volume)&&Be.setRange.call(this,this.elements.inputs.volume,this.muted?0:this.volume),W(this.elements.buttons.mute)&&(this.elements.buttons.mute.pressed=this.muted||0===this.volume))},setRange:function(e){var t=1<arguments.length&&void 0!==arguments[1]?arguments[1]:0;W(e)&&(e.value=t,Be.updateRangeFill.call(this,e))},updateProgress:function(e){var s=this;if(this.supported.ui&&N(e)){var t,i,n=0;if(e)switch(e.type){case"timeupdate":case"seeking":case"seeked":t=this.currentTime,i=this.duration,n=0===t||0===i||Number.isNaN(t)||Number.isNaN(i)?0:(t/i*100).toFixed(2),"timeupdate"===e.type&&Be.setRange.call(this,this.elements.inputs.seek,n);break;case"playing":case"progress":!function(e,t){var i=F(t)?t:0,n=W(e)?e:s.elements.display.buffer;if(W(n)){n.value=i;var a=n.getElementsByTagName("span")[0];W(a)&&(a.childNodes[0].nodeValue=i)}}(this.elements.display.buffer,100*this.buffered)}}},updateRangeFill:function(e){var t=N(e)?e.target:e;if(W(t)&&"range"===t.getAttribute("type")){if(ce(t,this.config.selectors.inputs.seek)){t.setAttribute("aria-valuenow",this.currentTime);var i=Be.formatTime(this.currentTime),n=Be.formatTime(this.duration),a=Le("seekLabel",this.config);t.setAttribute("aria-valuetext",a.replace("{currentTime}",i).replace("{duration}",n))}else if(ce(t,this.config.selectors.inputs.volume)){var s=100*t.value;t.setAttribute("aria-valuenow",s),t.setAttribute("aria-valuetext","".concat(s.toFixed(1),"%"))}else t.setAttribute("aria-valuenow",t.value);X.isWebkit&&t.style.setProperty("--value","".concat(t.value/t.max*100,"%"))}},updateSeekTooltip:function(e){var t=this;if(this.config.tooltips.seek&&W(this.elements.inputs.seek)&&W(this.elements.display.seekTooltip)&&0!==this.duration){var i="".concat(this.config.classNames.tooltip,"--visible"),n=function(e){return oe(t.elements.display.seekTooltip,i,e)};if(this.touch)n(!1);else{var a=0,s=this.elements.progress.getBoundingClientRect();if(N(e))a=100/s.width*(e.pageX-s.left);else{if(!le(this.elements.display.seekTooltip,i))return;a=parseFloat(this.elements.display.seekTooltip.style.left,10)}a<0?a=0:100<a&&(a=100),Be.updateTimeDisplay.call(this,this.elements.display.seekTooltip,this.duration/100*a),this.elements.display.seekTooltip.style.left="".concat(a,"%"),N(e)&&["mouseenter","mouseleave"].includes(e.type)&&n("mouseenter"===e.type)}}},timeUpdate:function(e){var t=!W(this.elements.display.duration)&&this.config.invertTime;Be.updateTimeDisplay.call(this,this.elements.display.currentTime,t?this.duration-this.currentTime:this.currentTime,t),e&&"timeupdate"===e.type&&this.media.seeking||Be.updateProgress.call(this,e)},durationUpdate:function(){if(this.supported.ui&&(this.config.invertTime||!this.currentTime)){if(this.duration>=Math.pow(2,32))return re(this.elements.display.currentTime,!0),void re(this.elements.progress,!0);W(this.elements.inputs.seek)&&this.elements.inputs.seek.setAttribute("aria-valuemax",this.duration);var e=W(this.elements.display.duration);!e&&this.config.displayDuration&&this.paused&&Be.updateTimeDisplay.call(this,this.elements.display.currentTime,this.duration),e&&Be.updateTimeDisplay.call(this,this.elements.display.duration,this.duration),Be.updateSeekTooltip.call(this)}},toggleMenuButton:function(e,t){re(this.elements.settings.buttons[e],!t)},updateSetting:function(e,t,i){var n=this.elements.settings.panels[e],a=null,s=t;if("captions"===e)a=this.currentTrack;else{if(a=z(i)?this[e]:i,z(a)&&(a=this.config[e].default),!z(this.options[e])&&!this.options[e].includes(a))return void this.debug.warn("Unsupported value of '".concat(a,"' for ").concat(e));if(!this.config[e].options.includes(a))return void this.debug.warn("Disabled value of '".concat(a,"' for ").concat(e))}if(W(s)||(s=n&&n.querySelector('[role="menu"]')),W(s)){this.elements.settings.buttons[e].querySelector(".".concat(this.config.classNames.menu.value)).innerHTML=Be.getLabel.call(this,e,a);var r=s&&s.querySelector('[value="'.concat(a,'"]'));W(r)&&(r.checked=!0)}},getLabel:function(e,t){switch(e){case"speed":return 1===t?Le("normal",this.config):"".concat(t,"&times;");case"quality":if(F(t)){var i=Le("qualityLabel.".concat(t),this.config);return i.length?i:"".concat(t,"p")}return xe(t);case"captions":return Ke.getLabel.call(this);default:return null}},setQualityMenu:function(e){var n=this;if(W(this.elements.settings.panels.quality)){var i=this.elements.settings.panels.quality.querySelector('[role="menu"]');B(e)&&(this.options.quality=Pe(e).filter(function(e){return n.config.quality.options.includes(e)}));var t=!z(this.options.quality)&&1<this.options.quality.length;if(Be.toggleMenuButton.call(this,"quality",t),ne(i),Be.checkMenu.call(this),t){this.options.quality.sort(function(e,t){var i=n.config.quality.options;return i.indexOf(e)>i.indexOf(t)?1:-1}).forEach(function(e){var t;Be.createMenuItem.call(n,{value:e,list:i,type:"quality",title:Be.getLabel.call(n,"quality",e),badge:(t=Le("qualityBadge.".concat(e),n.config)).length?Be.createBadge.call(n,t):null})}),Be.updateSetting.call(this,"quality",i)}}},setCaptionsMenu:function(){var i=this;if(W(this.elements.settings.panels.captions)){var n=this.elements.settings.panels.captions.querySelector('[role="menu"]'),e=Ke.getTracks.call(this),t=Boolean(e.length);if(Be.toggleMenuButton.call(this,"captions",t),ne(n),Be.checkMenu.call(this),t){var a=e.map(function(e,t){return{value:t,checked:i.captions.toggled&&i.currentTrack===t,title:Ke.getLabel.call(i,e),badge:e.language&&Be.createBadge.call(i,e.language.toUpperCase()),list:n,type:"language"}});a.unshift({value:-1,checked:!this.captions.toggled,title:Le("disabled",this.config),list:n,type:"language"}),a.forEach(Be.createMenuItem.bind(this)),Be.updateSetting.call(this,"captions",n)}}},setSpeedMenu:function(){var t=this;if(W(this.elements.settings.panels.speed)){var i=this.elements.settings.panels.speed.querySelector('[role="menu"]');this.options.speed=this.options.speed.filter(function(e){return e>=t.minimumSpeed&&e<=t.maximumSpeed});var e=!z(this.options.speed)&&1<this.options.speed.length;Be.toggleMenuButton.call(this,"speed",e),ne(i),Be.checkMenu.call(this),e&&(this.options.speed.forEach(function(e){Be.createMenuItem.call(t,{value:e,list:i,type:"speed",title:Be.getLabel.call(t,"speed",e)})}),Be.updateSetting.call(this,"speed",i))}},checkMenu:function(){var e=this.elements.settings.buttons,t=!z(e)&&Object.values(e).some(function(e){return!e.hidden});re(this.elements.settings.menu,!t)},focusFirstMenuItem:function(e){var t=1<arguments.length&&void 0!==arguments[1]&&arguments[1];if(!this.elements.settings.popup.hidden){var i=e;W(i)||(i=Object.values(this.elements.settings.panels).find(function(e){return!e.hidden}));var n=i.querySelector('[role^="menuitem"]');he.call(this,n,t)}},toggleMenu:function(e){var t=this.elements.settings.popup,i=this.elements.buttons.settings;if(W(t)&&W(i)){var n=t.hidden,a=n;if(M(e))a=e;else if(x(e)&&27===e.which)a=!1;else if(N(e)){var s=V(e.composedPath)?e.composedPath()[0]:e.target,r=t.contains(s);if(r||!r&&e.target!==i&&a)return}i.setAttribute("aria-expanded",a),re(t,!a),oe(this.elements.container,this.config.classNames.menu.open,a),a&&x(e)?Be.focusFirstMenuItem.call(this,null,!0):a||n||he.call(this,i,x(e))}},getMenuSize:function(e){var t=e.cloneNode(!0);t.style.position="absolute",t.style.opacity=0,t.removeAttribute("hidden"),e.parentNode.appendChild(t);var i=t.scrollWidth,n=t.scrollHeight;return ie(t),{width:i,height:n}},showMenuPanel:function(){var i=this,e=0<arguments.length&&void 0!==arguments[0]?arguments[0]:"",t=1<arguments.length&&void 0!==arguments[1]&&arguments[1],n=this.elements.container.querySelector("#plyr-settings-".concat(this.id,"-").concat(e));if(W(n)){var a=n.parentNode,s=Array.from(a.children).find(function(e){return!e.hidden});if(fe.transitions&&!fe.reducedMotion){a.style.width="".concat(s.scrollWidth,"px"),a.style.height="".concat(s.scrollHeight,"px");var r=Be.getMenuSize.call(this,n);ve.call(this,a,K,function e(t){t.target===a&&["width","height"].includes(t.propertyName)&&(a.style.width="",a.style.height="",be.call(i,a,K,e))}),a.style.width="".concat(r.width,"px"),a.style.height="".concat(r.height,"px")}re(s,!0),re(n,!1),Be.focusFirstMenuItem.call(this,n,t)}},setDownloadUrl:function(){var e=this.elements.buttons.download;W(e)&&e.setAttribute("href",this.download)},create:function(p){var m=this,f=Be.bindMenuItemShortcuts,g=Be.createButton,y=Be.createProgress,v=Be.createRange,b=Be.createTime,e=Be.setQualityMenu,t=Be.setSpeedMenu,k=Be.showMenuPanel;this.elements.controls=null,this.config.controls.includes("play-large")&&this.elements.container.appendChild(g.call(this,"play-large"));var w=ee("div",se(this.config.selectors.controls.wrapper));this.elements.controls=w;var T={class:"plyr__controls__item"};return Pe(this.config.controls).forEach(function(e){if("restart"===e&&w.appendChild(g.call(m,"restart",T)),"rewind"===e&&w.appendChild(g.call(m,"rewind",T)),"play"===e&&w.appendChild(g.call(m,"play",T)),"fast-forward"===e&&w.appendChild(g.call(m,"fast-forward",T)),"progress"===e){var t=ee("div",{class:"".concat(T.class," plyr__progress__container")}),i=ee("div",se(m.config.selectors.progress));if(i.appendChild(v.call(m,"seek",{id:"plyr-seek-".concat(p.id)})),i.appendChild(y.call(m,"buffer")),m.config.tooltips.seek){var n=ee("span",{class:m.config.classNames.tooltip},"00:00");i.appendChild(n),m.elements.display.seekTooltip=n}m.elements.progress=i,t.appendChild(m.elements.progress),w.appendChild(t)}if("current-time"===e&&w.appendChild(b.call(m,"currentTime",T)),"duration"===e&&w.appendChild(b.call(m,"duration",T)),"mute"===e||"volume"===e){var a=m.elements.volume;if(W(a)&&w.contains(a)||(a=ee("div",$({},T,{class:"".concat(T.class," plyr__volume").trim()})),m.elements.volume=a,w.appendChild(a)),"mute"===e&&a.appendChild(g.call(m,"mute")),"volume"===e&&!X.isIos){var s={max:1,step:.05,value:m.config.volume};a.appendChild(v.call(m,"volume",$(s,{id:"plyr-volume-".concat(p.id)})))}}if("captions"===e&&w.appendChild(g.call(m,"captions",T)),"settings"===e&&!z(m.config.settings)){var r=ee("div",$({},T,{class:"".concat(T.class," plyr__menu").trim(),hidden:""}));r.appendChild(g.call(m,"settings",{"aria-haspopup":!0,"aria-controls":"plyr-settings-".concat(p.id),"aria-expanded":!1}));var o=ee("div",{class:"plyr__menu__container",id:"plyr-settings-".concat(p.id),hidden:""}),l=ee("div"),c=ee("div",{id:"plyr-settings-".concat(p.id,"-home")}),u=ee("div",{role:"menu"});c.appendChild(u),l.appendChild(c),m.elements.settings.panels.home=c,m.config.settings.forEach(function(e){var t=ee("button",$(se(m.config.selectors.buttons.settings),{type:"button",class:"".concat(m.config.classNames.control," ").concat(m.config.classNames.control,"--forward"),role:"menuitem","aria-haspopup":!0,hidden:""}));f.call(m,t,e),ve.call(m,t,"click",function(){k.call(m,e,!1)});var i=ee("span",null,Le(e,m.config)),n=ee("span",{class:m.config.classNames.menu.value});n.innerHTML=p[e],i.appendChild(n),t.appendChild(i),u.appendChild(t);var a=ee("div",{id:"plyr-settings-".concat(p.id,"-").concat(e),hidden:""}),s=ee("button",{type:"button",class:"".concat(m.config.classNames.control," ").concat(m.config.classNames.control,"--back")});s.appendChild(ee("span",{"aria-hidden":!0},Le(e,m.config))),s.appendChild(ee("span",{class:m.config.classNames.hidden},Le("menuBack",m.config))),ve.call(m,a,"keydown",function(e){37===e.which&&(e.preventDefault(),e.stopPropagation(),k.call(m,"home",!0))},!1),ve.call(m,s,"click",function(){k.call(m,"home",!1)}),a.appendChild(s),a.appendChild(ee("div",{role:"menu"})),l.appendChild(a),m.elements.settings.buttons[e]=t,m.elements.settings.panels[e]=a}),o.appendChild(l),r.appendChild(o),w.appendChild(r),m.elements.settings.popup=o,m.elements.settings.menu=r}if("pip"===e&&fe.pip&&w.appendChild(g.call(m,"pip",T)),"airplay"===e&&fe.airplay&&w.appendChild(g.call(m,"airplay",T)),"download"===e){var d=$({},T,{element:"a",href:m.download,target:"_blank"});m.isHTML5&&(d.download="");var h=m.config.urls.download;!L(h)&&m.isEmbed&&$(d,{icon:"logo-".concat(m.provider),label:m.provider}),w.appendChild(g.call(m,"download",d))}"fullscreen"===e&&w.appendChild(g.call(m,"fullscreen",T))}),this.isHTML5&&e.call(this,Se.getQualityOptions.call(this)),t.call(this),w},inject:function(){var i=this;if(this.config.loadSprite){var e=Be.getIconUrl.call(this);e.cors&&He(e.url,"sprite-plyr")}this.id=Math.floor(1e4*Math.random());var t=null;this.elements.controls=null;var n={id:this.id,seektime:this.config.seekTime,title:this.config.title},a=!0;V(this.config.controls)&&(this.config.controls=this.config.controls.call(this,n)),this.config.controls||(this.config.controls=[]),W(this.config.controls)||R(this.config.controls)?t=this.config.controls:(t=Be.create.call(this,{id:this.id,seektime:this.config.seekTime,speed:this.speed,quality:this.quality,captions:Ke.getLabel.call(this)}),a=!1);function s(e){var a=e;return Object.entries(n).forEach(function(e){var t=g(e,2),i=t[0],n=t[1];a=Ne(a,"{".concat(i,"}"),n)}),a}var r;if(a&&(R(this.config.controls)?t=s(t):W(t)&&(t.innerHTML=s(t.innerHTML))),R(this.config.selectors.controls.container)&&(r=document.querySelector(this.config.selectors.controls.container)),W(r)||(r=this.elements.container),r[W(t)?"insertAdjacentElement":"insertAdjacentHTML"]("afterbegin",t),W(this.elements.controls)||Be.findElements.call(this),!z(this.elements.buttons)){var o=function(e){var t=i.config.classNames.controlPressed;Object.defineProperty(e,"pressed",{enumerable:!0,get:function(){return le(e,t)},set:function(){oe(e,t,0<arguments.length&&void 0!==arguments[0]&&arguments[0])}})};Object.values(this.elements.buttons).filter(Boolean).forEach(function(e){B(e)||U(e)?Array.from(e).filter(Boolean).forEach(o):o(e)})}if(X.isEdge&&Q(r),this.config.tooltips.controls){var l=this.config,c=l.classNames,u=l.selectors,d="".concat(u.controls.wrapper," ").concat(u.labels," .").concat(c.hidden),h=ue.call(this,d);Array.from(h).forEach(function(e){oe(e,i.config.classNames.hidden,!1),oe(e,i.config.classNames.tooltip,!0)})}}};function Ue(e,t){var i=e;if(!(1<arguments.length&&void 0!==t)||t){var n=document.createElement("a");n.href=i,i=n.href}try{return new URL(i)}catch(e){return null}}function We(e){var a=new URLSearchParams;return D(e)&&Object.entries(e).forEach(function(e){var t=g(e,2),i=t[0],n=t[1];a.set(i,n)}),a}function ze(){}var Ke={setup:function(){if(this.supported.ui)if(!this.isVideo||this.isYouTube||this.isHTML5&&!fe.textTracks)B(this.config.controls)&&this.config.controls.includes("settings")&&this.config.settings.includes("captions")&&Be.setCaptionsMenu.call(this);else{if(W(this.elements.captions)||(this.elements.captions=ee("div",se(this.config.selectors.captions)),s=this.elements.captions,r=this.elements.wrapper,W(s)&&W(r)&&r.parentNode.insertBefore(s,r.nextSibling)),X.isIE&&window.URL){var e=this.media.querySelectorAll("track");Array.from(e).forEach(function(t){var e=t.getAttribute("src"),i=Ue(e);null!==i&&i.hostname!==window.location.href.hostname&&["http:","https:"].includes(i.protocol)&&qe(e,"blob").then(function(e){t.setAttribute("src",window.URL.createObjectURL(e))}).catch(function(){ie(t)})})}var t=Pe((navigator.languages||[navigator.language||navigator.userLanguage||"en"]).map(function(e){return e.split("-")[0]})),i=(this.storage.get("language")||this.config.captions.language||"auto").toLowerCase();"auto"===i&&(i=g(t,1)[0]);var n=this.storage.get("captions");if(M(n)||(n=this.config.captions.active),Object.assign(this.captions,{toggled:!1,active:n,language:i,languages:t}),this.isHTML5){var a=this.config.captions.update?"addtrack removetrack":"removetrack";ve.call(this,this.media.textTracks,a,Ke.update.bind(this))}setTimeout(Ke.update.bind(this),0)}var s,r},update:function(){var t=this,e=Ke.getTracks.call(this,!0),i=this.captions,n=i.active,a=i.language,s=i.meta,r=i.currentTrackNode,o=Boolean(e.find(function(e){return e.language===a}));this.isHTML5&&this.isVideo&&e.filter(function(e){return!s.get(e)}).forEach(function(e){t.debug.log("Track added",e),s.set(e,{default:"showing"===e.mode}),e.mode="hidden",ve.call(t,e,"cuechange",function(){return Ke.updateCues.call(t)})}),(o&&this.language!==a||!e.includes(r))&&(Ke.setLanguage.call(this,a),Ke.toggle.call(this,n&&o)),oe(this.elements.container,this.config.classNames.captions.enabled,!z(e)),(this.config.controls||[]).includes("settings")&&this.config.settings.includes("captions")&&Be.setCaptionsMenu.call(this)},toggle:function(e){var t=!(1<arguments.length&&void 0!==arguments[1])||arguments[1];if(this.supported.ui){var i=this.captions.toggled,n=this.config.classNames.captions.active,a=H(e)?!i:e;if(a!==i){if(t||(this.captions.active=a,this.storage.set({captions:a})),!this.language&&a&&!t){var s=Ke.getTracks.call(this),r=Ke.findTrack.call(this,[this.captions.language].concat(o(this.captions.languages)),!0);return this.captions.language=r.language,void Ke.set.call(this,s.indexOf(r))}this.elements.buttons.captions&&(this.elements.buttons.captions.pressed=a),oe(this.elements.container,n,a),this.captions.toggled=a,Be.updateSetting.call(this,"captions"),we.call(this,this.media,a?"captionsenabled":"captionsdisabled")}}},set:function(e){var t=!(1<arguments.length&&void 0!==arguments[1])||arguments[1],i=Ke.getTracks.call(this);if(-1!==e)if(F(e))if(e in i){if(this.captions.currentTrack!==e){var n=i[this.captions.currentTrack=e],a=(n||{}).language;this.captions.currentTrackNode=n,Be.updateSetting.call(this,"captions"),t||(this.captions.language=a,this.storage.set({language:a})),this.isVimeo&&this.embed.enableTextTrack(a),we.call(this,this.media,"languagechange")}Ke.toggle.call(this,!0,t),this.isHTML5&&this.isVideo&&Ke.updateCues.call(this)}else this.debug.warn("Track not found",e);else this.debug.warn("Invalid caption argument",e);else Ke.toggle.call(this,!1,t)},setLanguage:function(e){var t=!(1<arguments.length&&void 0!==arguments[1])||arguments[1];if(R(e)){var i=e.toLowerCase();this.captions.language=i;var n=Ke.getTracks.call(this),a=Ke.findTrack.call(this,[i]);Ke.set.call(this,n.indexOf(a),t)}else this.debug.warn("Invalid language argument",e)},getTracks:function(){var t=this,i=0<arguments.length&&void 0!==arguments[0]&&arguments[0];return Array.from((this.media||{}).textTracks||[]).filter(function(e){return!t.isHTML5||i||t.captions.meta.has(e)}).filter(function(e){return["captions","subtitles"].includes(e.kind)})},findTrack:function(e){function i(e){return Number((t.captions.meta.get(e)||{}).default)}var n,t=this,a=1<arguments.length&&void 0!==arguments[1]&&arguments[1],s=Ke.getTracks.call(this),r=Array.from(s).sort(function(e,t){return i(t)-i(e)});return e.every(function(t){return!(n=r.find(function(e){return e.language===t}))}),n||(a?r[0]:void 0)},getCurrentTrack:function(){return Ke.getTracks.call(this)[this.currentTrack]},getLabel:function(e){var t=e;return!I(t)&&fe.textTracks&&this.captions.toggled&&(t=Ke.getCurrentTrack.call(this)),I(t)?z(t.label)?z(t.language)?Le("enabled",this.config):e.language.toUpperCase():t.label:Le("disabled",this.config)},updateCues:function(e){if(this.supported.ui)if(W(this.elements.captions))if(H(e)||Array.isArray(e)){var t=e;if(!t){var i=Ke.getCurrentTrack.call(this);t=Array.from((i||{}).activeCues||[]).map(function(e){return e.getCueAsHTML()}).map(Ie)}var n=t.map(function(e){return e.trim()}).join("\n");if(n!==this.elements.captions.innerHTML){ne(this.elements.captions);var a=ee("span",se(this.config.selectors.caption));a.innerHTML=n,this.elements.captions.appendChild(a),we.call(this,this.media,"cuechange")}}else this.debug.warn("updateCues: Invalid input",e);else this.debug.warn("No captions element to render to")}},Ye={enabled:!0,title:"",debug:!1,autoplay:!1,autopause:!0,playsinline:!0,seekTime:10,volume:1,muted:!1,duration:null,displayDuration:!0,invertTime:!0,toggleInvert:!0,ratio:null,clickToPlay:!0,hideControls:!0,resetOnEnd:!1,disableContextMenu:!0,loadSprite:!0,iconPrefix:"plyr",iconUrl:"https://cdn.plyr.io/3.5.10/plyr.svg",blankVideo:"https://cdn.plyr.io/static/blank.mp4",quality:{default:576,options:[4320,2880,2160,1440,1080,720,576,480,360,240],forced:!1,onChange:null},loop:{active:!1},speed:{selected:1,options:[.5,.75,1,1.25,1.5,1.75,2,4]},keyboard:{focused:!0,global:!1},tooltips:{controls:!1,seek:!0},captions:{active:!1,language:"auto",update:!1},fullscreen:{enabled:!0,fallback:!0,iosNative:!1},storage:{enabled:!0,key:"plyr"},controls:["play-large","play","progress","current-time","mute","volume","captions","settings","pip","airplay","fullscreen"],settings:["captions","quality","speed"],i18n:{restart:"Restart",rewind:"Rewind {seektime}s",play:"Play",pause:"Pause",fastForward:"Forward {seektime}s",seek:"Seek",seekLabel:"{currentTime} of {duration}",played:"Played",buffered:"Buffered",currentTime:"Current time",duration:"Duration",volume:"Volume",mute:"Mute",unmute:"Unmute",enableCaptions:"Enable captions",disableCaptions:"Disable captions",download:"Download",enterFullscreen:"Enter fullscreen",exitFullscreen:"Exit fullscreen",frameTitle:"Player for {title}",captions:"Captions",settings:"Settings",pip:"PIP",menuBack:"Go back to previous menu",speed:"Speed",normal:"Normal",quality:"Quality",loop:"Loop",start:"Start",end:"End",all:"All",reset:"Reset",disabled:"Disabled",enabled:"Enabled",advertisement:"Ad",qualityBadge:{2160:"4K",1440:"HD",1080:"HD",720:"HD",576:"SD",480:"SD"}},urls:{download:null,vimeo:{sdk:"https://player.vimeo.com/api/player.js",iframe:"https://player.vimeo.com/video/{0}?{1}",api:"https://vimeo.com/api/v2/video/{0}.json"},youtube:{sdk:"https://www.youtube.com/iframe_api",api:"https://noembed.com/embed?url=https://www.youtube.com/watch?v={0}"},googleIMA:{sdk:"https://imasdk.googleapis.com/js/sdkloader/ima3.js"}},listeners:{seek:null,play:null,pause:null,restart:null,rewind:null,fastForward:null,mute:null,volume:null,captions:null,download:null,fullscreen:null,pip:null,airplay:null,speed:null,quality:null,loop:null,language:null},events:["ended","progress","stalled","playing","waiting","canplay","canplaythrough","loadstart","loadeddata","loadedmetadata","timeupdate","volumechange","play","pause","error","seeking","seeked","emptied","ratechange","cuechange","download","enterfullscreen","exitfullscreen","captionsenabled","captionsdisabled","languagechange","controlshidden","controlsshown","ready","statechange","qualitychange","adsloaded","adscontentpause","adscontentresume","adstarted","adsmidpoint","adscomplete","adsallcomplete","adsimpression","adsclick"],selectors:{editable:"input, textarea, select, [contenteditable]",container:".plyr",controls:{container:null,wrapper:".plyr__controls"},labels:"[data-plyr]",buttons:{play:'[data-plyr="play"]',pause:'[data-plyr="pause"]',restart:'[data-plyr="restart"]',rewind:'[data-plyr="rewind"]',fastForward:'[data-plyr="fast-forward"]',mute:'[data-plyr="mute"]',captions:'[data-plyr="captions"]',download:'[data-plyr="download"]',fullscreen:'[data-plyr="fullscreen"]',pip:'[data-plyr="pip"]',airplay:'[data-plyr="airplay"]',settings:'[data-plyr="settings"]',loop:'[data-plyr="loop"]'},inputs:{seek:'[data-plyr="seek"]',volume:'[data-plyr="volume"]',speed:'[data-plyr="speed"]',language:'[data-plyr="language"]',quality:'[data-plyr="quality"]'},display:{currentTime:".plyr__time--current",duration:".plyr__time--duration",buffer:".plyr__progress__buffer",loop:".plyr__progress__loop",volume:".plyr__volume--display"},progress:".plyr__progress",captions:".plyr__captions",caption:".plyr__caption"},classNames:{type:"plyr--{0}",provider:"plyr--{0}",video:"plyr__video-wrapper",embed:"plyr__video-embed",videoFixedRatio:"plyr__video-wrapper--fixed-ratio",embedContainer:"plyr__video-embed__container",poster:"plyr__poster",posterEnabled:"plyr__poster-enabled",ads:"plyr__ads",control:"plyr__control",controlPressed:"plyr__control--pressed",playing:"plyr--playing",paused:"plyr--paused",stopped:"plyr--stopped",loading:"plyr--loading",hover:"plyr--hover",tooltip:"plyr__tooltip",cues:"plyr__cues",hidden:"plyr__sr-only",hideControls:"plyr--hide-controls",isIos:"plyr--is-ios",isTouch:"plyr--is-touch",uiSupported:"plyr--full-ui",noTransition:"plyr--no-transition",display:{time:"plyr__time"},menu:{value:"plyr__menu__value",badge:"plyr__badge",open:"plyr--menu-open"},captions:{enabled:"plyr--captions-enabled",active:"plyr--captions-active"},fullscreen:{enabled:"plyr--fullscreen-enabled",fallback:"plyr--fullscreen-fallback"},pip:{supported:"plyr--pip-supported",active:"plyr--pip-active"},airplay:{supported:"plyr--airplay-supported",active:"plyr--airplay-active"},tabFocus:"plyr__tab-focus",previewThumbnails:{thumbContainer:"plyr__preview-thumb",thumbContainerShown:"plyr__preview-thumb--is-shown",imageContainer:"plyr__preview-thumb__image-container",timeContainer:"plyr__preview-thumb__time-container",scrubbingContainer:"plyr__preview-scrubbing",scrubbingContainerShown:"plyr__preview-scrubbing--is-shown"}},attributes:{embed:{provider:"data-plyr-provider",id:"data-plyr-embed-id"}},ads:{enabled:!1,publisherId:"",tagUrl:""},previewThumbnails:{enabled:!1,src:""},vimeo:{byline:!1,portrait:!1,title:!1,speed:!0,transparent:!1,sidedock:!1,controls:!1,referrerPolicy:null},youtube:{noCookie:!1,rel:0,showinfo:0,iv_load_policy:3,modestbranding:1}},Qe="picture-in-picture",Xe={html5:"html5",youtube:"youtube",vimeo:"vimeo"},Je=(e(Ze,[{key:"log",get:function(){return this.enabled?Function.prototype.bind.call(console.log,console):ze}},{key:"warn",get:function(){return this.enabled?Function.prototype.bind.call(console.warn,console):ze}},{key:"error",get:function(){return this.enabled?Function.prototype.bind.call(console.error,console):ze}}]),Ze),$e=(e(Ge,[{key:"onChange",value:function(){if(this.enabled){var e=this.player.elements.buttons.fullscreen;W(e)&&(e.pressed=this.active),we.call(this.player,this.target,this.active?"enterfullscreen":"exitfullscreen",!0)}}},{key:"toggleFallback",value:function(){var e=0<arguments.length&&void 0!==arguments[0]&&arguments[0];if(e?this.scrollPosition={x:window.scrollX||0,y:window.scrollY||0}:window.scrollTo(this.scrollPosition.x,this.scrollPosition.y),document.body.style.overflow=e?"hidden":"",oe(this.target,this.player.config.classNames.fullscreen.fallback,e),X.isIos){var t=document.head.querySelector('meta[name="viewport"]'),i="viewport-fit=cover";t||(t=document.createElement("meta")).setAttribute("name","viewport");var n=R(t.content)&&t.content.includes(i);e?(this.cleanupViewport=!n,n||(t.content+=",".concat(i))):this.cleanupViewport&&(t.content=t.content.split(",").filter(function(e){return e.trim()!==i}).join(","))}this.onChange()}},{key:"trapFocus",value:function(e){if(!X.isIos&&this.active&&"Tab"===e.key&&9===e.keyCode){var t=document.activeElement,i=ue.call(this.player,"a[href], button:not(:disabled), input:not(:disabled), [tabindex]"),n=g(i,1)[0],a=i[i.length-1];t!==a||e.shiftKey?t===n&&e.shiftKey&&(a.focus(),e.preventDefault()):(n.focus(),e.preventDefault())}}},{key:"update",value:function(){var e;this.enabled?(e=this.forceFallback?"Fallback (forced)":Ge.native?"Native":"Fallback",this.player.debug.log("".concat(e," fullscreen enabled"))):this.player.debug.log("Fullscreen not supported and fallback disabled"),oe(this.player.elements.container,this.player.config.classNames.fullscreen.enabled,this.enabled)}},{key:"enter",value:function(){this.enabled&&(X.isIos&&this.player.config.fullscreen.iosNative?this.target.webkitEnterFullscreen():!Ge.native||this.forceFallback?this.toggleFallback(!0):this.prefix?z(this.prefix)||this.target["".concat(this.prefix,"Request").concat(this.property)]():this.target.requestFullscreen({navigationUI:"hide"}))}},{key:"exit",value:function(){if(this.enabled)if(X.isIos&&this.player.config.fullscreen.iosNative)this.target.webkitExitFullscreen(),this.player.play();else if(!Ge.native||this.forceFallback)this.toggleFallback(!1);else if(this.prefix){if(!z(this.prefix)){var e="moz"===this.prefix?"Cancel":"Exit";document["".concat(this.prefix).concat(e).concat(this.property)]()}}else(document.cancelFullScreen||document.exitFullscreen).call(document)}},{key:"toggle",value:function(){this.active?this.exit():this.enter()}},{key:"usingNative",get:function(){return Ge.native&&!this.forceFallback}},{key:"enabled",get:function(){return(Ge.native||this.player.config.fullscreen.fallback)&&this.player.config.fullscreen.enabled&&this.player.supported.ui&&this.player.isVideo}},{key:"active",get:function(){return!!this.enabled&&(!Ge.native||this.forceFallback?le(this.target,this.player.config.classNames.fullscreen.fallback):(this.prefix?document["".concat(this.prefix).concat(this.property,"Element")]:document.fullscreenElement)===this.target)}},{key:"target",get:function(){return X.isIos&&this.player.config.fullscreen.iosNative?this.player.media:this.player.elements.container}}],[{key:"native",get:function(){return!!(document.fullscreenEnabled||document.webkitFullscreenEnabled||document.mozFullScreenEnabled||document.msFullscreenEnabled)}},{key:"prefix",get:function(){if(V(document.exitFullscreen))return"";var t="";return["webkit","moz","ms"].some(function(e){return!(!V(document["".concat(e,"ExitFullscreen")])&&!V(document["".concat(e,"CancelFullScreen")])||(t=e,0))}),t}},{key:"property",get:function(){return"moz"===this.prefix?"FullScreen":"Fullscreen"}}]),Ge);function Ge(e){var t=this;c(this,Ge),this.player=e,this.prefix=Ge.prefix,this.property=Ge.property,this.scrollPosition={x:0,y:0},this.forceFallback="force"===e.config.fullscreen.fallback,ve.call(this.player,document,"ms"===this.prefix?"MSFullscreenChange":"".concat(this.prefix,"fullscreenchange"),function(){t.onChange()}),ve.call(this.player,this.player.elements.container,"dblclick",function(e){W(t.player.elements.controls)&&t.player.elements.controls.contains(e.target)||t.toggle()}),ve.call(this,this.player.elements.container,"keydown",function(e){return t.trapFocus(e)}),this.update()}function Ze(){var e=0<arguments.length&&void 0!==arguments[0]&&arguments[0];c(this,Ze),this.enabled=window.console&&e,this.enabled&&this.log("Debugging enabled")}function et(a,e){var s=1<arguments.length&&void 0!==e?e:1;return new Promise(function(e,t){function i(){delete n.onload,delete n.onerror,(n.naturalWidth>=s?e:t)(n)}var n=new Image;Object.assign(n,{onload:i,onerror:i,src:a})})}var tt={addStyleHook:function(){oe(this.elements.container,this.config.selectors.container.replace(".",""),!0),oe(this.elements.container,this.config.classNames.uiSupported,this.supported.ui)},toggleNativeControls:function(){0<arguments.length&&void 0!==arguments[0]&&arguments[0]&&this.isHTML5?this.media.setAttribute("controls",""):this.media.removeAttribute("controls")},build:function(){var e=this;if(this.listeners.media(),!this.supported.ui)return this.debug.warn("Basic support only for ".concat(this.provider," ").concat(this.type)),void tt.toggleNativeControls.call(this,!0);W(this.elements.controls)||(Be.inject.call(this),this.listeners.controls()),tt.toggleNativeControls.call(this),this.isHTML5&&Ke.setup.call(this),this.volume=null,this.muted=null,this.loop=null,this.quality=null,this.speed=null,Be.updateVolume.call(this),Be.timeUpdate.call(this),tt.checkPlaying.call(this),oe(this.elements.container,this.config.classNames.pip.supported,fe.pip&&this.isHTML5&&this.isVideo),oe(this.elements.container,this.config.classNames.airplay.supported,fe.airplay&&this.isHTML5),oe(this.elements.container,this.config.classNames.isIos,X.isIos),oe(this.elements.container,this.config.classNames.isTouch,this.touch),this.ready=!0,setTimeout(function(){we.call(e,e.media,"ready")},0),tt.setTitle.call(this),this.poster&&tt.setPoster.call(this,this.poster,!1).catch(function(){}),this.config.duration&&Be.durationUpdate.call(this)},setTitle:function(){var t=Le("play",this.config);if(R(this.config.title)&&!z(this.config.title)&&(t+=", ".concat(this.config.title)),Array.from(this.elements.buttons.play||[]).forEach(function(e){e.setAttribute("aria-label",t)}),this.isEmbed){var e=de.call(this,"iframe");if(!W(e))return;var i=z(this.config.title)?"video":this.config.title,n=Le("frameTitle",this.config);e.setAttribute("title",n.replace("{title}",i))}},togglePoster:function(e){oe(this.elements.container,this.config.classNames.posterEnabled,e)},setPoster:function(t){var i=this;return(!(1<arguments.length&&void 0!==arguments[1])||arguments[1])&&this.poster?Promise.reject(new Error("Poster already set")):(this.media.setAttribute("poster",t),this.isHTML5?Promise.resolve(t):function(){var t=this;return new Promise(function(e){return t.ready?setTimeout(e,0):ve.call(t,t.elements.container,"ready",e)}).then(function(){})}.call(this).then(function(){return et(t)}).catch(function(e){throw t===i.poster&&tt.togglePoster.call(i,!1),e}).then(function(){if(t!==i.poster)throw new Error("setPoster cancelled by later call to setPoster")}).then(function(){return Object.assign(i.elements.poster.style,{backgroundImage:"url('".concat(t,"')"),backgroundSize:""}),tt.togglePoster.call(i,!0),t}))},checkPlaying:function(e){var t=this;oe(this.elements.container,this.config.classNames.playing,this.playing),oe(this.elements.container,this.config.classNames.paused,this.paused),oe(this.elements.container,this.config.classNames.stopped,this.stopped),Array.from(this.elements.buttons.play||[]).forEach(function(e){Object.assign(e,{pressed:t.playing}),e.setAttribute("aria-label",Le(t.playing?"pause":"play",t.config))}),N(e)&&"timeupdate"===e.type||tt.toggleControls.call(this)},checkLoading:function(e){var t=this;this.loading=["stalled","waiting"].includes(e.type),clearTimeout(this.timers.loading),this.timers.loading=setTimeout(function(){oe(t.elements.container,t.config.classNames.loading,t.loading),tt.toggleControls.call(t)},this.loading?250:0)},toggleControls:function(e){var t=this.elements.controls;if(t&&this.config.hideControls){var i=this.touch&&this.lastSeekTime+2e3>Date.now();this.toggleControls(Boolean(e||this.loading||this.paused||t.pressed||t.hover||i))}}},it=(e(nt,[{key:"handleKey",value:function(e){var t=this.player,i=t.elements,n=e.keyCode?e.keyCode:e.which,a="keydown"===e.type,s=a&&n===this.lastKey;if(!(e.altKey||e.ctrlKey||e.metaKey||e.shiftKey)&&F(n))if(a){var r=document.activeElement;if(W(r)){var o=t.config.selectors.editable;if(r!==i.inputs.seek&&ce(r,o))return;if(32===e.which&&ce(r,'button, [role^="menuitem"]'))return}switch([32,37,38,39,40,48,49,50,51,52,53,54,56,57,67,70,73,75,76,77,79].includes(n)&&(e.preventDefault(),e.stopPropagation()),n){case 48:case 49:case 50:case 51:case 52:case 53:case 54:case 55:case 56:case 57:s||(t.currentTime=t.duration/10*(n-48));break;case 32:case 75:s||t.togglePlay();break;case 38:t.increaseVolume(.1);break;case 40:t.decreaseVolume(.1);break;case 77:s||(t.muted=!t.muted);break;case 39:t.forward();break;case 37:t.rewind();break;case 70:t.fullscreen.toggle();break;case 67:s||t.toggleCaptions();break;case 76:t.loop=!t.loop}27===n&&!t.fullscreen.usingNative&&t.fullscreen.active&&t.fullscreen.toggle(),this.lastKey=n}else this.lastKey=null}},{key:"toggleMenu",value:function(e){Be.toggleMenu.call(this.player,e)}},{key:"firstTouch",value:function(){var e=this.player,t=e.elements;e.touch=!0,oe(t.container,e.config.classNames.isTouch,!0)}},{key:"setTabFocus",value:function(e){var t=this.player,i=t.elements;if(clearTimeout(this.focusTimer),"keydown"!==e.type||9===e.which){"keydown"===e.type&&(this.lastKeyDown=e.timeStamp);var n,a=e.timeStamp-this.lastKeyDown<=20;"focus"===e.type&&!a||(n=t.config.classNames.tabFocus,oe(ue.call(t,".".concat(n)),n,!1),this.focusTimer=setTimeout(function(){var e=document.activeElement;i.container.contains(e)&&oe(document.activeElement,t.config.classNames.tabFocus,!0)},10))}}},{key:"global",value:function(){var e=!(0<arguments.length&&void 0!==arguments[0])||arguments[0],t=this.player;t.config.keyboard.global&&ye.call(t,window,"keydown keyup",this.handleKey,e,!1),ye.call(t,document.body,"click",this.toggleMenu,e),ke.call(t,document.body,"touchstart",this.firstTouch),ye.call(t,document.body,"keydown focus blur",this.setTabFocus,e,!1,!0)}},{key:"container",value:function(){var o=this.player,e=o.config,r=o.elements,n=o.timers;function l(e){if(!e)return Ee.call(o);var t=r.container.getBoundingClientRect(),i=t.width,n=t.height;return Ee.call(o,"".concat(i,":").concat(n))}function c(){clearTimeout(n.resized),n.resized=setTimeout(l,50)}!e.keyboard.global&&e.keyboard.focused&&ve.call(o,r.container,"keydown keyup",this.handleKey,!1),ve.call(o,r.container,"mousemove mouseleave touchstart touchmove enterfullscreen exitfullscreen",function(e){var t=r.controls;t&&"enterfullscreen"===e.type&&(t.pressed=!1,t.hover=!1);var i=0;["touchstart","touchmove","mousemove"].includes(e.type)&&(tt.toggleControls.call(o,!0),i=o.touch?3e3:2e3),clearTimeout(n.controls),n.controls=setTimeout(function(){return tt.toggleControls.call(o,!1)},i)}),ve.call(o,r.container,"enterfullscreen exitfullscreen",function(e){var t=o.fullscreen,i=t.target,n=t.usingNative;if(i===r.container&&(o.isEmbed||!z(o.config.ratio))){var a="enterfullscreen"===e.type,s=l(a);s.padding,function(e,t){if(o.isVimeo){var i=o.elements.wrapper.firstChild,n=g(e,2)[1],a=g(Ae.call(o),2),s=a[0],r=a[1];i.style.maxWidth=t?"".concat(n/r*s,"px"):null,i.style.margin=t?"0 auto":null}}(s.ratio,a),n||(a?ve.call(o,window,"resize",c):be.call(o,window,"resize",c))}})}},{key:"media",value:function(){var t=this,n=this.player,a=n.elements;if(ve.call(n,n.media,"timeupdate seeking seeked",function(e){return Be.timeUpdate.call(n,e)}),ve.call(n,n.media,"durationchange loadeddata loadedmetadata",function(e){return Be.durationUpdate.call(n,e)}),ve.call(n,n.media,"ended",function(){n.isHTML5&&n.isVideo&&n.config.resetOnEnd&&(n.restart(),n.pause())}),ve.call(n,n.media,"progress playing seeking seeked",function(e){return Be.updateProgress.call(n,e)}),ve.call(n,n.media,"volumechange",function(e){return Be.updateVolume.call(n,e)}),ve.call(n,n.media,"playing play pause ended emptied timeupdate",function(e){return tt.checkPlaying.call(n,e)}),ve.call(n,n.media,"waiting canplay seeked playing",function(e){return tt.checkLoading.call(n,e)}),n.supported.ui&&n.config.clickToPlay&&!n.isAudio){var i=de.call(n,".".concat(n.config.classNames.video));if(!W(i))return;ve.call(n,a.container,"click",function(e){([a.container,i].includes(e.target)||i.contains(e.target))&&(n.touch&&n.config.hideControls||(n.ended?(t.proxy(e,n.restart,"restart"),t.proxy(e,n.play,"play")):t.proxy(e,n.togglePlay,"play")))})}n.supported.ui&&n.config.disableContextMenu&&ve.call(n,a.wrapper,"contextmenu",function(e){e.preventDefault()},!1),ve.call(n,n.media,"volumechange",function(){n.storage.set({volume:n.volume,muted:n.muted})}),ve.call(n,n.media,"ratechange",function(){Be.updateSetting.call(n,"speed"),n.storage.set({speed:n.speed})}),ve.call(n,n.media,"qualitychange",function(e){Be.updateSetting.call(n,"quality",null,e.detail.quality)}),ve.call(n,n.media,"ready qualitychange",function(){Be.setDownloadUrl.call(n)});var e=n.config.events.concat(["keyup","keydown"]).join(" ");ve.call(n,n.media,e,function(e){var t=e.detail,i=void 0===t?{}:t;"error"===e.type&&(i=n.media.error),we.call(n,a.container,e.type,!0,i)})}},{key:"proxy",value:function(e,t,i){var n=this.player,a=n.config.listeners[i],s=!0;V(a)&&(s=a.call(n,e)),!1!==s&&V(t)&&t.call(n,e)}},{key:"bind",value:function(e,t,i,n){var a=this,s=!(4<arguments.length&&void 0!==arguments[4])||arguments[4],r=this.player,o=r.config.listeners[n],l=V(o);ve.call(r,e,t,function(e){return a.proxy(e,i,n)},s&&!l)}},{key:"controls",value:function(){var n=this,o=this.player,a=o.elements,t=X.isIE?"change":"input";if(a.buttons.play&&Array.from(a.buttons.play).forEach(function(e){n.bind(e,"click",o.togglePlay,"play")}),this.bind(a.buttons.restart,"click",o.restart,"restart"),this.bind(a.buttons.rewind,"click",o.rewind,"rewind"),this.bind(a.buttons.fastForward,"click",o.forward,"fastForward"),this.bind(a.buttons.mute,"click",function(){o.muted=!o.muted},"mute"),this.bind(a.buttons.captions,"click",function(){return o.toggleCaptions()}),this.bind(a.buttons.download,"click",function(){we.call(o,o.media,"download")},"download"),this.bind(a.buttons.fullscreen,"click",function(){o.fullscreen.toggle()},"fullscreen"),this.bind(a.buttons.pip,"click",function(){o.pip="toggle"},"pip"),this.bind(a.buttons.airplay,"click",o.airplay,"airplay"),this.bind(a.buttons.settings,"click",function(e){e.stopPropagation(),e.preventDefault(),Be.toggleMenu.call(o,e)},null,!1),this.bind(a.buttons.settings,"keyup",function(e){var t=e.which;[13,32].includes(t)&&(13!==t?(e.preventDefault(),e.stopPropagation(),Be.toggleMenu.call(o,e)):Be.focusFirstMenuItem.call(o,null,!0))},null,!1),this.bind(a.settings.menu,"keydown",function(e){27===e.which&&Be.toggleMenu.call(o,e)}),this.bind(a.inputs.seek,"mousedown mousemove",function(e){var t=a.progress.getBoundingClientRect(),i=100/t.width*(e.pageX-t.left);e.currentTarget.setAttribute("seek-value",i)}),this.bind(a.inputs.seek,"mousedown mouseup keydown keyup touchstart touchend",function(e){var t=e.currentTarget,i=e.keyCode?e.keyCode:e.which;if(!x(e)||39===i||37===i){o.lastSeekTime=Date.now();var n=t.hasAttribute("play-on-seeked"),a=["mouseup","touchend","keyup"].includes(e.type);n&&a?(t.removeAttribute("play-on-seeked"),o.play()):!a&&o.playing&&(t.setAttribute("play-on-seeked",""),o.pause())}}),X.isIos){var e=ue.call(o,'input[type="range"]');Array.from(e).forEach(function(e){return n.bind(e,t,function(e){return Q(e.target)})})}this.bind(a.inputs.seek,t,function(e){var t=e.currentTarget,i=t.getAttribute("seek-value");z(i)&&(i=t.value),t.removeAttribute("seek-value"),o.currentTime=i/t.max*o.duration},"seek"),this.bind(a.progress,"mouseenter mouseleave mousemove",function(e){return Be.updateSeekTooltip.call(o,e)}),this.bind(a.progress,"mousemove touchmove",function(e){var t=o.previewThumbnails;t&&t.loaded&&t.startMove(e)}),this.bind(a.progress,"mouseleave touchend click",function(){var e=o.previewThumbnails;e&&e.loaded&&e.endMove(!1,!0)}),this.bind(a.progress,"mousedown touchstart",function(e){var t=o.previewThumbnails;t&&t.loaded&&t.startScrubbing(e)}),this.bind(a.progress,"mouseup touchend",function(e){var t=o.previewThumbnails;t&&t.loaded&&t.endScrubbing(e)}),X.isWebkit&&Array.from(ue.call(o,'input[type="range"]')).forEach(function(e){n.bind(e,"input",function(e){return Be.updateRangeFill.call(o,e.target)})}),o.config.toggleInvert&&!W(a.display.duration)&&this.bind(a.display.currentTime,"click",function(){0!==o.currentTime&&(o.config.invertTime=!o.config.invertTime,Be.timeUpdate.call(o))}),this.bind(a.inputs.volume,t,function(e){o.volume=e.target.value},"volume"),this.bind(a.controls,"mouseenter mouseleave",function(e){a.controls.hover=!o.touch&&"mouseenter"===e.type}),this.bind(a.controls,"mousedown mouseup touchstart touchend touchcancel",function(e){a.controls.pressed=["mousedown","touchstart"].includes(e.type)}),this.bind(a.controls,"focusin",function(){var e=o.config,t=o.timers;oe(a.controls,e.classNames.noTransition,!0),tt.toggleControls.call(o,!0),setTimeout(function(){oe(a.controls,e.classNames.noTransition,!1)},0);var i=n.touch?3e3:4e3;clearTimeout(t.controls),t.controls=setTimeout(function(){return tt.toggleControls.call(o,!1)},i)}),this.bind(a.inputs.volume,"wheel",function(e){var t=e.webkitDirectionInvertedFromDevice,i=g([e.deltaX,-e.deltaY].map(function(e){return t?-e:e}),2),n=i[0],a=i[1],s=Math.sign(Math.abs(n)>Math.abs(a)?n:a);o.increaseVolume(s/50);var r=o.media.volume;(1===s&&r<1||-1===s&&0<r)&&e.preventDefault()},"volume",!1)}}]),nt);function nt(e){c(this,nt),this.player=e,this.lastKey=null,this.focusTimer=null,this.lastKeyDown=null,this.handleKey=this.handleKey.bind(this),this.toggleMenu=this.toggleMenu.bind(this),this.setTabFocus=this.setTabFocus.bind(this),this.firstTouch=this.firstTouch.bind(this)}var at,st=((at={exports:{}}).exports=function(){var h=function(){},a={},l={},c={};function d(e,t){if(e){var i=c[e];if(l[e]=t,i)for(;i.length;)i[0](e,t),i.splice(0,1)}}function p(e,t){e.call&&(e={success:e}),t.length?(e.error||h)(t):(e.success||h)(e)}function m(i,n,a,s){var r,o,e=document,t=a.async,l=(a.numRetries||0)+1,c=a.before||h,u=i.replace(/[\?|#].*$/,""),d=i.replace(/^(css|img)!/,"");s=s||0,/(^css!|\.css$)/.test(u)?((o=e.createElement("link")).rel="stylesheet",o.href=d,(r="hideFocus"in o)&&o.relList&&(r=0,o.rel="preload",o.as="style")):/(^img!|\.(png|gif|jpg|svg|webp)$)/.test(u)?(o=e.createElement("img")).src=d:((o=e.createElement("script")).src=i,o.async=void 0===t||t),!(o.onload=o.onerror=o.onbeforeload=function(e){var t=e.type[0];if(r)try{o.sheet.cssText.length||(t="e")}catch(e){18!=e.code&&(t="e")}if("e"==t){if((s+=1)<l)return m(i,n,a,s)}else if("preload"==o.rel&&"style"==o.as)return o.rel="stylesheet";n(i,t,e.defaultPrevented)})!==c(i,o)&&e.head.appendChild(o)}function t(e,t,i){var c,u;if(t&&t.trim&&(c=t),u=(c?i:t)||{},c){if(c in a)throw"LoadJS";a[c]=!0}function n(o,l){!function(e,t){var i,n,a=(e=e.push?e:[e]).length,s=a,r=[];for(i=function(e,t,i){if("e"==t&&r.push(e),"b"==t){if(!i)return;r.push(e)}var n;--a||(p(u,n=r),o&&p({success:o,error:l},n),d(c,n))},n=0;n<s;n++)m(e[n],i,t)}(e,u)}if(u.returnPromise)return new Promise(n);n()}return t.ready=function(e,o){return function(e){e=e.push?e:[e];var t,i,n,a=[],s=e.length,r=s;for(t=function(e,t){t.length&&a.push(e),--r||p(o,a)};s--;)i=e[s],(n=l[i])?t(i,n):(c[i]=c[i]||[]).push(t)}(e),t},t.done=function(e){d(e,[])},t.reset=function(){a={},l={},c={}},t.isDefined=function(e){return e in a},t}(),at.exports);function rt(i){return new Promise(function(e,t){st(i,{success:e,error:t})})}function ot(e){e&&!this.embed.hasPlayed&&(this.embed.hasPlayed=!0),this.media.paused===e&&(this.media.paused=!e,we.call(this,this.media,e?"play":"pause"))}var lt={setup:function(){var t=this;oe(t.elements.wrapper,t.config.classNames.embed,!0),t.options.speed=t.config.speed.options,Ee.call(t),D(window.Vimeo)?lt.ready.call(t):rt(t.config.urls.vimeo.sdk).then(function(){lt.ready.call(t)}).catch(function(e){t.debug.warn("Vimeo SDK (player.js) failed to load",e)})},ready:function(){var a=this,r=this,e=r.config.vimeo,t=We($({},{loop:r.config.loop.active,autoplay:r.autoplay,muted:r.muted,gesture:"media",playsinline:!this.config.fullscreen.iosNative},e)),i=r.media.getAttribute("src");z(i)&&(i=r.media.getAttribute(r.config.attributes.embed.id));var n,s=z(n=i)?null:!F(Number(n))&&n.match(/^.*(vimeo.com\/|video\/)(\d+).*/)?RegExp.$2:n,o=ee("iframe"),l=Me(r.config.urls.vimeo.iframe,s,t);o.setAttribute("src",l),o.setAttribute("allowfullscreen",""),o.setAttribute("allowtransparency",""),o.setAttribute("allow","autoplay"),z(e.referrerPolicy)||o.setAttribute("referrerPolicy",e.referrerPolicy);var c=ee("div",{poster:r.poster,class:r.config.classNames.embedContainer});c.appendChild(o),r.media=ae(c,r.media),qe(Me(r.config.urls.vimeo.api,s),"json").then(function(e){if(!z(e)){var t=new URL(e[0].thumbnail_large);t.pathname="".concat(t.pathname.split("_")[0],".jpg"),tt.setPoster.call(r,t.href).catch(function(){})}}),r.embed=new window.Vimeo.Player(o,{autopause:r.config.autopause,muted:r.muted}),r.media.paused=!0,r.media.currentTime=0,r.supported.ui&&r.embed.disableTextTrack(),r.media.play=function(){return ot.call(r,!0),r.embed.play()},r.media.pause=function(){return ot.call(r,!1),r.embed.pause()},r.media.stop=function(){r.pause(),r.currentTime=0};var u=r.media.currentTime;Object.defineProperty(r.media,"currentTime",{get:function(){return u},set:function(e){var t=r.embed,i=r.media,n=r.paused,a=r.volume,s=n&&!t.hasPlayed;i.seeking=!0,we.call(r,i,"seeking"),Promise.resolve(s&&t.setVolume(0)).then(function(){return t.setCurrentTime(e)}).then(function(){return s&&t.pause()}).then(function(){return s&&t.setVolume(a)}).catch(function(){})}});var d=r.config.speed.selected;Object.defineProperty(r.media,"playbackRate",{get:function(){return d},set:function(e){r.embed.setPlaybackRate(e).then(function(){d=e,we.call(r,r.media,"ratechange")})}});var h=r.config.volume;Object.defineProperty(r.media,"volume",{get:function(){return h},set:function(e){r.embed.setVolume(e).then(function(){h=e,we.call(r,r.media,"volumechange")})}});var p=r.config.muted;Object.defineProperty(r.media,"muted",{get:function(){return p},set:function(e){var t=!!M(e)&&e;r.embed.setVolume(t?0:r.config.volume).then(function(){p=t,we.call(r,r.media,"volumechange")})}});var m,f=r.config.loop;Object.defineProperty(r.media,"loop",{get:function(){return f},set:function(e){var t=M(e)?e:r.config.loop.active;r.embed.setLoop(t).then(function(){f=t})}}),r.embed.getVideoUrl().then(function(e){m=e,Be.setDownloadUrl.call(r)}).catch(function(e){a.debug.warn(e)}),Object.defineProperty(r.media,"currentSrc",{get:function(){return m}}),Object.defineProperty(r.media,"ended",{get:function(){return r.currentTime===r.duration}}),Promise.all([r.embed.getVideoWidth(),r.embed.getVideoHeight()]).then(function(e){var t=g(e,2),i=t[0],n=t[1];r.embed.ratio=[i,n],Ee.call(a)}),r.embed.setAutopause(r.config.autopause).then(function(e){r.config.autopause=e}),r.embed.getVideoTitle().then(function(e){r.config.title=e,tt.setTitle.call(a)}),r.embed.getCurrentTime().then(function(e){u=e,we.call(r,r.media,"timeupdate")}),r.embed.getDuration().then(function(e){r.media.duration=e,we.call(r,r.media,"durationchange")}),r.embed.getTextTracks().then(function(e){r.media.textTracks=e,Ke.setup.call(r)}),r.embed.on("cuechange",function(e){var t=e.cues,i=(void 0===t?[]:t).map(function(e){return t=e.text,i=document.createDocumentFragment(),n=document.createElement("div"),i.appendChild(n),n.innerHTML=t,i.firstChild.innerText;var t,i,n});Ke.updateCues.call(r,i)}),r.embed.on("loaded",function(){r.embed.getPaused().then(function(e){ot.call(r,!e),e||we.call(r,r.media,"playing")}),W(r.embed.element)&&r.supported.ui&&r.embed.element.setAttribute("tabindex",-1)}),r.embed.on("bufferstart",function(){we.call(r,r.media,"waiting")}),r.embed.on("bufferend",function(){we.call(r,r.media,"playing")}),r.embed.on("play",function(){ot.call(r,!0),we.call(r,r.media,"playing")}),r.embed.on("pause",function(){ot.call(r,!1)}),r.embed.on("timeupdate",function(e){r.media.seeking=!1,u=e.seconds,we.call(r,r.media,"timeupdate")}),r.embed.on("progress",function(e){r.media.buffered=e.percent,we.call(r,r.media,"progress"),1===parseInt(e.percent,10)&&we.call(r,r.media,"canplaythrough"),r.embed.getDuration().then(function(e){e!==r.media.duration&&(r.media.duration=e,we.call(r,r.media,"durationchange"))})}),r.embed.on("seeked",function(){r.media.seeking=!1,we.call(r,r.media,"seeked")}),r.embed.on("ended",function(){r.media.paused=!0,we.call(r,r.media,"ended")}),r.embed.on("error",function(e){r.media.error=e,we.call(r,r.media,"error")}),setTimeout(function(){return tt.build.call(r)},0)}};function ct(e){e&&!this.embed.hasPlayed&&(this.embed.hasPlayed=!0),this.media.paused===e&&(this.media.paused=!e,we.call(this,this.media,e?"play":"pause"))}function ut(e,t){var i={};return e>t.width/t.height?(i.width=t.width,i.height=1/e*t.width):(i.height=t.height,i.width=e*t.height),i}var dt={setup:function(){var t=this;if(oe(this.elements.wrapper,this.config.classNames.embed,!0),D(window.YT)&&V(window.YT.Player))dt.ready.call(this);else{var e=window.onYouTubeIframeAPIReady;window.onYouTubeIframeAPIReady=function(){V(e)&&e(),dt.ready.call(t)},rt(this.config.urls.youtube.sdk).catch(function(e){t.debug.warn("YouTube API failed to load",e)})}},getTitle:function(e){var a=this;qe(Me(this.config.urls.youtube.api,e)).then(function(e){if(D(e)){var t=e.title,i=e.height,n=e.width;a.config.title=t,tt.setTitle.call(a),a.embed.ratio=[n,i]}Ee.call(a)}).catch(function(){Ee.call(a)})},ready:function(){var s=this,e=s.media&&s.media.getAttribute("id");if(z(e)||!e.startsWith("youtube-")){var t=s.media.getAttribute("src");z(t)&&(t=s.media.getAttribute(this.config.attributes.embed.id));var i,n,r=z(i=t)?null:i.match(/^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/)?RegExp.$2:i,a=(n=s.provider,"".concat(n,"-").concat(Math.floor(1e4*Math.random()))),o=ee("div",{id:a,poster:s.poster});s.media=ae(o,s.media);var l=function(e){return"https://i.ytimg.com/vi/".concat(r,"/").concat(e,"default.jpg")};et(l("maxres"),121).catch(function(){return et(l("sd"),121)}).catch(function(){return et(l("hq"))}).then(function(e){return tt.setPoster.call(s,e.src)}).then(function(e){e.includes("maxres")||(s.elements.poster.style.backgroundSize="cover")}).catch(function(){});var c=s.config.youtube;s.embed=new window.YT.Player(a,{videoId:r,host:c.noCookie?"https://www.youtube-nocookie.com":"http:"===window.location.protocol?"http://www.youtube.com":void 0,playerVars:$({},{autoplay:s.config.autoplay?1:0,hl:s.config.hl,controls:s.supported.ui?0:1,disablekb:1,playsinline:s.config.fullscreen.iosNative?0:1,cc_load_policy:s.captions.active?1:0,cc_lang_pref:s.config.captions.language,widget_referrer:window?window.location.href:null},c),events:{onError:function(e){if(!s.media.error){var t=e.data,i={2:"The request contains an invalid parameter value. For example, this error occurs if you specify a video ID that does not have 11 characters, or if the video ID contains invalid characters, such as exclamation points or asterisks.",5:"The requested content cannot be played in an HTML5 player or another error related to the HTML5 player has occurred.",100:"The video requested was not found. This error occurs when a video has been removed (for any reason) or has been marked as private.",101:"The owner of the requested video does not allow it to be played in embedded players.",150:"The owner of the requested video does not allow it to be played in embedded players."}[t]||"An unknown error occured";s.media.error={code:t,message:i},we.call(s,s.media,"error")}},onPlaybackRateChange:function(e){var t=e.target;s.media.playbackRate=t.getPlaybackRate(),we.call(s,s.media,"ratechange")},onReady:function(e){if(!V(s.media.play)){var i=e.target;dt.getTitle.call(s,r),s.media.play=function(){ct.call(s,!0),i.playVideo()},s.media.pause=function(){ct.call(s,!1),i.pauseVideo()},s.media.stop=function(){i.stopVideo()},s.media.duration=i.getDuration(),s.media.paused=!0,s.media.currentTime=0,Object.defineProperty(s.media,"currentTime",{get:function(){return Number(i.getCurrentTime())},set:function(e){s.paused&&!s.embed.hasPlayed&&s.embed.mute(),s.media.seeking=!0,we.call(s,s.media,"seeking"),i.seekTo(e)}}),Object.defineProperty(s.media,"playbackRate",{get:function(){return i.getPlaybackRate()},set:function(e){i.setPlaybackRate(e)}});var t=s.config.volume;Object.defineProperty(s.media,"volume",{get:function(){return t},set:function(e){t=e,i.setVolume(100*t),we.call(s,s.media,"volumechange")}});var n=s.config.muted;Object.defineProperty(s.media,"muted",{get:function(){return n},set:function(e){var t=M(e)?e:n;i[(n=t)?"mute":"unMute"](),we.call(s,s.media,"volumechange")}}),Object.defineProperty(s.media,"currentSrc",{get:function(){return i.getVideoUrl()}}),Object.defineProperty(s.media,"ended",{get:function(){return s.currentTime===s.duration}});var a=i.getAvailablePlaybackRates();s.options.speed=a.filter(function(e){return s.config.speed.options.includes(e)}),s.supported.ui&&s.media.setAttribute("tabindex",-1),we.call(s,s.media,"timeupdate"),we.call(s,s.media,"durationchange"),clearInterval(s.timers.buffering),s.timers.buffering=setInterval(function(){s.media.buffered=i.getVideoLoadedFraction(),(null===s.media.lastBuffered||s.media.lastBuffered<s.media.buffered)&&we.call(s,s.media,"progress"),s.media.lastBuffered=s.media.buffered,1===s.media.buffered&&(clearInterval(s.timers.buffering),we.call(s,s.media,"canplaythrough"))},200),setTimeout(function(){return tt.build.call(s)},50)}},onStateChange:function(e){var t=e.target;switch(clearInterval(s.timers.playing),s.media.seeking&&[1,2].includes(e.data)&&(s.media.seeking=!1,we.call(s,s.media,"seeked")),e.data){case-1:we.call(s,s.media,"timeupdate"),s.media.buffered=t.getVideoLoadedFraction(),we.call(s,s.media,"progress");break;case 0:ct.call(s,!1),s.media.loop?(t.stopVideo(),t.playVideo()):we.call(s,s.media,"ended");break;case 1:s.config.autoplay||!s.media.paused||s.embed.hasPlayed?(ct.call(s,!0),we.call(s,s.media,"playing"),s.timers.playing=setInterval(function(){we.call(s,s.media,"timeupdate")},50),s.media.duration!==t.getDuration()&&(s.media.duration=t.getDuration(),we.call(s,s.media,"durationchange"))):s.media.pause();break;case 2:s.muted||s.embed.unMute(),ct.call(s,!1);break;case 3:we.call(s,s.media,"waiting")}we.call(s,s.elements.container,"statechange",!1,{code:e.data})}}})}}},ht={setup:function(){this.media?(oe(this.elements.container,this.config.classNames.type.replace("{0}",this.type),!0),oe(this.elements.container,this.config.classNames.provider.replace("{0}",this.provider),!0),this.isEmbed&&oe(this.elements.container,this.config.classNames.type.replace("{0}","video"),!0),this.isVideo&&(this.elements.wrapper=ee("div",{class:this.config.classNames.video}),G(this.media,this.elements.wrapper),this.isEmbed&&(this.elements.poster=ee("div",{class:this.config.classNames.poster}),this.elements.wrapper.appendChild(this.elements.poster))),this.isHTML5?Se.setup.call(this):this.isYouTube?dt.setup.call(this):this.isVimeo&&lt.setup.call(this)):this.debug.warn("No media element found!")}},pt=(e(yt,[{key:"load",value:function(){var e=this;this.enabled&&(D(window.google)&&D(window.google.ima)?this.ready():rt(this.player.config.urls.googleIMA.sdk).then(function(){e.ready()}).catch(function(){e.trigger("error",new Error("Google IMA SDK failed to load"))}))}},{key:"ready",value:function(){var e=this;this.enabled||(this.manager&&this.manager.destroy(),this.elements.displayContainer&&this.elements.displayContainer.destroy(),this.elements.container.remove()),this.startSafetyTimer(12e3,"ready()"),this.managerPromise.then(function(){e.clearSafetyTimer("onAdsManagerLoaded()")}),this.listeners(),this.setupIMA()}},{key:"setupIMA",value:function(){this.elements.container=ee("div",{class:this.player.config.classNames.ads}),this.player.elements.container.appendChild(this.elements.container),google.ima.settings.setVpaidMode(google.ima.ImaSdkSettings.VpaidMode.ENABLED),google.ima.settings.setLocale(this.player.config.ads.language),google.ima.settings.setDisableCustomPlaybackForIOS10Plus(this.player.config.playsinline),this.elements.displayContainer=new google.ima.AdDisplayContainer(this.elements.container,this.player.media),this.requestAds()}},{key:"requestAds",value:function(){var t=this,e=this.player.elements.container;try{this.loader=new google.ima.AdsLoader(this.elements.displayContainer),this.loader.addEventListener(google.ima.AdsManagerLoadedEvent.Type.ADS_MANAGER_LOADED,function(e){return t.onAdsManagerLoaded(e)},!1),this.loader.addEventListener(google.ima.AdErrorEvent.Type.AD_ERROR,function(e){return t.onAdError(e)},!1);var i=new google.ima.AdsRequest;i.adTagUrl=this.tagUrl,i.linearAdSlotWidth=e.offsetWidth,i.linearAdSlotHeight=e.offsetHeight,i.nonLinearAdSlotWidth=e.offsetWidth,i.nonLinearAdSlotHeight=e.offsetHeight,i.forceNonLinearFullSlot=!1,i.setAdWillPlayMuted(!this.player.muted),this.loader.requestAds(i)}catch(t){this.onAdError(t)}}},{key:"pollCountdown",value:function(){var i=this;if(!(0<arguments.length&&void 0!==arguments[0]&&arguments[0]))return clearInterval(this.countdownTimer),void this.elements.container.removeAttribute("data-badge-text");this.countdownTimer=setInterval(function(){var e=Ve(Math.max(i.manager.getRemainingTime(),0)),t="".concat(Le("advertisement",i.player.config)," - ").concat(e);i.elements.container.setAttribute("data-badge-text",t)},100)}},{key:"onAdsManagerLoaded",value:function(e){var t=this;if(this.enabled){var i=new google.ima.AdsRenderingSettings;i.restoreCustomPlaybackStateOnAdBreakComplete=!0,i.enablePreloading=!0,this.manager=e.getAdsManager(this.player,i),this.cuePoints=this.manager.getCuePoints(),this.manager.addEventListener(google.ima.AdErrorEvent.Type.AD_ERROR,function(e){return t.onAdError(e)}),Object.keys(google.ima.AdEvent.Type).forEach(function(e){t.manager.addEventListener(google.ima.AdEvent.Type[e],function(e){return t.onAdEvent(e)})}),this.trigger("loaded")}}},{key:"addCuePoints",value:function(){var a=this;z(this.cuePoints)||this.cuePoints.forEach(function(e){if(0!==e&&-1!==e&&e<a.player.duration){var t=a.player.elements.progress;if(W(t)){var i=100/a.player.duration*e,n=ee("span",{class:a.player.config.classNames.cues});n.style.left="".concat(i.toString(),"%"),t.appendChild(n)}}})}},{key:"onAdEvent",value:function(e){var t,i=this,n=this.player.elements.container,a=e.getAd(),s=e.getAdData();switch(t=e.type,we.call(i.player,i.player.media,"ads".concat(t.replace(/_/g,"").toLowerCase())),e.type){case google.ima.AdEvent.Type.LOADED:this.trigger("loaded"),this.pollCountdown(!0),a.isLinear()||(a.width=n.offsetWidth,a.height=n.offsetHeight);break;case google.ima.AdEvent.Type.STARTED:this.manager.setVolume(this.player.volume);break;case google.ima.AdEvent.Type.ALL_ADS_COMPLETED:this.loadAds();break;case google.ima.AdEvent.Type.CONTENT_PAUSE_REQUESTED:this.pauseContent();break;case google.ima.AdEvent.Type.CONTENT_RESUME_REQUESTED:this.pollCountdown(),this.resumeContent();break;case google.ima.AdEvent.Type.LOG:s.adError&&this.player.debug.warn("Non-fatal ad error: ".concat(s.adError.getMessage()))}}},{key:"onAdError",value:function(e){this.cancel(),this.player.debug.warn("Ads error",e)}},{key:"listeners",value:function(){var n,a=this,e=this.player.elements.container;this.player.on("canplay",function(){a.addCuePoints()}),this.player.on("ended",function(){a.loader.contentComplete()}),this.player.on("timeupdate",function(){n=a.player.currentTime}),this.player.on("seeked",function(){var i=a.player.currentTime;z(a.cuePoints)||a.cuePoints.forEach(function(e,t){n<e&&e<i&&(a.manager.discardAdBreak(),a.cuePoints.splice(t,1))})}),window.addEventListener("resize",function(){a.manager&&a.manager.resize(e.offsetWidth,e.offsetHeight,google.ima.ViewMode.NORMAL)})}},{key:"play",value:function(){var t=this,e=this.player.elements.container;this.managerPromise||this.resumeContent(),this.managerPromise.then(function(){t.manager.setVolume(t.player.volume),t.elements.displayContainer.initialize();try{t.initialized||(t.manager.init(e.offsetWidth,e.offsetHeight,google.ima.ViewMode.NORMAL),t.manager.start()),t.initialized=!0}catch(e){t.onAdError(e)}}).catch(function(){})}},{key:"resumeContent",value:function(){this.elements.container.style.zIndex="",this.playing=!1,this.player.media.play()}},{key:"pauseContent",value:function(){this.elements.container.style.zIndex=3,this.playing=!0,this.player.media.pause()}},{key:"cancel",value:function(){this.initialized&&this.resumeContent(),this.trigger("error"),this.loadAds()}},{key:"loadAds",value:function(){var t=this;this.managerPromise.then(function(){t.manager&&t.manager.destroy(),t.managerPromise=new Promise(function(e){t.on("loaded",e),t.player.debug.log(t.manager)}),t.requestAds()}).catch(function(){})}},{key:"trigger",value:function(e){for(var t=this,i=arguments.length,n=new Array(1<i?i-1:0),a=1;a<i;a++)n[a-1]=arguments[a];var s=this.events[e];B(s)&&s.forEach(function(e){V(e)&&e.apply(t,n)})}},{key:"on",value:function(e,t){return B(this.events[e])||(this.events[e]=[]),this.events[e].push(t),this}},{key:"startSafetyTimer",value:function(e,t){var i=this;this.player.debug.log("Safety timer invoked from: ".concat(t)),this.safetyTimer=setTimeout(function(){i.cancel(),i.clearSafetyTimer("startSafetyTimer()")},e)}},{key:"clearSafetyTimer",value:function(e){H(this.safetyTimer)||(this.player.debug.log("Safety timer cleared from: ".concat(e)),clearTimeout(this.safetyTimer),this.safetyTimer=null)}},{key:"enabled",get:function(){var e=this.config;return this.player.isHTML5&&this.player.isVideo&&e.enabled&&(!z(e.publisherId)||L(e.tagUrl))}},{key:"tagUrl",get:function(){var e=this.config;if(L(e.tagUrl))return e.tagUrl;var t={AV_PUBLISHERID:"58c25bb0073ef448b1087ad6",AV_CHANNELID:"5a0458dc28a06145e4519d21",AV_URL:window.location.hostname,cb:Date.now(),AV_WIDTH:640,AV_HEIGHT:480,AV_CDIM2:e.publisherId};return"".concat("https://go.aniview.com/api/adserver6/vast/","?").concat(We(t))}}]),yt),mt=(e(gt,[{key:"load",value:function(){var e=this;this.player.elements.display.seekTooltip&&(this.player.elements.display.seekTooltip.hidden=this.enabled),this.enabled&&this.getThumbnails().then(function(){e.enabled&&(e.render(),e.determineContainerAutoSizing(),e.loaded=!0)})}},{key:"getThumbnails",value:function(){var n=this;return new Promise(function(e){var t=n.player.config.previewThumbnails.src;if(z(t))throw new Error("Missing previewThumbnails.src config attribute");var i=(R(t)?[t]:t).map(function(e){return n.getThumbnail(e)});Promise.all(i).then(function(){n.thumbnails.sort(function(e,t){return e.height-t.height}),n.player.debug.log("Preview thumbnails",n.thumbnails),e()})})}},{key:"getThumbnail",value:function(s){var r=this;return new Promise(function(a){qe(s).then(function(e){var t,i={frames:(t=[],e.split(/\r\n\r\n|\n\n|\r\r/).forEach(function(e){var s={};e.split(/\r\n|\n|\r/).forEach(function(e){if(F(s.startTime)){if(!z(e.trim())&&z(s.text)){var t=e.trim().split("#xywh="),i=g(t,1);if(s.text=i[0],t[1]){var n=g(t[1].split(","),4);s.x=n[0],s.y=n[1],s.w=n[2],s.h=n[3]}}}else{var a=e.match(/([0-9]{2})?:?([0-9]{2}):([0-9]{2}).([0-9]{2,3})( ?--> ?)([0-9]{2})?:?([0-9]{2}):([0-9]{2}).([0-9]{2,3})/);a&&(s.startTime=60*Number(a[1]||0)*60+60*Number(a[2])+Number(a[3])+Number("0.".concat(a[4])),s.endTime=60*Number(a[6]||0)*60+60*Number(a[7])+Number(a[8])+Number("0.".concat(a[9])))}}),s.text&&t.push(s)}),t),height:null,urlPrefix:""};i.frames[0].text.startsWith("/")||i.frames[0].text.startsWith("http://")||i.frames[0].text.startsWith("https://")||(i.urlPrefix=s.substring(0,s.lastIndexOf("/")+1));var n=new Image;n.onload=function(){i.height=n.naturalHeight,i.width=n.naturalWidth,r.thumbnails.push(i),a()},n.src=i.urlPrefix+i.frames[0].text})})}},{key:"startMove",value:function(e){if(this.loaded&&N(e)&&["touchmove","mousemove"].includes(e.type)&&this.player.media.duration){if("touchmove"===e.type)this.seekTime=this.player.media.duration*(this.player.elements.inputs.seek.value/100);else{var t=this.player.elements.progress.getBoundingClientRect(),i=100/t.width*(e.pageX-t.left);this.seekTime=this.player.media.duration*(i/100),this.seekTime<0&&(this.seekTime=0),this.seekTime>this.player.media.duration-1&&(this.seekTime=this.player.media.duration-1),this.mousePosX=e.pageX,this.elements.thumb.time.innerText=Ve(this.seekTime)}this.showImageAtCurrentTime()}}},{key:"endMove",value:function(){this.toggleThumbContainer(!1,!0)}},{key:"startScrubbing",value:function(e){!H(e.button)&&!1!==e.button&&0!==e.button||(this.mouseDown=!0,this.player.media.duration&&(this.toggleScrubbingContainer(!0),this.toggleThumbContainer(!1,!0),this.showImageAtCurrentTime()))}},{key:"endScrubbing",value:function(){var e=this;this.mouseDown=!1,Math.ceil(this.lastTime)===Math.ceil(this.player.media.currentTime)?this.toggleScrubbingContainer(!1):ke.call(this.player,this.player.media,"timeupdate",function(){e.mouseDown||e.toggleScrubbingContainer(!1)})}},{key:"listeners",value:function(){var e=this;this.player.on("play",function(){e.toggleThumbContainer(!1,!0)}),this.player.on("seeked",function(){e.toggleThumbContainer(!1)}),this.player.on("timeupdate",function(){e.lastTime=e.player.media.currentTime})}},{key:"render",value:function(){this.elements.thumb.container=ee("div",{class:this.player.config.classNames.previewThumbnails.thumbContainer}),this.elements.thumb.imageContainer=ee("div",{class:this.player.config.classNames.previewThumbnails.imageContainer}),this.elements.thumb.container.appendChild(this.elements.thumb.imageContainer);var e=ee("div",{class:this.player.config.classNames.previewThumbnails.timeContainer});this.elements.thumb.time=ee("span",{},"00:00"),e.appendChild(this.elements.thumb.time),this.elements.thumb.container.appendChild(e),W(this.player.elements.progress)&&this.player.elements.progress.appendChild(this.elements.thumb.container),this.elements.scrubbing.container=ee("div",{class:this.player.config.classNames.previewThumbnails.scrubbingContainer}),this.player.elements.wrapper.appendChild(this.elements.scrubbing.container)}},{key:"destroy",value:function(){this.elements.thumb.container&&this.elements.thumb.container.remove(),this.elements.scrubbing.container&&this.elements.scrubbing.container.remove()}},{key:"showImageAtCurrentTime",value:function(){var i=this;this.mouseDown?this.setScrubbingContainerSize():this.setThumbContainerSizeAndPos();var n=this.thumbnails[0].frames.findIndex(function(e){return i.seekTime>=e.startTime&&i.seekTime<=e.endTime}),e=0<=n,a=0;this.mouseDown||this.toggleThumbContainer(e),e&&(this.thumbnails.forEach(function(e,t){i.loadedImages.includes(e.frames[n].text)&&(a=t)}),n!==this.showingThumb&&(this.showingThumb=n,this.loadImage(a)))}},{key:"loadImage",value:function(){var e=this,t=0<arguments.length&&void 0!==arguments[0]?arguments[0]:0,i=this.showingThumb,n=this.thumbnails[t],a=n.urlPrefix,s=n.frames[i],r=n.frames[i].text,o=a+r;if(this.currentImageElement&&this.currentImageElement.dataset.filename===r)this.showImage(this.currentImageElement,s,t,i,r,!1),this.currentImageElement.dataset.index=i,this.removeOldImages(this.currentImageElement);else{this.loadingImage&&this.usingSprites&&(this.loadingImage.onload=null);var l=new Image;l.src=o,l.dataset.index=i,l.dataset.filename=r,this.showingThumbFilename=r,this.player.debug.log("Loading image: ".concat(o)),l.onload=function(){return e.showImage(l,s,t,i,r,!0)},this.loadingImage=l,this.removeOldImages(l)}}},{key:"showImage",value:function(e,t,i,n,a){var s=!(5<arguments.length&&void 0!==arguments[5])||arguments[5];this.player.debug.log("Showing thumb: ".concat(a,". num: ").concat(n,". qual: ").concat(i,". newimg: ").concat(s)),this.setImageSizeAndOffset(e,t),s&&(this.currentImageContainer.appendChild(e),this.currentImageElement=e,this.loadedImages.includes(a)||this.loadedImages.push(a)),this.preloadNearby(n,!0).then(this.preloadNearby(n,!1)).then(this.getHigherQuality(i,e,t,a))}},{key:"removeOldImages",value:function(n){var a=this;Array.from(this.currentImageContainer.children).forEach(function(e){if("img"===e.tagName.toLowerCase()){var t=a.usingSprites?500:1e3;if(e.dataset.index!==n.dataset.index&&!e.dataset.deleting){e.dataset.deleting=!0;var i=a.currentImageContainer;setTimeout(function(){i.removeChild(e),a.player.debug.log("Removing thumb: ".concat(e.dataset.filename))},t)}}})}},{key:"preloadNearby",value:function(t){var o=this,i=!(1<arguments.length&&void 0!==arguments[1])||arguments[1];return new Promise(function(r){setTimeout(function(){var a=o.thumbnails[0].frames[t].text;if(o.showingThumbFilename===a){var e;e=i?o.thumbnails[0].frames.slice(t):o.thumbnails[0].frames.slice(0,t).reverse();var s=!1;e.forEach(function(e){var t=e.text;if(t!==a&&!o.loadedImages.includes(t)){s=!0,o.player.debug.log("Preloading thumb filename: ".concat(t));var i=o.thumbnails[0].urlPrefix+t,n=new Image;n.src=i,n.onload=function(){o.player.debug.log("Preloaded thumb filename: ".concat(t)),o.loadedImages.includes(t)||o.loadedImages.push(t),r()}}}),s||r()}},300)})}},{key:"getHigherQuality",value:function(e,t,i,n){var a=this;if(e<this.thumbnails.length-1){var s=t.naturalHeight;this.usingSprites&&(s=i.h),s<this.thumbContainerHeight&&setTimeout(function(){a.showingThumbFilename===n&&(a.player.debug.log("Showing higher quality thumb for: ".concat(n)),a.loadImage(e+1))},300)}}},{key:"toggleThumbContainer",value:function(){var e=0<arguments.length&&void 0!==arguments[0]&&arguments[0],t=1<arguments.length&&void 0!==arguments[1]&&arguments[1],i=this.player.config.classNames.previewThumbnails.thumbContainerShown;this.elements.thumb.container.classList.toggle(i,e),!e&&t&&(this.showingThumb=null,this.showingThumbFilename=null)}},{key:"toggleScrubbingContainer",value:function(){var e=0<arguments.length&&void 0!==arguments[0]&&arguments[0],t=this.player.config.classNames.previewThumbnails.scrubbingContainerShown;this.elements.scrubbing.container.classList.toggle(t,e),e||(this.showingThumb=null,this.showingThumbFilename=null)}},{key:"determineContainerAutoSizing",value:function(){(20<this.elements.thumb.imageContainer.clientHeight||20<this.elements.thumb.imageContainer.clientWidth)&&(this.sizeSpecifiedInCSS=!0)}},{key:"setThumbContainerSizeAndPos",value:function(){if(this.sizeSpecifiedInCSS){if(20<this.elements.thumb.imageContainer.clientHeight&&this.elements.thumb.imageContainer.clientWidth<20){var e=Math.floor(this.elements.thumb.imageContainer.clientHeight*this.thumbAspectRatio);this.elements.thumb.imageContainer.style.width="".concat(e,"px")}else if(this.elements.thumb.imageContainer.clientHeight<20&&20<this.elements.thumb.imageContainer.clientWidth){var t=Math.floor(this.elements.thumb.imageContainer.clientWidth/this.thumbAspectRatio);this.elements.thumb.imageContainer.style.height="".concat(t,"px")}}else{var i=Math.floor(this.thumbContainerHeight*this.thumbAspectRatio);this.elements.thumb.imageContainer.style.height="".concat(this.thumbContainerHeight,"px"),this.elements.thumb.imageContainer.style.width="".concat(i,"px")}this.setThumbContainerPos()}},{key:"setThumbContainerPos",value:function(){var e=this.player.elements.progress.getBoundingClientRect(),t=this.player.elements.container.getBoundingClientRect(),i=this.elements.thumb.container,n=t.left-e.left+10,a=t.right-e.left-i.clientWidth-10,s=this.mousePosX-e.left-i.clientWidth/2;s<n&&(s=n),a<s&&(s=a),i.style.left="".concat(s,"px")}},{key:"setScrubbingContainerSize",value:function(){var e=ut(this.thumbAspectRatio,{width:this.player.media.clientWidth,height:this.player.media.clientHeight}),t=e.width,i=e.height;this.elements.scrubbing.container.style.width="".concat(t,"px"),this.elements.scrubbing.container.style.height="".concat(i,"px")}},{key:"setImageSizeAndOffset",value:function(e,t){if(this.usingSprites){var i=this.thumbContainerHeight/t.h;e.style.height="".concat(e.naturalHeight*i,"px"),e.style.width="".concat(e.naturalWidth*i,"px"),e.style.left="-".concat(t.x*i,"px"),e.style.top="-".concat(t.y*i,"px")}}},{key:"enabled",get:function(){return this.player.isHTML5&&this.player.isVideo&&this.player.config.previewThumbnails.enabled}},{key:"currentImageContainer",get:function(){return this.mouseDown?this.elements.scrubbing.container:this.elements.thumb.imageContainer}},{key:"usingSprites",get:function(){return Object.keys(this.thumbnails[0].frames[0]).includes("w")}},{key:"thumbAspectRatio",get:function(){return this.usingSprites?this.thumbnails[0].frames[0].w/this.thumbnails[0].frames[0].h:this.thumbnails[0].width/this.thumbnails[0].height}},{key:"thumbContainerHeight",get:function(){return this.mouseDown?ut(this.thumbAspectRatio,{width:this.player.media.clientWidth,height:this.player.media.clientHeight}).height:this.sizeSpecifiedInCSS?this.elements.thumb.imageContainer.clientHeight:Math.floor(this.player.media.clientWidth/this.thumbAspectRatio/4)}},{key:"currentImageElement",get:function(){return this.mouseDown?this.currentScrubbingImageElement:this.currentThumbnailImageElement},set:function(e){this.mouseDown?this.currentScrubbingImageElement=e:this.currentThumbnailImageElement=e}}]),gt),ft={insertElements:function(t,e){var i=this;R(e)?te(t,this.media,{src:e}):B(e)&&e.forEach(function(e){te(t,i.media,e)})},change:function(l){var c=this;J(l,"sources.length")?(Se.cancelRequests.call(this),this.destroy.call(this,function(){c.options.quality=[],ie(c.media),c.media=null,W(c.elements.container)&&c.elements.container.removeAttribute("class");var e=l.sources,t=l.type,i=g(e,1)[0],n=i.provider,a=void 0===n?Xe.html5:n,s=i.src,r="html5"===a?t:"div",o="html5"===a?{}:{src:s};Object.assign(c,{provider:a,type:t,supported:fe.check(t,a,c.config.playsinline),media:ee(r,o)}),c.elements.container.appendChild(c.media),M(l.autoplay)&&(c.config.autoplay=l.autoplay),c.isHTML5&&(c.config.crossorigin&&c.media.setAttribute("crossorigin",""),c.config.autoplay&&c.media.setAttribute("autoplay",""),z(l.poster)||(c.poster=l.poster),c.config.loop.active&&c.media.setAttribute("loop",""),c.config.muted&&c.media.setAttribute("muted",""),c.config.playsinline&&c.media.setAttribute("playsinline","")),tt.addStyleHook.call(c),c.isHTML5&&ft.insertElements.call(c,"source",e),c.config.title=l.title,ht.setup.call(c),c.isHTML5&&Object.keys(l).includes("tracks")&&ft.insertElements.call(c,"track",l.tracks),(c.isHTML5||c.isEmbed&&!c.supported.ui)&&tt.build.call(c),c.isHTML5&&c.media.load(),z(l.previewThumbnails)||(Object.assign(c.config.previewThumbnails,l.previewThumbnails),c.previewThumbnails&&c.previewThumbnails.loaded&&(c.previewThumbnails.destroy(),c.previewThumbnails=null),c.config.previewThumbnails.enabled&&(c.previewThumbnails=new mt(c))),c.fullscreen.update()},!0)):this.debug.warn("Invalid source format")}};function gt(e){c(this,gt),this.player=e,this.thumbnails=[],this.loaded=!1,this.lastMouseMoveTime=Date.now(),this.mouseDown=!1,this.loadedImages=[],this.elements={thumb:{},scrubbing:{}},this.load()}function yt(e){var i=this;c(this,yt),this.player=e,this.config=e.config.ads,this.playing=!1,this.initialized=!1,this.elements={container:null,displayContainer:null},this.manager=null,this.loader=null,this.cuePoints=null,this.events={},this.safetyTimer=null,this.countdownTimer=null,this.managerPromise=new Promise(function(e,t){i.on("loaded",e),i.on("error",t)}),this.load()}var vt=(e(bt,[{key:"play",value:function(){var e=this;return V(this.media.play)?(this.ads&&this.ads.enabled&&this.ads.managerPromise.then(function(){return e.ads.play()}).catch(function(){return e.media.play()}),this.media.play()):null}},{key:"pause",value:function(){return this.playing&&V(this.media.pause)?this.media.pause():null}},{key:"togglePlay",value:function(e){return(M(e)?e:!this.playing)?this.play():this.pause()}},{key:"stop",value:function(){this.isHTML5?(this.pause(),this.restart()):V(this.media.stop)&&this.media.stop()}},{key:"restart",value:function(){this.currentTime=0}},{key:"rewind",value:function(e){this.currentTime-=F(e)?e:this.config.seekTime}},{key:"forward",value:function(e){this.currentTime+=F(e)?e:this.config.seekTime}},{key:"increaseVolume",value:function(e){var t=this.media.muted?0:this.volume;this.volume=t+(F(e)?e:0)}},{key:"decreaseVolume",value:function(e){this.increaseVolume(-e)}},{key:"toggleCaptions",value:function(e){Ke.toggle.call(this,e,!1)}},{key:"airplay",value:function(){fe.airplay&&this.media.webkitShowPlaybackTargetPicker()}},{key:"toggleControls",value:function(e){if(!this.supported.ui||this.isAudio)return!1;var t=le(this.elements.container,this.config.classNames.hideControls),i=void 0===e?void 0:!e,n=oe(this.elements.container,this.config.classNames.hideControls,i);if(n&&this.config.controls.includes("settings")&&!z(this.config.settings)&&Be.toggleMenu.call(this,!1),n!==t){var a=n?"controlshidden":"controlsshown";we.call(this,this.media,a)}return!n}},{key:"on",value:function(e,t){ve.call(this,this.elements.container,e,t)}},{key:"once",value:function(e,t){ke.call(this,this.elements.container,e,t)}},{key:"off",value:function(e,t){be(this.elements.container,e,t)}},{key:"destroy",value:function(e){var t=this,i=1<arguments.length&&void 0!==arguments[1]&&arguments[1];if(this.ready){var n=function(){document.body.style.overflow="",t.embed=null,i?(Object.keys(t.elements).length&&(ie(t.elements.buttons.play),ie(t.elements.captions),ie(t.elements.controls),ie(t.elements.wrapper),t.elements.buttons.play=null,t.elements.captions=null,t.elements.controls=null,t.elements.wrapper=null),V(e)&&e()):(function(){this&&this.eventListeners&&(this.eventListeners.forEach(function(e){var t=e.element,i=e.type,n=e.callback,a=e.options;t.removeEventListener(i,n,a)}),this.eventListeners=[])}.call(t),ae(t.elements.original,t.elements.container),we.call(t,t.elements.original,"destroyed",!0),V(e)&&e.call(t.elements.original),t.ready=!1,setTimeout(function(){t.elements=null,t.media=null},200))};this.stop(),clearTimeout(this.timers.loading),clearTimeout(this.timers.controls),clearTimeout(this.timers.resized),this.isHTML5?(tt.toggleNativeControls.call(this,!0),n()):this.isYouTube?(clearInterval(this.timers.buffering),clearInterval(this.timers.playing),null!==this.embed&&V(this.embed.destroy)&&this.embed.destroy(),n()):this.isVimeo&&(null!==this.embed&&this.embed.unload().then(n),setTimeout(n,200))}}},{key:"supports",value:function(e){return fe.mime.call(this,e)}},{key:"isHTML5",get:function(){return this.provider===Xe.html5}},{key:"isEmbed",get:function(){return this.isYouTube||this.isVimeo}},{key:"isYouTube",get:function(){return this.provider===Xe.youtube}},{key:"isVimeo",get:function(){return this.provider===Xe.vimeo}},{key:"isVideo",get:function(){return"video"===this.type}},{key:"isAudio",get:function(){return"audio"===this.type}},{key:"playing",get:function(){return Boolean(this.ready&&!this.paused&&!this.ended)}},{key:"paused",get:function(){return Boolean(this.media.paused)}},{key:"stopped",get:function(){return Boolean(this.paused&&0===this.currentTime)}},{key:"ended",get:function(){return Boolean(this.media.ended)}},{key:"currentTime",set:function(e){if(this.duration){var t=F(e)&&0<e;this.media.currentTime=t?Math.min(e,this.duration):0,this.debug.log("Seeking to ".concat(this.currentTime," seconds"))}},get:function(){return Number(this.media.currentTime)}},{key:"buffered",get:function(){var e=this.media.buffered;return F(e)?e:e&&e.length&&0<this.duration?e.end(0)/this.duration:0}},{key:"seeking",get:function(){return Boolean(this.media.seeking)}},{key:"duration",get:function(){var e=parseFloat(this.config.duration),t=(this.media||{}).duration,i=F(t)&&t!==1/0?t:0;return e||i}},{key:"volume",set:function(e){var t=e;R(t)&&(t=Number(t)),F(t)||(t=this.storage.get("volume")),F(t)||(t=this.config.volume),1<t&&(t=1),t<0&&(t=0),this.config.volume=t,this.media.volume=t,!z(e)&&this.muted&&0<t&&(this.muted=!1)},get:function(){return Number(this.media.volume)}},{key:"muted",set:function(e){var t=e;M(t)||(t=this.storage.get("muted")),M(t)||(t=this.config.muted),this.config.muted=t,this.media.muted=t},get:function(){return Boolean(this.media.muted)}},{key:"hasAudio",get:function(){return!this.isHTML5||!!this.isAudio||Boolean(this.media.mozHasAudio)||Boolean(this.media.webkitAudioDecodedByteCount)||Boolean(this.media.audioTracks&&this.media.audioTracks.length)}},{key:"speed",set:function(e){var t=this,i=null;F(e)&&(i=e),F(i)||(i=this.storage.get("speed")),F(i)||(i=this.config.speed.selected);var n=this.minimumSpeed,a=this.maximumSpeed;i=function(e,t,i){var n=0<arguments.length&&void 0!==e?e:0,a=1<arguments.length&&void 0!==t?t:0,s=2<arguments.length&&void 0!==i?i:255;return Math.min(Math.max(n,a),s)}(i,n,a),this.config.speed.selected=i,setTimeout(function(){t.media.playbackRate=i},0)},get:function(){return Number(this.media.playbackRate)}},{key:"minimumSpeed",get:function(){return this.isYouTube?Math.min.apply(Math,o(this.options.speed)):this.isVimeo?.5:.0625}},{key:"maximumSpeed",get:function(){return this.isYouTube?Math.max.apply(Math,o(this.options.speed)):this.isVimeo?2:16}},{key:"quality",set:function(e){var t,i,n=this.config.quality,a=this.options.quality;if(a.length){var s=[!z(e)&&Number(e),this.storage.get("quality"),n.selected,n.default].find(F),r=!0;if(!a.includes(s)){var o=(i=s,B(t=a)&&t.length?t.reduce(function(e,t){return Math.abs(t-i)<Math.abs(e-i)?t:e}):null);this.debug.warn("Unsupported quality option: ".concat(s,", using ").concat(o," instead")),s=o,r=!1}n.selected=s,this.media.quality=s,r&&this.storage.set({quality:s})}},get:function(){return this.media.quality}},{key:"loop",set:function(e){var t=M(e)?e:this.config.loop.active;this.config.loop.active=t,this.media.loop=t},get:function(){return Boolean(this.media.loop)}},{key:"source",set:function(e){ft.change.call(this,e)},get:function(){return this.media.currentSrc}},{key:"download",get:function(){var e=this.config.urls.download;return L(e)?e:this.source},set:function(e){L(e)&&(this.config.urls.download=e,Be.setDownloadUrl.call(this))}},{key:"poster",set:function(e){this.isVideo?tt.setPoster.call(this,e,!1).catch(function(){}):this.debug.warn("Poster can only be set for video")},get:function(){return this.isVideo?this.media.getAttribute("poster"):null}},{key:"ratio",get:function(){if(!this.isVideo)return null;var e=Ce(Ae.call(this));return B(e)?e.join(":"):e},set:function(e){this.isVideo?R(e)&&Te(e)?(this.config.ratio=e,Ee.call(this)):this.debug.error("Invalid aspect ratio specified (".concat(e,")")):this.debug.warn("Aspect ratio can only be set for video")}},{key:"autoplay",set:function(e){var t=M(e)?e:this.config.autoplay;this.config.autoplay=t},get:function(){return Boolean(this.config.autoplay)}},{key:"currentTrack",set:function(e){Ke.set.call(this,e,!1)},get:function(){var e=this.captions,t=e.toggled,i=e.currentTrack;return t?i:-1}},{key:"language",set:function(e){Ke.setLanguage.call(this,e,!1)},get:function(){return(Ke.getCurrentTrack.call(this)||{}).language}},{key:"pip",set:function(e){if(fe.pip){var t=M(e)?e:!this.pip;V(this.media.webkitSetPresentationMode)&&this.media.webkitSetPresentationMode(t?Qe:"inline"),V(this.media.requestPictureInPicture)&&(!this.pip&&t?this.media.requestPictureInPicture():this.pip&&!t&&document.exitPictureInPicture())}},get:function(){return fe.pip?z(this.media.webkitPresentationMode)?this.media===document.pictureInPictureElement:this.media.webkitPresentationMode===Qe:null}}],[{key:"supported",value:function(e,t,i){return fe.check(e,t,i)}},{key:"loadSprite",value:function(e,t){return He(e,t)}},{key:"setup",value:function(e){var t=1<arguments.length&&void 0!==arguments[1]?arguments[1]:{},i=null;return R(e)?i=Array.from(document.querySelectorAll(e)):U(e)?i=Array.from(e):B(e)&&(i=e.filter(W)),z(i)?null:i.map(function(e){return new bt(e,t)})}}]),bt);function bt(e,t){var i,n=this;if(c(this,bt),this.timers={},this.ready=!1,this.loading=!1,this.failed=!1,this.touch=fe.touch,this.media=e,R(this.media)&&(this.media=document.querySelectorAll(this.media)),(window.jQuery&&this.media instanceof jQuery||U(this.media)||B(this.media))&&(this.media=this.media[0]),this.config=$({},Ye,bt.defaults,t||{},function(){try{return JSON.parse(n.media.getAttribute("data-plyr-config"))}catch(e){return{}}}()),this.elements={container:null,captions:null,buttons:{},display:{},progress:{},inputs:{},settings:{popup:null,menu:null,panels:{},buttons:{}}},this.captions={active:null,currentTrack:-1,meta:new WeakMap},this.fullscreen={active:!1},this.options={speed:[],quality:[]},this.debug=new Je(this.config.debug),this.debug.log("Config",this.config),this.debug.log("Support",fe),!H(this.media)&&W(this.media))if(this.media.plyr)this.debug.warn("Target already setup");else if(this.config.enabled)if(fe.check().api){var a=this.media.cloneNode(!0);a.autoplay=!1,this.elements.original=a;var s=this.media.tagName.toLowerCase(),r=null,o=null;switch(s){case"div":if(r=this.media.querySelector("iframe"),W(r)){if(o=Ue(r.getAttribute("src")),this.provider=(i=o.toString(),/^(https?:\/\/)?(www\.)?(youtube\.com|youtube-nocookie\.com|youtu\.?be)\/.+$/.test(i)?Xe.youtube:/^https?:\/\/player.vimeo.com\/video\/\d{0,9}(?=\b|\/)/.test(i)?Xe.vimeo:null),this.elements.container=this.media,this.media=r,this.elements.container.className="",o.search.length){var l=["1","true"];l.includes(o.searchParams.get("autoplay"))&&(this.config.autoplay=!0),l.includes(o.searchParams.get("loop"))&&(this.config.loop.active=!0),this.isYouTube?(this.config.playsinline=l.includes(o.searchParams.get("playsinline")),this.config.youtube.hl=o.searchParams.get("hl")):this.config.playsinline=!0}}else this.provider=this.media.getAttribute(this.config.attributes.embed.provider),this.media.removeAttribute(this.config.attributes.embed.provider);if(z(this.provider)||!Object.keys(Xe).includes(this.provider))return void this.debug.error("Setup failed: Invalid provider");this.type="video";break;case"video":case"audio":this.type=s,this.provider=Xe.html5,this.media.hasAttribute("crossorigin")&&(this.config.crossorigin=!0),this.media.hasAttribute("autoplay")&&(this.config.autoplay=!0),(this.media.hasAttribute("playsinline")||this.media.hasAttribute("webkit-playsinline"))&&(this.config.playsinline=!0),this.media.hasAttribute("muted")&&(this.config.muted=!0),this.media.hasAttribute("loop")&&(this.config.loop.active=!0);break;default:return void this.debug.error("Setup failed: unsupported type")}this.supported=fe.check(this.type,this.provider,this.config.playsinline),this.supported.api?(this.eventListeners=[],this.listeners=new it(this),this.storage=new Oe(this),this.media.plyr=this,W(this.elements.container)||(this.elements.container=ee("div",{tabindex:0}),G(this.media,this.elements.container)),tt.addStyleHook.call(this),ht.setup.call(this),this.config.debug&&ve.call(this,this.elements.container,this.config.events.join(" "),function(e){n.debug.log("event: ".concat(e.type))}),(this.isHTML5||this.isEmbed&&!this.supported.ui)&&tt.build.call(this),this.listeners.container(),this.listeners.global(),this.fullscreen=new $e(this),this.config.ads.enabled&&(this.ads=new pt(this)),this.isHTML5&&this.config.autoplay&&setTimeout(function(){return n.play()},10),this.lastSeekTime=0,this.config.previewThumbnails.enabled&&(this.previewThumbnails=new mt(this))):this.debug.error("Setup failed: no support")}else this.debug.error("Setup failed: no support");else this.debug.error("Setup failed: disabled by config");else this.debug.error("Setup failed: no suitable element passed")}return vt.defaults=JSON.parse(JSON.stringify(Ye)),vt});
+/**
+ * @Keyboard.js
+ * @author zhangxinxu
+ * @version
+ * Created: 17-06-13
+ */
+(function (global, factory) {
+    if (typeof exports === 'object' && typeof module !== 'undefined') {
+        module.exports = factory();
+    } else if (typeof define === 'function' && (define.amd || define.cmd)) {
+        define(factory);
+    } else {
+        factory();
+    }
+}((typeof global !== 'undefined') ? global
+    : ((typeof window !== 'undefined') ? window
+        : ((typeof self !== 'undefined') ? self : this)), function () {
+    var doc = document;
+    var win = window;
+
+    if (win.isKeyEventBind || !doc.addEventListener) {
+        return {};
+    }
+
+    /*
+    ** HTML accesskey辅助增强脚本
+    ** 作用包括：
+    ** 1. 统一IE浏览器和其它浏览器的快捷访问行为；
+    ** 2. 增加单独accesskey属性值对应按键按下的focus行为；
+    ** 3. 增加accesskey生效的前置键按下的提示行为，例如window上Alt键提示，Mac下的Alt + control组合提示等；
+    ** 4. 增加shift + '?'(keyCode=191)键的提示行为支持；
+    */
+
+    // 操作系统和浏览器设备检测
+    var ua = navigator.userAgent;
+
+    var system = 'windows';
+
+    if (/Mac\sOS\sX/i.test(ua)) {
+        system = 'mac';
+    }
+
+    // 浏览器判断
+    var browser = 'chrome';
+    if (typeof doc.mozFullScreen != 'undefined') {
+        browser = 'moz';
+    } else if (typeof doc.msHidden != 'undefined' || typeof doc.hidden == 'undefined') {
+        browser = 'ie';
+    }
+
+    // 快捷键组合
+    var keyPrefix = ({
+        windows: browser == 'moz' ? {
+            ctrlKey: false,
+            altKey: true,
+            shiftKey: true
+        } : {
+            ctrlKey: false,
+            altKey: true,
+            shiftKey: false
+        },
+        mac: {
+            ctrlKey: true,
+            altKey: true,
+            shiftKey: false
+        }
+    })[system];
+
+    // 获取字符Unicode值方法
+    var U = function (a, b) {
+        if (!a) {
+            return '';
+        }
+        b = b || 'x';
+        var c = '';
+        var d = 0;
+        var e;
+
+        for (d; d < a.length; d += 1) a.charCodeAt(d) >= 55296 && a.charCodeAt(d) <= 56319 ? (e = (65536 + 1024 * (Number(a.charCodeAt(d)) - 55296) + Number(a.charCodeAt(d + 1)) - 56320).toString(16), d += 1) : e = a.charCodeAt(d).toString(16),
+            c += b + e;
+
+        return c.substr(b.length);
+    };
+
+    // 提示当前元素快捷键的方法
+    var timerTips = null;
+    var tips = function (arrEles) {
+        // 已经显示中，忽略
+        if (doc.hasTipsShow) {
+            return;
+        }
+        // 页面的滚动高度
+        var scrollTop = doc.documentElement.scrollTop || doc.body.scrollTop;
+        var scrollLeft = doc.documentElement.scrollLeft || doc.body.scrollLeft;
+
+        // 遍历创建提示元素
+        arrEles.forEach(function (ele) {
+
+            // 如果元素隐藏，也忽略
+            if (ele.clientHeight * ele.clientWidth == 0) {
+                return;
+            }
+
+            var accesskey = ele.getAttribute('accesskey');
+            var arrAccesskey = [];
+            for (var key in keyPrefix) {
+                if (keyPrefix[key]) {
+                    arrAccesskey.push(key);
+                }
+            }
+            arrAccesskey.push(accesskey);
+
+            // 当前元素相对于文档的偏移
+            var bounding = ele.getBoundingClientRect();
+
+            // 创建tips提示元素
+            var div = doc.createElement('div');
+            div.className = 'ui-kbd-tips AK_Tips';
+            div.setAttribute('style', 'top:' + (bounding.top + scrollTop) + 'px;left:' + (bounding.left + scrollLeft) + 'px;');
+            div.innerHTML = arrAccesskey.map(function (key) {
+                return '<kbd>' + key.replace('Key', '') + '</kbd>';
+            }).join('+');
+
+            doc.body.appendChild(div);
+
+            div.fromTarget = ele;
+        });
+
+        // 标记，避免重复生成
+        doc.hasTipsShow = true;
+
+        // 一段时间隐藏
+        timerTips = setTimeout(function () {
+            removeTips();
+        }, 3000);
+    };
+    // 隐藏tips
+    var removeTips = function () {
+        clearTimeout(timerTips);
+        // 移除所有的快捷键提示
+        var elesTips = doc.querySelectorAll('.AK_Tips');
+        [].slice.call(elesTips).forEach(function (ele) {
+            if (ele.fromTarget) {
+                ele.fromTarget.hasTipsShow = null;
+            }
+            doc.body.removeChild(ele);
+        });
+        doc.hasTipsShow = null;
+    };
+
+
+    // IE9+
+    doc.addEventListener('keydown', function (event) {
+        // 当前元素是否是可输入的input或者textarea
+        var isTargetInputable = false;
+        var eleTarget = event.target || doc.activeElement;
+        var tagName = eleTarget.tagName.toLowerCase();
+        if (tagName == 'textarea' || (tagName == 'input' && /checkbox|radio|select|file|button|image|hidden/i.test(eleTarget.type) == false)) {
+            isTargetInputable = true;
+        }
+
+        // 遍历所有设置了accesskey的符合HTML4.0.1规范的元素
+        // 包括<a>, <area>, <button>, <input>, <label>, <legend>以及<textarea>
+        var elesOwnAccesskey = doc.querySelectorAll('a[accesskey],area[accesskey],button[accesskey],input[accesskey],label[accesskey],legend[accesskey],textarea[accesskey]');
+        if (elesOwnAccesskey.length == 0) {
+            return;
+        }
+        // 对象列表转换成数组
+        var arrElesOwnAccesskey = [].slice.call(elesOwnAccesskey);
+        // 进行遍历
+        var arrAcceeekey = arrElesOwnAccesskey.map(function (ele) {
+            return ele.getAttribute('accesskey');
+        });
+        // windows下图下直接event.key就是按下的键对于的内容，但OS X系统却没有key属性，有的是event.keyIdentifier，表示字符的Unicode值
+        // 根据这个判断按键是否有对应的匹配
+        var indexMatch = -1;
+        arrAcceeekey.forEach(function (accesskey, index) {
+            if ((event.key && event.key == accesskey) || (event.keyIdentifier && parseInt(event.keyIdentifier.toLowerCase().replace('u+', ''), 16) == parseInt(U(accesskey), 16))) {
+                indexMatch = index;
+
+                return false;
+            }
+        });
+
+        // 1. 单独按下某个键的匹配支持
+        if (event.altKey == false && event.shiftKey == false && event.ctrlKey == false) {
+            if (isTargetInputable) {
+                return;
+            }
+            // focus高亮
+            if (arrElesOwnAccesskey[indexMatch]) {
+                arrElesOwnAccesskey[indexMatch].focus();
+                // 阻止内容输入
+                event.preventDefault();
+            }
+            // 2. shift + '?'(keyCode=191)键的提示行为支持
+        } else if (event.altKey == false && event.shiftKey == true && event.ctrlKey == false) {
+            if (event.keyCode == 191 && !isTargetInputable) {
+                doc.hasTipsShow ? removeTips() : tips(arrElesOwnAccesskey);
+            }
+            // 3. 增加accesskey生效的前置键按下的提示行为
+        } else if (event.altKey == keyPrefix.altKey && event.shiftKey == keyPrefix.shiftKey && event.ctrlKey == keyPrefix.ctrlKey) {
+            if (indexMatch == -1) {
+                event.preventDefault();
+                doc.hasTipsShow ? removeTips() : tips(arrElesOwnAccesskey);
+            } else {
+                removeTips();
+            }
+
+            // 4. IE浏览器和其他浏览器行为一致的处理
+            if (browser == 'ie' && arrElesOwnAccesskey[indexMatch] && !isTargetInputable) {
+                // click行为触发
+                arrElesOwnAccesskey[indexMatch].click();
+            }
+        }
+    });
+    doc.addEventListener('mousedown', function () {
+        removeTips();
+    });
+
+
+    /*
+    ** CSS :focus或者JS的focus事件让下拉或浮层元素显示的时候键盘交互支持
+    ** 基于data-target属性进行关联
+    */
+
+    var keycode = {
+        37: 'left',
+        38: 'up',
+        39: 'right',
+        40: 'down',
+        13: 'enter',
+        9: 'tab',
+        27: 'esc'
+    };
+    // 键盘高亮类名
+    var className = 'ui-outline';
+    // 高亮类名的添加与删除
+    var classList = {
+        add: function (ele) {
+            ele.className = ele.className + ' ' + className;
+        },
+        remove: function (ele) {
+            if (ele.className && ele.className.split) {
+                ele.className = ele.className.split(/\s+/).filter(function (cl) {
+                    if (cl != className) {
+                        return cl;
+                    }
+                }).join(' ');
+            }
+        },
+        removeAll: function () {
+            [].slice.call(doc.querySelectorAll('.' + className)).forEach(function (ele) {
+                classList.remove(ele);
+            });
+        },
+        has: function (ele) {
+            if (!ele.className || !ele.className.split) {
+                return false;
+            }
+
+            return ele.className.split(/\s+/).filter(function (cl) {
+                if (cl == className) {
+                    return cl;
+                }
+            }).length > 0;
+        }
+    };
+
+    win.isKeyEvent = false;
+    //键盘事件
+    doc.addEventListener('keydown', function (event) {
+        win.isKeyEvent = true;
+
+        setTimeout(function () {
+            win.isKeyEvent = false;
+        }, 100);
+
+        // 是否是上下左右键
+        var keyName = keycode[event.keyCode];
+        if (!keyName) {
+            return;
+        }
+
+        // 当前激活元素
+        var trigger = doc.activeElement;
+        if (!trigger || /body/i.test(trigger.tagName)) {
+            return;
+        }
+
+        // 单复选框的增加回车选中，原生是空格键选中
+        if (/^radio|checkbox$/i.test(trigger.type) && keyName == 'enter') {
+            trigger.click();
+            // 阻止默认的回车行为，主要是表单提交
+            event.preventDefault();
+
+            return;
+        }
+
+        // 如果是ESC退出
+        var eleFirstMatchAttrTarget = null;
+        var eleEscAll = doc.querySelectorAll('.ESC');
+        if (keyName == 'esc' && eleEscAll.length) {
+            [].slice.call(eleEscAll).forEach(function (eleEsc) {
+                var idEsc = eleEsc.id;
+
+                eleFirstMatchAttrTarget = idEsc && doc.querySelector('a[data-target="' + idEsc + '"],input[data-target="' + idEsc + '"],button[data-target="' + idEsc + '"]');
+                if (eleFirstMatchAttrTarget && eleEsc.style.display !== 'none' && eleEsc.clientHeight > 0) {
+                    eleFirstMatchAttrTarget.click();
+                } else if (eleEsc == document.activeElement && eleEsc.click) {
+                    eleEsc.click();
+                }
+            });
+        }
+
+        // 对应的面板
+        // 1. data-target 点击出现的面板
+        // 2. data-focus focus出现的面板
+        var attrFocus = trigger.getAttribute('data-focus');
+        var attrTarget = trigger.getAttribute('data-target');
+
+        var target = null;
+
+        if (!attrFocus && !attrTarget) {
+            return;
+        }
+
+        if (attrFocus) {
+            target = doc.getElementById(attrFocus);
+        } else if (attrTarget) {
+            target = doc.getElementById(attrTarget);
+        }
+
+        // 目标元素存在，并且是显示状态
+        if (!target || (target.clientWidth == 0 && target.clientHeight == 0)) {
+            return;
+        }
+
+        // 如果是Tab键
+        if (keyName == 'tab') {
+            classList.removeAll();
+
+            var eleFirstFocusable = target;
+
+            if (!target.getAttribute('tabindex')) {
+                eleFirstFocusable = target.querySelector('a[href], button:not(:disabled), input:not(:disabled)');
+            }
+
+            if (eleFirstFocusable) {
+                eleFirstFocusable.focus();
+            }
+
+            return;
+        }
+
+        // 如果是回车事件
+        if (keyName == 'enter') {
+            var eleFocus = target.querySelector('.' + className);
+            if (eleFocus && attrFocus) {
+                // 阻止默认的回车
+                event.preventDefault();
+                eleFocus.click();
+
+                return;
+            }
+            if (attrTarget) {
+                return;
+            }
+        }
+
+        // ESC退出
+        if (keyName == 'esc') {
+            eleFirstMatchAttrTarget = doc.querySelector('a[data-target="' + attrTarget + '"],input[data-target="' + attrTarget + '"]');
+
+            if (attrFocus) {
+                trigger.blur();
+            } else if (eleFirstMatchAttrTarget && /ESC/.test(eleFirstMatchAttrTarget.className) == false) {
+                eleFirstMatchAttrTarget.click();
+            }
+
+            return;
+        }
+
+        // 如果都符合，同时有目标子元素
+        var arrEleFocusable = [].slice.call(target.querySelectorAll('a[href], button:not(:disabled), input:not(:disabled)'));
+        var index = -1;
+
+        if (arrEleFocusable.length == 0) {
+            return;
+        }
+
+        // 计算出当前索引
+        arrEleFocusable.forEach(function (ele, indexFocus) {
+            if (attrFocus) {
+                if (classList.has(ele)) {
+                    index = indexFocus;
+                }
+            } else if (trigger == ele) {
+                index = indexFocus;
+            }
+            // 先全部清除focus态
+            classList.remove(ele);
+        });
+
+        // 阻止默认的上下键滚屏
+        event.preventDefault();
+        // 索引加加减减
+        if (keyName == 'left' || keyName == 'up') {
+            index--;
+            if (index < 0) {
+                index = -1;
+            }
+        } else if (keyName == 'right' || keyName == 'down') {
+            index++;
+            if (index > arrEleFocusable.length - 1) {
+                index = arrEleFocusable.length;
+            }
+        }
+
+        // 如果有对应的索引元素
+        if (arrEleFocusable[index]) {
+            // 高亮对应的控件元素
+            if (attrFocus) {
+                classList.add(arrEleFocusable[index]);
+            } else {
+                arrEleFocusable[index].focus();
+            }
+        }
+    });
+
+    doc.addEventListener('mousedown', function (event) {
+        var target = event.target;
+        if (target && !classList.has(target)) {
+            classList.removeAll();
+        }
+    });
+
+    doc.addEventListener('click', function (event) {
+        var target = event.target;
+        var eleActive = doc.activeElement;
+
+        var tabindex = target.getAttribute('tabindex') || '-1';
+
+        // 单复选框点击不focus
+        // tabindex>=0 元素点击也不focus（避免outline出现）
+        if (target && target == eleActive && (/^radio|checkbox$/i.test(eleActive.type) || tabindex >= 0) && win.isKeyEvent == false) {
+            eleActive.blur();
+        }
+    });
+
+    // 全局对a标签按钮进行无障碍角色设置
+    doc.addEventListener('focusin', function (event) {
+        var target = event.target;
+        if (!target) {
+            return;
+        }
+
+        // 无障碍增强
+        if (/^javascript/.test(target.href) && !target.getAttribute('role')) {
+            target.setAttribute('role', 'button');
+        }
+
+        if (!win.isKeyEvent) {
+            return;
+        }
+
+        var objStyleTarget = window.getComputedStyle(target);
+
+        // 键盘高亮
+        if (objStyleTarget.outlineStyle == 'none') {
+            classList.add(target);
+        }
+    });
+    doc.addEventListener('focusout', function (event) {
+        var target = event.target;
+        if (target) {
+            classList.remove(target);
+        }
+    });
+
+    // 防止多次重复绑定键盘事件
+    win.isKeyEventBind = true;
+
+    return {};
+}));
+/**
+ * @Follow.js
+ * @author zhangxinxu
+ * @version
+ * @Created: 15-06-25
+ * @edited:  17-06-19
+ */
+
+(function (global, factory) {
+    if (typeof exports === 'object' && typeof module !== 'undefined') {
+        module.exports = factory();
+    } else if (typeof define === 'function' && (define.amd || define.cmd)) {
+        define(factory);
+    } else {
+        global.Follow = factory();
+    }
+}((typeof global !== 'undefined') ? global
+    : ((typeof window !== 'undefined') ? window
+        : ((typeof self !== 'undefined') ? self : this)), function () {
+
+    /**
+     * 绝对定位元素的定位效果
+     * 针对所有浏览器
+     * 自动含边界判断
+     * 可用在DropDown, Tips等组件上
+     * 支持链式调用和模块化调用
+     * @example
+     * new Follow(eleTrigger, eleTarget, options);
+
+     * 文档见：https://www.zhangxinxu.com/wordpress/?p=1328 position()方法
+     **/
+    var Follow = function (eleTrigger, eleTarget, options) {
+        var defaults = {
+            offsets: {
+                x: 0,
+                y: 0
+            },
+            // eleTrigger-eleTarget
+            // 也可以是[left, top]数组，不过用到场景不多
+            position: '4-1',
+            // 边缘位置自动调整
+            edgeAdjust: true
+        };
+
+        var objParams = Object.assign({}, defaults, options || {});
+
+        if (!eleTarget) {
+            return;
+        }
+
+        // 先绝对定位，以便获取更准确的尺寸
+        eleTarget.style.position = 'absolute';
+
+        // 触发元素和目标元素的坐标数据
+        var objBoundTrigger = eleTrigger.getBoundingClientRect();
+        var objBoundTarget = eleTarget.getBoundingClientRect();
+
+        // 如果目标元素隐藏，则不处理
+        if (objBoundTarget.width * objBoundTarget.height == 0) {
+            return;
+        }
+
+        var eleOffsetParent = eleTarget.offsetParent;
+        var objBoundOffsetParent = eleOffsetParent.getBoundingClientRect();
+
+        // 暴露给实例
+        this.element = {
+            trigger: eleTrigger,
+            target: eleTarget
+        };
+
+        this.params = objParams;
+
+        // 页面的水平和垂直滚动距离
+        var numScrollTop = window.pageYOffset;
+        var numScrollLeft = window.pageXOffset;
+
+        // 浏览器窗口的尺寸
+        var numWinWidth = window.innerWidth;
+        var numWinHeight = window.innerHeight;
+
+        // 参数中设置的偏移位置
+        var objOffsets = objParams.offsets;
+        // target元素所在的offset偏移
+        var numOffsetTop = objBoundOffsetParent.top + numScrollTop;
+        var numOffsetLeft = objBoundOffsetParent.left + numScrollLeft;
+
+        // 如果是body元素，同时没有设置定位属性的话，忽略
+        // 因为此时margin有值或者margin重叠时候会有定位bug
+        if (eleOffsetParent == document.body && window.getComputedStyle(eleOffsetParent).position == 'static') {
+            numOffsetTop = 0;
+            numOffsetLeft = 0;
+        }
+
+        // 直接嫁接在offsets对象上，可以大大简化后续处理的逻辑
+        objOffsets.x -= numOffsetLeft;
+        objOffsets.y -= numOffsetTop;
+
+        // 这是指定位置
+        // 支持具体坐标值
+        var strPosition = objParams.position;
+
+        // 最终定位的left/top坐标
+        var numTargetLeft, numTargetTop;
+
+        // 如果直接指定了坐标
+        if (typeof strPosition != 'string' && strPosition.length == 2) {
+            var arrPosition = strPosition;
+
+            numTargetLeft = arrPosition[0] + objOffsets.x;
+            numTargetTop = arrPosition[1] + objOffsets.y;
+
+            // 边缘检测
+            if (objParams.edgeAdjust == true) {
+                if (numTargetLeft + objBoundTarget.width > numWinWidth + numScrollLeft) {
+                    numTargetLeft = numWinWidth + numScrollLeft - objBoundTarget.width - objOffsets.x;
+                }
+                if (numTargetTop + objBoundTarget.height > numWinHeight + numScrollTop) {
+                    numTargetTop = numWinHeight + numScrollTop - objBoundTarget.height - objOffsets.y;
+                }
+            }
+            // 浮动框的定位与显示
+            eleTarget.style.left = numTargetLeft + 'px';
+            eleTarget.style.top = numTargetTop + 'px';
+            // 记住定位标识码
+            eleTarget.setAttribute('data-align', '3-1');
+
+            // z-index自动最高
+            this.zIndex();
+
+            return;
+        }
+
+        // 合法的位置关系数据
+        var arrLegalPosition = ['4-1', '1-4', '5-7', '2-3', '2-1', '6-8', '3-4', '4-3', '8-6', '1-2', '7-5', '3-2'];
+
+        // 是否对齐匹配的标志量
+        var isAlignMatch = false;
+
+        // 遍历，以确定设定的对齐是否有匹配
+        isAlignMatch = arrLegalPosition.some(function (strLegalPosition) {
+            return strLegalPosition == strPosition;
+        });
+
+        // 如果没有匹配的对齐方式，使用默认的对齐方式
+        if (isAlignMatch == false) {
+            strPosition = defaults.position;
+        }
+
+        // 确定定位方位，是上下左右的哪个
+        var funDirection = function (position) {
+            var direction = 'bottom';
+            //确定方向
+            switch (position) {
+                case '1-4':
+                case '5-7':
+                case '2-3': {
+                    direction = 'top';
+                    break;
+                }
+                case '2-1':
+                case '6-8':
+                case '3-4': {
+                    direction = 'right';
+                    break;
+                }
+                case '1-2':
+                case '8-6':
+                case '4-3': {
+                    direction = 'left';
+                    break;
+                }
+                case '4-1':
+                case '7-5':
+                case '3-2': {
+                    direction = 'bottom';
+                    break;
+                }
+            }
+
+            return direction;
+        };
+
+        // 居中判断
+        var funCenterJudge = function (position) {
+            if (position === '5-7' || position === '6-8' || position === '8-6' || position === '7-5') {
+                return true;
+            }
+
+            return false;
+        };
+
+        // 是否超出边界的判断
+        var funOverflowJudge = function (direction) {
+            return ({
+                left: objBoundTarget.width + objOffsets.x > objBoundTrigger.left - numScrollLeft,
+                top: objBoundTarget.height + objOffsets.y > objBoundTrigger.top - numScrollTop,
+                right: objBoundTrigger.right + objBoundTarget.width + objOffsets.x > numWinWidth + numScrollLeft,
+                bottom: objBoundTrigger.bottom + objBoundTarget.height + objOffsets.y > numWinHeight + numScrollTop
+            })[direction] || false;
+        };
+
+        // 此时的方向
+        var strDirection = funDirection(strPosition);
+
+        // 边缘过界判断
+        // 只会调整一次
+        if (objParams.edgeAdjust && funOverflowJudge(strDirection)) {
+            // 这是居中位置的调整，是更换方向
+            if (funCenterJudge(strPosition)) {
+                var center = {
+                    '5-7': '7-5',
+                    '7-5': '5-7',
+                    '6-8': '8-6',
+                    '8-6': '6-8'
+                };
+                strPosition = center[strPosition];
+            } else {
+                // 这是其他位置调整
+                // 判断隔壁方向位置是否足够，如果足够，就是要这个坐标参数
+                var objDirectionHash = {
+                    top: {
+                        left: '3-2',
+                        right: '4-1'
+                    },
+                    right: {
+                        bottom: '1-2',
+                        top: '4-3'
+                    },
+                    bottom: {
+                        left: '2-3',
+                        right: '1-4'
+                    },
+                    left: {
+                        bottom: '2-1',
+                        top: '3-4'
+                    }
+                };
+                var objDirection = objDirectionHash[strDirection];
+                var arrDirection = Object.keys(objDirection);
+
+                if (!funOverflowJudge(arrDirection[0]) || funOverflowJudge(arrDirection[1])) {
+                    strPosition = objDirection[arrDirection[0]];
+                } else {
+                    strPosition = objDirection[arrDirection[1]];
+                }
+            }
+        }
+
+        // 是否变换了方向
+        var strNewDirection = funDirection(strPosition);
+        var strFirst = strPosition.split('-')[0];
+
+        //确定left, top值
+        switch (strNewDirection) {
+            case 'top': {
+                // 如果在上方显示
+                // top坐标是确定的
+                numTargetTop = objBoundTrigger.top - objBoundTarget.height + numScrollTop;
+                // left坐标确定
+                if (strFirst == '1') {
+                    numTargetLeft = objBoundTrigger.left;
+                } else if (strFirst === '5') {
+                    numTargetLeft = objBoundTrigger.left - (objBoundTarget.width - objBoundTrigger.width) / 2;
+                } else {
+                    numTargetLeft = objBoundTrigger.left - (objBoundTarget.width - objBoundTrigger.width);
+                }
+
+                numTargetLeft += numScrollLeft;
+
+                break;
+            }
+            case 'right': {
+                // left坐标固定
+                numTargetLeft = objBoundTrigger.right + numScrollLeft;
+                // top坐标确定
+                if (strFirst == '2') {
+                    numTargetTop = objBoundTrigger.top;
+                } else if (strFirst === '6') {
+                    numTargetTop = objBoundTrigger.top - (objBoundTarget.height - objBoundTrigger.height) / 2;
+                } else {
+                    numTargetTop = objBoundTrigger.top - (objBoundTarget.height - objBoundTrigger.height);
+                }
+
+                numTargetTop += numScrollTop;
+
+                break;
+            }
+            case 'bottom': {
+                // top坐标是确定的
+                numTargetTop = objBoundTrigger.bottom + numScrollTop;
+                // left坐标确定
+                if (strFirst == '4') {
+                    numTargetLeft = objBoundTrigger.left;
+                } else if (strFirst === '7') {
+                    numTargetLeft = objBoundTrigger.left - (objBoundTarget.width - objBoundTrigger.width) / 2;
+                } else {
+                    numTargetLeft = objBoundTrigger.left - (objBoundTarget.width - objBoundTrigger.width);
+                }
+
+                numTargetLeft += numScrollLeft;
+
+                break;
+            }
+            case 'left': {
+                // left坐标固定
+                numTargetLeft = objBoundTrigger.left - objBoundTarget.width + numScrollLeft;
+
+                // top坐标确定
+                if (strFirst == '1') {
+                    numTargetTop = objBoundTrigger.top;
+                } else if (strFirst == '8') {
+                    numTargetTop = objBoundTrigger.top - (objBoundTarget.height - objBoundTrigger.height) / 2;
+                } else {
+                    numTargetTop = objBoundTrigger.top - (objBoundTarget.height - objBoundTrigger.height);
+                }
+
+                numTargetTop += numScrollTop;
+
+                break;
+            }
+        }
+
+        if (objParams.edgeAdjust && funCenterJudge(strPosition)) {
+            // 是居中定位
+            // 变更的不是方向，而是offset大小
+            // 偏移处理
+            if (strPosition == '7-5' || strPosition == '5-7') {
+                // 左右是否超出
+                if (numTargetLeft - numScrollLeft < 0.5 * numWinWidth) {
+                    // 左半边，判断左边缘
+                    if (numTargetLeft - numScrollLeft < 0) {
+                        numTargetLeft = numScrollLeft;
+                    }
+                } else if (numTargetLeft - numScrollLeft + objBoundTarget.width > numWinWidth) {
+                    numTargetLeft = numWinWidth + numScrollLeft - objBoundTarget.width;
+                }
+                // 下面两个else if 判断上下是否超出
+            } else if (numTargetTop - numScrollTop < 0.5 * numWinHeight) {
+                // 左半边，判断左边缘
+                if (numTargetTop - numScrollTop < 0) {
+                    numTargetTop = numScrollTop;
+                }
+            } else if (numTargetTop - numScrollTop + objBoundTarget.height > numWinHeight) {
+                numTargetTop = numWinHeight + numScrollTop - objBoundTarget.height;
+            }
+        }
+
+        if (strNewDirection == 'top' || strNewDirection == 'left') {
+            numTargetLeft = numTargetLeft - objOffsets.x;
+            numTargetTop = numTargetTop - objOffsets.y;
+        } else {
+            numTargetLeft = numTargetLeft + objOffsets.x;
+            numTargetTop = numTargetTop + objOffsets.y;
+        }
+
+        //浮动框显示
+        eleTarget.style.left = Math.round(numTargetLeft) + 'px';
+        eleTarget.style.top = Math.round(numTargetTop) + 'px';
+
+        eleTarget.setAttribute('data-align', strPosition);
+        eleTarget.setAttribute('data-direction', strNewDirection);
+
+        // z-index自动最高
+        this.zIndex();
+    };
+
+    /**
+     * eleTarget元素zIndex实时最大化
+     * @return {[type]} [description]
+     */
+    Follow.prototype.zIndex = function () {
+        var eleTarget = this.element.target;
+        // 返回eleTarget才是的样式计算对象
+        var objStyleTarget = window.getComputedStyle(eleTarget);
+        // 此时元素的层级
+        var numZIndexTarget = objStyleTarget.zIndex;
+        // 用来对比的层级，也是最小层级
+        var numZIndexNew = 19;
+
+        // 只对<body>子元素进行层级最大化计算处理
+        document.body.childNodes.forEach(function (eleChild) {
+            if (eleChild.nodeType != 1) {
+                return;
+            }
+
+            var objStyleChild = window.getComputedStyle(eleChild);
+
+            var numZIndexChild = objStyleChild.zIndex * 1;
+
+            if (numZIndexChild && eleTarget != eleChild && objStyleChild.display != 'none') {
+                numZIndexNew = Math.max(numZIndexChild + 1, numZIndexNew);
+            }
+        });
+
+        if (numZIndexNew != numZIndexTarget) {
+            eleTarget.style.zIndex = numZIndexNew;
+        }
+    };
+
+    return Follow;
+}));
+/**
+ * @Tab.js
+ * @author zhangxinxu
+ * @version
+ * @created: 15-06-12
+ * @edit:    19-09-21 native js rewrite by lennonover
+ * @review   19-09-25 by zhangxinxu
+ */
+
+(function (global, factory) {
+    if (typeof exports === 'object' && typeof module !== 'undefined') {
+        module.exports = factory();
+    } else if (typeof define === 'function' && (define.amd || define.cmd)) {
+        define(factory);
+    } else {
+        global.Tab = factory();
+    }
+}((typeof global !== 'undefined') ? global
+    : ((typeof window !== 'undefined') ? window
+        : ((typeof self !== 'undefined') ? self : this)), function () {
+
+    /**
+     * 可定制的极简选项卡切换效果
+     * 状态类名使用.active
+     * @使用示例
+     *  new Tab(document.querySelectorAll('#tabView > a'), {
+     *     onSwitch: function() {}
+     *  });
+     */
+
+    var STATE = 'active';
+
+    var CL = {
+        add: function () {
+            return ['ui-tab'].concat([].slice.call(arguments)).join('-');
+        },
+        toString: function () {
+            return 'ui-tab';
+        }
+    };
+
+
+    var Tab = function (elements, options) {
+        // 元素的获取与判断
+        var eleTabs = elements;
+        // 如果元素没有，打道回府
+        if (!eleTabs) {
+            return;
+        }
+        if (typeof elements == 'string') {
+            eleTabs = document.querySelectorAll(elements);
+        }
+        // 参数获取
+        options = options || {};
+
+        if (typeof options == 'function') {
+            options = {
+                onSwitch: options
+            };
+        }
+
+        var defaults = {
+            // 事件名称，还可以是mouseenter或者mouseover
+            eventType: 'click',
+            // 'auto' 表示根据选项卡上的状态类名获取index值
+            index: 'auto',
+            // 是否使用HTML5 history在URL上标记当前选项卡位置，for IE10+
+            history: true,
+            // tab 切换时 滑动效果
+            slide: false,
+            // 发生状态变化时候的回调
+            onSwitch: function () {
+            }
+        };
+
+        // 参数合并
+        var objParams = Object.assign({}, defaults, options);
+
+        // 很重要的索引
+        var numIndexTab = objParams.index;
+
+        // 所有对应的面板元素
+        var elePanels = [];
+
+        // 首先，获得索引值
+        eleTabs.forEach(function (eleTab, index) {
+            if (typeof numIndexTab != 'number' && eleTab.classList.contains(STATE)) {
+                numIndexTab = index;
+            }
+            eleTab.setAttribute('data-index', index);
+            eleTab.setAttribute('role', 'tab');
+            eleTab.setAttribute('aria-selected', 'false');
+
+            // 乘机获取所有对应的面板元素
+            var elePanel = this.getPanel(eleTab);
+            elePanels.push(elePanel);
+
+            if (elePanel) {
+                elePanel.setAttribute('role', 'tabpanel');
+            }
+        }.bind(this));
+
+        // 如果没有匹配的选项卡索引，认为第一个选中
+        if (typeof numIndexTab != 'number') {
+            numIndexTab = 0;
+        }
+
+        // 暴露元素
+        this.element = {
+            tabs: eleTabs,
+            tab: eleTabs[numIndexTab],
+            panels: elePanels,
+            panel: elePanels[numIndexTab]
+        };
+        // 参数暴露
+        objParams.index = numIndexTab;
+        this.params = objParams;
+        // 回调暴露
+        this.callback = {
+            switch: objParams.onSwitch
+        };
+        // 事件绑定
+        this.events();
+
+        // 默认就来一发
+        // 以便回调可以触发
+        // 为了等业务事件绑定，这里的触发设置在DOM准备结束之后
+        window.addEventListener('DOMContentLoaded', function () {
+            eleTabs[numIndexTab].dispatchEvent(new CustomEvent(objParams.eventType));
+            objParams.onSwitch.call(this, eleTabs[numIndexTab], elePanels[numIndexTab], null, null);
+        }.bind(this));
+
+        // 设置父元素的无障碍访问信息
+        if (eleTabs.length > 1 && eleTabs[0].parentElement == eleTabs[1].parentElement) {
+            eleTabs[0].parentElement.setAttribute('role', 'tablist');
+        }
+    };
+
+    /**
+     * 基于tab元素获取panel元素的方法
+     * @param  {[type]} eleTab [description]
+     * @return {[type]}        [description]
+     */
+    Tab.prototype.getPanel = function (eleTab) {
+        if (!eleTab) {
+            eleTab = this.element.tab;
+        }
+        // 获得属性对应的值
+        var strAttr = eleTab.getAttribute('data-rel') || eleTab.getAttribute('href');
+
+        if (!strAttr) {
+            return null;
+        }
+
+        // 如果是href的锚点匹配
+        if (/^#/.test(strAttr)) {
+            return document.querySelector(strAttr);
+        }
+
+        // 如果是data-rel设置
+        return document.querySelector('#' + strAttr) || document.querySelector('.' + strAttr);
+    };
+
+    /**
+     * 播放的处理
+     * @return {[type]} [description]
+     */
+    Tab.prototype.show = function (eleTab) {
+        // 一些必须的暴露的参数
+        var numIndexTab = this.index;
+        var eleTabs = this.element.tabs;
+        var objParams = this.params;
+
+        // 对应选项卡显示的处理
+        eleTab = eleTab || this.element.tab;
+        if (!eleTab) {
+            return;
+        }
+        var elePanel = this.getPanel(eleTab);
+        var eleParent = eleTab.parentElement;
+
+        // 改变当前选中tab与panel元素
+        this.element.tab = eleTab;
+        this.element.panel = elePanel;
+
+        var strHref = eleTab.getAttribute('href');
+
+        // 需要非选中状态才行执行切换
+        if (eleTab.classList.contains(STATE)) {
+            return;
+        }
+
+        // 选中元素的索引值
+        numIndexTab = eleParent.querySelector('.' + STATE).getAttribute('data-index');
+        // 选项卡样式变变变
+        // 类名变化
+        eleTab.classList.add(STATE);
+
+        // 要移除类名的选项卡和选项面板
+        var eleResetTab = eleTabs[numIndexTab];
+        var eleResetPanel = this.getPanel(eleResetTab);
+        // 类名移除
+        eleResetTab.classList.remove(STATE);
+
+        // 面板的变化
+        elePanel.classList.add(STATE);
+        eleResetPanel.classList.remove(STATE);
+        // 索引参数变化
+        numIndexTab = eleTab.getAttribute('data-index');
+        this.params.index = numIndexTab * 1;
+
+        // line 滑动效果 IE10+
+        var eleLine;
+        // 需要参数配合
+        if (objParams.slide == true && history.pushState) {
+            eleLine = eleParent.querySelector('.' + CL.add('line'));
+            if (!eleLine) {
+                eleLine = document.createElement('i');
+                eleLine.className = CL.add('line');
+                eleParent.insertBefore(eleLine, eleTabs[0]);
+            }
+            eleLine.style.display = 'block';
+            eleLine.style.width = eleTab.clientWidth + 'px';
+            eleLine.style.left = eleTab.offsetLeft + 'px';
+        }
+        // 回调方法
+        this.callback.switch.call(this, eleTab, eleResetTab, elePanel, eleResetPanel);
+
+        // 历史记录的处理
+        if (/^(:?javas|#)/.test(strHref)) {
+            var strAttr = (eleTab.getAttribute('data-rel') || strHref || '').replace(/^#/, '');
+
+            if (objParams.history == true) {
+                // url地址查询键值对替换
+                var objURLParams = new URLSearchParams(location.search);
+                // 改变查询键值，有则替换，无则新增
+                objURLParams.set('tab', strAttr);
+
+                // hash优化，去除重复的hash
+                var strHash = location.hash;
+                if (strHref == strHash) {
+                    location.hash = strHash = '';
+                }
+                // 改变当前URL
+                if (history.replaceState) {
+                    history.replaceState(null, document.title, location.href.split('?')[0] + '?' + objURLParams.toString() + strHash);
+                } else {
+                    location.replace('#tab=' + strAttr);
+                }
+            }
+        }
+    };
+
+    /**
+     * 相关事件
+     * @return {[type]} [description]
+     */
+    Tab.prototype.events = function () {
+        // 获得选项卡对应的面板元素
+        // 各个元素
+        var objElement = this.element;
+        var eleTabs = objElement.tabs;
+        var objParams = this.params;
+
+        // 单个监听事件，综合考虑不做委托
+        eleTabs.forEach(function (eleTab) {
+            eleTab.addEventListener(objParams.eventType, function (event) {
+                if (/^(:?javas|#)/.test(event.target.getAttribute('href'))) {
+                    event.preventDefault();
+                }
+                this.show(event.target);
+            }.bind(this), false);
+        }.bind(this));
+    };
+
+    return Tab;
+}));
+/**
+ * @Select.js
+ * @author zhangxinxu
+ * @version
+ * @Created: 15-06-18
+ * @edit:    07-06-15  rewrite
+ * @edit:    09-08-28  native js rewrite
+ **/
+
+(function (global, factory) {
+    if (typeof exports === 'object' && typeof module !== 'undefined') {
+        module.exports = factory();
+    } else if (typeof define === 'function' && (define.amd || define.cmd)) {
+        define(factory);
+    } else {
+        global.Select = factory();
+    }
+}((typeof global !== 'undefined') ? global
+    : ((typeof window !== 'undefined') ? window
+        : ((typeof self !== 'undefined') ? self : this)), function () {
+
+    /**
+     * 模拟下拉框效果
+     * 针对所有浏览器进行处理
+     * 基于原生的<select>元素生成
+     *
+     */
+
+        // 常量变量
+    var SELECT = 'select';
+    var SELECTED = 'selected';
+    var DISABLED = 'disabled';
+    var ACTIVE = 'active';
+    var REVERSE = 'reverse';
+    var MULTIPLE = 'multiple';
+
+    // 样式类名统一处理
+    var CL = {
+        add: function () {
+            return ['ui', SELECT].concat([].slice.call(arguments)).join('-');
+        },
+        toString: function () {
+            return 'ui-' + SELECT;
+        }
+    };
+
+    /**
+     * 基于原生下拉框生成的下拉组件
+     * @param {Object} element 原生select元素
+     */
+    var Select = function (element) {
+        if (!element) {
+            return this;
+        }
+
+        var eleSelect = element;
+
+        // 避免重复初始化
+        if (eleSelect.data && eleSelect.data.select) {
+            return;
+        }
+
+        var strAttrWidth = eleSelect.style.width || eleSelect.getAttribute('width');
+        if (!strAttrWidth) {
+            strAttrWidth = eleSelect.offsetWidth;
+        }
+        this.offsetWidth = strAttrWidth;
+
+        // 构造元素
+        // 1. 得到关联id
+        var strId = eleSelect.id;
+        if (!strId) {
+            strId = ('lulu_' + Math.random()).replace('0.', '');
+        } else {
+            strId = 'lulu_' + strId;
+        }
+        this.id = strId;
+
+        // 2. 是否多选
+        var isMultiple = (typeof eleSelect.getAttribute(MULTIPLE) == 'string');
+        this.multiple = isMultiple;
+
+        // 3. 创建下拉组合框元素
+        var eleCombobox = document.createElement('div');
+        eleCombobox.setAttribute('role', 'combobox');
+
+        // 4. 创建下拉点击按钮元素
+        var eleButton = document.createElement('a');
+        if (!eleSelect[DISABLED]) {
+            eleButton.setAttribute('href', 'javascript:');
+        }
+        eleButton.setAttribute('data-target', strId);
+        // 下面3个aria无障碍访问需要
+        eleButton.setAttribute('role', 'button');
+        eleButton.setAttribute('aria-expanded', 'false');
+        eleButton.setAttribute('aria-owns', strId);
+        // 样式类名
+        eleButton.classList.add(CL.add('button'));
+
+        // 5. 创建下拉列表元素
+        var eleDatalist = document.createElement('div');
+        eleDatalist.id = strId;
+        eleDatalist.setAttribute('role', 'listbox');
+        eleDatalist.setAttribute('aria-expanded', 'true');
+        eleDatalist.classList.add(CL.add('datalist'));
+
+        // 6. 元素组装
+        // multiple没有button
+        if (isMultiple == false) {
+            eleCombobox.appendChild(eleButton);
+            eleCombobox.appendChild(eleDatalist);
+            // 插入到下拉框的后面
+            eleSelect.style.display = 'none';
+            eleSelect.insertAdjacentElement('afterend', eleCombobox);
+        } else {
+            eleCombobox.appendChild(eleDatalist);
+            // 绝对定位隐藏，以便可以响应键盘focus
+            eleSelect.style.position = 'absolute';
+            eleSelect.style.zIndex = 1;
+            eleSelect.insertAdjacentElement('afterend', eleCombobox);
+            // 视觉列表不参与设置为不可访问
+            eleDatalist.setAttribute('aria-hidden', 'true');
+        }
+        // 暴露给其他方法
+        this.element = {
+            select: eleSelect,
+            combobox: eleCombobox,
+            button: eleButton,
+            datalist: eleDatalist
+        };
+
+        // 刷新内容
+        this.refresh();
+
+        // 事件绑定
+        this.events();
+
+        // 存储
+        if (!eleSelect.data) {
+            eleSelect.data = {
+                select: this
+            };
+        } else {
+            eleSelect.data.select = this;
+        }
+    };
+
+    /**
+     * 下拉相关的事件处理
+     * @return {[type]} [description]
+     */
+    Select.prototype.events = function () {
+        // 各个元素
+        var objElement = this.element;
+        // 主要的几个元素
+        var eleSelect = objElement.select;
+        var eleCombobox = objElement.combobox;
+        var eleButton = objElement.button;
+        var eleDatalist = objElement.datalist;
+
+        // 单选下拉框的事件
+        if (this.multiple == false) {
+            // 点击页面空白要隐藏
+            // 测试表明，这里优化下可以提高40~50%性能
+            // 原本是绑定对应元素上，现在改成委托
+            if (!document.isSelectMouseEvent) {
+                document.addEventListener('click', function (event) {
+                    var target = event.target;
+
+                    if (!target || !target.closest) {
+                        return;
+                    }
+
+                    // 获取下拉元素是关键，因为存储了实例对象
+                    // 元素什么的都可以直接匹配
+                    eleCombobox = target.closest('.' + CL);
+                    eleSelect = eleCombobox && eleCombobox.previousElementSibling;
+
+                    if (!eleSelect || !eleSelect.data || !eleSelect.data.select) {
+                        return;
+                    }
+
+                    // 按钮和列表元素就知道了
+                    objElement = eleSelect.data.select.element;
+
+                    eleButton = objElement.button;
+                    eleDatalist = objElement.datalist;
+
+                    // 下面判断点击的是按钮还是列表了
+                    if (eleButton.contains(target)) {
+                        if (eleSelect[DISABLED]) {
+                            return false;
+                        }
+
+                        // 显示与隐藏
+                        eleCombobox.classList.toggle(ACTIVE);
+
+                        if (eleCombobox.classList.contains(ACTIVE)) {
+                            // 边界判断
+                            var isOverflow = eleDatalist.getBoundingClientRect().bottom + window.pageYOffset > Math.max(document.body.clientHeight, window.innerHeight);
+                            eleCombobox.classList[isOverflow ? 'add' : 'remove'](REVERSE);
+                            // aria状态
+                            eleButton.setAttribute('aria-expanded', 'true');
+
+                            // 滚动与定位
+                            var arrDataScrollTop = eleCombobox.dataScrollTop;
+                            var eleDatalistSelected = eleDatalist.querySelector('.' + SELECTED);
+                            // 严格验证
+                            if (arrDataScrollTop && arrDataScrollTop[1] == eleDatalistSelected.getAttribute('data-index') && arrDataScrollTop[2] == eleDatalistSelected.innerText) {
+                                eleDatalist.scrollTop = arrDataScrollTop[0];
+                                // 重置
+                                delete eleCombobox.dataScrollTop;
+                            }
+                        } else {
+                            eleCombobox.classList.remove(REVERSE);
+                            // aria状态
+                            eleButton.setAttribute('aria-expanded', 'false');
+                        }
+                    } else if (eleDatalist.contains(target)) {
+                        // 点击的列表元素
+                        var eleList = target;
+                        // 对应的下拉<option>元素
+                        var eleOption = null;
+                        // 是否当前点击列表禁用
+                        var isDisabled = eleList.classList.contains(DISABLED);
+                        // 获取索引
+                        var indexOption = eleList.getAttribute('data-index');
+                        // 存储可能的滚动定位需要的数据
+                        var scrollTop = eleDatalist.scrollTop;
+                        eleCombobox.dataScrollTop = [scrollTop, indexOption, eleList.innerText];
+
+                        // 修改下拉选中项
+                        if (isDisabled == false) {
+                            eleOption = eleSelect[indexOption];
+                            if (eleOption) {
+                                eleOption[SELECTED] = true;
+                            }
+                        }
+                        // 下拉收起
+                        eleCombobox.classList.remove(ACTIVE);
+                        eleButton.setAttribute('aria-expanded', 'false');
+                        // focus
+                        eleButton.focus();
+                        eleButton.blur();
+
+                        if (isDisabled == false) {
+                            // 更新下拉框
+                            eleSelect.refresh();
+                            // 回调处理
+                            // 触发change事件
+                            eleSelect.dispatchEvent(new CustomEvent('change', {
+                                'bubbles': true
+                            }));
+                        }
+                    }
+                });
+
+                document.addEventListener('mouseup', function (event) {
+                    var target = event.target;
+                    if (!target) {
+                        return;
+                    }
+                    // 识别此时的combobox
+                    eleCombobox = document.querySelector(SELECT + '+.' + CL + '.' + ACTIVE);
+
+                    if (eleCombobox && eleCombobox.contains(target) == false) {
+                        eleCombobox.classList.remove(ACTIVE);
+                        eleCombobox.classList.remove(REVERSE);
+                    }
+                });
+
+                document.isSelectMouseEvent = true;
+            }
+
+            // disabled状态变化与键盘访问
+            var funSyncDisabled = function () {
+                if (eleSelect[DISABLED]) {
+                    eleButton.removeAttribute('href');
+                } else {
+                    eleButton.href = 'javascript:';
+                }
+            };
+            // 禁用状态变化检测
+            if (window.MutationObserver) {
+                var observerSelect = new MutationObserver(function (mutationsList) {
+                    mutationsList.forEach(function (mutation) {
+                        if (mutation.type == 'attributes') {
+                            funSyncDisabled();
+                        }
+                    });
+                });
+
+                observerSelect.observe(eleSelect, {
+                    attributes: true,
+                    attributeFilter: [DISABLED]
+                });
+            } else {
+                eleSelect.addEventListener('DOMAttrModified', function (event) {
+                    if (event.attrName == DISABLED) {
+                        funSyncDisabled();
+                    }
+                });
+            }
+        } else {
+            // 下拉多选
+            // 键盘交互UI同步
+            eleSelect.addEventListener('change', function () {
+                // 更新下拉框
+                this.refresh();
+            }.bind(this));
+            // 滚动同步
+            eleSelect.addEventListener('scroll', function () {
+                eleDatalist.scrollTop = eleSelect.scrollTop;
+            });
+            // hover穿透
+            eleSelect.addEventListener('mousedown', function () {
+                eleSelect.setAttribute('data-active', 'true');
+            });
+            eleSelect.addEventListener('mousemove', function (event) {
+                if (eleSelect.getAttribute('data-active')) {
+                    this.refresh();
+
+                    return;
+                }
+                var clientY = event.clientY;
+                // 当前坐标元素
+                // 最好方法是使用
+                // document.elementsFromPoint
+                // IE10+是document.msElementFromPoint
+                // 但IE8, IE9浏览器并不支持
+                // 所以这里采用其他方法实现
+                // 判断列表的y位置和clientY做比较
+                var eleListAll = eleDatalist.querySelectorAll('a');
+                for (var indexList = 0; indexList < eleListAll.length; indexList++) {
+                    var eleList = eleListAll[indexList];
+                    // hover状态先还原
+                    eleList.removeAttribute('href');
+                    // 然后开始寻找匹配的列表元素
+                    // 进行比对
+                    var beginY = eleList.getBoundingClientRect().top;
+                    var endY = beginY + eleList.clientHeight;
+                    // 如果在区间范围
+                    if (clientY >= beginY && clientY <= endY) {
+                        if (eleList.classList.contains(SELECTED) == false && eleList.classList.contains(DISABLED) == false) {
+                            eleList.href = 'javascript:';
+                        }
+                        // 退出循环
+                        // forEach无法中断，因此这里使用了for循环
+                        break;
+                    }
+                }
+            }.bind(this));
+
+            eleSelect.addEventListener('mouseout', function () {
+                var eleListAllWithHref = eleDatalist.querySelectorAll('a[href]');
+                eleListAllWithHref.forEach(function (eleList) {
+                    eleList.removeAttribute('href');
+                });
+            });
+
+            document.addEventListener('mouseup', function () {
+                eleSelect.removeAttribute('data-active');
+            });
+        }
+    };
+
+    /**
+     * 把下拉元素变成数据，格式为：
+     * [{
+        html: '选项1',
+        value: '1',
+        selected: false,
+        className: 'a'
+     }, {
+        html: '选项2',
+        value: '2',
+        selected: true,
+        className: 'b'
+     }]
+     * @return 数组
+     */
+    Select.prototype.getData = function () {
+        var eleSelect = this.element.select;
+
+        var eleOptions = eleSelect.querySelectorAll('option');
+
+        if (eleOptions.length == 0) {
+            return [{
+                html: ''
+            }];
+        }
+
+        return [].slice.call(eleOptions).map(function (option) {
+            return {
+                html: option.innerHTML,
+                value: option.value,
+                selected: option.selected,
+                disabled: option.disabled,
+                className: option.className
+            };
+        });
+    };
+
+    /**
+     * 下拉刷新方法
+     * @param  {Array} data 根据数组数据显示下拉内容
+     * @return {Object}     返回当前实例对象
+     */
+    Select.prototype.refresh = function (data) {
+        // 实例id
+        var id = this.id;
+        // 是否多选
+        var isMultiple = this.multiple;
+        // 各个元素
+        var objElement = this.element;
+        // 主要的几个元素
+        var eleSelect = objElement.select;
+        var eleCombobox = objElement.combobox;
+        var eleButton = objElement.button;
+        var eleDatalist = objElement.datalist;
+
+        // 获取当下下拉框的数据和状态
+        data = data || this.getData();
+
+        // 下拉组合框元素的UI和尺寸
+        eleCombobox.className = (eleSelect.className + ' ' + CL).trim();
+
+        // offsetWidth/clientWidth/getBoundingClientRect在下拉元素很多的的时候会有明显的性能问题
+        // 因此宽度已知的时候，使用定值，否则实时获取
+        var strAttrWidth = this.offsetWidth;
+
+        if (/\D$/.test(strAttrWidth)) {
+            // 如果是<length>
+            eleCombobox.style.width = strAttrWidth;
+        } else {
+            // 如果是<number>
+            eleCombobox.style.width = strAttrWidth + 'px';
+        }
+
+        // 多选，高度需要同步，因为选项高度不确定
+        if (isMultiple) {
+            eleCombobox.style.height = eleSelect.style.height || (eleSelect.offsetHeight + 'px');
+        } else {
+            // 按钮元素中的文案
+            eleButton.innerHTML = '<span class="' + CL.add('text') + '">' + (function () {
+                var htmlSelected = '';
+
+                data.forEach(function (obj) {
+                    if (obj.selected) {
+                        htmlSelected = obj.html;
+                    }
+                });
+
+                return htmlSelected || data[0].html;
+            })() + '</span><i class="' + CL.add('icon') + '" aria-hidden="true"></i>';
+        }
+
+        // 列表内容的刷新
+        eleDatalist.innerHTML = data.map(function (obj, index) {
+            var arrCl = [CL.add('datalist', 'li'), obj.className];
+
+            if (obj[SELECTED]) {
+                arrCl.push(SELECTED);
+            }
+            if (obj[DISABLED]) {
+                arrCl.push(DISABLED);
+            }
+
+            // 复选模式列表不参与无障碍访问识别，因此HTML相对简单
+            if (isMultiple) {
+                return '<a class="' + arrCl.join(' ') + '" data-index=' + index + '>' + obj.html + '</a>';
+            }
+
+            return '<a ' + (obj[DISABLED] ? '' : 'href="javascript:" ') + 'class="' + arrCl.join(' ') + '" data-index=' + index + ' data-target="' + id + '" role="option" aria-selected="' + obj[SELECTED] + '">' + obj.html + '</a>';
+        }).join('');
+
+        return this;
+    };
+
+    /**
+     * 删除方法
+     * @return {[type]} [description]
+     */
+    Select.prototype.remove = function () {
+        // 主元素
+        var eleCombobox = this.element.combobox;
+
+        if (eleCombobox) {
+            eleCombobox.remove();
+        }
+    };
+
+    // 重新定义select元素的value方法
+    Object.defineProperty(HTMLSelectElement.prototype, 'value', {
+        configurable: true,
+        enumerable: true,
+        writeable: true,
+        get: function () {
+            var arrValue = [];
+            this.querySelectorAll('option').forEach(function (eleOption) {
+                if (eleOption[SELECTED] == true) {
+                    arrValue.push(eleOption.value);
+                }
+            });
+
+            return arrValue.join();
+        },
+        set: function (value) {
+            var isOptionMatch = false;
+            // 是否多选框
+            var isMultiple = (typeof this.getAttribute('multiple') == 'string');
+            if (isMultiple) {
+                value = value.split(',');
+            } else {
+                value = [value.toString()];
+            }
+
+            this.querySelectorAll('option').forEach(function (eleOption) {
+                // 单选框模式下，如果多个值匹配，让第一个选中
+                // 如果没有下面这句，会最后一个匹配的选中
+                if (isMultiple == false && isOptionMatch == true) {
+                    return;
+                }
+                if (value.indexOf(eleOption.value) != -1) {
+                    eleOption[SELECTED] = isOptionMatch = true;
+                } else if (isMultiple) {
+                    eleOption[SELECTED] = false;
+                }
+            });
+
+            // 如果包含匹配的值，则重新刷新
+            if (isOptionMatch == true) {
+                this.refresh();
+            }
+        }
+    });
+
+    HTMLSelectElement.prototype.refresh = function () {
+        if (this.data && this.data.select) {
+            this.data.select.refresh();
+        } else {
+            new Select(this);
+        }
+    };
+
+    var funAutoInitAndWatching = function () {
+        // 如果没有开启自动初始化，则返回
+        if (window.autoInit === false) {
+            return;
+        }
+        document.querySelectorAll('select').forEach(function (eleSelect) {
+            if (window.getComputedStyle(eleSelect).opacity != '1') {
+                eleSelect.refresh();
+            }
+        });
+
+        // 如果没有开启观察，不监听DOM变化
+        if (window.watching === false) {
+            return;
+        }
+
+        var funSyncRefresh = function (node, action) {
+            if (node.nodeType != 1) {
+                return;
+            }
+
+            if (node.tagName == 'SELECT') {
+                if (action == 'remove') {
+                    if (node.data && node.data.select) {
+                        node.data.select[action]();
+                    } else {
+                        node.parentNode.removeChild(node);
+                    }
+                } else {
+                    node[action]();
+                }
+            } else if (node.tagName == 'OPTION') {
+                var eleSelect = node.parentElement;
+
+                if (!eleSelect) {
+                    // 可以认为是观察者模式的删除
+                    if (this.target && this.target.tagName == 'SELECT') {
+                        this.target.refresh();
+                    }
+                } else if (eleSelect.data && eleSelect.data.select) {
+                    setTimeout(function () {
+                        eleSelect.refresh();
+                    }, 16);
+                }
+            } else if (action == 'refresh') {
+                // 此时Select初始化也会触发DOM检测
+                // 但没有必要，因此，阻止
+                funAutoInitAndWatching.flag = false;
+                // 只是Select初始化
+                node.querySelectorAll('select').forEach(function (element) {
+                    funSyncRefresh(element, action);
+                });
+                // 恢复到正常检测
+                funAutoInitAndWatching.flag = true;
+            }
+        };
+
+        // DOM Insert自动初始化
+        // IE11+使用MutationObserver
+        // IE9-IE10使用Mutation Events
+        if (window.MutationObserver) {
+            var observerSelect = new MutationObserver(function (mutationsList) {
+                // 此时不检测DOM变化
+                if (funAutoInitAndWatching.flag === false || window.watching === false) {
+                    return;
+                }
+                mutationsList.forEach(function (mutation) {
+                    var nodeAdded = mutation.addedNodes;
+                    var nodeRemoved = mutation.removedNodes;
+
+                    if (nodeAdded.length) {
+                        nodeAdded.forEach(function (eleAdd) {
+                            funSyncRefresh.call(mutation, eleAdd, 'refresh');
+                        });
+                    }
+                    if (nodeRemoved.length) {
+                        nodeRemoved.forEach(function (eleRemove) {
+                            funSyncRefresh.call(mutation, eleRemove, 'remove');
+                        });
+                    }
+                });
+            });
+
+            observerSelect.observe(document.body, {
+                childList: true,
+                subtree: true
+            });
+        } else {
+            // IE9-IE10优化处理
+            // 借助定时器先观察，再统一处理
+            var arrMutationsList = [];
+            var timerRenderList = null;
+
+            var funMutationObserver = function (target, action, event) {
+                // 此时不检测DOM变化
+                if (funAutoInitAndWatching.flag === false || window.watching === false || target.nodeType != 1) {
+                    return;
+                }
+
+                clearTimeout(timerRenderList);
+
+                if (target.tagName == 'SELECT') {
+                    arrMutationsList.push({
+                        action: action,
+                        node: target
+                    });
+                } else if (target.tagName == 'OPTION' && (arrMutationsList.length == 0 || arrMutationsList[arrMutationsList.length - 1].node.contains(target) == false)) {
+                    arrMutationsList.push({
+                        action: 'refresh',
+                        node: event.relatedNode || target
+                    });
+                }
+
+                // 定时器处理
+                timerRenderList = setTimeout(function () {
+                    funAutoInitAndWatching.flag = false;
+
+                    arrMutationsList.forEach(function (objList) {
+                        // 插入节点
+                        funSyncRefresh(objList.node, objList.action);
+                    });
+
+                    funAutoInitAndWatching.flag = true;
+
+                    arrMutationsList = [];
+                }, 16);
+            };
+
+            document.body.addEventListener('DOMNodeInserted', function (event) {
+                funMutationObserver(event.target, 'refresh', event);
+            });
+            document.body.addEventListener('DOMNodeRemoved', function (event) {
+                // relatedNode
+                funMutationObserver(event.target, 'remove', event);
+            });
+        }
+    };
+
+    if (document.readyState != 'loading') {
+        funAutoInitAndWatching();
+    } else {
+        window.addEventListener('DOMContentLoaded', funAutoInitAndWatching);
+    }
+
+    return Select;
+}));
+/**
+ * @Drop.js
+ * @author zhangxinxu
+ * @version
+ * Created: 15-06-30
+ */
+
+(function (global, factory) {
+    if (typeof exports === 'object' && typeof module !== 'undefined') {
+        this.Follow = require('./Follow');
+        module.exports = factory();
+    } else if (typeof define === 'function' && (define.amd || define.cmd)) {
+        define(factory);
+    } else {
+        global.Drop = factory();
+    }
+}((typeof global !== 'undefined') ? global
+    : ((typeof window !== 'undefined') ? window
+        : ((typeof self !== 'undefined') ? self : this)), function (require) {
+    var Follow = this.Follow;
+    if (typeof require == 'function' && !Follow) {
+        Follow = require('common/ui/Follow');
+    } else if (!Follow) {
+        window.console.error('need Follow.js');
+        return {};
+    }
+
+    /**
+     * 实例方法
+     * @param {Object} trigger 触发元素，$()包装器元素类型
+     * @param {Object} target  显示的浮动定位元素，$()包装器元素类型
+     * @param {Object} options 可选参数
+     */
+    var Drop = function (eleTrigger, eleTarget, options) {
+        this.init(eleTrigger, eleTarget, options);
+        return this;
+    };
+
+    /**
+     * Drop 初始化方法
+     * @date 2019-10-28
+     * @param {Object} trigger 触发元素，$()包装器元素类型
+     * @param {Object} target  显示的浮动定位元素，$()包装器元素类型
+     * @param {Object} options 可选参数
+     */
+    Drop.prototype.init = function (eleTrigger, eleTarget, options) {
+        if (typeof eleTrigger == 'string') {
+            eleTrigger = document.querySelector(eleTrigger);
+        }
+        if (typeof eleTarget == 'string') {
+            eleTarget = document.querySelector(eleTarget);
+        }
+
+        if (typeof eleTarget == 'object' && typeof eleTarget.nodeType != 'number') {
+            options = eleTarget;
+            eleTarget = null;
+        }
+
+        var defaults = {
+            // 触发元素显示的事件，‘null’直接显示；‘hover’是hover方法；‘click’是点击显示；其他为手动显示与隐藏。
+            eventType: 'null',
+            offsets: {
+                x: 0,
+                y: 0
+            },
+            position: '7-5',
+            selector: '',
+            edgeAdjust: true,
+            onShow: function () {
+            },
+            onHide: function () {
+            }
+        };
+
+        var objParams = Object.assign({}, defaults, options || {});
+
+        // 元素暴露给实例
+        this.element = {
+            trigger: eleTrigger,
+            target: eleTarget
+        };
+
+        // 回调
+        this.callback = {
+            show: objParams.onShow,
+            hide: objParams.onHide
+        };
+
+        // 暴露参数
+        this.params = {
+            // 事件类型
+            eventType: objParams.eventType,
+            // 偏移
+            offsets: objParams.offsets,
+            // 位置
+            position: objParams.position,
+            // 选择器
+            selector: objParams.selector,
+            // 边缘调整
+            edgeAdjust: objParams.edgeAdjust
+        };
+
+        // 实例的显示状态
+        this.display = false;
+
+        if (!eleTarget || !eleTrigger) {
+            return this;
+        }
+
+        // 事件绑定处理
+        this.events();
+
+        // 存储实例对象
+        if (!eleTrigger.data) {
+            eleTrigger.data = {};
+        }
+        eleTrigger.data.drop = this;
+
+        return this;
+    };
+
+    /**
+     * 下拉定位的事件处理
+     * @return {[type]} [description]
+     */
+    Drop.prototype.events = function () {
+        // 元素
+        var eleTrigger = this.element.trigger;
+        var eleTarget = this.element.target;
+        // 参数
+        var objParams = this.params;
+
+        // 获取匹配选择器的eleTrigger子元素
+        var funGetClosestChild = function (element) {
+            if (!objParams.selector) {
+                return null;
+            }
+
+            var eleClosestSelector = element.closest(objParams.selector);
+            if (eleTrigger.contains(eleClosestSelector) == false) {
+                return null;
+            }
+
+            return eleClosestSelector;
+        };
+
+        // 根据不同事件类型进行逻辑处理
+        switch (objParams.eventType) {
+            // 默认值，直接显示
+            case 'null': {
+                this.show();
+                break;
+            }
+            case 'hover': {
+                // hover处理需要增加延时
+                var timerHover;
+                // 同时，从trigger移动到target也需要延时，
+                // 因为两者可能有间隙，不能单纯移出就隐藏
+                var timerHold;
+                // 事件走起
+                eleTrigger.addEventListener('mouseover', function (event) {
+                    // 不是在元素自身移动
+                    if (event.relatedTarget !== event.target) {
+                        // 委托查询
+                        var eleClosestSelector = funGetClosestChild(event.target);
+
+                        // 如果走委托
+                        if (eleClosestSelector) {
+                            // 改变trigger元素
+                            this.element.trigger = eleClosestSelector;
+                        }
+
+                        // 显示定时器
+                        if (!objParams.selector || eleClosestSelector) {
+                            // 显示的定时器
+                            timerHover = setTimeout(function () {
+                                this.show();
+                            }.bind(this), 150);
+                            // 去除隐藏的定时器
+                            clearTimeout(timerHold);
+                        }
+                    }
+
+                }.bind(this));
+
+                eleTrigger.addEventListener('mouseleave', function () {
+                    // 清除显示的定时器
+                    clearTimeout(timerHover);
+                    // 隐藏的定时器
+                    timerHold = setTimeout(function () {
+                        this.hide();
+                    }.bind(this), 200);
+                }.bind(this));
+
+                if (!eleTarget.isBindDropHover) {
+                    eleTarget.addEventListener('mouseenter', function () {
+                        // 去除隐藏的定时器
+                        clearTimeout(timerHold);
+                    });
+                    eleTarget.addEventListener('mouseleave', function () {
+                        // 隐藏
+                        timerHold = setTimeout(function () {
+                            this.hide();
+                        }.bind(this), 100);
+                    }.bind(this));
+
+                    eleTarget.isBindDropHover = true;
+                }
+
+                // 键盘支持，原本使用focus事件，但并不利于键盘交互
+                eleTrigger.addEventListener('click', function (event) {
+                    // window.isKeyEvent表示是否键盘触发，来自Keyboard.js
+                    if (!window.isKeyEvent) {
+                        return;
+                    }
+
+                    event.preventDefault();
+
+                    var eleClosestSelector = funGetClosestChild(event.target);
+                    // 如果走委托
+                    if (eleClosestSelector) {
+                        // 改变trigger元素
+                        this.element.trigger = eleClosestSelector;
+                    }
+
+                    // 显示定时器
+                    if (!objParams.selector || eleClosestSelector) {
+                        // 点击即显示
+                        if (this.display == false) {
+                            this.show();
+                        } else {
+                            this.hide();
+                        }
+                    }
+                }.bind(this));
+
+                break;
+            }
+
+            // 点击或者右键
+            case 'click':
+            case 'contextmenu': {
+                eleTrigger.addEventListener(objParams.eventType, function (event) {
+                    event.preventDefault();
+                    // aria支持
+                    // 获得委托的选择器匹配元素
+                    var eleClosestSelector = funGetClosestChild(event.target);
+
+                    if (eleClosestSelector) {
+                        // 改变trigger元素
+                        this.element.trigger = eleClosestSelector;
+                    }
+
+                    // 点击即显示
+                    if (!objParams.selector || eleClosestSelector) {
+                        // 重复右键点击一直显示，非显隐切换
+                        if (objParams.eventType == 'contextmenu') {
+                            objParams.position = [event.pageX, event.pageY];
+                            this.show();
+
+                            return;
+                        }
+
+                        if (this.display == false) {
+                            this.show();
+                        } else {
+                            this.hide();
+                        }
+                    }
+                }.bind(this));
+
+                break;
+            }
+        }
+
+        // 点击页面空白区域隐藏
+        document.addEventListener('click', function (event) {
+            var eleClicked = event && event.target;
+
+            if (!eleClicked || this.display != true) {
+                return;
+            }
+
+            // 因为trigger和target可能动态变化
+            // 因此这里再次获取一遍
+            var eleTrigger = this.element.trigger;
+            var eleTarget = this.element.target;
+
+            if (!eleTarget || !eleTrigger) {
+                return;
+            }
+
+            if (eleTrigger.contains(eleClicked) == false && eleTarget.contains(eleClicked) == false) {
+                this.hide();
+            }
+        }.bind(this));
+
+        // 窗体尺寸改变生活的重定位
+        window.addEventListener('resize', function () {
+            this.follow();
+        }.bind(this));
+    };
+
+    /**
+     * 下拉定位处理
+     * @return {Object} 返回当前实例对象
+     */
+    Drop.prototype.follow = function () {
+        var eleTrigger = this.element.trigger;
+        var eleTarget = this.element.target;
+
+        // 下拉必须是显示状态才执行定位处理
+        if (this.display == true && window.getComputedStyle(eleTrigger).display != 'none') {
+            new Follow(eleTrigger, eleTarget, {
+                offsets: this.params.offsets,
+                position: this.params.position,
+                edgeAdjust: this.params.edgeAdjust
+            });
+        }
+
+        return this;
+    };
+
+    /**
+     * 下拉的显示处理
+     * @return {Object} 返回当前实例对象
+     */
+    Drop.prototype.show = function () {
+        // target需要在页面中
+        var eleTrigger = this.element.trigger;
+        var eleTarget = this.element.target;
+
+        // 如果target在内存中，append到页面上
+        if (eleTarget && document.body.contains(eleTarget) == false) {
+            document.body.appendChild(eleTarget);
+        }
+        // 改变显示标志量
+        this.display = true;
+        // 进行定位
+        eleTarget.style.position = 'absolute';
+        eleTarget.style.display = 'inline';
+        // 键盘ESC隐藏支持
+        eleTarget.classList.add('ESC');
+
+        var strId = eleTarget.id;
+        if (!strId) {
+            strId = ('lulu_' + Math.random()).replace('0.', '');
+            eleTarget.id = strId;
+        }
+
+        eleTrigger.setAttribute('data-target', strId);
+        // aria
+        eleTrigger.setAttribute('aria-expanded', 'true');
+
+        // 定位
+        this.follow();
+
+        // 显示回调处理
+        if (typeof this.callback.show == 'function') {
+            this.callback.show.call(this, eleTrigger, eleTarget);
+        }
+
+        return this;
+    };
+
+    /**
+     * 下拉的隐藏处理
+     * @return {Object} 返回当前实例对象
+     */
+    Drop.prototype.hide = function () {
+        var eleTrigger = this.element.trigger;
+        var eleTarget = this.element.target;
+
+        // 隐藏下拉面板
+        eleTarget.style.display = 'none';
+        eleTarget.classList.remove('ESC');
+
+        // aria
+        eleTrigger.setAttribute('aria-expanded', 'false');
+
+        if (window.isKeyEvent) {
+            eleTrigger.focus();
+        }
+
+        // 更改显示标志量
+        this.display = false;
+
+        // 隐藏回调处理
+        if (typeof this.callback.hide == 'function') {
+            this.callback.hide.call(this, eleTrigger, eleTarget);
+        }
+
+        return this;
+    };
+
+
+    /**
+     * drop 拓展list
+     * @date 2019-11-01
+     * @returns {object} 返回当前实例对象
+     * 兼容以下几种语法
+     * new Drop().list(eleTrigger, data);
+     * new Drop().list(eleTrigger, data, options);
+     * new Drop(eleTrigger).list(data, options);
+     * new Drop(eleTrigger, options).list(data);
+     */
+    Drop.prototype.list = function (eleTrigger, data, options) {
+        // 基于类型进行参数判断
+        [].slice.call(arguments).forEach(function (argument) {
+            var strTypeArgument = typeof argument;
+            if (strTypeArgument == 'string') {
+                eleTrigger = document.querySelector(argument);
+            } else if (strTypeArgument == 'function') {
+                data = argument;
+            } else if (strTypeArgument == 'object') {
+                if (typeof argument.nodeType == 'number') {
+                    eleTrigger = argument;
+                } else if (argument.map) {
+                    data = argument;
+                } else {
+                    options = argument;
+                }
+            }
+        });
+
+        if (eleTrigger && typeof eleTrigger.nodeType != 'number') {
+            eleTrigger = null;
+        }
+        eleTrigger = eleTrigger || this.element.trigger;
+
+        // 触发元素和数据是必须项
+        if (!eleTrigger || !data) {
+            return this;
+        }
+
+        // 如果已经初始化就不用初始化了
+        if (eleTrigger.data && eleTrigger.data.drop) {
+            return eleTrigger.data.drop;
+        }
+
+        var defaults = {
+            // 触发元素显示的事件，‘null’直接显示；‘hover’是hover方法；‘click’是点击显示；其他为手动显示与隐藏。
+            eventType: 'click',
+            offsets: {
+                x: 0,
+                y: 0
+            },
+            position: '4-1',
+            selector: '',
+            width: '',
+            onShow: function () {
+            },
+            onHide: function () {
+            },
+            // this为当前点击的列表元素，支持两个参数，第一个参数为列表元素对应的数据(纯对象)，第二个是当前实例对象
+            onSelect: function () {
+            }
+        };
+
+        // Drop 配置
+        var objParams = Object.assign({}, defaults, options || {});
+
+        // 一些常量
+        var SELECTED = 'selected';
+        var DISABLED = 'disabled';
+        // ui类名
+        // 类名变量
+        // 样式类名统一处理
+
+        var CL = {
+            add: function () {
+                return ['ui-droplist'].concat([].slice.call(arguments)).join('-');
+            },
+            toString: function () {
+                return 'ui-droplist';
+            }
+        };
+
+        // trigger元素赋值的方法
+        var strMethod = 'innerHTML';
+        if (eleTrigger.matches('input')) {
+            strMethod = 'value';
+        }
+
+        // 存储原始参数值
+        this.data = data;
+
+        // 列表渲染需要的数组项
+        var arrListData = data;
+
+        if (typeof data == 'function') {
+            arrListData = data();
+        }
+
+
+        // 初始的匹配和默认索引值获取（如果没有设置selected选项）
+        // 匹配的索引值
+        var strMatchIndex = '-1';
+        // 是否默认包含选中项
+        var isSomeItemSelected = false;
+
+        // target元素创建
+        var eleTarget = document.createElement('div');
+        eleTarget.setAttribute('role', 'listbox');
+        eleTarget.setAttribute('tabindex', '-1');
+
+        // 宽度处理
+        if (/^\d+$/.test(objParams.width)) {
+            eleTarget.style.width = objParams.width + 'px';
+        } else {
+            eleTarget.style.width = objParams.width;
+        }
+        eleTarget.className = CL.add('x');
+
+        // 遍历数据
+        // 目的是获得匹配索引，和改变默认值（如果有设置selected选项）
+        // 由于数据可能无限嵌套，因此走递归
+        var funRecursion = function (arrData, arrIndex) {
+            if (!arrData || !arrData.length) {
+                return;
+            }
+
+            arrData.forEach(function (objData, numIndex) {
+                // 此时数组项的索引深度
+                var arrCurrentIndex = arrIndex.concat(numIndex);
+
+                // 多级数据结构
+                if (objData && objData.data) {
+                    funRecursion(objData.data, arrCurrentIndex);
+                    return;
+                }
+
+                if (objData && objData[SELECTED] && !objData[DISABLED] && objData.value) {
+
+                    eleTrigger[strMethod] = objData.value;
+
+                    // 找到设置了selected的选项，并记住索引
+                    strMatchIndex = arrCurrentIndex.join('-');
+                }
+
+                // 修改全局判断，这样，eleTrigger无需
+                // 再根据本身内容确定默认的选中项了
+                if (objData && objData[SELECTED]) {
+                    isSomeItemSelected = true;
+                }
+            });
+        };
+
+        funRecursion(arrListData, []);
+
+        // 此时trigger元素内部的内容
+        var strTrigger = (eleTrigger[strMethod] || '').trim();
+
+        // 根据eleTrigger的内容信息确定哪个数据是selected
+        // 遍历数据
+        if (isSomeItemSelected == false && strTrigger) {
+            funRecursion = function (arrData, arrIndex) {
+                if (!arrData || !arrData.length) {
+                    return;
+                }
+
+                arrData.forEach(function (objData, numIndex) {
+                    // 此时数组项的索引深度
+                    var arrCurrentIndex = arrIndex.concat(numIndex);
+
+                    // 多级数据结构
+                    if (objData && objData.data) {
+                        funRecursion(objData.data, arrCurrentIndex);
+                        return;
+                    }
+                    // 如果有匹配，设置为选中
+                    if (typeof objData.value == 'string' && objData.value.trim() == strTrigger) {
+                        strMatchIndex = arrCurrentIndex.join('-');
+
+                        // 设置为选中
+                        objData[SELECTED] = true;
+                    }
+                });
+            };
+
+            funRecursion(arrListData, []);
+        }
+
+        // 列表绘制渲染方法
+        // 每次show的时候都执行刷新
+        var funRender = function (eleTarget, arrListData) {
+            if (typeof arrListData == 'function') {
+                arrListData = arrListData();
+            }
+
+            // 没有数据时候的处理
+            if (!arrListData || arrListData.length == 0) {
+                arrListData = [{
+                    value: '没有数据',
+                    disabled: true
+                }];
+            }
+
+            // 是否包含选中项
+            var isSomeItemSelected = arrListData.some(function (objData) {
+                return objData && objData[SELECTED];
+            });
+
+            // 列表数据更新
+            eleTarget.innerHTML = (function () {
+                var strHtml = '';
+
+                var funStep = function (arrData, arrIndex) {
+
+                    var strHtmlStep = '';
+
+                    arrData.forEach(function (objData, numIndex) {
+                        // 为空数据作为分隔线
+                        if (objData == '-' || objData === null || JSON.stringify(objData) == '{}') {
+                            strHtmlStep += '<hr class="' + CL.add('hr') + '">';
+                            return;
+                        }
+
+                        // 此时数组项的索引深度
+                        var arrCurrentIndex = arrIndex.concat(numIndex);
+
+                        // 一些属性值
+                        var strAttrHref = objData.href || 'javascript:';
+
+                        // target属性
+                        var strAttrTarget = '';
+                        if (objData.target) {
+                            strAttrTarget = ' target="' + objData.target + '"';
+                        }
+
+                        // 类名
+                        var strAttrClass = CL.add('li');
+                        if (objData[SELECTED]) {
+                            strAttrClass = strAttrClass + ' ' + SELECTED;
+                        }
+
+                        // 是否包含子项
+                        var strAttrSublist = '';
+                        if (objData.data) {
+                            strAttrSublist = ' data-sublist';
+                        }
+
+                        // label标记
+                        var strAttrLabel = '';
+                        if (objData.label) {
+                            strAttrLabel = ' aria-label="' + objData.label + '"';
+                        }
+
+                        // 如果数据不含选中项，使用存储的索引值进行匹配
+                        if (isSomeItemSelected == false && strMatchIndex == arrCurrentIndex.join('-')) {
+                            objData[SELECTED] = true;
+                        }
+                        // 禁用态和非禁用使用标签区分
+                        // 如果想要支持多级，data-index值可以"1-2"这样
+                        if (objData[DISABLED] != true) {
+                            strHtmlStep += '<a href="' + strAttrHref + '"' + strAttrTarget + strAttrLabel + ' class="' + strAttrClass + '" data-index="' + arrCurrentIndex.join('-') + '" role="option" aria-selected="' + (objData[SELECTED] || 'false') + '" ' + strAttrSublist + '>' + objData.value + '</a>';
+
+                            if (objData.data) {
+                                strHtmlStep += '<div class="' + CL.add('xx') + '"><div class="' + CL.add('x') + '" role="listbox">' + funStep(objData.data, arrCurrentIndex) + '</div></div>';
+                            }
+                        } else {
+                            strHtmlStep += '<span class="' + strAttrClass + '"' + strAttrLabel + '>' + objData.value + '</span>';
+                        }
+
+                    });
+
+                    return strHtmlStep;
+                };
+
+                strHtml += funStep(arrListData, []);
+
+                return strHtml;
+            })();
+
+            // 存储在DOM对象上，给回调使用
+            eleTarget.listData = arrListData;
+        };
+
+        // 重新初始化 drop
+        this.init(eleTrigger, eleTarget, {
+            eventType: objParams.eventType,
+            offsets: objParams.offsets,
+            selector: objParams.selector,
+            position: objParams.position,
+            onShow: function () {
+                funRender.call(this, eleTarget, this.data);
+                objParams.onShow.apply(this, arguments);
+            },
+            onHide: objParams.onHide
+        });
+
+        // 绑定事件
+        eleTarget.addEventListener('click', function (event) {
+            // IE可能是文件节点
+            if (event.target.nodeType != 1 || !event.target.closest) {
+                return;
+            }
+            // 目标点击元素
+            var eleClicked = event.target.closest('a');
+
+            // 未获取到元素返回
+            if (!eleClicked) {
+                return;
+            }
+
+            // 当前列表显示使用的数据
+            var arrListData = eleTarget.listData;
+
+            // 如果是多级嵌套列表，这里需要额外处理
+            var strIndex = eleClicked.getAttribute('data-index');
+
+            if (!strIndex) {
+                return;
+            }
+
+            // 根据点击的元素索引获取对应的数据对象
+            var objItemData = null;
+            strIndex.split('-').forEach(function (numIndex) {
+                if (objItemData === null) {
+                    objItemData = arrListData[numIndex];
+                } else if (objItemData.data) {
+                    objItemData = objItemData.data[numIndex];
+                } else {
+                    objItemData = objItemData[numIndex];
+                }
+            });
+
+            // 如果这里返回，说明数据有问题
+            // 或者代码逻辑有bug
+            if (!objItemData) {
+                return;
+            }
+
+            // 点击包含下级数据的列表
+            if (typeof eleClicked.getAttribute('data-sublist') == 'string') {
+                eleClicked.classList.add(SELECTED);
+
+                // 此时显示的下级列表元素
+                var eleSubTarget = eleClicked.nextElementSibling.querySelector('.' + CL.add('x'));
+
+                if (!eleSubTarget) {
+                    return;
+                }
+
+                var objBounding = eleSubTarget.getBoundingClientRect();
+
+                // 水平方向是方向变化
+                // 交给CSS控制
+                if (objBounding.right > window.innerWidth) {
+                    eleSubTarget.classList.add('reverse');
+                } else {
+                    eleSubTarget.classList.remove('reverse');
+                }
+
+                // 垂直方向偏移
+                var offsetTop = 0;
+
+                if (objBounding.bottom > window.innerHeight) {
+                    offsetTop = window.innerHeight - objBounding.bottom;
+                }
+
+                eleSubTarget.style.msTransform = 'translateY(' + offsetTop + 'px)';
+                eleSubTarget.style.transform = 'translateY(' + offsetTop + 'px)';
+
+                return;
+            }
+
+            // 改变选中索引
+            if (strIndex != strMatchIndex) {
+                var objLastItemData = null;
+
+                if (strMatchIndex != '-1') {
+                    strMatchIndex.split('-').forEach(function (numIndex) {
+                        if (objLastItemData === null) {
+                            objLastItemData = arrListData[numIndex];
+                        } else if (objLastItemData.data) {
+                            objLastItemData = objLastItemData.data[numIndex];
+                        } else {
+                            objLastItemData = objLastItemData[numIndex];
+                        }
+                    });
+
+                    if (objLastItemData) {
+                        delete objLastItemData[SELECTED];
+                    }
+                }
+
+                // 设置为true
+                objItemData[SELECTED] = true;
+
+                // 更新匹配索引
+                strMatchIndex = strIndex;
+            }
+
+            // 触发用户自定义选择事件
+            objParams.onSelect.call(this, objItemData, eleClicked);
+
+            // 不是鼠标右击事件，也不是委托模式更新
+            if (objParams.eventType != 'contextmenu' && objParams.selector == '' && !objItemData.href) {
+                eleTrigger[strMethod] = objItemData.value;
+            }
+            // 隐藏
+            this.hide();
+        }.bind(this));
+
+        // hover时候次级列表也显示
+        eleTarget.addEventListener('mouseover', function (event) {
+            // IE可能是文件节点
+            if (event.target.nodeType != 1 || !event.target.closest) {
+                return;
+            }
+            var eleHovered = event.target.closest('a');
+
+            if (!eleHovered) {
+                return;
+            }
+
+            var eleItemSublist = eleHovered.parentElement.querySelector('.' + SELECTED + '[data-sublist]');
+
+            if (eleItemSublist && eleItemSublist != eleHovered) {
+                eleItemSublist.classList.remove(SELECTED);
+            }
+            if (eleHovered.classList.contains(SELECTED) == false && typeof eleHovered.getAttribute('data-sublist') == 'string') {
+                eleHovered.click();
+            }
+        });
+
+        return this;
+    };
+
+    /**
+     * drop 拓展panel
+     * @date 2019-11-01
+     * 兼容以下两种语法
+     * new Drop().panel(eleTrigger, options);
+     * new Drop(eleTrigger).panel(options);
+     * @returns {object} 返回当前实例对象
+     */
+    Drop.prototype.panel = function (eleTrigger, options) {
+        // 不同类型参数的处理
+        if (arguments.length === 2) {
+            eleTrigger = arguments[0];
+            options = arguments[1];
+        } else if (arguments.length === 1) {
+            options = arguments[0];
+            eleTrigger = null;
+        }
+        if (typeof eleTrigger == 'string') {
+            eleTrigger = document.querySelector(eleTrigger);
+        }
+
+        eleTrigger = eleTrigger || this.element.trigger;
+
+        if (!eleTrigger) {
+            return this;
+        }
+
+        // 如果已经初始化就不用初始化了
+        if (eleTrigger.data && eleTrigger.data.drop) {
+            return eleTrigger.data.drop;
+        }
+
+        var defaults = {
+            title: '',
+            content: '',
+            buttons: [{}, {}],
+            width: 'auto',
+            eventType: 'click',
+            selector: '',
+            offsets: {
+                x: 0,
+                y: 0
+            },
+            position: '4-1',
+            onShow: function () {
+            },
+            onHide: function () {
+            }
+        };
+
+        // Drop 配置
+        var objParams = Object.assign({}, defaults, options || {});
+
+        // 关闭SVG
+        var SVG = '<svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="200" height="200" viewBox="0 0 200 200"><path d="M116.152,99.999l36.482-36.486c2.881-2.881,2.881-7.54,0-10.42 l-5.215-5.215c-2.871-2.881-7.539-2.881-10.42,0l-36.484,36.484L64.031,47.877c-2.881-2.881-7.549-2.881-10.43,0l-5.205,5.215 c-2.881,2.881-2.881,7.54,0,10.42l36.482,36.486l-36.482,36.482c-2.881,2.881-2.881,7.549,0,10.43l5.205,5.215 c2.881,2.871,7.549,2.871,10.43,0l36.484-36.488L137,152.126c2.881,2.871,7.549,2.871,10.42,0l5.215-5.215 c2.881-2.881,2.881-7.549,0-10.43L116.152,99.999z"/></svg>';
+
+        // ui类名
+        // 类名变量
+        // 样式类名统一处理
+        var CL = {
+            add: function () {
+                return ['ui-dropanel'].concat([].slice.call(arguments)).join('-');
+            },
+            toString: function () {
+                return 'ui-dropanel';
+            }
+        };
+
+        // 面板容器
+        var elePanel = document.createElement('div');
+        elePanel.className = CL.add('x');
+        // 面板的宽度设置
+        // 如果纯数值，认为是px长度
+        if (/^\d+$/.test(objParams.width)) {
+            elePanel.style.width = objParams.width + 'px';
+        } else if (/^\d+\D+$/.test(objParams.width)) {
+            elePanel.style.width = objParams.width;
+        }
+
+        // 创建轻弹框面板的各个元素
+        // title
+        var eleTitle = document.createElement('h5');
+        eleTitle.className = CL.add('title');
+        eleTitle.innerHTML = objParams.title;
+
+        // close button
+        var eleClose = document.createElement('button');
+        eleClose.setAttribute('aria-label', '关闭');
+        eleClose.innerHTML = SVG;
+        eleClose.className = CL.add('close');
+
+        // content
+        var eleContent = document.createElement('content');
+        eleContent.className = CL.add('content');
+        eleContent.innerHTML = objParams.content;
+
+        // footer
+        var eleFooter = document.createElement('div');
+        eleFooter.className = CL.add('footer');
+
+        // 组装
+        elePanel.appendChild(eleTitle);
+        elePanel.appendChild(eleClose);
+        elePanel.appendChild(eleContent);
+        elePanel.appendChild(eleFooter);
+
+        // 初始化
+        this.init(eleTrigger, elePanel, {
+            eventType: objParams.eventType,
+            offsets: objParams.offsets,
+            // 实现点击或hover事件的委托实现
+            selector: objParams.selector,
+            position: objParams.position,
+            onShow: objParams.onShow,
+            onHide: objParams.onHide
+        });
+
+        // 重新添加element
+        Object.assign(this.element, {
+            panel: elePanel,
+            title: eleTitle,
+            close: eleClose,
+            content: eleContent,
+            footer: eleFooter
+        });
+
+        // 绑定事件
+        // 关闭事件
+        eleClose.addEventListener('click', function () {
+            this.hide();
+        }.bind(this), false);
+
+        // 按钮
+        objParams.buttons.forEach(function (objBtn, numIndex) {
+            // 避免btn为null等值报错
+            objBtn = objBtn || {};
+            // 按钮的默认参数
+            var strType = objBtn.type || '';
+            if (!strType && numIndex == 0) {
+                strType = 'danger';
+            }
+            var strValue = objBtn.value;
+            if (!strValue) {
+                strValue = ['确定', '取消'][numIndex];
+            }
+
+            // 如果没有指定事件，则认为是关闭行为
+            var objEvents = objBtn.events || {
+                click: function () {
+                    this.hide();
+                }.bind(this)
+            };
+
+            // 如果没有指定事件类型，直接是函数
+            // 则认为是点击事件
+            if (typeof objEvents == 'function') {
+                objEvents = {
+                    click: objEvents
+                };
+            }
+
+            var eleBtn = null;
+
+            // 普通按钮
+            if (!objBtn['for']) {
+                eleBtn = document.createElement('button');
+                this.element['button' + numIndex] = eleBtn;
+            } else {
+                eleBtn = document.createElement('label');
+                eleBtn.setAttribute('for', objBtn['for']);
+                eleBtn.setAttribute('role', 'button');
+            }
+            // 按钮的文案
+            eleBtn.innerHTML = strValue;
+            // 按钮类名
+            eleBtn.className = String(CL).replace('dropanel', 'button') + ' ' + CL.add('button') + ' ' + (objBtn.className || '');
+            // 按钮的类型
+            if (strType) {
+                eleBtn.setAttribute('data-type', strType);
+            }
+            this.element['button' + numIndex] = eleBtn;
+
+            for (var strEventType in objEvents) {
+                eleBtn.addEventListener(strEventType, function (event) {
+                    event.drop = this;
+                    objEvents[strEventType](event);
+                }.bind(this), false);
+            }
+            this.element.footer.appendChild(eleBtn);
+        }.bind(this));
+
+        return this;
+    };
+
+    return Drop;
+}));
+/**
+ * @Tips.js
+ * @author zhangxinxu
+ * @version
+ * @Created: 15-06-25
+ * @edit:    17-06-19
+ */
+
+(function (global, factory) {
+    if (typeof exports === 'object' && typeof module !== 'undefined') {
+        global.Follow = require('./Follow');
+        module.exports = factory();
+    } else if (typeof define === 'function' && (define.amd || define.cmd)) {
+        define(factory);
+    } else {
+        global.Tips = factory();
+    }
+}((typeof global !== 'undefined') ? global
+    : ((typeof window !== 'undefined') ? window
+        : ((typeof self !== 'undefined') ? self : this)), function (require) {
+
+    var Follow = this.Follow;
+    if (typeof require == 'function' && !Follow) {
+        Follow = require('common/ui/Follow');
+    } else if (!Follow) {
+        window.console.error('need Follow.js');
+
+        return {};
+    }
+
+    /**
+     * 黑色tips效果
+     * @example
+     * new Tips(element, options)
+     **/
+
+        // 类名变量
+    var CL = {
+            add: function () {
+                return ['ui-tips'].concat([].slice.call(arguments)).join('-');
+            },
+            toString: function () {
+                return 'ui-tips';
+            }
+        };
+    var REVERSE = 'reverse';
+
+    /**
+     * 黑色tips效果
+     * @param {Object|String}    element 需要提示的元素，也可以是元素的选择器
+     * @param {Object} options   可选参数
+     */
+    var Tips = function (element, options) {
+        if (!element) {
+            return this;
+        }
+
+        var defaults = {
+            // eventType其他值：'click', 'null'
+            eventType: 'hover',
+            // align: auto表示自动根据元素上的属性确定定位方式
+            // 可以使用data-align或者data-position自定义定位
+            // 如果没有这些属性值，有类名reverse
+            // 认为是7-5
+            // 其他场景认为是5-7
+            // 支持Follow.js中所有position位置
+            align: 'auto',
+            content: '',
+            onShow: function () {
+            },
+            onHide: function () {
+            }
+        };
+
+        var eleTrigger = element;
+
+        // 如果参数是字符串，认为是选择器
+        if (typeof element == 'string') {
+            eleTrigger = document.querySelectorAll(element);
+            if (eleTrigger.length == 0) {
+                return this;
+            }
+        }
+
+        // 避免重复初始化
+        if (eleTrigger.data && eleTrigger.data.tips) {
+            return eleTrigger.data.tips;
+        }
+
+        if (eleTrigger.length && eleTrigger.forEach) {
+            eleTrigger.forEach(function (trigger) {
+                new Tips(trigger, options);
+            });
+            return eleTrigger[0].data.tips;
+        }
+
+        var objParams = Object.assign({}, defaults, options || {});
+
+        // 暴露参数
+        this.element = {
+            trigger: eleTrigger
+        };
+
+        this.callback = {
+            show: objParams.onShow,
+            hide: objParams.onHide
+        };
+        this.params = {
+            eventType: objParams.eventType,
+            align: objParams.align
+        };
+
+        if (objParams.content) {
+            this.content = objParams.content;
+        }
+
+        // 事件处理
+        this.events();
+
+        // 存储实例对象
+        if (!eleTrigger.data) {
+            eleTrigger.data = {};
+        }
+        eleTrigger.data.tips = this;
+
+        return this;
+    };
+
+    /**
+     * 定义一个content属性，可以设置与获取tips提示内容
+     * @param {[type]} )
+     */
+    Object.defineProperty(Tips.prototype, 'content', {
+        configurable: true,
+        enumerable: true,
+        writeable: true,
+        get: function () {
+            var eleTrigger = this.element && this.element.trigger;
+            if (!eleTrigger) {
+                return '';
+            }
+            var strTitle = eleTrigger.getAttribute('title') || eleTrigger.getAttribute('data-title') || '';
+
+            // CSS 驱动的tips提示效果是基于data-title
+            eleTrigger.setAttribute('data-title', strTitle);
+            // 屏幕阅读无障碍访问支持
+            eleTrigger.setAttribute('aria-label', strTitle);
+
+            // 移除浏览器默认的title，防止交互冲突
+            eleTrigger.removeAttribute('title');
+
+            return strTitle;
+        },
+        set: function (value) {
+            var eleTrigger = this.element && this.element.trigger;
+            if (eleTrigger) {
+                eleTrigger.setAttribute('data-title', value);
+                // 屏幕阅读无障碍访问支持
+                eleTrigger.setAttribute('aria-label', value);
+            }
+        }
+    });
+
+
+    /**
+     * 相关的事件处理
+     * @return {[type]} [description]
+     */
+    Tips.prototype.events = function () {
+        var eleTrigger = this.element.trigger;
+        // 非focusable元素使其focusable
+        if (/^a|input|button|area$/i.test(eleTrigger.tagName) == false) {
+            eleTrigger.setAttribute('tabindex', '0');
+            // 更语义
+            eleTrigger.setAttribute('role', 'tooltip');
+        }
+
+        // 如果是纯CSS定位实现的tips效果
+        if (eleTrigger.classList.contains(CL)) {
+            // 如果元素含有title, 需要转换成data-title
+            this.content;
+
+            // outline处理，点击时候提示不跟随
+            // 键盘无障碍访问的细节处理
+            eleTrigger.addEventListener('click', function () {
+                if (!window.isKeyEvent) {
+                    this.blur();
+                }
+            }, false);
+
+            return;
+        }
+
+        var objParams = this.params;
+        // hover显示延迟时间
+        var numDelay = 100;
+        // 设置定时器对象
+        var timerTips;
+        // 如果是不支持hover行为的浏览器，hover变click
+        var isHover = getComputedStyle(document.documentElement).getPropertyValue('--hoverNone');
+        if (isHover && objParams.eventType == 'hover') {
+            objParams.eventType = 'click';
+        }
+        // 事件走起
+        if (objParams.eventType == 'hover') {
+            // 鼠标进入
+            eleTrigger.addEventListener('mouseenter', function () {
+                timerTips = setTimeout(function () {
+                    this.show();
+                }.bind(this), numDelay);
+            }.bind(this));
+            // 鼠标离开
+            eleTrigger.addEventListener('mouseleave', function () {
+                clearTimeout(timerTips);
+                // 隐藏提示
+                this.hide();
+            }.bind(this));
+
+            // 支持focus的显示与隐藏
+            // 但是需要是键盘访问触发的focus
+            eleTrigger.addEventListener('focus', function () {
+                if (window.isKeyEvent) {
+                    this.show();
+                }
+            }.bind(this));
+            // 元素失焦
+            eleTrigger.addEventListener('blur', function () {
+                this.hide();
+            }.bind(this));
+        } else if (objParams.eventType == 'click') {
+            eleTrigger.addEventListener('click', function () {
+                this.show();
+            }.bind(this));
+            // 关闭
+            document.addEventListener('mouseup', function (event) {
+                var eleTarget = event.target;
+                if (this.display == true && eleTrigger.contains(eleTarget) == false && this.element.tips.contains(eleTarget) == false) {
+                    this.hide();
+                }
+            }.bind(this));
+        } else {
+            // 其他事件类型直接显示
+            this.show();
+        }
+    };
+
+    /**
+     * tip提示显示
+     * @param  {String} content 显示的提示信息
+     * @return {Object}         返回当前实例对象
+     */
+    Tips.prototype.show = function () {
+        var strContent = this.content;
+        if (!strContent) {
+            return this;
+        }
+
+        // 元素
+        var eleTrigger = this.element.trigger;
+        var eleTips = this.element.tips;
+
+        // tips图形需要的元素
+        var eleContent, eleArrow;
+
+        if (eleTips) {
+            eleTips.style.display = 'block';
+            // 三角元素获取
+            eleContent = eleTips.querySelector('span');
+            eleArrow = eleTips.querySelector('i');
+            // 坐标还原，因为可能有偏移处理
+            eleArrow.style.left = '';
+            // 改变显示内容
+            eleContent.innerHTML = strContent;
+        } else {
+            // eleTips元素不存在，则重新创建
+            eleTips = document.createElement('div');
+            eleTips.classList.add(CL.add('x'));
+            // 创建内容元素和三角元素
+            eleContent = document.createElement('span');
+            eleContent.classList.add(CL.add('content'));
+            // 内容
+            eleContent.innerHTML = strContent;
+
+            eleArrow = document.createElement('i');
+            eleArrow.classList.add(CL.add('arrow'));
+
+            // 屏幕阅读无障碍访问描述
+            if (!eleTrigger.getAttribute('aria-label')) {
+                // 创建随机id, aria需要
+                var strRandomId = 'lulu_' + (Math.random() + '').replace('0.', '');
+                // 设置
+                eleContent.id = strRandomId;
+                eleTrigger.setAttribute('aria-labelledby', strRandomId);
+            }
+
+            // append到页面中
+            eleTips.appendChild(eleContent);
+            eleTips.appendChild(eleArrow);
+            document.body.appendChild(eleTips);
+        }
+
+        // 定位
+        var strPosition = '5-7';
+        // 定位只有5-7, 7-5, 6-8, 8-6这几种
+        // 其中5-7是默认，提示在上方
+        // 7-5是由'reverse'类名或参数决定的
+        var strAlign = this.params.align;
+        if (strAlign == 'auto') {
+            strAlign = eleTrigger.getAttribute('data-align') || eleTrigger.getAttribute('data-position') || 'center';
+        }
+
+        // 关键字参数与位置
+        if (strAlign == 'center') {
+            strPosition = '5-7';
+            if (eleTrigger.classList.contains(REVERSE)) {
+                strPosition = '7-5';
+            }
+        } else if (strAlign == 'left') {
+            strPosition = '1-4';
+            if (eleTrigger.classList.contains(REVERSE)) {
+                strPosition = '4-1';
+            }
+        } else if (strAlign == 'right') {
+            strPosition = '2-3';
+            if (eleTrigger.classList.contains(REVERSE)) {
+                strPosition = '3-2';
+            }
+        } else if (/^\d-\d$/.test(strAlign)) {
+            strPosition = strAlign;
+        }
+
+        new Follow(eleTrigger, eleTips, {
+            // trigger-target
+            position: strPosition,
+            // 边界溢出不自动修正
+            edgeAdjust: false
+        });
+
+
+        // 三角的重定位
+        var strPositionTips = eleTips.getAttribute('data-align');
+        if (strPositionTips && strPositionTips.split('-').reduce(function (accumulator, currentValue) {
+            return accumulator * 1 + currentValue * 1;
+        }) == 5) {
+            var numHalfOffsetWidth = eleTrigger.getBoundingClientRect().width / 2 - eleArrow.getBoundingClientRect().width / 2;
+
+            // 三角偏移处理
+            if (strPositionTips == '1-4' || strPositionTips == '4-1') {
+                eleArrow.style.left = numHalfOffsetWidth + 'px';
+            } else {
+                eleArrow.style.left = 'calc(100% - ' + (eleArrow.getBoundingClientRect().width + numHalfOffsetWidth) + 'px)';
+            }
+        }
+
+        // 显示的回调
+        this.callback.show.call(this, eleTrigger, eleTips);
+
+        this.element.tips = eleTips;
+
+        this.display = true;
+
+        return this;
+    };
+
+    /**
+     * tip提示隐藏
+     * @return {Object} 返回当前实例对象
+     */
+    Tips.prototype.hide = function () {
+        var eleTips = this.element.tips;
+        if (eleTips) {
+            eleTips.style.display = 'none';
+            // 移除回调
+            this.callback.hide.call(this, this.element.trigger, eleTips);
+        }
+        this.display = false;
+
+        return this;
+    };
+
+    // 自动初始化.ui-tips和.jsTips类名元素
+    window.addEventListener('DOMContentLoaded', function () {
+        new Tips('.' + CL + ', .jsTips');
+    });
+
+    // 全局委托
+    document.addEventListener('mouseover', function (event) {
+        var eleTrigger = event.target;
+        if (!eleTrigger || !eleTrigger.closest) {
+            return;
+        }
+        eleTrigger = eleTrigger.closest('.' + CL + ', .jsTips');
+
+        if (eleTrigger && (!eleTrigger.data || !eleTrigger.data.tips)) {
+            new Tips(eleTrigger);
+
+            var objTips = eleTrigger.data.tips;
+            if (objTips && eleTrigger.classList.contains('jsTips')) {
+                objTips.show();
+            }
+        }
+    });
+
+    return Tips;
+}));
+
+/**
+ * @LightTip.js
+ * @author zhangxinxu
+ * @version
+ * @Created: 15-06-25
+ * @Update: 19-09-13 @ziven27 [去jQuery]
+ */
+
+(function (global, factory) {
+    if (typeof exports === 'object' && typeof module !== 'undefined') {
+        module.exports = factory();
+    } else if (typeof define === 'function' && (define.amd || define.cmd)) {
+        define(factory);
+    } else {
+        global.LightTip = factory();
+    }
+}((typeof global !== 'undefined') ? global
+    : ((typeof window !== 'undefined') ? window
+        : ((typeof self !== 'undefined') ? self : this)), function () {
+
+    /**
+     * 顶部的请提示效果
+     * @example
+     * new LightTip(content, options);
+     * 快捷方式：
+     * new LightTip().success(content, duration);
+     * new LightTip().error(content, duration);
+     **/
+
+        // 类名变量
+    var CL = {
+            add: function () {
+                return ['ui-lightip'].concat([].slice.call(arguments)).join('-');
+            },
+            toString: function () {
+                return 'ui-lightip';
+            }
+        };
+
+    var LightTip = function (content, options) {
+        // 默认参数
+        var defaults = {
+            // normal为黑色显示
+            // 还支持success和error
+            // 以及其他自定义状态
+            // status也可以换成type
+            status: 'normal',
+            duration: 3000
+        };
+
+        if (typeof content == 'object') {
+            options = content;
+            content = undefined;
+        }
+
+        this.params = Object.assign({}, defaults, options || {});
+        if (this.params.type) {
+            this.params.status = this.params.type;
+        }
+
+        // 1. 容器元素
+        // <div>元素改成<a>元素，前者默认无法响应回车click
+        var eleContainer = document.createElement('a');
+        eleContainer.href = 'javascript:';
+        eleContainer.setAttribute('role', 'tooltip');
+        eleContainer.className = CL + ' ESC';
+
+        // 2. 提示内容元素
+        // 原来<span>改成<div>因为可能有其他HTML元素
+        var eleContent = document.createElement('div');
+        eleContent.className = CL.add('text');
+
+        // 组合
+        eleContainer.appendChild(eleContent);
+        // 装载到页面中
+        document.body.appendChild(eleContainer);
+
+        // 暴露出去给其他方法使用
+        this.element = {
+            container: eleContainer,
+            content: eleContent
+        };
+
+        // 隐藏的定时器
+        this.timerRemove = null;
+
+        // 事件处理
+        this.events();
+
+        // 提示内容
+        this.content = content;
+
+        // 显示
+        this.show();
+    };
+
+    /**
+     * 轻提示的相关事件处理
+     * @return {[type]} [description]
+     */
+    LightTip.prototype.events = function () {
+        // 元素们
+        var objElement = this.element;
+        var eleContainer = objElement.container;
+
+        // 点击轻提示可以快速隐藏
+        eleContainer.addEventListener('click', function () {
+            this.remove();
+        }.bind(this));
+    };
+
+    /**
+     * 键盘可访问的细节处理
+     * @return {Object} 返回当前实例对象
+     */
+    LightTip.prototype.tabIndex = function () {
+        var eleContainer = this.element.container;
+        var eleLastActive = this.lastActiveElement;
+
+        if (this.display == true) {
+            var eleActiveElement = document.activeElement;
+            if (eleContainer !== eleActiveElement) {
+                this.lastActiveElement = eleActiveElement;
+            }
+
+            // 键盘索引起始位置定位在提示元素上
+            eleContainer.focus();
+        } else if (eleLastActive && !eleLastActive.matches('body')) {
+            // 键盘焦点元素还原
+            // IE有一定概率会重定位，暂时忽略不处理
+            eleLastActive.focus({
+                preventScroll: true
+            });
+            if (!window.isKeyEvent) {
+                eleLastActive.blur();
+            }
+            this.lastActiveElement = null;
+        }
+
+        return this;
+    };
+
+
+    /**
+     * LightTip显示
+     * @returns {LightTip}
+     */
+    LightTip.prototype.show = function () {
+        // 元素们
+        var objElement = this.element;
+        var eleContainer = objElement.container;
+        var eleContent = objElement.content;
+
+        // 这是参数
+        var objParams = this.params;
+
+        // 提示内容
+        var strContent = this.content;
+
+        if (!strContent) {
+            return;
+        }
+
+        // 清除隐藏轻提示的定时器
+        clearTimeout(this.timerRemove);
+
+        // 当前轻提示的状态和内容
+        eleContainer.setAttribute('data-status', objParams.status);
+        if (objParams.type) {
+            eleContainer.setAttribute('data-type', objParams.type);
+        }
+        eleContent.innerHTML = strContent;
+
+        // 轻提示显示
+        eleContainer.setAttribute('open', 'open');
+
+        // 状态更改为显示
+        this.display = true;
+
+        // 键盘无障碍处理
+        this.tabIndex();
+
+        // 层级最大
+        this.zIndex();
+
+        // 显示一定时间之后消失
+        this.timerRemove = setTimeout(function () {
+            this.remove();
+        }.bind(this), objParams.duration);
+
+        return this;
+    };
+
+    /**
+     * 移除轻提示元素，直接移除
+     * @param  {[type]} ele [description]
+     * @return {[type]}     [description]
+     */
+    LightTip.prototype.remove = function () {
+        var eleContainer = this.element.container;
+        if (eleContainer && eleContainer.remove) {
+            // 清除隐藏轻提示的定时器
+            clearTimeout(this.timerRemove);
+            // 元素移除
+            eleContainer.remove();
+        }
+
+        // 改变显示状态
+        this.display = false;
+
+        // 让按钮或者之前的触发元素重新获取焦点，便于继续操作
+        this.tabIndex();
+    };
+
+    /**
+     * 隐藏轻提示元素，直接移除
+     * @param  {[type]} ele [description]
+     * @return {[type]}     [description]
+     */
+    LightTip.prototype.hide = function () {
+        var eleContainer = this.element.container;
+        if (eleContainer) {
+            // 清除隐藏轻提示的定时器
+            clearTimeout(this.timerRemove);
+            // 元素移除
+            eleContainer.removeAttribute('open');
+        }
+
+        // 改变显示状态
+        this.display = false;
+
+        // 让按钮或者之前的触发元素重新获取焦点，便于继续操作
+        this.tabIndex();
+    };
+
+    /**
+     *
+     * @param content [显示文案]
+     * @param duration  [显示时间]
+     * @returns {LightTip}
+     */
+    LightTip.prototype.success = function (content, duration) {
+        if (typeof content == 'function') {
+            content = content();
+        }
+
+        // 根据设置改变参数值
+        if (typeof content == 'string') {
+            this.content = content;
+        } else if (typeof content == 'number') {
+            duration = content;
+        }
+
+        this.params.status = 'success';
+
+        if (duration) {
+            this.params.duration = duration;
+        }
+
+        // 增强的无障碍访问提示
+        if (this.element.container) {
+            this.element.container.setAttribute('aria-label', '操作成功');
+        }
+
+        this.show();
+
+        return this;
+    };
+
+    /**
+     *
+     * @param content [显示文案]
+     * @param duration  [显示时间]
+     * @returns {LightTip}
+     */
+    LightTip.prototype.error = function (content, duration) {
+        if (typeof content == 'function') {
+            content = content();
+        }
+
+        // 根据设置改变参数值
+        if (typeof content == 'string') {
+            this.content = content;
+        } else if (typeof content == 'number') {
+            duration = content;
+        }
+
+        this.params.status = 'error';
+
+        if (duration) {
+            this.params.duration = duration;
+        }
+
+        // 增强的无障碍访问提示
+        if (this.element.container) {
+            this.element.container.setAttribute('aria-label', '操作失败');
+        }
+
+        this.show();
+
+        return this;
+    };
+
+    /**
+     * 提示条元素zIndex实时最大化
+     * @return {[type]} [description]
+     */
+    LightTip.prototype.zIndex = function () {
+        var eleContainer = this.element.container;
+        // 返回eleTarget才是的样式计算对象
+        var objStyleContainer = window.getComputedStyle(eleContainer);
+        // 此时元素的层级
+        var numZIndexTarget = objStyleContainer.zIndex;
+        // 用来对比的层级，也是最小层级
+        var numZIndexNew = 19;
+
+        // 只对<body>子元素进行层级最大化计算处理
+        document.body.childNodes.forEach(function (eleChild) {
+            if (eleChild.nodeType != 1) {
+                return;
+            }
+
+            var objStyleChild = window.getComputedStyle(eleChild);
+
+            var numZIndexChild = objStyleChild.zIndex * 1;
+
+            if (numZIndexChild && eleContainer != eleChild && objStyleChild.display != 'none') {
+                numZIndexNew = Math.max(numZIndexChild + 1, numZIndexNew);
+            }
+        });
+
+        if (numZIndexNew != numZIndexTarget) {
+            eleContainer.style.zIndex = numZIndexNew;
+        }
+    };
+
+    return LightTip;
+}));
+/**
+ * @ErrorTip.js
+ * @author zhangxinxu
+ * @version
+ * Created: 15-07-01
+ */
+
+(function (global, factory) {
+    if (typeof exports === 'object' && typeof module !== 'undefined') {
+        global.Follow = require('./Follow');
+        module.exports = factory();
+    } else if (typeof define === 'function' && (define.amd || define.cmd)) {
+        define(factory);
+    } else {
+        global.ErrorTip = factory();
+    }
+}((typeof global !== 'undefined') ? global
+    : ((typeof window !== 'undefined') ? window
+        : ((typeof self !== 'undefined') ? self : this)), function (require) {
+    var Follow = this.Follow;
+
+    if (typeof require == 'function' && !Follow) {
+        Follow = require('common/ui/Follow');
+    } else if (!Follow) {
+        window.console.error('need Follow.js');
+
+        return {};
+    }
+
+    /**
+     * 红色的tips错误提示效果
+     * @example
+     * new ErrorTips(element, content, options)
+     **/
+
+        // 类名变量
+    var CL = {
+            add: function () {
+                return ['ui-tips'].concat([].slice.call(arguments)).join('-');
+            },
+            toString: function () {
+                return 'ui-tips';
+            }
+        };
+
+    /**
+     * 红色的tips错误提示效果
+     * @param {Object} element 红色tips显示在哪个元素上
+     * @param {String} content tips里面显示的内容
+     * @param {Object} options 可选参数
+     */
+    var ErrorTip = function (element, content, options) {
+        var defaults = {
+            unique: true,
+            onShow: function () {
+            },
+            onHide: function () {
+            }
+        };
+
+        // 参数
+        var objParams = Object.assign({}, defaults, options || {});
+
+
+        // 显示字符内容的处理
+        var strContent = content;
+
+        // 支持Function类型
+        if (typeof strContent == 'function') {
+            strContent = strContent();
+        }
+        if (typeof strContent != 'string') {
+            return this;
+        }
+
+        // 一些元素
+        var eleTrigger = element;
+        var eleTips, eleContent, eleArrow;
+        // 全局的出错实例
+        var objUniqueErrorTip = window.uniqueErrorTip;
+
+        // 如果是唯一模式，则看看全局出错的对象
+        if (objParams.unique == true && objUniqueErrorTip) {
+            // window.errorTip存储的是唯一的红色提示元素
+            // 改变存储的触发元素
+            eleTips = objUniqueErrorTip.element.tips;
+        } else if (objParams.unique == false && eleTrigger.data && eleTrigger.data.errorTip) {
+            eleTips = eleTrigger.data.errorTip.element.tips;
+        } else {
+            // 首次
+            eleTips = document.createElement('div');
+            eleTips.className = CL.add('x') + ' ' + CL.add('error');
+            // 提示内容元素
+            eleContent = document.createElement('span');
+            eleContent.className = CL.add('content');
+            // 三角元素
+            eleArrow = document.createElement('i');
+            eleArrow.className = CL.add('arrow');
+            // 元素组装并插入到页面中
+            eleTips.appendChild(eleContent);
+            eleTips.appendChild(eleArrow);
+            document.body.appendChild(eleTips);
+
+            // 任何键盘操作，点击，或者拉伸都会隐藏错误提示框
+            document.addEventListener('keydown', function (event) {
+                // ctrl/shift键不隐藏
+                if (event.keyCode != 16 && event.keyCode != 17) {
+                    (window.uniqueErrorTip || this).hide();
+                }
+            }.bind(this));
+
+            document.addEventListener('mousedown', function (event) {
+                // ctrl/shift键等不隐藏
+                var eleActiveElement = document.activeElement;
+
+                var eleActiveTrigger = eleTips.trigger;
+                var eleTarget = event.target;
+
+                // 如果点击的就是触发的元素，且处于激活态，则忽略
+                if (eleActiveElement && eleActiveTrigger && eleActiveElement == eleTarget &&
+                    eleActiveElement == eleActiveTrigger &&
+                    // 这个与Datalist.js关联
+                    !eleActiveTrigger.getAttribute('data-focus')
+                ) {
+                    return;
+                }
+                (window.uniqueErrorTip || this).hide();
+            }.bind(this));
+
+            window.addEventListener('resize', function () {
+                (window.uniqueErrorTip || this).hide();
+            }.bind(this));
+        }
+
+        // 如果是唯一模式，全局存储
+        if (objParams.unique == true) {
+            window.uniqueErrorTip = this;
+        }
+
+        // 更新提示元素对应的触发元素
+        eleTips.trigger = eleTrigger;
+
+        this.element = {
+            trigger: eleTrigger,
+            tips: eleTips,
+            content: eleContent || eleTips.querySelector('span'),
+            arrow: eleArrow || eleTips.querySelector('i')
+        };
+        this.callback = {
+            show: objParams.onShow,
+            hide: objParams.onHide
+        };
+
+        this.params = {
+            unique: objParams.unique
+        };
+
+        // 暴露在外
+        this.content = strContent;
+
+        // 在DOM对象上暴露对应的实例对象
+        if (!eleTrigger.data) {
+            eleTrigger.data = {};
+        }
+        eleTrigger.data.errorTip = this;
+
+        // 显示
+        this.show();
+
+        return this;
+    };
+
+    /**
+     * 错误tips提示显示方法
+     * @param  {String} content 错误显示的文字内容
+     * @return {Object}         返回当前实例对象
+     */
+    ErrorTip.prototype.show = function () {
+        var objElement = this.element;
+        // 触发元素和提示元素
+        var eleTips = objElement.tips;
+        var eleTrigger = objElement.trigger;
+
+        // 两个元素
+        var eleContent = objElement.content;
+
+        // 修改content内容
+        eleContent.innerHTML = this.content;
+
+        // 提示元素显示
+        eleTips.style.display = '';
+
+        // 定位
+        new Follow(eleTrigger, eleTips, {
+            // trigger-target
+            position: '5-7',
+            // 边界溢出不自动修正
+            edgeAdjust: false
+        });
+
+        // aria无障碍访问增强
+        eleTrigger.setAttribute('aria-label', '错误提示：' + eleContent.textContent || eleContent.innerText);
+        // 两个重要标志类名
+        eleTrigger.classList.add('error');
+        eleTrigger.classList.add('valided');
+
+        this.display = true;
+
+        // 显示的回调
+        if (this.callback && this.callback.show) {
+            this.callback.show.call(this, eleTrigger, eleTips);
+        }
+
+        return this;
+    };
+
+    /**
+     * 错误tips提示隐藏方法
+     * @return {Object}         返回当前实例对象
+     */
+    ErrorTip.prototype.hide = function () {
+        var eleTips = this.element.tips;
+        var eleTrigger = this.element.trigger;
+
+        eleTrigger.removeAttribute('aria-label');
+
+        if (window.getComputedStyle(eleTips).display != 'none') {
+            eleTips.style.display = 'none';
+
+            eleTrigger.classList.remove('error');
+
+            // 隐藏的回调
+            if (this.callback && this.callback.hide) {
+                this.callback.hide.call(this, eleTrigger, eleTips);
+            }
+
+            this.display = false;
+        }
+
+        return this;
+    };
+
+    return ErrorTip;
+}));
+/**
+ * @Loading.js
+ * @author zhangxinxu
+ * @version
+ * @Created: 15-06-23
+ * @Log: 2017-09-19 loading类名的添加基于标签，而非类名
+ */
+
+(function (global, factory) {
+    if (typeof exports === 'object' && typeof module !== 'undefined') {
+        module.exports = factory();
+    } else if (typeof define === 'function' && (define.amd || define.cmd)) {
+        define(factory);
+    } else {
+        global.Loading = factory();
+    }
+}((typeof global !== 'undefined') ? global
+    : ((typeof window !== 'undefined') ? window
+        : ((typeof self !== 'undefined') ? self : this)), function () {
+
+    var LOADING = 'loading';
+
+    // 样式类名统一处理
+    var CL = {
+        add: function () {
+            return ['ui', LOADING].concat([].slice.call(arguments)).join('-');
+        },
+        toString: function () {
+            return 'ui-' + LOADING;
+        }
+    };
+
+    /**
+     * 给HTML元素扩展一个loading属性
+     * 经测试，不会和IMG和IFRAME原生loading属性冲突
+     * 是否正在loading：element.loading
+     * 设置元素loading：element.loading = true;
+     * 取消loading效果：element.loading = false;
+     */
+
+    Object.defineProperty(HTMLElement.prototype, 'loading', {
+        configurable: true,
+        enumerable: true,
+        writeable: true,
+        get: function () {
+            return !!(this.classList.contains(CL) || this.classList.contains(LOADING) || this.matches(CL));
+        },
+        set: function (flag) {
+            var action = 'remove';
+            if (flag) {
+                action = 'add';
+                if (this.loading) {
+                    return flag;
+                }
+            }
+            if (this.classList.contains(CL.toString().replace(LOADING, 'button'))) {
+                this.classList[action](LOADING);
+            } else {
+                this.classList[action](CL);
+                // IE9支持旋转
+                if (typeof funRunRotate == 'function') {
+                    funRunRotate(this);
+                }
+            }
+            // Aria无障碍设置
+            this.setAttribute('aria-busy', !!flag);
+            if (flag && this.innerHTML.trim() == '') {
+                this.setAttribute('aria-label', '正在加载中');
+            } else {
+                this.removeAttribute('aria-label');
+            }
+        }
+    });
+
+    /**
+     * IE9浏览器动画支持
+     */
+    if (typeof window.getComputedStyle(document.head).transition == 'undefined') {
+        var funRunRotate = function (eleLoading) {
+            if (!eleLoading) {
+                return;
+            }
+            // 方便控制旋转进行的loading图形
+            var eleLoadingBefore;
+            if (eleLoading.loading == true) {
+                if (!eleLoading.getAttribute('spin')) {
+                    eleLoadingBefore = document.createElement('i');
+                    eleLoadingBefore.className = CL.add('before');
+                    // 插入到前面
+                    eleLoading.insertAdjacentElement('afterbegin', eleLoadingBefore);
+                    // 本身设置标志量
+                    eleLoading.setAttribute('spin', '');
+
+                    // 清除动画定时
+                    clearInterval(eleLoading.timerLoading);
+
+                    // 开始旋转
+                    var numStep = 16;
+                    eleLoading.timerLoading = setInterval(function () {
+                        var numRotate = eleLoading.rotate || 0;
+                        numRotate += 360 / numStep;
+
+                        if (numRotate > 360) {
+                            numRotate = numRotate - 360;
+                        }
+
+                        eleLoading.rotate = numRotate;
+
+                        // 设置transform旋转
+                        eleLoadingBefore.style.msTransform = 'rotate(' + numRotate + 'deg)';
+                    }, 1000 / numStep);
+                }
+            } else if (eleLoading.loading === false) {
+                eleLoading.removeAttribute('spin');
+
+                eleLoadingBefore = eleLoading.querySelector('.' + CL.add('before'));
+                // 节点移除
+                if (eleLoadingBefore) {
+                    eleLoadingBefore.remove();
+                }
+
+                // 清除动画定时
+                clearInterval(eleLoading.timerLoading);
+            }
+        };
+        window.addEventListener('DOMContentLoaded', function () {
+            document.querySelectorAll(CL).forEach(funRunRotate);
+        });
+        document.body.addEventListener('DOMNodeInserted', function (event) {
+            if (!event.target || event.target.nodeType != 1) {
+                return;
+            }
+            // 插入节点
+            if (event.target.matches(CL)) {
+                funRunRotate(event.target);
+            }
+        });
+    }
+
+    /**
+     * 为了暴露方法一致
+     * 实际开发多用不到Loading实例方法
+     */
+    var Loading = function (element, options) {
+        var defaults = {
+            // 其他参数attributes
+            observer: 'childList',
+            size: 2
+        };
+
+        if (typeof element == 'string') {
+            element = document.querySelector(element);
+        }
+
+        if (!element) {
+            return this;
+        }
+
+        var eleTarget = element;
+
+        var objParams = Object.assign({}, defaults, options || {});
+
+        // 若干参数暴露
+        this.params = objParams;
+        this.element = {
+            target: element
+        };
+
+        if (!eleTarget.data) {
+            eleTarget.data = {};
+        }
+        // 元素上存储loading实例
+        eleTarget.data.loading = this;
+
+        // loading显示
+        this.show();
+    };
+
+    /**
+     * loading效果的显示
+     * @return {[type]} [description]
+     */
+    Loading.prototype.show = function () {
+        var objParams = this.params;
+        var eleTarget = this.element.target;
+
+        if (objParams.observer == 'attributes') {
+            eleTarget.loading = true;
+            eleTarget.setAttribute('size', objParams.size);
+            // 更新标志量
+            this.loading = true;
+            this.display = true;
+        } else if (objParams.observer == 'childList') {
+            var strPosition = window.getComputedStyle(eleTarget).position;
+            if (strPosition == 'static') {
+                // 记住初始position属性值
+                if (eleTarget.style && eleTarget.style.position) {
+                    this.position = 'static-inline';
+                } else {
+                    this.position = 'static-computed';
+                }
+                // 设置position为相对定位
+                // 方便loading图形居中显示
+                eleTarget.style.position = 'relative';
+            } else {
+                this.position = '';
+            }
+            eleTarget.initHTML = eleTarget.innerHTML;
+            eleTarget.innerHTML = '<' + CL + ' size="' + objParams.size + ' align="center"></' + CL + '>';
+            // 更新标志量
+            this.loading = true;
+            this.display = true;
+        }
+    };
+
+    /**
+     * loading效果的取消
+     * @return {[type]} [description]
+     */
+    Loading.prototype.hide = function () {
+        var objParams = this.params;
+        var eleTarget = this.element.target;
+
+        if (objParams.observer == 'attributes') {
+            eleTarget.loading = false;
+            // 更新标志量
+            this.loading = false;
+            this.display = false;
+        } else if (objParams.observer == 'childList') {
+            var strPosition = this.position;
+            if (strPosition == 'static-inline') {
+                eleTarget.style.position = 'static';
+            } else if (strPosition == 'static-computed') {
+                eleTarget.style.position = '';
+            }
+            // 移除<ui-loading>元素
+            if (typeof eleTarget.initHTML == 'string') {
+                eleTarget.innerHTML = eleTarget.initHTML;
+            } else if (eleTarget.querySelector(CL)) {
+                eleTarget.querySelector(CL).remove();
+            }
+            // 更新标志量
+            this.loading = false;
+            this.display = false;
+        }
+    };
+
+    return Loading;
+}));
+/**
+ * @Range.js
+ * @author zhangxinxu
+ * @version
+ * @created: 15-07-20
+ * @edit:    19-09-24 remove jQuery by 5ibinbin
+ * @review:  19-09-27 by zhangxinxu
+ */
+
+(function (global, factory) {
+    if (typeof exports === 'object' && typeof module !== 'undefined') {
+        global.Tips = require('./Tips');
+        module.exports = factory();
+    } else if (typeof define === 'function' && (define.amd || define.cmd)) {
+        define(factory);
+    } else {
+        global.Range = factory();
+    }
+}((typeof global !== 'undefined') ? global
+    : ((typeof window !== 'undefined') ? window
+        : ((typeof self !== 'undefined') ? self : this)), function (require) {
+    var Tips = window.Tips;
+    if (typeof require === 'function' && !Tips) {
+        Tips = require('common/ui/Tips');
+    } else if (!Tips) {
+        window.console.error('need Tips.js');
+        return {};
+    }
+
+    /**
+     * 基于HTML原生range范围选择框的模拟选择框效果
+     * 兼容IE9+
+     * min/max/step
+     */
+        // 状态类名
+    var REVERSE = 'reverse';
+    var ACTIVE = 'active';
+    var DISABLED = 'disabled';
+
+    // 样式类名统一处理
+    var CL = {
+        add: function () {
+            return ['ui', 'range'].concat([].slice.call(arguments)).join('-');
+        },
+        toString: function () {
+            return 'ui-range';
+        }
+    };
+
+    var objEventType = {
+        start: 'mousedown',
+        move: 'mousemove',
+        end: 'mouseup'
+    };
+    if ('ontouchstart' in document) {
+        objEventType = {
+            start: 'touchstart',
+            move: 'touchmove',
+            end: 'touchend'
+        };
+    }
+
+    /**
+     * range滑块效果
+     * @param {Object} element 原生的type为range的input元素
+     * @param {Object} options 可选参数
+     */
+    var Range = function (element, options) {
+        var defaults = {
+            reverse: false,
+            tips: function (value) {
+                return value;
+            }
+        };
+
+        options = options || {};
+
+        // 参数合并
+        var objParams = Object.assign({}, defaults, options);
+
+        // 获取<range>元素
+        var eleRange = element;
+        if (typeof element == 'string') {
+            eleRange = document.querySelector(element);
+        }
+
+        if (!eleRange) {
+            return this;
+        }
+
+        if (eleRange.data && eleRange.data.range) {
+            return eleRange.data.range;
+        }
+
+        // 一些属性值获取
+        var numMin = eleRange.getAttribute('min') || 0;
+        var numMax = eleRange.getAttribute('max') || 100;
+        var numStep = eleRange.getAttribute('step') || 1;
+
+        // 一些元素的创建
+        var eleContainer = document.createElement('div');
+        var eleRangeClass = eleRange.className;
+        eleContainer.setAttribute('class', eleRangeClass);
+        eleContainer.classList.add(CL);
+
+        // 轨道元素
+        var eleTrack = document.createElement('div');
+        eleTrack.classList.add(CL.add('track'));
+
+        // 中间的圈圈
+        var eleThumb = document.createElement('a');
+        eleThumb.setAttribute('href', 'javascript:');
+        eleThumb.setAttribute('aria-valuenow', eleRange.value);
+        eleThumb.setAttribute('aria-valuemax', numMax);
+        eleThumb.setAttribute('aria-valuemin', numMin);
+        eleThumb.setAttribute('role', 'slider');
+        eleThumb.setAttribute('draggable', 'false');
+        eleThumb.classList.add(CL.add('thumb'));
+
+        // 是否反向
+        if (objParams.reverse || eleRange.classList.contains(REVERSE)) {
+            objParams.reverse = true;
+            eleThumb.classList.add(REVERSE);
+        }
+
+        // tips提示Function
+        var strTips = eleRange.getAttribute('data-tips');
+        if (strTips && !options.tips) {
+            if (strTips == 'null') {
+                objParams.tips = null;
+            } else {
+                objParams.tips = function (value) {
+                    return strTips.replace('${value}', value);
+                };
+            }
+        }
+
+        // 前置插入
+        eleRange.insertAdjacentElement('afterend', eleContainer);
+        // 如果元素没宽度，则使用el计算的宽度
+        if (eleRange.getAttribute('width') != '100%' && eleRange.parentElement.classList.contains(CL.add('input')) == false) {
+            eleContainer.style.width = window.getComputedStyle(eleRange).width;
+        } else {
+            eleContainer.style.display = 'block';
+        }
+        eleContainer.style.height = window.getComputedStyle(eleRange).height;
+
+        eleRange.style.display = 'none';
+
+        // 组装
+        eleTrack.appendChild(eleThumb);
+        eleContainer.appendChild(eleTrack);
+
+        // 全局变量
+        this.number = {
+            min: +numMin,
+            max: +numMax,
+            step: +numStep
+        };
+        // 暴露给其他方法
+        this.element = {
+            input: eleRange,
+            container: eleContainer,
+            track: eleTrack,
+            thumb: eleThumb
+        };
+        this.params = objParams;
+        // 初始化
+        this.value();
+        // 事件
+        this.event();
+
+        // 禁用态
+        if (eleRange[DISABLED] == true) {
+            this.disabled = true;
+        }
+
+        // 实例自身通过DOM元素暴露
+        if (!eleRange.data) {
+            eleRange.data = {};
+        }
+
+        eleRange.data.range = this;
+
+        return this;
+    };
+
+    /**
+     * 相关的事件处理
+     * @return {[type]} [description]
+     */
+    Range.prototype.event = function () {
+        // 各个元素
+        var objElement = this.element;
+        var objNumber = this.number;
+        // 主要的几个元素
+        var eleRange = objElement.input;
+        var eleContainer = objElement.container;
+        var eleThumb = objElement.thumb;
+        // 一些数值
+        var numMin = objNumber.min;
+        var numMax = objNumber.max;
+        var numStep = objNumber.step;
+
+        // 移动
+        eleContainer.addEventListener('click', function (event) {
+            var target = event && event.target;
+            if (target && target !== eleThumb && !eleRange.disabled) {
+                var distance = event.clientX - eleRange.offsetLeft - eleThumb.offsetLeft - parseInt(window.getComputedStyle(eleThumb).width) / 2;
+                var value = eleRange.value * 1 + (numMax - numMin) * distance / parseInt(eleContainer.style.width || eleContainer.clientWidth);
+                this.value(value);
+            }
+        }.bind(this));
+
+        // 拖动
+        var objPosThumb = {};
+        var funBindTips = function () {
+            if (this.params.tips) {
+                var strContent = this.params.tips.call(eleThumb, eleRange.value);
+                if (this.tips) {
+                    this.tips.content = strContent;
+                    this.tips.show();
+                } else {
+                    this.tips = new Tips(eleThumb, {
+                        eventType: 'null',
+                        content: strContent
+                    });
+                }
+            }
+        };
+
+        // 判断是否支持touch事件
+        eleThumb.addEventListener(objEventType.start, function (event) {
+            if (eleRange.disabled) {
+                return;
+            }
+            // 阻止默认行为
+            // 否则iOS下可能会触发点击行为
+            event.preventDefault();
+
+            if (event.touches && event.touches.length) {
+                event = event.touches[0];
+            }
+            objPosThumb.x = event.clientX;
+            objPosThumb.value = eleRange.value * 1;
+            // 返回此时tips的提示内容
+            funBindTips.call(this);
+
+            eleThumb.classList.add(ACTIVE);
+        }.bind(this));
+
+        if (objEventType.start == 'mousedown') {
+            eleThumb.addEventListener('mouseenter', function () {
+                if (eleThumb.classList.contains(ACTIVE) == false) {
+                    funBindTips.call(this);
+                }
+            }.bind(this));
+            eleThumb.addEventListener('mouseout', function () {
+                if (eleThumb.classList.contains(ACTIVE) == false) {
+                    if (this.tips) {
+                        this.tips.hide();
+                    }
+                }
+            }.bind(this));
+        }
+
+        // 移动时候
+        document.addEventListener(objEventType.move, function (event) {
+            if (typeof objPosThumb.x === 'number' && eleThumb.classList.contains(ACTIVE)) {
+                // 阻止默认行为
+                event.preventDefault();
+
+                if (event.touches && event.touches.length) {
+                    event = event.touches[0];
+                }
+                // 获取当前位置
+                var numDistance = event.clientX - objPosThumb.x;
+                // 根据移动的距离，判断值
+                var value = objPosThumb.value + (numMax - numMin) * numDistance / parseInt(eleContainer.style.width || eleContainer.clientWidth);
+
+                // 赋值
+                this.value(value);
+
+                // 改变提示内容
+                if (this.tips) {
+                    this.tips.content = this.params.tips.call(eleThumb, eleRange.value);
+                    this.tips.show();
+                }
+            }
+        }.bind(this));
+
+        // 触摸或点击抬起时候
+        document.addEventListener(objEventType.end, function () {
+            if (eleThumb.classList.contains(ACTIVE)) {
+                objPosThumb.x = null;
+                objPosThumb.value = null;
+                if (this.tips) {
+                    this.tips.hide();
+                }
+                eleThumb.classList.remove(ACTIVE);
+            }
+        }.bind(this));
+
+        // 键盘支持，左右
+        eleThumb.addEventListener('keydown', function (event) {
+            if (eleRange.disabled) {
+                return;
+            }
+            var strValue = eleRange.value * 1;
+            if (event.keyCode == 37 || event.keyCode == 39) {
+                event.preventDefault();
+                if (event.keyCode == 37) {
+                    // left
+                    strValue = Math.max(numMin, strValue - numStep);
+                } else if (event.keyCode == 39) {
+                    // right
+                    strValue = Math.min(numMax, strValue + numStep * 1);
+                }
+                this.value(strValue);
+            }
+        }.bind(this));
+
+        // 自适应场景下的resize处理
+        if (eleContainer.style.display == 'block') {
+            window.addEventListener('resize', function () {
+                this.position();
+            }.bind(this));
+        }
+
+        // 禁用状态变化检测
+        if (window.MutationObserver) {
+            var observerSelect = new MutationObserver(function (mutationsList) {
+                mutationsList.forEach(function (mutation) {
+                    if (mutation.type == 'attributes') {
+                        this[DISABLED] = eleRange[DISABLED];
+                    }
+                }.bind(this));
+            }.bind(this));
+
+            observerSelect.observe(eleRange, {
+                attributes: true,
+                attributeFilter: [DISABLED]
+            });
+        } else {
+            eleRange.addEventListener('DOMAttrModified', function (event) {
+                if (event.attrName == DISABLED) {
+                    this[DISABLED] = eleRange[DISABLED];
+                }
+            }.bind(this));
+        }
+    };
+
+    /**
+     * range输入框赋值与定位
+     * @param  {String} value 需要赋予的值
+     * @return {Object}       返回当前实例对象
+     */
+    Range.prototype.value = function (value) {
+        var eleInput = this.element.input;
+        var oldValue = eleInput.value;
+
+        // 一些值
+        var number = this.number;
+        var numMax = number.max;
+        var numMin = number.min;
+        var numStep = number.step;
+
+        if (!value && value !== 0) {
+            oldValue = value;
+            value = eleInput.value || Math.floor(numMin / 2 + numMax / 2);
+        }
+        // 区域范围判断以及值是否合法的判断
+        if (value > numMax || (numMax - value) < numStep / 2) {
+            value = numMax;
+        } else if (value === '' || value < numMin || (value - numMin) < numStep / 2) {
+            value = numMin;
+        } else {
+            // 寻找最近的合法value值
+            value = numMin + Math.round((value - numMin) / numStep) * numStep;
+        }
+        // 改变range内部的value值
+        eleInput.value = value;
+        // 圈圈重新定位
+        this.position();
+        // 如果前后值不一样，触发change事件
+        if (value !== oldValue) {
+            eleInput.dispatchEvent(new CustomEvent('change', {
+                'bubbles': true
+            }));
+        }
+        return this;
+    };
+
+    /**
+     * 根据range的值确定UI滑块的位置
+     * @return {Object}       返回当前实例对象
+     */
+    Range.prototype.position = function () {
+        var eleInput = this.element.input;
+        var eleContainer = this.element.container;
+        // 几个数值
+        var objNumber = this.number;
+        var strValue = eleInput.value;
+
+        var numMax = objNumber.max;
+        var numMin = objNumber.min;
+        // 计算百分比
+        this.element.track.style.borderLeftWidth = parseInt(eleContainer.style.width || eleContainer.clientWidth) * (strValue - numMin) / (numMax - numMin) + 'px';
+        // aria同步
+        this.element.thumb.setAttribute('aria-valuenow', strValue);
+
+        return this;
+    };
+
+
+    /**
+     * 定义一个disabled属性，设置元素的禁用态与否
+     * @param {[type]} )
+     */
+    Object.defineProperty(Range.prototype, DISABLED, {
+        configurable: true,
+        enumerable: true,
+        writeable: true,
+        get: function () {
+            return this.element.input[DISABLED];
+        },
+        set: function (value) {
+            var objElement = this.element;
+
+            var eleContainer = objElement.container;
+            var eleThumb = objElement.thumb;
+
+            // 如果设置禁用
+            if (value) {
+                // 容器样式变化
+                eleContainer.classList.add(CL.add(DISABLED));
+                // 滑块按钮不能focus
+                eleThumb.removeAttribute('href');
+                return;
+            }
+
+            // 容器样式变化
+            eleContainer.classList.remove(CL.add(DISABLED));
+            // 滑块按钮不能focus
+            eleThumb.setAttribute('href', 'javascript:');
+        }
+    });
+
+    var funAutoInitAndWatching = function () {
+        // 如果没有开启自动初始化，则返回
+        if (window.autoInit === false) {
+            return;
+        }
+        // 遍历页面上的range元素
+        var strSelector = 'input[type="range"]';
+        // IE11模式下IE9识别不了[type="range"]
+        // 原生IE9没这个问题
+        // 所以这里做一个妥协处理，不支持[type="range"]匹配的使用类名匹配
+        var eleInput = document.createElement('input');
+        eleInput.setAttribute('type', 'range');
+        if (eleInput.getAttribute('type') != 'range') {
+            strSelector = 'input.' + CL.add('input') + ',.' + CL.add('input') + '>input';
+        }
+
+        document.querySelectorAll(strSelector).forEach(function (eleRange) {
+            if (!(eleRange.data && eleRange.data.range) && window.getComputedStyle(eleRange).visibility == 'hidden') {
+                new Range(eleRange);
+            }
+        });
+
+        // 如果没有开启观察，不监听DOM变化
+        if (window.watching === false) {
+            return;
+        }
+
+        var funSyncRefresh = function (node, action) {
+            if (node.nodeType != 1) {
+                return;
+            }
+
+            if (node.matches(strSelector)) {
+                if (action == 'remove' && node.data && node.data.range) {
+                    node.data.range.element.container.remove();
+                } else if (window.getComputedStyle(node).visibility == 'hidden' && action == 'add') {
+                    new Range(node);
+                }
+            }
+        };
+
+        // DOM Insert自动初始化
+        // IE11+使用MutationObserver
+        // IE9-IE10使用Mutation Events
+        if (window.MutationObserver) {
+            var observerSelect = new MutationObserver(function (mutationsList) {
+                mutationsList.forEach(function (mutation) {
+                    var nodeAdded = mutation.addedNodes;
+                    var nodeRemoved = mutation.removedNodes;
+
+                    if (nodeAdded.length) {
+                        nodeAdded.forEach(function (eleAdd) {
+                            funSyncRefresh(eleAdd, 'add');
+                        });
+                    }
+                    if (nodeRemoved.length) {
+                        nodeRemoved.forEach(function (eleRemove) {
+                            funSyncRefresh.call(mutation, eleRemove, 'remove');
+                        });
+                    }
+                });
+            });
+
+            observerSelect.observe(document.body, {
+                childList: true,
+                subtree: true
+            });
+        } else {
+            document.body.addEventListener('DOMNodeInserted', function (event) {
+                // 插入节点
+                funSyncRefresh(event.target, 'add');
+            });
+            document.body.addEventListener('DOMNodeRemoved', function (event) {
+                // 删除节点
+                // 这里方法执行的时候，元素还在页面上
+                funSyncRefresh(event.target, 'remove');
+            });
+        }
+    };
+
+    // 监听-免初始绑定
+    if (document.readyState != 'loading') {
+        funAutoInitAndWatching();
+    } else {
+        window.addEventListener('DOMContentLoaded', funAutoInitAndWatching);
+    }
+
+    return Range;
+}));
+/**
+ * @Color.js
+ * @author zhangxinxu
+ * @version
+ * Created: 16-06-03
+ */
+(function (global, factory) {
+    if (typeof exports === 'object' && typeof module !== 'undefined') {
+        global.Drop = require('./Drop');
+        module.exports = factory();
+    } else if (typeof define === 'function' && (define.amd || define.cmd)) {
+        define(factory);
+    } else {
+        global.Color = factory();
+    }
+}((typeof global !== 'undefined') ? global
+    : ((typeof window !== 'undefined') ? window
+        : ((typeof self !== 'undefined') ? self : this)), function (require) {
+    // require
+    var Drop = this.Drop;
+    if (typeof require == 'function' && !Drop) {
+        Drop = require('common/ui/Drop');
+    } else if (!Drop) {
+        window.console.error('need Drop.js');
+
+        return {};
+    }
+
+    /**
+     * 基于HTML原生color颜色选择
+     * 兼容IE9+
+     * type=color Hex format
+     */
+
+        // 样式类名统一处理
+    var CL = {
+            add: function () {
+                return ['ui-color'].concat([].slice.call(arguments)).join('-');
+            },
+            toString: function () {
+                return 'ui-color';
+            }
+        };
+
+    var objEventType = {
+        start: 'mousedown',
+        move: 'mousemove',
+        end: 'mouseup'
+    };
+    if ('ontouchstart' in document) {
+        objEventType = {
+            start: 'touchstart',
+            move: 'touchmove',
+            end: 'touchend'
+        };
+    }
+
+    // 其他变量
+    var ACTIVE = 'active';
+    var BGCOLOR = 'background-color';
+    var defaultValue = '#000000';
+
+    /* 一些颜色间的相互转换的公用方法 */
+
+    // hsl颜色转换成十六进制颜色
+    var funHslToHex = function (h, s, l) {
+        var r, g, b;
+
+        if (s == 0) {
+            // 非彩色的
+            r = g = b = l;
+        } else {
+            var hue2rgb = function (p, q, t) {
+                if (t < 0) t += 1;
+                if (t > 1) t -= 1;
+                if (t < 1 / 6) return p + (q - p) * 6 * t;
+                if (t < 1 / 2) return q;
+                if (t < 2 / 3) return p + (q - p) * (2 / 3 - t) * 6;
+
+                return p;
+            };
+
+            var q = l < 0.5 ? l * (1 + s) : l + s - l * s;
+            var p = 2 * l - q;
+            r = hue2rgb(p, q, h + 1 / 3);
+            g = hue2rgb(p, q, h);
+            b = hue2rgb(p, q, h - 1 / 3);
+        }
+
+        var arrRgb = [Math.round(r * 255), Math.round(g * 255), Math.round(b * 255)];
+
+        return arrRgb.map(function (rgb) {
+            rgb = rgb.toString(16);
+
+            if (rgb.length == 1) {
+                return '0' + rgb;
+            }
+
+            return rgb;
+        }).join('');
+    };
+
+    // 16进制颜色转换成hsl颜色表示
+    var funHexToHsl = function (hex) {
+        var r = parseInt(hex.slice(0, 2), 16) / 255;
+        var g = parseInt(hex.slice(2, 4), 16) / 255;
+        var b = parseInt(hex.slice(4, 6), 16) / 255;
+
+        var max = Math.max(r, g, b);
+        var min = Math.min(r, g, b);
+        var h, s;
+        var l = (max + min) / 2;
+
+        if (max == min) {
+            // 非彩色
+            h = s = 0;
+        } else {
+            var d = max - min;
+            s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
+            switch (max) {
+                case r:
+                    h = (g - b) / d + (g < b ? 6 : 0);
+                    break;
+                case g:
+                    h = (b - r) / d + 2;
+                    break;
+                case b:
+                    h = (r - g) / d + 4;
+                    break;
+            }
+            h /= 6;
+        }
+
+        return [h, s, l];
+    };
+
+    // rgb/rgba颜色转hex
+    var funRgbToHex = function (rgb) {
+        if (!rgb) {
+            return defaultValue;
+        }
+        var arr = [];
+
+        // 如果是不全的hex值，不全
+        // 有没有#都支持
+        rgb = rgb.replace('#', '').toLowerCase();
+
+        if (/^[0-9A-F]{1,6}$/i.test(rgb)) {
+            return '#' + rgb.repeat(Math.ceil(6 / rgb.length)).slice(0, 6);
+        }
+
+        // 如果是rgb(a)色值
+        arr = rgb.match(/^rgba?\((\d+),\s*(\d+),\s*(\d+)/i);
+        var hex = function (x) {
+            return ('0' + parseInt(x, 10).toString(16)).slice(-2);
+        };
+
+        if (arr.length == 4) {
+            return '#' + hex(arr[1]) + hex(arr[2]) + hex(arr[3]);
+        }
+
+        return defaultValue;
+    };
+
+    /**
+     * 颜色选择实例方法
+     * @param {[type]} element [description]
+     * @param {[type]} options [description]
+     */
+    var Color = function (element, options) {
+        // 参数
+        var defaults = {
+            offsets: {
+                x: 0,
+                y: 0
+            },
+            edgeAdjust: false,
+            position: '7-5',
+            onShow: function () {
+            },
+            onHide: function () {
+            }
+        };
+        var objParams = Object.assign({}, defaults, options || {});
+
+        // element如果是选择器
+        if (typeof element == 'string') {
+            element = document.querySelector(element);
+        }
+
+        // el需要是原生的type=color的输入框
+        if (!element) {
+            return;
+        }
+
+        var eleInput = element;
+
+        // 避免重复初始化
+        if (eleInput.data && eleInput.data.color) {
+            return eleInput.data.color;
+        }
+
+        // 一些默认的属性值
+        var id = eleInput.id;
+
+        if (!id) {
+            // 创建随机id
+            id = 'lulu_' + (Math.random() + '').split('.')[1];
+            eleInput.id = id;
+        }
+
+        // 只读
+        eleInput.setAttribute('readonly', 'readonly');
+        // 阻止默认的颜色选择出现
+        eleInput.addEventListener('click', function (event) {
+            event.preventDefault();
+        });
+        // Edge14-Edge18
+        if (eleInput.type == 'color' && window.msCredentials) {
+            eleInput.addEventListener('focus', function (event) {
+                this.blur();
+            });
+        }
+
+        // 元素构建
+        // track是替换输入框的色块元素的轨道
+        var eleTrack = document.createElement('label');
+        eleTrack.setAttribute('for', id);
+        eleTrack.classList.add(CL.add('track'));
+
+        // thumb是替换输入框的色块元素的色块区域
+        var eleThumb = document.createElement('span');
+        eleThumb.classList.add(CL.add('thumb'));
+
+        // 前置插入
+        eleTrack.appendChild(eleThumb);
+        eleInput.insertAdjacentElement('beforebegin', eleTrack);
+
+        // 浮层容器
+        var eleContainer = document.createElement('div');
+        eleContainer.classList.add(CL.add('container'));
+
+        // 全局暴露的一些元素
+        this.element = {
+            input: eleInput,
+            container: eleContainer,
+            track: eleTrack,
+            thumb: eleThumb
+        };
+
+        // 暴露的回调方法
+        this.callback = {
+            show: objParams.onShow,
+            hide: objParams.onHide
+        };
+
+        this.params = {
+            offsets: objParams.offsets,
+            edgeAdjust: objParams.edgeAdjust,
+            position: objParams.position
+        };
+
+        // 全局的基础色值
+        var arrBasicColor = ['0', '3', '6', '9', 'c', 'f'];
+        var arrFixedColor = arrBasicColor.concat('eb4646', '1cad70', '2a80eb', 'f59b00');
+        this.color = {
+            basic: arrBasicColor,
+            fixed: arrFixedColor
+        };
+
+        // 事件绑定
+        this.initEvents();
+
+        // 初始化
+        this.value(eleInput.value);
+
+        // data暴露
+        if (eleInput.data) {
+            eleInput.data = {};
+        }
+        eleInput.data.color = this;
+
+        return this;
+    };
+
+    /**
+     * 颜色选择器的事件们
+     * @return {[type]} [description]
+     */
+    Color.prototype.initEvents = function () {
+        var objElement = this.element;
+        // 元素们
+        var eleInput = objElement.input;
+        var eleTrack = objElement.track;
+        var eleContainer = objElement.container;
+        // 参数
+        var objParams = this.params;
+
+        // 浮层显隐与定位
+        this.drop = new Drop(eleInput, eleContainer, {
+            eventType: 'click',
+            offsets: objParams.offsets,
+            edgeAdjust: objParams.edgeAdjust,
+            position: objParams.position,
+            onShow: function () {
+                this.show();
+
+                // 颜色面板边界超出的微调
+                if (objParams.edgeAdjust == false) {
+                    var objRect = eleContainer.getBoundingClientRect();
+                    if (objRect.left < 3) {
+                        eleContainer.style.left = '3px';
+                    } else if (objRect.right - screen.width > 3) {
+                        eleContainer.style.left = (screen.width - objRect.width - 3) + 'px';
+                    }
+                }
+            }.bind(this),
+            onHide: function () {
+                this.hide();
+
+                eleContainer.style.marginLeft = 0;
+            }.bind(this)
+        });
+
+        // 键盘无障碍访问的处理
+        eleInput.addEventListener('focus', function () {
+            if (window.isKeyEvent) {
+                eleTrack.classList.add('ui-outline');
+            }
+        });
+        eleInput.addEventListener('blur', function () {
+            eleTrack.classList.remove('ui-outline');
+        });
+    };
+
+    /**
+     * container内的一些事件
+     * @return {Object} 返回当前实例对象
+     */
+    Color.prototype.events = function () {
+        var objElement = this.element;
+        // 元素
+        var eleContainer = objElement.container;
+        // 更多元素
+        // 元素
+        var eleCircle = objElement.circle;
+        var eleFill = objElement.fill;
+        var eleArrow = objElement.arrow;
+        // 面板内部唯一的输入框元素
+        var eleField = objElement.field;
+
+        // var keycode = {
+        //     37: 'left',
+        //     38: 'up',
+        //     39: 'right',
+        //     40: 'down',
+        //     13: 'enter'
+        // };
+
+        eleContainer.addEventListener('click', function (event) {
+            var eleTarget = event.target;
+
+            // IE可能是文件节点
+            if (!eleTarget.matches || !eleTarget.matches('a, button')) {
+                return;
+            }
+
+            // 选择的颜色值
+            var strValue = '';
+            // 当前类名
+            var strCl = eleTarget.className;
+            // 按钮分类别处理
+            if (/cancel/.test(strCl)) {
+                // 1. 取消按钮
+                this.hide();
+            } else if (/ensure/.test(strCl)) {
+                // 2. 确定按钮
+                // 赋值
+                strValue = eleField.value;
+
+                if (strValue) {
+                    this.value('#' + strValue);
+                }
+                this.hide();
+            } else if (/lump/.test(strCl)) {
+                // 3. 小色块
+                strValue = eleTarget.getAttribute('data-color');
+                eleField.value = strValue;
+                this.match();
+            } else if (/switch/.test(strCl)) {
+                // 4. 面板类名切换按钮
+                if (eleTarget.innerHTML == '更多') {
+                    objElement.more.style.display = 'block';
+                    objElement.basic.style.display = 'none';
+                    eleTarget.innerHTML = '基本';
+                } else {
+                    objElement.more.style.display = 'none';
+                    objElement.basic.style.display = 'block';
+                    eleTarget.innerHTML = '更多';
+                }
+                // 面板的色块啊，圆和尖角位置匹配
+                this.match();
+            } else if (/cover/.test(strCl)) {
+                // 5. 渐变色的覆盖层
+                // offsetLeft, offsetTop
+                var objRect = eleTarget.getBoundingClientRect();
+                var numOffsetLeft = event.pageX - objRect.left;
+                var numOffsetTop = event.pageY - window.pageYOffset - objRect.top;
+
+                // width, height
+                var numWidth = eleTarget.clientWidth;
+                var numHeight = eleTarget.clientHeight;
+
+                // color
+                var numColorH, strColorS;
+                // , numColorL;
+
+                if (eleCircle && eleFill && eleArrow) {
+                    if (/white/.test(strCl) == true) {
+                        numColorH = numOffsetLeft / numWidth;
+                        strColorS = 1 - numOffsetTop / numHeight;
+
+                        // 圈圈定位
+                        eleCircle.style.left = numOffsetLeft + 'px';
+                        eleCircle.style.top = numOffsetTop + 'px';
+
+                        var strHsl = 'hsl(' + [360 * numColorH, 100 * strColorS + '%', '50%'].join() + ')';
+
+                        eleCircle.style[BGCOLOR] = strHsl;
+                    } else {
+                        eleArrow.style.top = numOffsetTop + 'px';
+                    }
+
+                    // 赋值
+                    eleField.value = this.getValueByStyle().replace('#', '');
+                    // UI变化
+                    this.match();
+                }
+            }
+        }.bind(this));
+
+        // 输入框事件
+        eleField.addEventListener('input', function () {
+            var value = this.value;
+            if (/^[0-9A-F]{6}$/i.test(value)) {
+                this.match();
+            } else if (/^[0-9A-F]{3}$/i.test(value)) {
+                this.match(funRgbToHex('#' + value).replace('#', ''));
+            }
+        }.bind(this));
+
+        eleField.addEventListener('keyup', function (event) {
+            if (event.keyCode == 13) {
+                var strValue = eleField.value;
+                var strOldvalue = strValue;
+                if (strValue) {
+                    strValue = $.rgbToHex('#' + strValue);
+                    if (strValue != strOldvalue) {
+                        // 支持输入#000
+                        eleField.value = strValue;
+                    }
+                    this.value('#' + strValue);
+                }
+                this.hide();
+            }
+        }.bind(this));
+
+        // 滑块拖动事件
+        var objPosArrow = {};
+        var objPosCircle = {};
+        // 三角上下
+        eleArrow.addEventListener(objEventType.start, function (event) {
+            event.preventDefault();
+
+            if (event.touches && event.touches.length) {
+                event = event.touches[0];
+            }
+            objPosArrow.pageY = event.pageY;
+            objPosArrow.top = parseFloat(window.getComputedStyle(eleArrow).top);
+        });
+
+        // 圆圈移动
+        eleCircle.addEventListener(objEventType.start, function (event) {
+            event.preventDefault();
+
+            if (event.touches && event.touches.length) {
+                event = event.touches[0];
+            }
+            objPosCircle.pageY = event.pageY;
+            objPosCircle.pageX = event.pageX;
+
+            var objStyleCircle = window.getComputedStyle(eleCircle);
+            // 当前位移位置
+            objPosCircle.top = parseFloat(objStyleCircle.top);
+            objPosCircle.left = parseFloat(objStyleCircle.left);
+        });
+
+        document.addEventListener(objEventType.move, function (event) {
+            if (typeof objPosArrow.top == 'number') {
+                event.preventDefault();
+
+                if (event.touches && event.touches.length) {
+                    event = event.touches[0];
+                }
+                var numTop = objPosArrow.top + (event.pageY - objPosArrow.pageY);
+                var numMaxTop = eleArrow.parentElement.clientHeight;
+
+                // 边界判断
+                if (numTop < 0) {
+                    numTop = 0;
+                } else if (numTop > numMaxTop) {
+                    numTop = numMaxTop;
+                }
+                eleArrow.style.top = numTop + 'px';
+                // 赋值，此次赋值，无需重定位
+                eleField.value = this.getValueByStyle().replace('#', '');
+
+                this.match(false);
+            } else if (typeof objPosCircle.top == 'number') {
+                event.preventDefault();
+
+                if (event.touches && event.touches.length) {
+                    event = event.touches[0];
+                }
+
+                var objPos = {
+                    top: objPosCircle.top + (event.pageY - objPosCircle.pageY),
+                    left: objPosCircle.left + (event.pageX - objPosCircle.pageX)
+                };
+                var objMaxPos = {
+                    top: eleCircle.parentElement.clientHeight,
+                    left: eleCircle.parentElement.clientWidth
+                };
+
+                // 边界判断
+                if (objPos.left < 0) {
+                    objPos.left = 0;
+                } else if (objPos.left > objMaxPos.left) {
+                    objPos.left = objMaxPos.left;
+                }
+                if (objPos.top < 0) {
+                    objPos.top = 0;
+                } else if (objPos.top > objMaxPos.top) {
+                    objPos.top = objMaxPos.top;
+                }
+
+                // 根据目标位置位置和变色
+                var numColorH = objPos.left / objMaxPos.left;
+                var strColorS = 1 - objPos.top / objMaxPos.top;
+
+                // 圈圈定位
+                eleCircle.style.left = objPos.left + 'px';
+                eleCircle.style.top = objPos.top + 'px';
+
+                var strHsl = 'hsl(' + [360 * numColorH, 100 * strColorS + '%', '50%'].join() + ')';
+
+                eleCircle.style[BGCOLOR] = strHsl;
+
+                // 赋值
+                eleField.value = this.getValueByStyle().replace('#', '');
+                // UI变化
+                this.match(false);
+            }
+        }.bind(this), {
+            passive: false
+        });
+        document.addEventListener(objEventType.end, function () {
+            objPosArrow.top = null;
+            objPosCircle.top = null;
+        });
+
+        // 滑块的键盘支持
+        eleFill.parentElement.querySelectorAll('a').forEach(function (eleButton) {
+            eleButton.addEventListener('keydown', function (event) {
+                // 上下控制
+                if (event.keyCode == 38 || event.keyCode == 40) {
+                    event.preventDefault();
+
+                    var numTop = parseFloat(window.getComputedStyle(eleArrow).top);
+
+                    var numMaxTop = eleFill.clientHeight;
+
+                    if (event.keyCode == 38) {
+                        numTop--;
+                        if (numTop < 0) {
+                            numTop = 0;
+                        }
+                    } else {
+                        numTop++;
+                        if (numTop > numMaxTop) {
+                            numTop = numMaxTop;
+                        }
+                    }
+
+                    var ariaLabel = eleArrow.getAttribute('aria-label');
+
+                    eleArrow.style.top = numTop + 'px';
+                    eleArrow.setAttribute('aria-label', ariaLabel.replace(/\d+/, Math.round(100 * numTop / numMaxTop)));
+
+                    // 赋值，此次赋值，无需重定位
+                    eleField.value = this.getValueByStyle().replace('#', '');
+
+                    this.match(false);
+                }
+            }.bind(this));
+        }.bind(this));
+
+        // 圈圈的键盘访问
+        // 区域背景的键盘支持
+        eleCircle.parentElement.querySelectorAll('a').forEach(function (eleRegion) {
+            eleRegion.addEventListener('keydown', function (event) {
+                // 上下左右控制
+                if (event.keyCode >= 37 && event.keyCode <= 40) {
+                    event.preventDefault();
+
+                    var objStyleCircle = window.getComputedStyle(eleCircle);
+
+                    var numTop = parseFloat(objStyleCircle.top);
+                    var numLeft = parseFloat(objStyleCircle.left);
+
+                    var numMaxTop = eleRegion.clientHeight;
+                    var numMaxLeft = eleRegion.clientWidth;
+
+                    if (event.keyCode == 38) {
+                        // up
+                        numTop--;
+                        if (numTop < 0) {
+                            numTop = 0;
+                        }
+                    } else if (event.keyCode == 40) {
+                        // down
+                        numTop++;
+                        if (numTop > numMaxTop) {
+                            numTop = numMaxTop;
+                        }
+                    } else if (event.keyCode == 37) {
+                        // left
+                        numLeft--;
+                        if (numLeft < 0) {
+                            numLeft = 0;
+                        }
+                    } else if (event.keyCode == 39) {
+                        // down
+                        numLeft++;
+                        if (numLeft > numMaxLeft) {
+                            numLeft = numMaxLeft;
+                        }
+                    }
+
+                    var numColorH = numLeft / numMaxLeft;
+                    var numColorS = 1 - numTop / numMaxTop;
+
+                    eleCircle.style.left = numLeft + 'px';
+                    eleCircle.style.top = numTop + 'px';
+
+                    var strHsl = 'hsl(' + [360 * numColorH, 100 * numColorS + '%', '50%'].join() + ')';
+
+                    eleCircle.style[BGCOLOR] = strHsl;
+
+                    // 赋值
+                    eleField.value = this.getValueByStyle().replace('#', '');
+                    this.match();
+                }
+            }.bind(this));
+        }.bind(this));
+
+        return this;
+    };
+
+    /**
+     * container内HTML的创建
+     * @return {Object} 返回当前实例对象
+     */
+    Color.prototype.create = function () {
+        // 元素
+        var eleContainer = this.element.container;
+
+        // switch button
+        var strHtmlConvert = '<button class="' + CL.add('switch') + '" role="button">更多</button>';
+        // current color
+        var strHtmlCurrent = '<div class="' + CL.add('current') + '">\
+            <i class="' + CL.add('current', 'square') + ' colorCurrent"></i>\
+            #<input class="' + CL.add('current', 'input') + '">\
+        </div>';
+
+        var arrBasicColor = this.color.basic;
+        var arrFixedColor = this.color.fixed;
+
+        // body
+        var strHtmlBody = '<div class="' + CL.add('body') + '">' +
+            (function () {
+                // basic color picker
+                var strHtml = '<div class="' + CL.add('basic') + ' colorBasicX" role="listbox">';
+                var arrCommonColors = (localStorage.commonColors || '').split(',');
+                // color left
+                strHtml = strHtml + '<aside class="' + CL.add('basic', 'l') + '">' + (function () {
+                    return arrFixedColor.concat(arrCommonColors[0] || '0ff', arrCommonColors[1] || '800180').map(function (color) {
+                        var strColor = funRgbToHex(color).replace('#', '');
+
+                        return '<a href="javascript:" class="' + CL.add('lump') + '" data-color="' + strColor + '" aria-label="' + strColor + '" style="' + BGCOLOR + ':#' + strColor + '" role="option"></a>';
+                    }).join('');
+                })() + '</aside>';
+
+                // color main
+                strHtml = strHtml + '<div class="' + CL.add('basic', 'r') + '">' + (function () {
+                    var strHtmlR = '';
+                    arrBasicColor.forEach(function (r) {
+                        strHtmlR += '<div class="' + CL.add('lump', 'group') + '">';
+                        arrBasicColor.forEach(function (g) {
+                            arrBasicColor.forEach(function (b) {
+                                var strColor = r + r + g + g + b + b;
+                                strHtmlR = strHtmlR + '<a href="javascript:" class="' + CL.add('lump') + '" data-color="' + strColor + '" style="' + BGCOLOR + ':#' + strColor + '" aria-label="' + strColor + '" role="option"></a>';
+                            });
+                        });
+                        strHtmlR += '</div>';
+                    });
+
+                    return strHtmlR;
+                })() + '</div>';
+
+                return strHtml + '</div>';
+            })() +
+
+            (function () {
+                // more color picker
+                var html = '<div class="' + CL.add('more') + ' colorMoreX">';
+                // color left
+                html = html + '<div class="' + CL.add('more', 'l') + '">\
+                <a href="javascript:" class="' + CL.add('cover', 'white') + '" aria-label="色域背景块" role="region"></a><div class="' + CL.add('circle') + ' colorCircle"></div>\
+                <svg>\
+                    <defs>\
+                        <linearGradient x1="0" y1="0" x2="1" y2="0" id="colorGradient">\
+                            <stop offset="0%" stop-color="#ff0000"></stop>\
+                            <stop offset="16.66%" stop-color="#ffff00"></stop>\
+                            <stop offset="33.33%" stop-color="#00ff00"></stop>\
+                            <stop offset="50%" stop-color="#00ffff"></stop>\
+                            <stop offset="66.66%" stop-color="#0000ff"></stop>\
+                            <stop offset="83.33%" stop-color="#ff00ff"></stop>\
+                            <stop offset="100%" stop-color="#ff0000"></stop>\
+                        </linearGradient>\
+                    </defs>\
+                    <rect x="0" y="0" width="180" height="100" fill="url(#colorGradient)"></rect>\
+                </svg></div><div class="' + CL.add('more', 'r') + '">\
+                    <div class="' + CL.add('more', 'fill') + ' colorFill">\
+                        <a href="javascript:" class="' + CL.add('more', 'cover') + '" aria-label="明度控制背景条" role="region"></a>\
+                        <svg>\
+                        <defs>\
+                            <linearGradient x1="0" y1="0" x2="0" y2="1" id="colorGradient2">\
+                                <stop offset="0%" stop-color="#ffffff"></stop>\
+                                <stop offset="50%" stop-color="rgba(255,255,255,0)"></stop>\
+                                <stop offset="50%" stop-color="rgba(0,0,0,0)"></stop>\
+                                <stop offset="100%" stop-color="' + defaultValue + '"></stop>\
+                            </linearGradient>\
+                        </defs>\
+                        <rect x="0" y="0" width="16" height="100" fill="url(#colorGradient2)"></rect>\
+                    </svg>\
+                    </div>\
+                    <a href="javascript:" class="' + CL.add('more', 'arrow') + ' colorArrow" role="slider" aria-label="明度控制按钮：100%"></a>\
+                </div>';
+
+                return html + '</div>';
+            })() + '</div>';
+        // footer
+        var strHtmlFooter = '<div class="' + CL.add('footer') + '">\
+            <button class="' + CL.add('button', 'cancel') + '">取消</button><button class="' + CL.add('button', 'ensure') + '">确定</button>\
+        </div>';
+        // append
+        eleContainer.innerHTML = strHtmlConvert + strHtmlCurrent + strHtmlBody + strHtmlFooter;
+
+        // 一些元素
+        Object.assign(this.element, {
+            field: eleContainer.querySelector('input'),
+            basic: eleContainer.querySelector('.colorBasicX'),
+            more: eleContainer.querySelector('.colorMoreX'),
+            circle: eleContainer.querySelector('.colorCircle'),
+            fill: eleContainer.querySelector('.colorFill'),
+            arrow: eleContainer.querySelector('.colorArrow'),
+            current: eleContainer.querySelector('.colorCurrent')
+        });
+
+        // 事件
+        this.events();
+
+        return this;
+    };
+
+    /**
+     * 输入框的赋值和取值，同时会更改对应的UI
+     * @param {String} value  HEX颜色值，例如'#000000'。可缺省，表示取值
+     * @return {Object} 返回当前的实例对象
+     */
+    Color.prototype.value = function (value) {
+        var strValue = value;
+        // 元素
+        var eleInput = this.element.input;
+        var eleThumb = this.element.thumb;
+        // 目前的颜色值
+        var strOldValue = eleInput.value;
+        // 取值还是赋值
+        if (typeof value == 'string') {
+            // 如果是纯字母，则认为是关键字
+            if (/^[a-z]{3,}$/.test(strValue)) {
+                document.head.style.backgroundColor = strValue;
+                strValue = window.getComputedStyle(document.head).backgroundColor;
+                document.head.style.backgroundColor = '';
+            }
+
+            // 使用hex值
+            strValue = funRgbToHex(strValue);
+            // 赋值
+            eleInput.value = strValue;
+            // 按钮上的色块值
+            eleThumb.style[BGCOLOR] = strValue;
+
+            // 作为常用颜色记录下来
+            var strCommonColors = localStorage.commonColors || '';
+            var arrCommonColors = strCommonColors.split(',');
+            // 前提颜色非纯灰色若干色值
+            var arrFixedColor = this.color.fixed;
+
+            if (arrFixedColor.some(function (strFixedColor) {
+                return funRgbToHex(strFixedColor) == strValue;
+            }) == false) {
+                // 过滤已经存在的相同颜色的色值
+                arrCommonColors = arrCommonColors.filter(function (strValueWithSharp) {
+                    return strValueWithSharp && strValueWithSharp != strValue.replace('#', '');
+                });
+
+                // 从前面插入
+                arrCommonColors.unshift(strValue.replace('#', ''));
+
+                // 本地存储
+                localStorage.commonColors = arrCommonColors.join();
+
+                // 2个动态色值更新
+                var eleBasic = this.element.basic;
+                if (eleBasic) {
+                    var eleAsideColors = eleBasic.querySelectorAll('aside a');
+                    var eleBasicColorLast = eleAsideColors[eleAsideColors.length - 2];
+                    var eleBasicColorSecond = eleAsideColors[eleAsideColors.length - 1];
+
+                    eleBasicColorLast.setAttribute('data-color', arrCommonColors[0]);
+                    eleBasicColorLast.setAttribute('aria-label', arrCommonColors[0]);
+                    eleBasicColorLast.style[BGCOLOR] = strValue;
+
+                    var strColorSecond = arrCommonColors[1] || '0ff';
+                    eleBasicColorSecond.setAttribute('data-color', strColorSecond);
+                    eleBasicColorSecond.setAttribute('aria-label', strColorSecond);
+                    eleBasicColorSecond.style[BGCOLOR] = '#' + strColorSecond;
+                }
+            }
+
+            // 面板上的值，各种定位的匹配
+            this.match();
+        } else {
+            // 取值
+            // 如果默认无值，使用颜色作为色值，一般出现在初始化的时候
+            if (!strOldValue) {
+                strOldValue = defaultValue;
+                // 赋值
+                eleInput.value = strOldValue;
+                // 按钮上的色块值
+                eleThumb.style[BGCOLOR] = strOldValue;
+            }
+
+            return strOldValue;
+        }
+
+        if (strOldValue && strValue != strOldValue) {
+            eleInput.dispatchEvent(new CustomEvent('change', {
+                'bubbles': true
+            }));
+        }
+
+        return this;
+    };
+
+    /**
+     * 根据坐标位置获得hsl值
+     * 私有
+     * @return {String} [返回当前坐标对应的hex表示的颜色值]
+     */
+    Object.defineProperty(Color.prototype, 'getValueByStyle', {
+        value: function () {
+            // 需要的元素
+            var eleCircle = this.element.circle;
+            var eleArrow = this.element.arrow;
+
+            if (eleCircle.length * eleArrow.length == 0) {
+                return defaultValue;
+            }
+
+            var numColorH, numColorS, numColorL;
+            // get color
+            // hsl color
+            if (eleCircle.style.left) {
+                numColorH = parseFloat(window.getComputedStyle(eleCircle).left) / eleCircle.parentElement.clientWidth;
+            } else {
+                numColorH = 0;
+            }
+            if (eleCircle.style.top) {
+                numColorS = 1 - parseFloat(window.getComputedStyle(eleCircle).top) / eleCircle.parentElement.clientHeight;
+            } else {
+                numColorS = 1;
+            }
+            if (eleArrow.style.top) {
+                numColorL = 1 - parseFloat(window.getComputedStyle(eleArrow).top) / eleArrow.parentElement.clientHeight;
+            } else {
+                numColorL = 0;
+            }
+
+            return '#' + funHslToHex(numColorH, numColorS, numColorL);
+        }
+    });
+
+    /**
+     * 面板的色块啊，圆和尖角位置匹配
+     * @param  {String} value 面板UI相匹配的色值，可缺省，表示使用当前输入框的颜色值进行UI变化
+     * @return {Object}       返回当前实例对象
+     */
+    Color.prototype.match = function (value) {
+        // 首先要面板显示
+        if (this.display != true) {
+            return this;
+        }
+
+        // 元素对象
+        var objElement = this.element;
+        // 元素
+        var eleContainer = objElement.container;
+        var eleCurrent = objElement.current;
+        // 更多元素
+        var eleMore = objElement.more;
+        // 元素
+        var eleCircle = objElement.circle;
+        var eleFill = objElement.fill;
+        var eleArrow = objElement.arrow;
+        // 面板内部唯一的输入框元素
+        var eleField = objElement.field;
+
+        // 重定位
+        var isRePosition = true;
+        if (value === false) {
+            isRePosition = value;
+        }
+
+        // 当前的颜色值
+        var strValue = value || eleField.value;
+        if (strValue == '') {
+            // 如果输入框没有值
+            // 使用之前一个合法的颜色值作为现在值
+            strValue = funRgbToHex(window.getComputedStyle(eleCurrent)[BGCOLOR]).replace('#', '');
+            eleField.value = strValue;
+        }
+        strValue = strValue.replace('#', '');
+
+        // 色块值示意
+        eleCurrent.style[BGCOLOR] = '#' + strValue;
+
+        // 当前是基本色面板还是任意色面板
+        if (window.getComputedStyle(eleMore).display == 'none') {
+            // 1. 基本色
+            // 所有当前高亮的元素不高亮
+            var eleActive = eleContainer.querySelector('.' + ACTIVE);
+            if (eleActive) {
+                eleActive.classList.remove(ACTIVE);
+            }
+            // 所有颜色一致的高亮
+            var eleColorMatch = eleContainer.querySelector('a[data-color="' + strValue.toUpperCase() + '"]');
+            if (eleColorMatch) {
+                eleColorMatch.classList.add(ACTIVE);
+            }
+        } else {
+            // to HSL
+            var arrHSL = funHexToHsl(strValue);
+            // hsl value
+            var numColorH = arrHSL[0];
+            var numColorS = arrHSL[1];
+            var numColorL = arrHSL[2];
+
+            // 滑块和尖角的颜色和位置
+            var strHsl = 'hsl(' + [360 * numColorH, 100 * numColorS + '%', '50%'].join() + ')';
+            // 如果不是默认黑色
+            if (strValue != '000000') {
+                eleCircle.style[BGCOLOR] = strHsl;
+                eleFill.style[BGCOLOR] = strHsl;
+            }
+
+            if (isRePosition == true) {
+                if (numColorL != 0) {
+                    eleCircle.style.left = eleCircle.parentElement.clientWidth * numColorH;
+                    eleCircle.style.top = eleCircle.parentElement.clientHeight * numColorS;
+                }
+
+                eleArrow.style.top = eleArrow.parentElement.clientHeight * (1 - numColorL);
+            }
+        }
+
+        return this;
+    };
+
+    /**
+     * 颜色面板显示
+     * @return {Object} 返回当前实例对象
+     */
+    Color.prototype.show = function () {
+        // 元素
+        var eleContainer = this.element.container;
+
+        // 输入框赋值
+        if (eleContainer.innerHTML.trim() == '') {
+            this.create();
+        }
+
+        // 面板显示
+        if (this.drop.display == false) {
+            this.drop.show();
+        }
+        this.display = this.drop.display;
+
+        // 面板UI匹配
+        var eleCurrent = this.element.current;
+        if (!eleCurrent.getAttribute('style')) {
+            eleCurrent.style[BGCOLOR] = this.element.input.value;
+        }
+        this.match();
+
+        // onShow callback
+        if (typeof this.callback.show == 'function') {
+            this.callback.show.call(this, this.element.track, eleContainer);
+        }
+
+        return this;
+    };
+
+    /**
+     * 颜色面板隐藏
+     * @return {Object} 返回当前实例对象
+     */
+    Color.prototype.hide = function () {
+        // 面板隐藏
+        if (this.drop.display == true) {
+            this.drop.hide();
+        }
+        this.display = this.drop.display;
+
+        this.element.input.focus();
+
+        // onShow callback
+        if (typeof this.callback.hide == 'function') {
+            this.callback.hide.call(this, this.element.trigger, this.element.container);
+        }
+
+        return this;
+    };
+
+    var funAutoInitAndWatching = function () {
+        // 如果没有开启自动初始化，则返回
+        if (window.autoInit === false) {
+            return;
+        }
+        // 遍历页面上的range元素
+        var strSelector = 'input[type="color"]';
+
+        document.querySelectorAll(strSelector).forEach(function (eleColorInput) {
+            if (!(eleColorInput.data && eleColorInput.data.color) && window.getComputedStyle(eleColorInput).opacity == '0') {
+                new Color(eleColorInput);
+            }
+        });
+
+        // 如果没有开启观察，不监听DOM变化
+        if (window.watching === false) {
+            return;
+        }
+
+        var funSyncRefresh = function (node, action) {
+            if (node.nodeType != 1) {
+                return;
+            }
+
+            if (node.matches(strSelector)) {
+                if (action == 'remove' && node.data && node.data.color) {
+                    node.data.color.element.track.remove();
+                    node.data.color.element.container.remove();
+                } else if (action == 'add' && window.getComputedStyle(node).opacity == '0') {
+                    new Color(node);
+                }
+            }
+        };
+
+        // DOM Insert自动初始化
+        // IE11+使用MutationObserver
+        // IE9-IE10使用Mutation Events
+        if (window.MutationObserver) {
+            var observerSelect = new MutationObserver(function (mutationsList) {
+                mutationsList.forEach(function (mutation) {
+                    var nodeAdded = mutation.addedNodes;
+                    var nodeRemoved = mutation.removedNodes;
+
+                    if (nodeAdded.length) {
+                        nodeAdded.forEach(function (eleAdd) {
+                            funSyncRefresh(eleAdd, 'add');
+                        });
+                    }
+                    if (nodeRemoved.length) {
+                        nodeRemoved.forEach(function (eleRemove) {
+                            funSyncRefresh.call(mutation, eleRemove, 'remove');
+                        });
+                    }
+                });
+            });
+
+            observerSelect.observe(document.body, {
+                childList: true,
+                subtree: true
+            });
+        } else {
+            document.body.addEventListener('DOMNodeInserted', function (event) {
+                // 插入节点
+                funSyncRefresh(event.target, 'add');
+            });
+            document.body.addEventListener('DOMNodeRemoved', function (event) {
+                // 删除节点
+                // 这里方法执行的时候，元素还在页面上
+                funSyncRefresh(event.target, 'remove');
+            });
+        }
+    };
+
+    // 监听-免初始绑定
+    if (document.readyState != 'loading') {
+        funAutoInitAndWatching();
+    } else {
+        window.addEventListener('DOMContentLoaded', funAutoInitAndWatching);
+    }
+
+    return Color;
+}));
+/**
+ * @Dialog.js
+ * @author  zhangxinxu
+ * @version
+ * @created 15-06-18
+ *  @edited  19-11-01
+ */
+
+(function (global, factory) {
+    if (typeof exports === 'object' && typeof module !== 'undefined') {
+        module.exports = factory();
+    } else if (typeof define === 'function' && (define.amd || define.cmd)) {
+        define(factory);
+    } else {
+        global.Dialog = factory();
+    }
+}((typeof global !== 'undefined') ? global
+    : ((typeof window !== 'undefined') ? window
+        : ((typeof self !== 'undefined') ? self : this)), function () {
+
+    /**
+     * 弹框组件
+     * IE9+基于HTML5 <dialog>元素创建
+     * 透明遮罩层和弹框在一个元素内
+     * @example
+     * var myDialog = new Dialog(options);
+     * button.addEventListener('click', function() {
+           myDialog.remove();
+       });
+     */
+
+        // 类名前缀
+    var DIALOG = 'dialog';
+
+    var CL = {
+        add: function () {
+            return ['ui', DIALOG].concat([].slice.call(arguments)).join('-');
+        },
+        toString: function () {
+            return 'ui-' + DIALOG;
+        }
+    };
+
+    // 关闭SVG
+    var strCloseSvg = '<svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="200" height="200" viewBox="0 0 200 200"><path d="M116.152,99.999l36.482-36.486c2.881-2.881,2.881-7.54,0-10.42 l-5.215-5.215c-2.871-2.881-7.539-2.881-10.42,0l-36.484,36.484L64.031,47.877c-2.881-2.881-7.549-2.881-10.43,0l-5.205,5.215 c-2.881,2.881-2.881,7.54,0,10.42l36.482,36.486l-36.482,36.482c-2.881,2.881-2.881,7.549,0,10.43l5.205,5.215 c2.881,2.871,7.549,2.871,10.43,0l36.484-36.488L137,152.126c2.881,2.871,7.549,2.871,10.42,0l5.215-5.215 c2.881-2.881,2.881-7.549,0-10.43L116.152,99.999z"/></svg>';
+
+    var isSupportDialog = false;
+
+    /**
+     * 弹框实例方法
+     * @param {Object} options 纯对象，可选参数
+     */
+    var Dialog = function (options) {
+        var defaults = {
+            title: '',
+            // 不同类别的内容类型
+            content: '',
+            // 弹框的宽度
+            width: 'auto',
+            // 弹框高度
+            height: 'auto',
+            // 不同类别的默认按钮
+            buttons: [],
+            // 弹框显示、隐藏、移除的回调
+            onShow: function () {
+            },
+            onHide: function () {
+            },
+            onRemove: function () {
+            }
+        };
+        // 最终参数
+        var objParams = Object.assign({}, defaults, options || {});
+
+
+        // 各个元素创建
+        // 容器-含半透明遮罩背景
+        var eleContainer = document.createElement(DIALOG);
+        eleContainer.classList.add(CL.add('container'));
+
+        // 是否支持原生弹框
+        isSupportDialog = ('open' in eleContainer);
+
+        // 不支持的浏览器设置无障碍访问信息
+        if (isSupportDialog == false) {
+            eleContainer.setAttribute('role', DIALOG);
+        }
+
+        // 弹框主体
+        var eleDialog = document.createElement('div');
+        eleDialog.classList.add(CL);
+        // 设置尺寸和键盘访问特性
+        // 如果宽度设置的是纯数值，则认为是px单位
+        if (/^\d+$/.test(objParams.width)) {
+            eleDialog.style.width = objParams.width + 'px';
+        } else {
+            eleDialog.style.width = objParams.width;
+        }
+        // 高度
+        if (/^\d+$/.test(objParams.height)) {
+            eleDialog.style.height = objParams.height + 'px';
+        } else if (objParams.height == 'stretch') {
+            eleDialog.classList.add(CL.add(objParams.height));
+        } else if (objParams.height != 'auto') {
+            eleDialog.style.height = objParams.height;
+        }
+
+        // 使该元素也可以被focus
+        eleDialog.setAttribute('tabindex', '-1');
+
+        // 标题
+        var eleTitle = document.createElement('h4');
+        eleTitle.classList.add(CL.add('title'));
+        eleTitle.innerHTML = objParams.title;
+
+        // 关闭按钮
+        // 随机id，ESC快捷键关闭弹框用到
+        var strIdClose = ('lulu_' + Math.random()).replace('0.', '');
+        // 关闭按钮元素创建
+        var eleClose = document.createElement('button');
+        eleClose.classList.add(CL.add('close'));
+        eleClose.classList.add('ESC');
+        // 无障碍支持
+        eleClose.setAttribute('aria-label', '关闭');
+        eleClose.id = strIdClose;
+        eleClose.setAttribute('data-target', strIdClose);
+        eleClose.innerHTML = strCloseSvg;
+
+        // 主体内容
+        var dataContent = objParams.content || '';
+        // content可以是函数
+        if (typeof dataContent == 'function') {
+            dataContent = dataContent();
+        }
+
+        // 基于内容的数据类型，使用不同的默认的弹框关闭方式
+        if (typeof dataContent == 'string') {
+            this.closeMode = 'remove';
+        } else {
+            this.closeMode = 'hide';
+        }
+
+        // 主体内容元素
+        var eleBody = document.createElement('div');
+        eleBody.classList.add(CL.add('body'));
+
+        if (this.closeMode == 'remove') {
+            eleBody.innerHTML = dataContent;
+        } else {
+            eleBody.appendChild(dataContent);
+        }
+
+        // 底部元素
+        var eleFooter = document.createElement('div');
+        eleFooter.classList.add(CL.add('footer'));
+
+        // 组装
+        eleDialog.appendChild(eleClose);
+        eleDialog.appendChild(eleTitle);
+        eleDialog.appendChild(eleBody);
+        eleDialog.appendChild(eleFooter);
+
+        eleContainer.appendChild(eleDialog);
+
+        // 插入的细节
+        // 1. 插在所有dialog的前面
+        // 2. 如果没有，则放在页面后面
+        var eleAllDialog = document.querySelectorAll(DIALOG);
+
+        if (eleAllDialog.length) {
+            eleAllDialog[0].insertAdjacentElement('beforebegin', eleContainer);
+        } else {
+            (objParams.container || document.body).appendChild(eleContainer);
+        }
+
+        // 暴露元素
+        this.element = {
+            container: eleContainer,
+            dialog: eleDialog,
+            close: eleClose,
+            title: eleTitle,
+            body: eleBody,
+            footer: eleFooter
+        };
+
+        // 暴露一些参数
+        this.params = {
+            title: objParams.title,
+            width: objParams.width,
+            buttons: objParams.buttons,
+            content: dataContent
+        };
+
+        this.callback = {
+            show: objParams.onShow,
+            hide: objParams.onHide,
+            remove: objParams.onRemove
+        };
+
+        this.display = false;
+
+        // 按钮处理
+        this.button();
+
+        // 事件
+        this.events();
+
+        if (dataContent) {
+            this.show();
+        }
+
+        return this;
+    };
+
+
+    /**
+     * 弹框按钮需要单独处理
+     * @return {[type]} [description]
+     */
+    Dialog.prototype.button = function () {
+        var objParams = this.params;
+        var objElement = this.element;
+
+        objElement.footer.innerHTML = '';
+
+        for (var keyElement in objElement) {
+            if (/^button/.test(keyElement)) {
+                delete objElement[keyElement];
+            }
+        }
+
+        // 按钮元素创建
+        objParams.buttons.forEach(function (objButton, numIndex) {
+            // objButton可能是null等
+            objButton = objButton || {};
+
+            // 按钮类型和值的处理
+            var strType = objButton.type;
+            var strValue = objButton.value;
+
+            if (strType == 'remind' || (!strType && numIndex == 0)) {
+                strType = 'primary';
+            }
+
+            if (!strValue) {
+                strValue = ['确定', '取消'][numIndex];
+            }
+
+            var eleButton = document.createElement('button');
+            if (objButton['for']) {
+                eleButton = document.createElement('label');
+                eleButton.setAttribute('for', objButton['for']);
+            }
+            // 自定义的类名
+            if (objButton.className) {
+                eleButton.className = objButton.className;
+            }
+            // 按钮样式
+            eleButton.classList.add(String(CL).replace(DIALOG, 'button'));
+            if (strType) {
+                eleButton.setAttribute('data-type', strType);
+            }
+            // 按钮内容
+            eleButton.innerHTML = strValue;
+
+            // 放在底部元素中
+            objElement.footer.appendChild(eleButton);
+
+            // 对外暴露
+            objElement['button' + numIndex] = eleButton;
+        });
+
+        // 按钮事件
+        // 底部确定取消按钮
+        objParams.buttons.forEach(function (objButton, numIndex) {
+            var eleButton = objElement['button' + numIndex];
+
+            if (!eleButton || objButton['for']) {
+                return;
+            }
+
+            var objEvents = objButton.events || {
+                click: function () {
+                    this[this.closeMode]();
+                }.bind(this)
+            };
+
+            if (typeof objEvents == 'function') {
+                objEvents = {
+                    click: objEvents
+                };
+            }
+
+            for (var strEventType in objEvents) {
+                eleButton.addEventListener(strEventType, function (event) {
+                    // 把实例对象传入
+                    event.dialog = this;
+                    // 事件执行
+                    objEvents[strEventType](event);
+                }.bind(this));
+            }
+
+            // 额外的focus事件支持
+            eleButton.addEventListener('focus', function () {
+                if (window.isKeyEvent) {
+                    this.style.outline = '';
+                } else {
+                    this.style.outline = 'none';
+                }
+            });
+        }.bind(this));
+    };
+
+    /**
+     * 弹框相关事件处理
+     * @return {[type]} [description]
+     */
+    Dialog.prototype.events = function () {
+        var objElement = this.element;
+
+        // IE10+增加CSS3动画支持
+        var eleContainer = objElement.container;
+        eleContainer.addEventListener('animationend', function (event) {
+            if (event.target.tagName.toLowerCase() == DIALOG) {
+                eleContainer.classList.remove(CL.add('animation'));
+            }
+        });
+        if (isSupportDialog == true) {
+            eleContainer.addEventListener('close', function () {
+                // 滚动条处理
+                this.scrollbar();
+                // 显示状态切换
+                this.display = false;
+                // 键盘焦点元素还原
+                this.tabindex();
+            }.bind(this));
+        }
+
+        // 关闭弹框按钮
+        var eleClose = objElement.close;
+        if (eleClose) {
+            eleClose.addEventListener('click', function () {
+                // 有其他可ESC元素存在时候，弹框不关闭
+                var eleActiveElement = document.activeElement;
+                var attrActiveElement = eleActiveElement.getAttribute('data-target');
+                var eleTargetElement = null;
+
+                if (attrActiveElement) {
+                    eleTargetElement = document.getElementById(attrActiveElement);
+                }
+
+                // 如果是其他元素的键盘访问
+                if (window.isKeyEvent && eleTargetElement && eleActiveElement != eleClose && document.querySelector('a[data-target="' + attrActiveElement + '"],input[data-target="' + attrActiveElement + '"],button[data-target="' + attrActiveElement + '"]') && eleTargetElement.clientWidth > 0) {
+                    return;
+                }
+
+                // 关闭弹框
+                this[this.closeMode]();
+            }.bind(this));
+        }
+
+        return this;
+    };
+
+    /**
+     * 打开类型弹框的底层方法
+     * @param  {String} content    弹框字符内容
+     * @param  {Object} options 可选参数，这里只支持标题和按钮的自定义
+     * @return {Object} 返回当前实例对象
+     */
+    Dialog.prototype.open = function (content, options) {
+        var objElement = this.element;
+
+        // 默认参数
+        // 只支持标题和按钮的自定义
+        var defaults = {
+            title: '',
+            buttons: []
+        };
+
+        var dataContent = content || '';
+        // content可以是函数
+        if (typeof dataContent == 'function') {
+            dataContent = dataContent();
+        }
+
+        // 基于内容的数据类型，使用不同的默认的弹框关闭方式
+        if (typeof dataContent == 'string') {
+            this.closeMode = 'remove';
+        } else {
+            this.closeMode = 'hide';
+        }
+
+        // 最终参数
+        this.params = Object.assign({}, defaults, options || {}, {
+            content: dataContent
+        });
+
+        // 类名还原为初始
+        objElement.container.className = CL.add('container');
+
+        // 替换当前弹框的内容，包括按钮等
+        if (this.closeMode == 'remove') {
+            objElement.body.innerHTML = dataContent;
+        } else {
+            objElement.body.appendChild(dataContent);
+        }
+        objElement.title.innerHTML = this.params.title;
+        // 按钮
+        this.button();
+        // 显示
+        this.show();
+
+        return this;
+    };
+
+    /**
+     * loading弹框，通常用在ajax请求之前使用
+     * loading结束后可以直接调用弹框实例的open()方法显示
+     * @return {Object} 返回当前实例对象
+     */
+    Dialog.prototype.loading = function () {
+        var objElement = this.element;
+
+        objElement.container.className = [CL.add('container'), CL.add('loading')].join(' ');
+        objElement.body.innerHTML = '<ui-loading rows="10" size="3"></ui-loading>';
+
+        this.show();
+
+        return this;
+    };
+
+    /**
+     * alert类型的弹框，默认仅一个“确定”按钮
+     * @param  {String} content    提示文字或者提示HTML片段
+     * @param  {Object} options 提示可选参数
+     * @return {Object}         返回当前实例对象
+     */
+    Dialog.prototype.alert = function (content, options) {
+        var objElement = this.element;
+
+        if (!content) {
+            return;
+        }
+
+        var strContent = content;
+
+        // alert框的默认参数
+        var defaults = {
+            title: '',
+            // 类型, 'remind', 'success', 'warning', danger', 或者任意 'custom'
+            type: 'remind',
+            buttons: [{}]
+        };
+        // 最终参数
+        var objParams = Object.assign({}, defaults, options || {});
+
+        if (objParams.type == 'error' || objParams.type == 'fail') {
+            objParams.type = 'danger';
+        }
+        if (objParams.type == 'primary') {
+            objParams.type = 'remind';
+        }
+
+        if (objParams.buttons.length && !objParams.buttons[0].type) {
+            objParams.buttons[0].type = objParams.type;
+            // 如果是自定义类型，则使用'primary'作为按钮类型
+            if (/^remind|success|warning|danger$/.test(objParams.type) == false) {
+                objParams.buttons[0].type = defaults.type;
+            }
+        }
+
+        // 替换当前弹框的内容，包括按钮等
+        objElement.container.className = [CL.add('container'), CL.add('container', 'alert')].join(' ');
+
+        // 尺寸
+        objElement.dialog.style.width = 'auto';
+
+        objElement.title.innerHTML = objParams.title;
+        // 如果是纯文本
+        if (/<[\w\W]+>/.test(strContent) == false) {
+            strContent = '<p>' + strContent + '</p>';
+        }
+
+        objElement.body.innerHTML = '<div class="' + CL.add(objParams.type) + ' ' + CL.add('alert') + '">' + strContent + '</div>';
+
+        this.params = {
+            width: 'auto',
+            title: objParams.title,
+            buttons: objParams.buttons,
+            content: strContent
+        };
+
+        this.button();
+
+        this.show();
+
+        if (objElement.button0) {
+            objElement.button0.focus();
+        }
+
+        return this;
+    };
+
+    /**
+     * confirm类型的弹框，默认有一个“确定”和一个“取消”按钮
+     * @param  {String} content    提示文字或者提示HTML片段
+     * @param  {Object} options 提示可选参数
+     * @return {Object}         返回当前实例对象
+     */
+    Dialog.prototype.confirm = function (content, options) {
+        var objElement = this.element;
+
+        if (!content) {
+            return;
+        }
+
+        var strContent = content;
+
+        // confirm框的默认参数
+        var defaults = {
+            title: '',
+            type: 'danger',
+            buttons: [{}, {}]
+        };
+        // 最终参数
+        var objParams = Object.assign({}, defaults, options || {});
+
+        if (objParams.type == 'error' || objParams.type == 'fail') {
+            objParams.type = 'danger';
+        }
+        if (objParams.type == 'primary') {
+            objParams.type = 'remind';
+        }
+
+        // danger类型的按钮可缺省
+        if (objParams.buttons.length && !objParams.buttons[0].type) {
+            objParams.buttons[0].type = objParams.type;
+            // 如果是自定义类型，则使用'primary'作为按钮类型
+            if (/^remind|success|warning|danger$/.test(objParams.type) == false) {
+                objParams.buttons[0].type = defaults.type;
+            }
+        }
+
+        // 替换当前弹框的内容，包括按钮等
+        objElement.container.className = [CL.add('container'), CL.add('container', 'confirm')].join(' ');
+
+        // 尺寸
+        objElement.dialog.style.width = 'auto';
+
+        objElement.title.innerHTML = objParams.title;
+        // 如果是纯文本
+        if (/<[\w\W]+>/.test(strContent) == false) {
+            strContent = '<p>' + strContent + '</p>';
+        }
+
+        objElement.body.innerHTML = '<div class="' + CL.add(objParams.type) + ' ' + CL.add('confirm') + '">' + strContent + '</div>';
+
+        this.params = {
+            width: 'auto',
+            title: objParams.title,
+            buttons: objParams.buttons,
+            content: strContent
+        };
+
+        this.button();
+
+        this.show();
+
+        if (objElement.button0) {
+            objElement.button0.focus();
+        }
+
+
+        return this;
+    };
+
+    /**
+     * 弹框出现与不出现，背景锁定同时页面不晃动的处理
+     * @return {Object} 返回当前实例对象
+     */
+    Dialog.prototype.scrollbar = function () {
+        var eleAllDialog = document.querySelectorAll(DIALOG);
+
+        // 是否有显示的弹框
+        var isDisplayed = [].slice.call(eleAllDialog).some(function (eleDialog) {
+            return window.getComputedStyle(eleDialog).display != 'none';
+        });
+
+        // 因为去掉了滚动条，所以宽度需要偏移，保证页面内容没有晃动
+        if (isDisplayed) {
+            var widthScrollbar = 17;
+            if (this.display != true) {
+                widthScrollbar = window.innerWidth - document.documentElement.clientWidth;
+            }
+            // 所有PC浏览器都滚动锁定
+            document.documentElement.style.overflow = 'hidden';
+
+            if (this.display != true) {
+                document.body.style.borderRight = widthScrollbar + 'px solid transparent';
+            }
+        } else {
+            document.documentElement.style.overflow = '';
+            document.body.style.borderRight = '';
+        }
+
+        return this;
+    };
+
+    /**
+     * 键盘可访问的细节处理
+     * @return {Object} 返回当前实例对象
+     */
+    Dialog.prototype.tabindex = function () {
+        var eleDialog = this.element.dialog;
+        var eleLastActiveElement = this.lastActiveElement;
+
+        if (this.display == true) {
+            var eleActiveElement = document.activeElement;
+            if (eleDialog != eleActiveElement) {
+                this.lastActiveElement = eleActiveElement;
+            }
+
+            // 键盘索引起始位置变为在弹框元素上
+            if (eleDialog) {
+                eleDialog.focus();
+            }
+        } else if (eleLastActiveElement && eleLastActiveElement.tagName.toLowerCase() != 'body') {
+            // 键盘焦点元素还原
+            eleLastActiveElement.focus();
+            eleLastActiveElement.blur();
+            this.lastActiveElement = null;
+        }
+
+        return this;
+    };
+
+    /**
+     * 弹框元素zIndex实时最大化
+     * @return {[type]} [description]
+     */
+    Dialog.prototype.zIndex = function () {
+        var eleContainer = this.element.container;
+        // 返回eleTarget才是的样式计算对象
+        var objStyleTarget = window.getComputedStyle(eleContainer);
+        // 此时元素的层级
+        var numZIndexTarget = objStyleTarget.zIndex;
+        // 用来对比的层级，也是最小层级
+        var numZIndexNew = 19;
+
+        // 只对<body>子元素进行层级最大化计算处理
+        document.body.childNodes.forEach(function (eleChild) {
+            if (eleChild.nodeType != 1) {
+                return;
+            }
+
+            var objStyleChild = window.getComputedStyle(eleChild);
+
+            var numZIndexChild = objStyleChild.zIndex * 1;
+
+            if (numZIndexChild && eleContainer != eleChild && objStyleChild.display != 'none') {
+                numZIndexNew = Math.max(numZIndexChild + 1, numZIndexNew);
+            }
+        });
+
+        if (numZIndexNew != numZIndexTarget) {
+            eleContainer.style.zIndex = numZIndexNew;
+        }
+    };
+
+    /**
+     * 弹框显示方法
+     * @return {Object} 返回当前实例对象
+     */
+    Dialog.prototype.show = function () {
+        var eleContainer = this.element.container;
+        // 面板显示
+        if (isSupportDialog) {
+            if (!eleContainer.open) {
+                eleContainer.show();
+            }
+        } else {
+            eleContainer.setAttribute('open', 'open');
+            // 层级最大
+            this.zIndex();
+        }
+
+        if (this.display != true) {
+            eleContainer.classList.add(CL.add('animation'));
+        }
+        this.scrollbar();
+        this.display = true;
+
+        this.tabindex();
+
+        if (typeof this.callback.show == 'function') {
+            this.callback.show.call(this, eleContainer);
+        }
+
+        return this;
+    };
+
+    /**
+     * 弹框隐藏方法
+     * @return {Object} 返回当前实例对象
+     */
+    Dialog.prototype.hide = function () {
+        var eleContainer = this.element.container;
+
+        if (isSupportDialog) {
+            eleContainer.close();
+        } else {
+            eleContainer.removeAttribute('open');
+        }
+
+        // 滚动条处理
+        this.scrollbar();
+        // 显示状态切换
+        this.display = false;
+        // 键盘焦点元素还原
+        this.tabindex();
+
+        if (typeof this.callback.hide == 'function') {
+            this.callback.hide.call(this, eleContainer);
+        }
+
+        return this;
+    };
+
+    /**
+     * 弹框移除方法
+     * @return {Object} 返回当前实例对象
+     */
+    Dialog.prototype.remove = function () {
+        var eleContainer = this.element.container;
+
+        eleContainer.remove();
+        // 滚动条处理
+        this.scrollbar();
+        // 显示状态切换
+        this.display = false;
+        // 键盘焦点元素还原
+        this.tabindex();
+
+        if (typeof this.callback.remove == 'function') {
+            this.callback.remove.call(this, eleContainer);
+        }
+
+        return this;
+    };
+
+    return Dialog;
+}));
+/**
+ * @Datalist.js
+ * @author zhangxinxu
+ * @version
+ * Created: 16-03-28
+ * @description 多功能下拉数据列表
+ **/
+(function (global, factory) {
+    if (typeof exports === 'object' && typeof module !== 'undefined') {
+        global.Follow = require('./Follow');
+        module.exports = factory();
+    } else if (typeof define === 'function' && (define.amd || define.cmd)) {
+        define(factory);
+    } else {
+        global.Datalist = factory();
+    }
+}((typeof global !== 'undefined') ? global
+    : ((typeof window !== 'undefined') ? window
+        : ((typeof self !== 'undefined') ? self : this)), function (require) {
+    var Follow = this.Follow;
+
+    if (typeof require == 'function' && !Follow) {
+        Follow = require('common/ui/Follow');
+    } else if (!Follow) {
+        window.console.error('need Follow.js');
+        return {};
+    }
+
+    /**
+     * 数据下拉列表
+     * 类似于传统Autocomplete功能
+     * 仿HTML5原生datalist功能实现
+     * 支持静态呈现(基于现有HTML构建)和动态获取(本地存储或ajax请求)
+     */
+
+        // 常量变量
+    var DATALIST = 'datalist';
+    var SELECTED = 'selected';
+    var DISABLED = 'disabled';
+    var ACTIVE = 'active';
+    var REVERSE = 'reverse';
+
+    // 样式类名统一处理
+    var CL = {
+        add: function () {
+            return ['ui', DATALIST].concat([].slice.call(arguments)).join('-');
+        },
+        toString: function () {
+            return 'ui-' + DATALIST;
+        }
+    };
+
+    var objEventType = {
+        start: 'mousedown',
+        move: 'mousemove',
+        end: 'mouseup'
+    };
+    if ('ontouchstart' in document) {
+        objEventType = {
+            start: 'touchstart',
+            move: 'touchmove',
+            end: 'touchend'
+        };
+    }
+
+    /**
+     * 过滤HTML标签的方法
+     * @param  {String} str 需要过滤的HTML字符串
+     * @return {String}     返回过滤后的HTML字符串
+     */
+    var funStripHTML = function (str) {
+        if (typeof str == 'string') {
+            return str.replace(/<\/?[^>]*>/g, '');
+        }
+
+        return '';
+    };
+
+    /**
+     * 转义HTML标签的方法
+     * @param  {String} str 需要转义的HTML字符串
+     * @return {String}     转义后的字符串
+     */
+    var funEncodeHTML = function (str) {
+        if (typeof str == 'string') {
+            return str.replace(/<|&|>/g, function (matches) {
+                return ({
+                    '<': '&lt;',
+                    '>': '&gt;',
+                    '&': '&amp;'
+                })[matches];
+            });
+        }
+
+        return '';
+    };
+
+    /**
+     * 反转义HTML标签的方法
+     * @param  {String} str 需要反转义的字符串
+     * @return {String}     反转义后的字符串
+     */
+    var funDecodeHTML = function (str) {
+        if (typeof str == 'string') {
+            return str.replace(/&lt;|&gt;|&amp;/g, function (matches) {
+                return ({
+                    '&lt;': '<',
+                    '&gt;': '>',
+                    '&amp;': '&'
+                })[matches];
+            });
+        }
+
+        return '';
+    };
+
+    /*
+     * 支持jQuery API调用和模块化调用两种
+     * @example
+     * new Datalist(element)
+    */
+
+    /**
+     * Datalist实例方法
+     * @param {Object|Element} element      输入框元素DOM对象或者选择器
+     * @param {Object} options  可选参数
+     */
+    var Datalist = function (element, options) {
+        if (typeof element == 'string') {
+            element = document.querySelector(element);
+        }
+
+        if (!element) {
+            window.console.error('Datalist实例方法参数缺失');
+
+            return;
+        }
+        // el一般特指输入框
+        if (element.nodeType != 1) {
+            window.console.error('element参数不合法');
+
+            return;
+        }
+
+        // 分3种情况
+        // 1. list属性静态获取
+        // 2. 根据name值本地获取
+        // 3. options的data参数获取
+        var defaults = {
+            // 列表数据，'auto'表示取自本地存储，还支持数组和函数类型和对象
+            data: 'auto',
+            // 最多出现的匹配条目数，如果数目不限，使用'auto'关键字
+            // 支持从element元素的results属性获取
+            max: 8,
+            // 下拉列表的宽度，默认和输入框宽度一致，支持数值和function
+            width: 'auto',
+            // 显示容器
+            container: document.body,
+            // 输入框点击时候的交互方式，是否变成placeholder状态
+            // 默认值是'auto'，还支持true/和false
+            placeholder: 'auto',
+            // 对总数据的过滤方法，默认前序匹配
+            filter: function (data, value) {
+                // this是当前实例对象
+                var arr = [];
+                // 默认是从头到尾完全字符匹配
+                if (data.forEach) {
+                    data.forEach(function (obj) {
+                        if (value == '' || obj.value.indexOf(value) == 0) {
+                            arr.push(obj);
+                        }
+                    });
+                }
+
+                return arr;
+            },
+            // 选中某一项的回调
+            // 点击和回车，上下键不会触发此事件
+            onSelect: function () {
+            },
+            // 显示和隐藏时候的回调
+            // this为实例对象，支持两个参数，
+            // 分别是trigger(输入框)和target(生成列表)元素
+            onShow: function () {
+            },
+            onHide: function () {
+            }
+        };
+
+        options = options || {};
+
+        // 元素
+        var eleInput = element;
+
+        if (eleInput.data && eleInput.data.datalist) {
+            return eleInput.data.datalis;
+        }
+
+        // max是否通过原生的results属性设置
+        var strResults = eleInput.getAttribute('results');
+        var numResults = Number(strResults);
+        if (strResults) {
+            options.max = numResults;
+        }
+
+        var objParams = Object.assign({}, defaults, options);
+
+        var eleContainer = objParams.container;
+        if (eleContainer == 'string') {
+            eleContainer = document.querySelector(eleContainer);
+        }
+
+        // 暴露的数据
+        this.element = {
+            input: eleInput,
+            trigger: eleInput,
+            form: eleInput.closest('form'),
+            container: eleContainer
+        };
+
+        this.callback = {
+            filter: objParams.filter,
+            select: objParams.onSelect,
+            show: objParams.onShow,
+            hide: objParams.onHide
+        };
+        this.params = {
+            width: objParams.width,
+            max: objParams.max,
+            data: objParams.data,
+            index: -1
+        };
+
+        // 记住输入框默认的placeholder值
+        var strAttrPlaceholder = eleInput.getAttribute('placeholder');
+        if (strAttrPlaceholder) {
+            this.params.placeholder = strAttrPlaceholder;
+        }
+
+        // 下拉列表是否显示的标志量
+        this.display = false;
+        // 占位符交互标示量
+        if (objParams.placeholder == 'auto') {
+            this.placeholder = true;
+        }
+
+        // 输入框的name属性值
+        var strAttrName = eleInput.name;
+
+        // 从本地自动获得数据
+        if (objParams.data == 'auto') {
+            var strAttrList = eleInput.getAttribute('list');
+
+            var strAttrAutocomplete = eleInput.getAttribute('autocomplete');
+
+            if (strAttrList) {
+                // 走<datalist>元素获取数据
+                var eleDatalist = document.getElementById(strAttrList);
+                if (!eleDatalist) {
+                    return;
+                }
+                // 暴露在外
+                this.element.datalist = eleDatalist;
+                // 去掉浏览器原生的行为
+                eleInput.removeAttribute('list');
+                // 数据实时从<datalist>元素获取
+                this.callback.data = function () {
+                    return [].slice.call(eleDatalist.querySelectorAll('option')).map(function (eleOption) {
+                        var objAttr = {};
+
+                        [].slice.call(eleOption.attributes).forEach(function (objNameValue) {
+                            objAttr[objNameValue.name] = objNameValue.value;
+                        });
+
+                        // value和label是必须的
+                        // 降低filter中出错概率
+                        objAttr.value = objAttr.value || '';
+                        objAttr.label = objAttr.label || '';
+
+                        return objAttr;
+                    });
+                };
+            } else if (strAttrName && strAttrAutocomplete != 'off') {
+                // 走本地存储获取数据，模拟浏览器autocomplete效果
+                // 跟随浏览器autocomplete行为规范实现
+
+                // 数据从本地localStorage实时获取
+                this.callback.data = function () {
+                    var data = [];
+                    // IE7忽略自动记忆功能
+                    // 本地获取
+                    var strList = localStorage[DATALIST + '-' + strAttrName];
+                    if (strList) {
+                        strList.split(',').forEach(function (value) {
+                            // value必须
+                            if (value) {
+                                data.push({
+                                    label: '',
+                                    value: value
+                                });
+                            }
+                        });
+                    }
+
+                    return data;
+                };
+
+                this.params.twice = true;
+
+                // autocomplete交互占位符不参与
+                this.placeholder = false;
+
+                // 表单记忆
+                if (this.element.form) {
+                    this.element.form.addEventListener('submit', function () {
+                        this.store();
+                    }.bind(this));
+                }
+            } else {
+                this.callback.data = function () {
+                    return [];
+                };
+            }
+
+        } else if (objParams.data instanceof Array) {
+            // 2. 如果直接data参数
+            this.callback.data = function () {
+                return objParams.data;
+            };
+        } else if (typeof objParams.data == 'function') {
+            // 3. 如果是函数
+            this.callback.data = objParams.data;
+        } else if (typeof objParams.data == 'object' && objParams.data.url) {
+            // 4. 如果是ajax参数对象
+            // 更改filter内置过滤处理（如果用户并没有自定义的话）
+            if (!options.filter) {
+                this.callback.filter = function (data) {
+                    return data;
+                };
+            }
+
+            var timerAjaxDatalist = null;
+            var objDatalist = this;
+
+            this.callback.data = function () {
+                // 清除延时，避免每次输入都请求
+                clearTimeout(timerAjaxDatalist);
+
+                if (!strAttrName) {
+                    strAttrName = 'k';
+                }
+
+                // 没有值的时候清空数据
+                // 不请求
+                var strValue = eleInput.value.trim();
+
+                if (strValue == '') {
+                    objDatalist.data = [];
+
+                    return [];
+                }
+
+                var objAjaxParams = new URLSearchParams(objParams.data.data);
+                // 加入输入数据
+                objAjaxParams.append(strAttrName, strValue);
+
+                // URL处理
+                var strUrlAjax = objParams.data.url.split('#')[0];
+                // URL拼接
+                if (strUrlAjax.split('?').length > 1) {
+                    strUrlAjax = strUrlAjax + '&' + objAjaxParams.toString();
+                } else {
+                    strUrlAjax = strUrlAjax + '?' + objAjaxParams.toString();
+                }
+
+                // 有2个参数有内置，需要合并
+                // 1是搜索查询参数
+                // 2是成功后的回调
+                var funAjax = function () {
+                    var xhr = new XMLHttpRequest();
+
+                    xhr.open('GET', strUrlAjax);
+
+                    xhr.onload = function () {
+                        var json = {};
+
+                        try {
+                            json = JSON.parse(xhr.responseText);
+
+                            if (json && json.data) {
+                                objDatalist.refresh(objDatalist.callback.filter.call(objDatalist, json.data));
+                                // 成功回调
+                                if (objParams.data.success) {
+                                    objParams.data.success(json);
+                                }
+                            } else if (objParams.data.error) {
+                                objParams.data.error(json);
+                            }
+                        } catch (event) {
+                            if (objParams.data.error) {
+                                objParams.data.error(event);
+                            }
+                        }
+                    };
+
+                    xhr.onloadend = function () {
+                        // 清除输入框忙碌状态
+                        eleInput.removeAttribute('aria-busy');
+                    };
+
+                    xhr.onerror = function (event) {
+                        if (objParams.data.error) {
+                            objParams.data.error(event);
+                        }
+                    };
+
+                    xhr.send();
+
+                    // 标记输入框忙碌状态
+                    eleInput.setAttribute('aria-busy', 'true');
+                };
+
+                // 请求保护，200毫秒延迟判断
+                timerAjaxDatalist = setTimeout(funAjax, 200);
+            };
+
+            // autocomplete交互占位符不参与
+            this.placeholder = false;
+        }
+
+        // 务必灭了浏览器内置的autocomplete
+        eleInput.setAttribute('autocomplete', 'off');
+
+        // 上面的数据方法准备完毕，下面事件
+        this.events();
+
+        // 暴露
+        // 存储
+        if (!eleInput.data) {
+            eleInput.data = {};
+        }
+        eleInput.data.datalist = this;
+    };
+
+    /**
+     * 本地存储输入框的值
+     * @return {Object} 返回当前实例对象
+     */
+    Datalist.prototype.store = function () {
+        // 元素
+        var eleInput = this.element.input;
+        // 元素属性值
+        var strValue = this.value();
+        var strName = eleInput.name;
+        // 只有有值的时候才本地记忆
+        if (strValue && strName) {
+            // 本地获取
+            var arrList = (localStorage[DATALIST + '-' + strName] || '').split(',');
+            // 如果当前数据并未保存过
+            var numIndexMatch = arrList.indexOf(strValue);
+            if (numIndexMatch == -1) {
+                // 新值，前面插入
+                arrList.unshift(strValue);
+            } else if (numIndexMatch != 0) {
+                // 如果当前匹配内容不是首位，顺序提前
+                // 把需要提前的数组弄出来
+                var arrSplice = arrList.splice(numIndexMatch, 1);
+                // 重新连接
+                arrList = arrSplice.concat(arrList);
+            }
+
+            // 更改对应的本地存储值
+            localStorage[DATALIST + '-' + strName] = arrList.join();
+        }
+
+        return this;
+    };
+
+    /**
+     * 清除本地存储的值
+     * @param  {String} value value参数存在3种逻辑，具体参见方法内注释
+     * @return {Object}       返回当前实例对象
+     */
+    Datalist.prototype.removeStore = function (value) {
+        // value参数存在下面3种逻辑
+        // 1. 字符串内容，表示移除本地该值数据（如果有）
+        // 2. true，表示清空本地对应该存储
+        // 3. undefined, 表示使用输入框的value值作为移除对象
+
+        // 元素
+        var eleInput = this.element.input;
+        // 元素属性值
+        var strName = eleInput.name;
+        // 值
+        var strValue = value || this.value();
+        // 只有data为auto时候才本地记忆
+        if (strValue && strName) {
+            if (strValue === true) {
+                localStorage.removeItem(DATALIST + '-' + strName);
+            } else if (typeof strValue == 'string') {
+                // 本地获取
+                var arrList = (localStorage[DATALIST + '-' + strName] || '').split(',');
+                // 当前数据位置
+                var numIndexMatch = arrList.indexOf(strValue);
+                if (numIndexMatch != -1) {
+                    // 删除
+                    arrList.splice(numIndexMatch, 1);
+                    // 更改对应的本地存储值
+                    localStorage[DATALIST + '-' + strName] = arrList.join();
+                }
+            }
+        }
+
+        return this;
+    };
+
+    /**
+     * 刷新列表
+     * @param  {Array} data 刷新列表的数据，可缺省，缺省则调用API中的data()方法获取
+     * @return {Object}     返回当前实例对象
+     */
+    Datalist.prototype.refresh = function (data) {
+        // 元素们
+        var eleTarget = this.element.target;
+        var eleInput = this.element.input;
+
+        if (!eleTarget) {
+            this.create();
+            eleTarget = this.element.target;
+        }
+
+        // 此时输入框的值
+        var strValue = this.value();
+        // 显示的列表数据
+        var arrData = data;
+
+        // 列表的刷新
+        // 根据data和filter得到最终呈现的数据
+        if (typeof arrData == 'undefined') {
+            if (typeof this.callback.data != 'function') {
+                return this;
+            }
+            arrData = this.callback.filter.call(this, this.callback.data(), strValue);
+
+            if (arrData instanceof Array == false) {
+                return this;
+            }
+        }
+        // 显示的最大个数
+        if (typeof this.params.max == 'number') {
+            arrData = arrData.slice(0, this.params.max);
+        }
+
+        // 暴露最终使用的列表数据
+        this.data = arrData;
+
+        // 列表HTML组装
+        var strHtmlList = '';
+        if (arrData && arrData.length) {
+            // 先不匹配任何列表项
+            this.params.index = -1;
+
+            // 占位符
+            var strAttrPlaceholder = eleInput.getAttribute('placeholder');
+            var strParamPlaceholder = this.params.placeholder;
+
+            // 拼接列表字符内容
+            arrData.forEach(function (objData, numIndex) {
+                // 过滤HTML标签
+                var strValueStrip = funStripHTML(objData.value || '').trim();
+                var strLabelStrip = funStripHTML(objData.label || '').trim();
+
+                var strClassList = '';
+                if ((strValue && strValueStrip == strValue) || (!strValue && strValueStrip == strAttrPlaceholder && strValueStrip != strParamPlaceholder)) {
+                    strClassList = ' ' + SELECTED;
+                    // 这个键盘操作时候需要
+                    this.params.index = numIndex;
+                }
+                // 禁用态，禁用态和选中态不能同时存在
+                if (objData[DISABLED] || typeof objData[DISABLED] == 'string') {
+                    strClassList = ' ' + DISABLED;
+                }
+
+                if (objData.label) {
+                    strHtmlList = strHtmlList +
+                        // 虽然使用其他标签模拟<datalist>
+                        // 但是，一些属性值，还是遵循HTML规范
+                        '<li class="' + CL.add('option') + strClassList + '" data-value="' + strValueStrip + '" label="' + strLabelStrip + '" data-index="' + numIndex + '">' +
+                        // label应该前置，可以通过相邻选择器控制后面内容的UI
+                        '<label class="' + CL.add('label') + '">' +
+                        objData.label +
+                        '</label><span class="' + CL.add('value') + '">' +
+                        objData.value +
+                        '</span>' +
+                        '</li>';
+                } else {
+                    strHtmlList = strHtmlList +
+                        // 但是，一些属性值，还是遵循HTML规范
+                        '<li class="' + CL.add('option') + strClassList + '" data-value="' + strValueStrip + '" data-index="' + numIndex + '">' +
+                        '<span class="' + CL.add('value') + '">' + objData.value + '</span>' +
+                        '</li>';
+                }
+            }.bind(this));
+        }
+
+        if (strHtmlList != '') {
+            strHtmlList = '<ul class="' + CL.add(DATALIST) + '">' + strHtmlList + '</ul>';
+        }
+
+        eleTarget.innerHTML = strHtmlList;
+
+        var eleSelected = eleTarget.querySelector('.' + SELECTED);
+        if (this.display == true && eleSelected) {
+
+            // 选中元素距离容器上边缘的位置
+            var numOffsetTop = eleSelected.offsetTop - (eleTarget.lastScrollTop || 0);
+
+            // 如果不可见
+            if (numOffsetTop < 0 || numOffsetTop >= eleSelected.parentElement.clientHeight) {
+                eleSelected.parentElement.scrollTop = eleSelected.offsetTop;
+                eleTarget.lastScrollTop = eleSelected.offsetTop;
+            } else {
+                eleSelected.parentElement.scrollTop = eleTarget.lastScrollTop || 0;
+            }
+        }
+
+        if (strHtmlList) {
+            if (this.display == false) {
+                this.show();
+            }
+        } else if (this.display == true) {
+            this.hide();
+        }
+    };
+
+    /**
+     * 创建下拉面板
+     * 方法私有
+     * @return {Object} 返回当前实例对象
+     */
+    Object.defineProperty(Datalist.prototype, 'create', {
+        value: function () {
+            // list属性值需要和创建的列表元素id对应获取
+            var eleTrigger = this.element.trigger;
+
+            // 原生HTML5应该是对应datalist元素
+            // 但1. datalist无法自定义UI; 2. IE9-不支持；3. 一些bug存在
+            // 所以，我们使用普通的ul列表元素模拟
+            if (!this.element.target) {
+                // 看看是否有list属性值
+                var strId = this.element.datalist && this.element.datalist.id;
+                if (!strId) {
+                    // 如果没有关联id，创建之
+                    strId = ('lulu_' + Math.random()).replace('0.', '');
+                    // 设置关联id
+                    eleTrigger.setAttribute('data-target', strId);
+                }
+
+                var eleTarget = document.createElement('div');
+                eleTarget.classList.add(CL);
+
+                eleTarget.addEventListener('click', function (event) {
+                    if (event.touches && event.touches.length) {
+                        event = event.touches[0];
+                    }
+
+                    var eleClicked = event.target.closest && event.target.closest('li');
+                    if (eleClicked && eleClicked.classList.contains(DISABLED) == false) {
+                        var strValue = eleClicked.getAttribute('data-value');
+                        var strIndex = eleClicked.getAttribute('data-index');
+
+                        this.params.index = Number(strIndex);
+                        // 赋值并关闭列表
+                        this.value(strValue);
+                        this.hide();
+
+                        // 选中触发
+                        this.select();
+                    }
+                }.bind(this));
+
+                // 方便区分不同的数据列表
+                if (eleTrigger.id) {
+                    eleTarget.classList.add(CL.add(eleTrigger.id.replace(/[A-Z]/g, function (matches) {
+                        return '-' + matches.toLowerCase();
+                    }).replace(/^-+|-+$/g, '')));
+                }
+                // 载入页面
+                this.element.container.appendChild(eleTarget);
+
+                // 元素暴露
+                this.element.target = eleTarget;
+
+                // 默认display态
+                this.display = false;
+            }
+
+            return this;
+        }
+    });
+
+    /**
+     * 输入框赋值或者取值
+     * @param  {String} value 赋予输入框的值，如果缺省，则表示取值
+     * @return {Object}       返回当前实例对象
+     */
+    Datalist.prototype.value = function (value) {
+        // 元素们
+        var eleInput = this.element.input;
+
+        if (typeof value == 'undefined') {
+            // 取值
+            return funEncodeHTML(eleInput.value.trim());
+        }
+
+        var strValue = value.toString();
+
+        // 赋值
+        eleInput.value = funDecodeHTML(strValue.trim());
+
+        // 事件
+        if (strValue != eleInput.oldValue) {
+            // 赋值时候触发的回调事件们
+            eleInput.dispatchEvent(new CustomEvent('change', {
+                'bubbles': true
+            }));
+            // 由于输入框可输入，因此input事件是一定要触发的
+            eleInput.dispatchEvent(new CustomEvent('input', {
+                'bubbles': true
+            }));
+        }
+
+        eleInput.oldValue = strValue;
+
+        return this;
+    };
+
+    /**
+     * 一些事件
+     * @return {Object} 返回当前实例对象
+     */
+    Datalist.prototype.events = function () {
+        // 事件
+        // 元素们
+        var eleTrigger = this.element.trigger;
+
+        if (document.activeElement != eleTrigger) {
+            eleTrigger.isFocus = false;
+        }
+
+        eleTrigger.addEventListener('blur', function () {
+            eleTrigger.isFocus = false;
+        });
+
+        eleTrigger.addEventListener('focus', function () {
+            if (window.isKeyEvent) {
+                eleTrigger.click();
+            }
+        });
+
+        eleTrigger.addEventListener('click', function () {
+            if (this.display == false) {
+                // autocomplete模式不执行占位符交互
+                if (this.placeholder === true) {
+                    eleTrigger.focusValue = eleTrigger.value.trim();
+
+                    if (eleTrigger.focusValue) {
+                        eleTrigger.setAttribute('placeholder', eleTrigger.focusValue);
+                    }
+                    eleTrigger.value = '';
+                }
+
+                if (this.params.twice == true && eleTrigger.isFocus == true) {
+                    this.refresh();
+                } else if (!this.params.twice) {
+                    this.refresh();
+                }
+            }
+
+            eleTrigger.isFocus = true;
+        }.bind(this));
+
+        eleTrigger.addEventListener('input', function (event) {
+            if (event.isTrusted === false) {
+                return;
+            }
+            // IE10+下有个bug
+            // focus placeholder变化时候，会触发input事件
+            if (document.msHidden != undefined && eleTrigger.value.trim() == '' && !eleTrigger.lastValue && eleTrigger.getAttribute('placeholder')) {
+                eleTrigger.lastValue = eleTrigger.value;
+
+                return;
+            }
+            // 输入行为的时候，如果内容为空，内隐藏列表
+            if (this.placeholder == true || eleTrigger.value.trim()) {
+                this.refresh();
+            } else {
+                this.hide();
+            }
+        }.bind(this));
+
+        eleTrigger.addEventListener('keydown', function (event) {
+            // data为当前列表使用的数据
+            // index表示当前选中列表的索引值
+            var arrData = this.data;
+            var numIndex = this.params.index;
+
+            // 面板元素
+            var eleTarget = this.element.target;
+
+            if (!eleTarget) {
+                return;
+            }
+
+            var eleSelected = eleTarget.querySelector('.' + SELECTED);
+
+            switch (event.keyCode) {
+                case 27:
+                case 13: {
+                    // ESC-27 ENTER-13
+                    if (this.display == true) {
+                        // 列表隐藏
+                        this.hide();
+
+                        event.preventDefault();
+
+                        if (eleSelected) {
+                            eleSelected.click();
+                            // 当键盘选值的时候，阻止默认行为
+                            // 例如ENTER表单提交，ESC输入框内容清空
+                            event.preventDefault();
+                            // 文本内容从选中态改为focus态
+                            setTimeout(function () {
+                                var eleInput = eleTrigger;
+                                if (eleTrigger.setSelectionRange) {
+                                    try {
+                                        // 部分输入框类型，例如email, number不支持selection
+                                        eleInput.setSelectionRange(eleInput.value.length, eleInput.value.length);
+                                    } catch (e) {
+                                        eleInput.value = eleInput.value;
+                                    }
+                                } else {
+                                    eleInput.value = eleInput.value;
+                                }
+
+                                // 触发Validate.js中的验证
+                                eleInput.dispatchEvent(new CustomEvent('input', {
+                                    'bubbles': true
+                                }));
+                            }, 17);
+                        }
+                    }
+
+                    break;
+                }
+                case 38:
+                case 40: {
+                    // UP-38
+                    if (this.display == true && arrData && arrData.length) {
+                        event.preventDefault();
+
+                        // 过滤出可以用来选中的索引
+                        var arrIndexMatchAble = [];
+                        arrData.forEach(function (objData, numIndexMatch) {
+                            if (!objData[DISABLED] && objData[DISABLED] !== '') {
+                                arrIndexMatchAble.push(numIndexMatch);
+                            }
+                        });
+
+                        // 全部列表都禁用，忽略
+                        if (arrIndexMatchAble.length == 0) {
+                            return;
+                        }
+
+                        // 然后索引往后挪一位
+                        var numIndexFilterMatch = arrIndexMatchAble.indexOf(numIndex);
+
+                        if (event.keyCode == 38) {
+                            numIndexFilterMatch--;
+                        } else {
+                            numIndexFilterMatch++;
+                        }
+
+                        if (numIndexFilterMatch < 0) {
+                            numIndex = arrIndexMatchAble[arrIndexMatchAble.length - 1];
+                        } else if (numIndexFilterMatch > arrIndexMatchAble.length - 1) {
+                            numIndex = arrIndexMatchAble[0];
+                        } else {
+                            numIndex = arrIndexMatchAble[numIndexFilterMatch];
+                        }
+                    }
+
+                    // 上下键的时候，列表数据不动态获取和过滤
+                    if (arrData[numIndex]) {
+                        this.value(funStripHTML(arrData[numIndex].value));
+                    }
+
+                    eleTrigger.select();
+
+                    this.refresh(arrData);
+
+                    break;
+                }
+                case 46: {
+                    // DELETE-46
+                    if (this.display == true && this.params.twice == true && eleSelected) {
+                        var strValueSelected = eleSelected.getAttribute('data-value');
+                        // 清除本地存储内容
+                        this.removeStore(strValueSelected);
+                        // data中对应对象删除
+                        arrData = arrData.filter(function (objData) {
+                            return objData.value != strValueSelected;
+                        });
+                        // 阻止默认删除行为
+                        event.preventDefault();
+
+                        // 获取现在应该显示的值
+                        var objDataLeave = arrData[numIndex] || arrData[numIndex - 1];
+                        if (objDataLeave) {
+                            this.value(funStripHTML(objDataLeave.value));
+                            // 列表刷新
+                            this.refresh(arrData);
+                        } else {
+                            // 全部删除
+                            this.value = '';
+                            // 列表隐藏
+                            this.hide();
+                        }
+                    }
+
+                    break;
+                }
+            }
+        }.bind(this));
+
+        // 点击空白处隐藏
+        document.addEventListener(objEventType.end, function (event) {
+            if (event.touches && event.touches.length) {
+                event = event.touches[0];
+            }
+
+            var eleClicked = event.target;
+            var eleTarget = this.element.target;
+
+            if (eleTarget && eleClicked.nodeType == 1 && eleTarget.contains(eleClicked) == false) {
+                this.hide();
+            }
+
+            if (eleClicked != eleTrigger && eleTrigger.value.trim() == '') {
+                if (eleTrigger.focusValue) {
+                    eleTrigger.value = eleTrigger.focusValue;
+                } else if (this.params.placeholder) {
+                    eleTrigger.setAttribute('placeholder', this.params.placeholder);
+                }
+            }
+        }.bind(this));
+
+        // 浏览器窗口改变重定位
+        window.addEventListener('resize', function () {
+            if (this.display == true) {
+                this.position();
+            }
+        }.bind(this));
+
+        return this;
+    };
+
+    /**
+     * 下拉面板的定位
+     * @return {Object} 返回当前实例
+     */
+    Datalist.prototype.position = function () {
+        // 元素们
+        var eleTrigger = this.element.trigger;
+        var eleTarget = this.element.target;
+
+        if (eleTrigger && eleTarget) {
+            new Follow(eleTrigger, eleTarget, {
+                // 边缘不自动调整，此处手动调整
+                edgeAdjust: this.params.edgeAdjust || false
+            });
+
+            if (this.display == true) {
+                eleTrigger.classList.add(ACTIVE);
+            }
+        }
+
+        // 列表的定位
+        return this;
+    };
+
+    /**
+     * 列表选择
+     * @return {Object} 返回当前实例
+     */
+    Datalist.prototype.select = function () {
+        // 选择回调
+        this.callback.select.call(this, this.data[this.params.index], this.element.trigger, this.element.target);
+    };
+
+    /**
+     * 下拉面板显示
+     * @return {Object} 返回当前实例
+     */
+    Datalist.prototype.show = function () {
+        // 元素们
+        var eleTrigger = this.element.trigger;
+        var eleTarget = this.element.target;
+
+        if (!eleTarget) {
+            this.create();
+            eleTarget = this.element.target;
+        }
+
+        // 当前的显示状态
+        var isDisplay = this.display;
+
+        // 列表的宽度
+        var numWidthTarget = this.params.width;
+        var numWidthTrigger = eleTrigger.getBoundingClientRect().width || eleTrigger.clientWidth;
+
+        if (numWidthTarget == 'auto') {
+            numWidthTarget = numWidthTrigger;
+        } else if (typeof numWidthTarget == 'function') {
+            numWidthTarget = numWidthTarget.call(this, eleTrigger, eleTarget);
+        }
+
+        if (numWidthTarget != 'auto' && typeof numWidthTarget != 'number') {
+            numWidthTarget = numWidthTrigger;
+        }
+
+        eleTarget.style.display = 'block';
+        eleTarget.style.width = numWidthTarget + 'px';
+
+        if (typeof eleTarget.lastScrollTop == 'number' && eleTarget.querySelector('ul')) {
+            eleTarget.querySelector('ul').scrollTop = eleTarget.lastScrollTop;
+        }
+
+        // 显示状态标记
+        this.display = true;
+
+        // 定位
+        this.position();
+
+        // 显示回调，当之前隐藏时候才触发
+        if (isDisplay == false) {
+            this.callback.show.call(this, eleTrigger, eleTarget);
+        }
+    };
+
+    /**
+     * 下拉面板隐藏
+     * @return {Object} 返回当前实例
+     */
+    Datalist.prototype.hide = function () {
+        // 元素们
+        var eleTrigger = this.element.trigger;
+        var eleTarget = this.element.target;
+
+        if (eleTarget && this.display == true) {
+            // 记住滚动高度
+            if (eleTarget.querySelector('ul')) {
+                eleTarget.lastScrollTop = eleTarget.querySelector('ul').scrollTop;
+            }
+
+            eleTarget.style.display = 'none';
+            eleTarget.classList.remove(REVERSE);
+
+            // 隐藏回调
+            this.callback.hide.call(this, eleTrigger, eleTarget);
+        }
+
+        eleTrigger.classList.remove(ACTIVE);
+        eleTrigger.classList.remove(REVERSE);
+
+        // 隐藏状态标记
+        this.display = false;
+    };
+
+    return Datalist;
+}));
+/**
+ * @DateTime.js
+ * @author zhangxinxu
+ * @version
+ * @created: 15-07-03
+ * @editd:   19-11-12
+ */
+
+(function (global, factory) {
+    if (typeof exports === 'object' && typeof module !== 'undefined') {
+        global.Follow = require('./Follow');
+        module.exports = factory();
+    } else if (typeof define === 'function' && (define.amd || define.cmd)) {
+        define(factory);
+    } else {
+        global.DateTime = factory();
+    }
+}((typeof global !== 'undefined') ? global
+    : ((typeof window !== 'undefined') ? window
+        : ((typeof self !== 'undefined') ? self : this)), function (require) {
+    var Follow = this.Follow;
+    if (typeof require == 'function' && !Follow) {
+        Follow = require('common/ui/Follow');
+    } else if (!Follow) {
+        window.console.error('need Follow.js');
+        return {};
+    }
+
+    // 样式类名统一处理
+    var CL = {
+        toString: function () {
+            return 'ui-datetime';
+        }
+    };
+    ['date', 'range', 'day', 'year', 'month', 'hour', 'minute'].forEach(function (key) {
+        CL[key] = function () {
+            return ['ui', key].concat([].slice.call(arguments)).join('-');
+        };
+    });
+
+
+    var SELECTED = 'selected';
+    var ACTIVE = 'active';
+
+    var regDate = /-|\//g;
+
+    // 拓展方法之字符串变时间对象
+    String.prototype.toDate = function () {
+        var year, month, day;
+        var arrDate = this.split(regDate);
+        year = arrDate[0] * 1;
+        month = arrDate[1] || 1;
+        day = arrDate[2] || 1;
+        // 年份需要是数值字符串
+        if (!year) {
+            return new Date();
+        }
+
+        return new Date(year, month - 1, day);
+    };
+
+    // 日期对象变成年月日数组
+    Date.prototype.toArray = function () {
+        var year = this.getFullYear();
+        var month = this.getMonth() + 1;
+        var date = this.getDate();
+        if (month < 10) {
+            month = '0' + month;
+        }
+        if (date < 10) {
+            date = '0' + date;
+        }
+
+        return [year, month, date];
+    };
+
+    /**
+     * 日期，时间选择器
+     * 基于HTML5时间类输入框
+     * @example new DateTime(trigger, options);
+     * @trigger 触发的元素，可以是文本框也可以是文本框容器(父级)
+     * @options 可选参数
+     */
+    var DateTime = function (element, options) {
+        var eleTrigger = element;
+        if (typeof element == 'string') {
+            eleTrigger = document.querySelector(element);
+        }
+
+        if (!eleTrigger) {
+            return this;
+        }
+
+        // 默认参数
+        var defaults = {
+            // 文本框初始值，优先从文本框获取。
+            value: '',
+            // 浮层面板类型，可以是'date'(2015-01-01), 'year'(2015), 'month'(2015-01), 'time'(12:00), 'date-range'(2015-01-01 至 2015-06-01)
+            type: 'auto',
+            // 时间范围最小值，优先从文本框获取。'auto'表示无最小限制。
+            min: 'auto',
+            // 时间范围最大值，优先从文本框获取。'auto'表示无最大限制。
+            max: 'auto',
+            onShow: function () {
+            },
+            onHide: function () {
+            }
+        };
+
+        // 参数合并
+        var objParams = Object.assign({}, defaults, options || {});
+
+        // 容器元素
+        var eleContainer = null;
+
+        // 找到文本输入框
+        var eleInput = null;
+        if (eleTrigger.getAttribute('type')) {
+            eleInput = eleTrigger;
+            eleTrigger = eleInput.parentElement;
+        } else {
+            eleInput = eleTrigger.querySelector('input');
+        }
+        // 如果没有时间类输入框，则认为不是点击展开模式
+        // 而是直接显示在容器中
+        if (!eleInput) {
+            eleInput = document.createElement('input');
+
+            if (objParams.min != 'auto') {
+                eleInput.setAttribute('min', objParams.min);
+            }
+            if (objParams.max != 'auto') {
+                eleInput.setAttribute('max', objParams.max);
+            }
+            if (objParams.type != 'auto') {
+                eleInput.setAttribute('type', objParams.type);
+            }
+
+            eleContainer = eleTrigger;
+        }
+
+        // 避免重复初始化
+        if (eleInput.data && eleInput.data.dateTime) {
+            return eleInput.data.dateTime;
+        }
+
+        // readonly
+        eleInput.setAttribute('readonly', 'readonly');
+
+        // 时间选择的类型
+        var strType = objParams.type;
+        if (strType == 'auto') {
+            strType = eleInput.getAttribute('type') || 'date';
+        }
+
+        // 插入下拉箭头
+        var strId = eleInput.id;
+        if (!strId) {
+            // 如果没有id, 创建随机id
+            // 下拉箭头需要
+            strId = ('lulu_' + Math.random()).replace('0.', '');
+            eleInput.id = strId;
+        }
+        // 下拉元素
+        var eleLabel = document.createElement('label');
+        eleLabel.classList.add(CL.date('arrow'));
+        // eleLabel.setAttribute('for', strId);
+
+        // 插入到文本框的后面
+        eleInput.insertAdjacentElement('afterend', eleLabel);
+        eleInput.setAttribute('lang', 'zh-Hans-CN');
+
+        // 初始值
+        var strInitValue = eleInput.value;
+        if (strInitValue == '' && objParams.value) {
+            strInitValue = eleInput.value = objParams.value;
+        }
+
+        // 初始值转换成时间值
+        switch (strType) {
+            case 'date':
+            case 'year':
+            case 'month': {
+                // 日期
+                var objInitDate = strInitValue.toDate();
+                var arrDate = objInitDate.toArray();
+
+                // 一开始的赋值
+                if (strInitValue == '') {
+                    // 赋值今日
+                    if (strType == 'date') {
+                        eleInput.value = arrDate.join('-');
+                    } else if (strType == 'year') {
+                        eleInput.value = arrDate[0];
+                    } else if (strType == 'month') {
+                        eleInput.value = arrDate.slice(0, 2).join('-');
+                    }
+                }
+
+                // eg. [2015,07,20]
+                this[SELECTED] = arrDate;
+
+                break;
+            }
+            case 'time':
+            case 'hour':
+            case 'minute': {
+                var arrTime = strInitValue.split(':');
+                // 时间
+                var strHour = arrTime[0];
+                var strMinute = arrTime[1];
+                // 这里的处理情况如下
+                // 1. 空值
+                // 2. 小时数不是数值
+                // 3. 小时数不在0~24之间
+                // 以上均认为时间是00:00
+                if (strInitValue == '' || !(strHour < 24 && strHour > 0)) {
+                    strHour = '00';
+                    strMinute = '00';
+                } else {
+                    // 分钟无论如何都要是正常值
+                    if (!(strMinute > 0 && strMinute < 60) || strType == 'hour') {
+                        strMinute = '00';
+                    } else if (strMinute.length == 1) {
+                        strMinute = '0' + strMinute;
+                    }
+                    // 补0是必要的
+                    if (strHour.length == 1) {
+                        strHour = '0' + strHour;
+                    }
+                }
+                eleInput.value = [strHour, strMinute].join(':');
+
+                this[SELECTED] = [strHour, strMinute];
+
+                break;
+            }
+            case 'date-range':
+            case 'month-range': {
+                // 日期范围
+                var objBeginDate = new Date();
+                var objEndDate = new Date();
+                // 前后时间字符串
+                var arrRange = strInitValue.split(' ');
+                // 有如下一些情况：
+                // 1. 空，则选择范围就是今日
+                // 2. 只有一个时间，则选择范围只这个时间到今天这个范围
+                // 3. 其他就是正常的
+                if (strInitValue != '' && arrRange.length == 1) {
+                    var someDate = arrRange[0].toDate();
+                    if (someDate.getTime() > objBeginDate.getTime()) {
+                        objEndDate = someDate;
+                    } else {
+                        objBeginDate = someDate;
+                    }
+                } else {
+                    objBeginDate = arrRange[0].toDate();
+                    objEndDate = arrRange[arrRange.length - 1].toDate();
+                }
+                // 赋值
+                var arrBegin = objBeginDate.toArray();
+                var arrEnd = objEndDate.toArray();
+
+                if (strType == 'date-range') {
+                    eleInput.value = arrBegin.join('-') + ' 至 ' + arrEnd.join('-');
+                } else {
+                    eleInput.value = arrBegin.slice(0, 2).join('-') + ' 至 ' + arrEnd.slice(0, 2).join('-');
+                }
+
+                // 存储
+                this[SELECTED] = [arrBegin, arrEnd];
+
+                break;
+            }
+        }
+
+        // 容器元素的创建
+        if (!eleContainer) {
+            eleContainer = document.createElement('div');
+            eleContainer.classList.add(CL.date('container'));
+
+            // keyboard键盘无障碍访问需要
+            var strRandId = ('lulu_' + Math.random()).replace('0.', '');
+            eleContainer.setAttribute('id', strRandId);
+            eleContainer.classList.add('ESC');
+            eleInput.setAttribute('data-target', strRandId);
+            // 记录input的id
+            eleContainer.setAttribute('data-id', strId);
+        }
+
+
+        // 暴露的一些数据
+        this.element = {
+            container: eleContainer,
+            trigger: eleTrigger,
+            input: eleInput
+        };
+
+        this.params = {
+            type: strType,
+            // 最大小值的处理在各个种类的面板中执行
+            // 以便支持动态时间修改
+            // 例如，选择A时间，然后设置B时间的min值为A时间
+            // 这里先占个位
+            max: objParams.max,
+            min: objParams.min
+        };
+
+        // 回调方法
+        this.callback = {
+            show: objParams.onShow,
+            hide: objParams.onHide
+        };
+
+
+        // IE9+ 前后分页图标使用内联SVG, 以便支持retina屏幕
+        this.svg = '<svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="200" height="200" viewBox="0 0 200 200"><path d="M85.876,100.5l49.537-50.526c4.089-4.215,4.089-11.049,0-15.262 c-4.089-4.218-10.719-4.218-14.808,0L63.586,92.868c-4.089,4.215-4.089,11.049,0,15.264l57.018,58.156 c4.089,4.215,10.719,4.215,14.808,0c4.089-4.215,4.089-11.049,0-15.262L85.876,100.5z"/></svg>';
+
+        this.events();
+
+        if (!eleInput.data) {
+            eleInput.data = {};
+        }
+        eleInput.data.dateTime = this;
+
+        // 如果是静态模式，则实例对象暴露在容器元素上
+        if (eleContainer == eleTrigger) {
+            eleContainer.data = {
+                dateTime: this
+            };
+
+            // 同时显示
+            this.show();
+        }
+
+        return this;
+    };
+
+
+    /**
+     * 事件
+     * @return {[type]} [description]
+     */
+    DateTime.prototype.events = function () {
+        var objElement = this.element;
+        // 具体元素们
+        var eleContainer = objElement.container;
+        var eleTrigger = objElement.trigger;
+        var eleInput = objElement.input;
+
+        // 点击容器的事件处理
+        eleContainer.addEventListener('click', function (event) {
+            // IE可能是文件节点
+            if (event.target.nodeType != 1 || !event.target.closest) {
+                return;
+            }
+
+            var eleClicked = event.target.closest('a, button');
+            if (!eleClicked) {
+                return;
+            }
+            // 各个分支中可能会用到的变量
+            var numYear = 0;
+            var numMonth = 0;
+            // var numDate = 0;
+            var numHour = 0;
+            var numDay = 0;
+            // 日期范围
+            var arrRange = [];
+            // 根据选中状态决定新的状态
+            var dataRange;
+            // 按钮类型
+            var strTypeButton = '';
+
+            // 各种事件
+            switch (eleContainer.getAttribute('data-type')) {
+                case 'date': {
+                    // 日期选择主体
+                    // 1. 前后月份选择
+                    if (/prev|next/.test(eleClicked.className)) {
+                        numMonth = eleClicked.getAttribute('data-month');
+
+                        // 设置选择月份
+                        // 这样可以获得目标月份对应的日期数据
+                        // 就是下面this.getMonthDay做的事情
+                        this[SELECTED][1] = numMonth * 1;
+
+                        // 日期和月份要匹配，例如，不能出现4月31日
+                        // arrMonthDay是一个数组，当前年份12个月每月最大的天数
+                        var arrMonthDay = this.getMonthDay(this[SELECTED]);
+
+                        // 切分月份
+                        // 日期正常是不会变化的
+                        // 但是类似31号这样的日子不是每个月都有的
+                        // 因此，需要边界判断
+                        // 下面这段逻辑就是做这个事情的
+
+                        // 1. 当前月份最大多少天
+                        var numDayMax = (function () {
+                            if (numMonth - 1 < 0) {
+                                return arrMonthDay[11];
+                            } else if (numMonth > arrMonthDay.length) {
+                                return arrMonthDay[0];
+                            }
+
+                            return arrMonthDay[numMonth - 1];
+                        })();
+
+                        // 2. 之前选择的天数
+                        numDay = this[SELECTED][2];
+                        // 之前记住的日期
+                        var numDayOverflow = eleContainer.dataDayOverflow;
+                        // 例如，我们超出日期是31日，如果月份可以满足31日，使用31日
+                        if (numDayOverflow) {
+                            this[SELECTED][2] = Math.min(numDayOverflow, numDayMax);
+                        } else if (this[SELECTED][2] > numDayMax) {
+                            this[SELECTED][2] = numDayMax;
+
+                            // 这里是对体验的升级，
+                            // 虽然下月份变成了30号，但是再回来时候，原来的31号变成了30号
+                            // 不完美，我们需要处理下
+                            // 通过一个变量记住，点击item项的时候，移除
+                            // 且只在第一次的时候记住
+                            // 因为28,29,30,31都可能出现，每次记忆会混乱
+                            eleContainer.dataDayOverflow = numDay;
+                        }
+
+                        // 更新选择的月日数据
+                        this[SELECTED] = this[SELECTED].join('-').toDate().toArray();
+
+                        // 刷新
+                        this.date();
+
+                        // 如果在时间范围内
+                        if (eleContainer.querySelector('.' + SELECTED + '[href]')) {
+                            this.value();
+                        }
+                    } else if (/item/.test(eleClicked.className)) {
+                        // 选择某日期啦
+                        numDay = eleClicked.innerHTML;
+
+                        // 含有非数字，认为是今天
+                        if (/\D/.test(numDay)) {
+                            // 今天
+                            this[SELECTED] = new Date().toArray();
+                        } else {
+                            if (numDay < 10) {
+                                numDay = '0' + numDay;
+                            }
+                            // 修改全局
+                            this[SELECTED][2] = numDay;
+                        }
+
+                        // 赋值
+                        this.value();
+                        // 隐藏
+                        this.hide();
+
+                        delete eleContainer.dataDayOverflow;
+                    } else if (eleClicked.getAttribute('data-type') == 'month') {
+                        // 切换到年份选择
+                        this.month();
+                    }
+                    break;
+                }
+                case 'date-range': {
+                    // 区域选择
+                    // 1. 前后月份选择
+                    if (/prev|next/.test(eleClicked.className)) {
+                        numMonth = eleClicked.getAttribute('data-month') * 1;
+
+                        arrRange = eleContainer.dataDate || this[SELECTED][0];
+
+                        // 跟其他面板不同，这里只刷新，点击确定再赋值
+                        eleContainer.dataDate = new Date(arrRange[0], numMonth - 1, 1).toArray();
+                        // 之前arrRange[2]存在跨多月风险，尤其31号的日子
+                        // 刷新
+                        this['date-range']();
+                    } else if (/item/.test(eleClicked.className)) {
+                        // 选择某日期
+                        // 获得选中的年月日
+                        numYear = eleClicked.getAttribute('data-year');
+                        numMonth = eleClicked.getAttribute('data-month');
+                        numDay = eleClicked.innerHTML;
+
+                        // 位数不足补全
+                        if (numMonth < 10) {
+                            numMonth = '0' + numMonth;
+                        }
+                        if (numDay < 10) {
+                            numDay = '0' + numDay;
+                        }
+                        // 根据选中状态决定新的状态
+                        dataRange = this[SELECTED];
+                        if (dataRange[0].join() == dataRange[1].join()) {
+                            // 如果之前前后日期一样，说明只选中了一个日期
+                            // 根据前后顺序改变其中一个日期
+                            if (numYear + numMonth + numDay > dataRange[0].join('')) {
+                                // 新时间靠后
+                                dataRange[1] = [numYear, numMonth, numDay];
+                            } else {
+                                dataRange[0] = [numYear, numMonth, numDay];
+                            }
+                        } else {
+                            // 如果前后时间不一样，说明现在有范围
+                            // 则取消范围，变成单选
+                            dataRange = [[numYear, numMonth, numDay], [numYear, numMonth, numDay]];
+                        }
+                        this[SELECTED] = dataRange;
+
+                        this['date-range']();
+                    } else if (/button/.test(eleClicked.className)) {
+                        strTypeButton = eleClicked.getAttribute('data-type');
+                        if (strTypeButton == 'primary') {
+                            // 点击确定按钮
+                            // 赋值
+                            this.value();
+                            // 修改存储值
+                            this.dataRangeSelected = this[SELECTED];
+                            // 关闭浮层
+                            this.hide();
+                        } else if (strTypeButton == 'normal') {
+                            // 重置选中值
+                            if (this.dataRangeSelected) {
+                                this[SELECTED] = this.dataRangeSelected;
+                            }
+                            // 关闭浮层
+                            this.hide();
+                        }
+                    }
+                    break;
+                }
+                case 'month-range': {
+                    // 区域选择
+                    // 1. 前后年份选择
+                    if (/prev|next/.test(eleClicked.className)) {
+                        numYear = eleClicked.getAttribute('data-year') * 1;
+
+                        arrRange = eleContainer.dataDate || this[SELECTED][0];
+
+                        // 跟其他面板不同，这里只刷新，点击确定再赋值
+                        eleContainer.dataDate = new Date(numYear, arrRange[1], 1).toArray();
+                        // 刷新
+                        this['month-range']();
+                    } else if (/item/.test(eleClicked.className)) {
+                        // 选择某日期
+                        // 获得选中的年月日
+                        numYear = eleClicked.getAttribute('data-year');
+                        numMonth = eleClicked.getAttribute('data-value');
+                        numDay = '01';
+                        // 根据选中状态决定新的状态
+                        dataRange = this[SELECTED];
+                        if (dataRange[0].join() == dataRange[1].join()) {
+                            // 如果之前前后日期一样，说明只选中了一个日期
+                            // 根据前后顺序改变其中一个日期
+                            if (numYear + numMonth + numDay > dataRange[0].join('')) {
+                                // 新时间靠后
+                                dataRange[1] = [numYear, numMonth, numDay];
+                            } else {
+                                dataRange[0] = [numYear, numMonth, numDay];
+                            }
+                        } else {
+                            // 如果前后时间不一样，说明现在有范围
+                            // 则取消范围，变成单选
+                            dataRange = [[numYear, numMonth, numDay], [numYear, numMonth, numDay]];
+                        }
+                        this[SELECTED] = dataRange;
+                        this['month-range']();
+                    } else if (/button/.test(eleClicked.className)) {
+                        strTypeButton = eleClicked.getAttribute('data-type');
+                        if (strTypeButton == 'primary') {
+                            // 点击确定按钮
+                            // 赋值
+                            this.value();
+                            // 修改存储值
+                            this.dataRangeSelected = this[SELECTED];
+                            // 关闭浮层
+                            this.hide();
+                        } else if (strTypeButton == 'normal') {
+                            // 重置选中值
+                            if (this.dataRangeSelected) {
+                                this[SELECTED] = this.dataRangeSelected;
+                            }
+                            // 关闭浮层
+                            this.hide();
+                        }
+                    }
+
+                    break;
+                }
+                case 'month': {
+                    // 选择月份，可能从年份，也可能从日期过来
+                    // 1. 前后年份
+                    if (/prev|next/.test(eleClicked.className)) {
+                        numYear = eleClicked.getAttribute('data-year');
+                        // 修改当前选中的年份数
+                        this[SELECTED][0] = numYear * 1;
+                        // 刷新
+                        this.month();
+                        // 文本框赋值
+                        // 如果在区域内状态
+                        if (eleContainer.querySelector('.' + SELECTED + '[href]')) {
+                            this.value();
+                        }
+                    } else if (/item/.test(eleClicked.className)) {
+                        // value实际上是月份两位数值
+                        var value = eleClicked.getAttribute('data-value');
+                        if (value) {
+                            this[SELECTED][1] = value;
+                        } else {
+                            // 今月，只改变年月为今年和今月
+                            var arrToday = new Date().toArray();
+                            this[SELECTED][0] = arrToday[0];
+                            this[SELECTED][1] = arrToday[1];
+                        }
+
+                        // 赋值
+                        this.value();
+
+                        // 根据是否是月份输入框，决定是面板切换，还是关闭
+                        if (this.params.type == 'month') {
+                            // 隐藏
+                            this.hide();
+                        } else {
+                            this.date();
+                        }
+                    } else if (eleClicked.getAttribute('data-type') == 'year') {
+                        // 切换到年份选择
+                        this.year();
+                    }
+                    break;
+                }
+                case 'year': {
+                    // 选择年份，可能从月份过来，也可能直接打开
+                    // 1. 前后12年翻页
+                    if (/prev|next/.test(eleClicked.className)) {
+                        numYear = eleClicked.getAttribute('data-year');
+                        // 修改当前选中的年份数
+                        this[SELECTED][0] = numYear * 1;
+                        // 刷新
+                        this.year();
+                        // 文本框赋值
+                        // 如果在区域内状态
+                        if (eleContainer.querySelector('.' + SELECTED + '[href]')) {
+                            this.value();
+                        }
+                    } else if (/item/.test(eleClicked.className)) {
+                        if (eleClicked.innerHTML == '今年') {
+                            this[SELECTED][0] = new Date().getFullYear();
+                        } else {
+                            this[SELECTED][0] = eleClicked.innerHTML * 1;
+                        }
+
+                        // 赋值
+                        this.value();
+                        // 如果是年份选择输入框
+                        if (this.params.type == 'year') {
+                            // 隐藏
+                            this.hide();
+                        } else {
+                            // 回到月份面板
+                            this.month();
+                        }
+                    }
+
+                    break;
+                }
+                case 'minute': {
+                    // 选择分钟，可以是minute类型，或者time类型, 但不包括hour类型
+                    // 1. 前后翻页
+                    if (/prev|next/.test(eleClicked.className)) {
+                        numHour = eleClicked.getAttribute('data-hour');
+                        if (numHour.length == 1) {
+                            numHour = '0' + numHour;
+                        }
+                        // 修改当前选中的小时数
+                        this[SELECTED][0] = numHour;
+
+                        // 刷新
+                        this.minute();
+                        // 文本框赋值
+                        // 如果在区域内状态
+                        if (eleContainer.querySelector('.' + SELECTED + '[href]')) {
+                            this.value();
+                        }
+                    } else if (/item/.test(eleClicked.className)) {
+                        // 确定选择时间
+                        this[SELECTED] = eleClicked.innerHTML.split(':');
+                        this.value();
+                        this.hide();
+                    } else if (eleClicked.getAttribute('data-type') == 'hour') {
+                        // 切换到小时选择
+                        this.hour();
+                    }
+
+                    break;
+                }
+                case 'hour': {
+                    if (/item/.test(eleClicked.className)) {
+                        // 修改选中的小时
+                        this[SELECTED][0] = eleClicked.innerHTML.split(':')[0];
+                        // 赋值
+                        this.value();
+
+                        // 如果是从分钟模式切换过来，则切换回去，否则，直接隐藏
+                        if (this.params.type == 'hour') {
+                            this.hide();
+                        } else {
+                            this.minute();
+                        }
+                    }
+                    break;
+                }
+            }
+        }.bind(this));
+
+        // 显隐控制
+        eleTrigger.addEventListener('click', function (event) {
+            event.preventDefault();
+
+            // 显隐控制
+            if (!this.display) {
+                this.show();
+            } else {
+                this.hide();
+            }
+        }.bind(this));
+
+        // 输入框元素行为
+        eleInput.addEventListener('keydown', function (event) {
+            if (event.keyCode == 13) {
+                event.preventDefault();
+                this.click();
+            }
+        });
+
+        // 时间范围选择点击页面空白区域不会隐藏
+        document.addEventListener('mouseup', function (event) {
+            // 点击页面空白区域，隐藏
+            var eleTarget = event.target;
+
+            if (eleTarget && eleTrigger.contains(eleTarget) == false && eleContainer.contains(eleTarget) == false) {
+                this.hide();
+            }
+        }.bind(this));
+    };
+
+    /**
+     * 输入框的值根据日期类型进行格式化
+     * @return {Object} 返回当前实例对象
+     */
+    DateTime.prototype.format = function () {
+        // 根据当前value值修改实例对象缓存的选中值
+        // 特殊情况一般不处理
+        var strType = this.params.type;
+        var eleInput = this.element.input;
+
+        // 此时输入框初始值
+        var strInitValue = eleInput && eleInput.value.trim();
+        if (!strInitValue) {
+            return this;
+        }
+
+        switch (strType) {
+            case 'date':
+            case 'year':
+            case 'month': {
+                // 日期
+                var objInitDate = strInitValue.toDate();
+                var arrDate = objInitDate.toArray();
+                // eg. [2015,07,20]
+                this[SELECTED] = arrDate;
+
+                break;
+            }
+            case 'time':
+            case 'hour':
+            case 'minute': {
+                var arrTime = strInitValue.split(':');
+                // 时间
+                var numHour = arrTime[0];
+                var numMinute = arrTime[1];
+                // 补0
+                if (arrTime.length == 2) {
+                    // 分钟无论如何都要是正常值
+                    if (!(numMinute > 0 && numMinute < 60) || strType == 'hour') {
+                        numMinute = '00';
+                    } else if (numMinute.length == 1) {
+                        numMinute = '0' + numMinute;
+                    }
+                    // 补0是必要的
+                    if (numHour.length == 1) {
+                        numHour = '0' + numHour;
+                    }
+
+                    eleInput.value = [numHour, numMinute].join(':');
+
+                    this[SELECTED] = [numHour, numMinute];
+                }
+
+                break;
+            }
+            case 'date-range':
+            case 'month-range': {
+                // 日期范围
+                var objBeginDate = new Date();
+                var objEndDate = new Date();
+                // 前后时间字符串
+                var arrRange = strInitValue.split(' ');
+                if (arrRange.length == 3) {
+                    objBeginDate = arrRange[0].toDate();
+                    objEndDate = arrRange[arrRange.length - 1].toDate();
+                    // 存储
+                    this[SELECTED] = [objBeginDate.toArray(), objEndDate.toArray()];
+                }
+                break;
+            }
+        }
+
+        return this;
+    };
+
+    /**
+     * 赋值
+     * @return {Object} 返回当前输入框的值
+     */
+    DateTime.prototype.value = function () {
+        var eleInput = this.element.input;
+        var arrSelected = this[SELECTED];
+        var strValue = eleInput.value;
+
+        switch (this.params.type) {
+            case 'date': {
+                eleInput.value = arrSelected.join('-');
+                break;
+            }
+            case 'month': {
+                eleInput.value = arrSelected.slice(0, 2).join('-');
+                break;
+            }
+            case 'year': {
+                eleInput.value = arrSelected[0];
+                break;
+            }
+            case 'date-range': {
+                eleInput.value = arrSelected[0].join('-') + ' 至 ' + arrSelected[1].join('-');
+                break;
+            }
+            case 'month-range': {
+                eleInput.value = arrSelected[0].slice(0, 2).join('-') + ' 至 ' + arrSelected[1].slice(0, 2).join('-');
+                break;
+            }
+            case 'time':
+            case 'minute': {
+                eleInput.value = arrSelected.join(':');
+                break;
+            }
+            case 'hour': {
+                eleInput.value = arrSelected[0] + ':00';
+                break;
+            }
+        }
+
+        if (eleInput.value != strValue) {
+            eleInput.dispatchEvent(new CustomEvent('change', {
+                'bubbles': true
+            }));
+        }
+
+        return eleInput.value;
+    };
+
+    /**
+     * 返回日历HTML字符串等数据的私有方法
+     // 因date和range浮层主结构类似，因此这里公用下
+     * @param  {Array} arrDate 格式化为数组的日期
+     * @return {Object}     返回包含需要的数据的对象，生成的HTML字符内容以及最大最小月份等
+     */
+    Object.defineProperty(DateTime.prototype, 'getCalendarData', {
+        value: function (arrDate) {
+            var strHtml = '';
+            // 根据当前日期数据返回
+            // eg. [2015,'02', 23]
+
+            // 文本框元素比较常用，使用局部变量，一是节约文件大小，二是性能更好！
+            var eleInput = this.element.input;
+
+            // 类型
+            var strType = this.params.type;
+
+            // 最大日期和最小日期
+            var numMin = eleInput.getAttribute('min') || this.params.min;
+            var numMax = eleInput.getAttribute('max') || this.params.max;
+            // 这里使用日期对象(时间戳)做比对
+
+            var arrMapMinMax = [numMin, numMax].map(function (minMax, index) {
+                if (typeof minMax == 'string' && /^\d{8}$/.test(minMax.replace(regDate, '')) == true) {
+                    // 这里对字符串进行比较简单的合法性判别
+                    // 自己人使用不会乱来的
+                    minMax = minMax.toDate();
+                } else if (typeof minMax != 'object' || !minMax.getTime) {
+                    minMax = index ? new Date(9999, 0, 1) : new Date(0, 0, 1);
+                }
+
+                return minMax;
+            });
+
+            numMin = arrMapMinMax[0];
+            numMax = arrMapMinMax[1];
+
+            var arrChinese = ['日', '一', '二', '三', '四', '五', '六'];
+            var arrMonthDay = this.getMonthDay(arrDate);
+
+            // 目前日期对象
+            var currentDate = arrDate.join('-').toDate();
+
+            // 3 星期几七大罪
+            strHtml = strHtml + '<div class="' + CL.day('x') + '">' + (function () {
+                var strHtmlDay = '';
+                arrChinese.forEach(function (strChineseDay, indexDay) {
+                    strHtmlDay = strHtmlDay + '<span class="' + CL.day('item') + ' col' + indexDay + '">' + strChineseDay + '</span>';
+                });
+
+                return strHtmlDay;
+            })() + '</div>';
+
+            // 4. 日期详细
+            //  4.1 首先算出今月1号是星期几
+            var objNewDate = arrDate.join('-').toDate();
+            var numDayFirst = 0;
+            // 设置为1号
+            objNewDate.setDate(1);
+
+            if (objNewDate.getDate() == 2) {
+                objNewDate.setDate(0);
+            }
+            // 每月的第一天是星期几
+            numDayFirst = objNewDate.getDay();
+            // 上个月是几月份
+            var numLastMonth = objNewDate.getMonth() - 1;
+            if (numLastMonth < 0) {
+                numLastMonth = 11;
+            }
+
+            var strHtmlData = 'data-year="' + arrDate[0] + '" data-month="' + (objNewDate.getMonth() + 1) + '"';
+            var strHtmlYearMonthData = 'data-date=';
+            var strHtmlFullData = '';
+
+            strHtml = strHtml + '<div class="' + CL.date('body') + '">' + (function () {
+                var strHtmlDate = '';
+                var strClass = '';
+
+                // 列表生成
+                for (var tr = 0; tr < 6; tr++) {
+                    strHtmlDate = strHtmlDate + '<div class="' + CL.date('tr') + '">';
+
+                    // 日期遍历
+                    for (var td = 0; td < 7; td++) {
+                        // 类名
+                        strClass = CL.date('item') + ' col' + td;
+
+                        // 今天
+                        var numYearNow = arrDate[0];
+                        var numMonthNow = objNewDate.getMonth() + 1;
+                        var numDayNow;
+                        var objDateNow;
+
+                        // 由于range选择和date选择UI上有比较大大差异
+                        // 为了可读性以及后期维护
+                        // 这里就不耦合在一起，而是分开处理
+                        if (strType == 'date') {
+                            // 第一行上个月一些日期补全
+                            if (tr == 0 && td < numDayFirst) {
+                                // 当前日子
+                                numDayNow = arrMonthDay[numLastMonth] - numDayFirst + td + 1;
+                                // 当前日期
+                                objDateNow = new Date(numYearNow, numLastMonth, numDayNow);
+                                // 完整data-date属性及其值
+                                strHtmlFullData = strHtmlYearMonthData + objDateNow.toArray().join('-');
+                                // HTML拼接
+                                strHtmlDate = strHtmlDate + '<span class="' + strClass + '" ' + strHtmlFullData + '>' + numDayNow + '</span>';
+                            } else {
+                                // 当前日子
+                                numDayNow = tr * 7 + td - numDayFirst + 1;
+                                // 如果没有超过这个月末
+                                if (numDayNow <= arrMonthDay[objNewDate.getMonth()]) {
+                                    // 这个日子对应的时间对象
+                                    objDateNow = new Date(numYearNow, objNewDate.getMonth(), numDayNow);
+                                    // 完整data-date属性及其值
+                                    strHtmlFullData = strHtmlYearMonthData + objDateNow.toArray().join('-');
+                                    // 如果日子匹配
+                                    if (currentDate.getDate() == numDayNow) {
+                                        strClass = strClass + ' ' + SELECTED;
+                                    }
+                                    // 如果在日期范围内
+                                    // 直接使用时间对象 Date 类作比较
+                                    if (objDateNow >= numMin && objDateNow <= numMax) {
+                                        strHtmlDate = strHtmlDate + '<a href="javascript:;" ' + strHtmlData + ' class="' + strClass + '" ' + strHtmlFullData + '>' + numDayNow + '</a>';
+                                    } else {
+                                        strHtmlDate = strHtmlDate + '<span class="' + strClass + '" ' + strHtmlFullData + '>' + numDayNow + '</span>';
+                                    }
+                                } else {
+                                    numDayNow = numDayNow - arrMonthDay[objNewDate.getMonth()];
+                                    // 更新strHtmlFullData
+                                    strHtmlFullData = strHtmlYearMonthData + new Date(numYearNow, numMonthNow, numDayNow).toArray().join('-');
+                                    // 日期字符拼接
+                                    strHtmlDate = strHtmlDate + '<span class="' + strClass + '" ' + strHtmlFullData + '>' + numDayNow + '</span>';
+                                }
+                            }
+                        } else if (strType == 'date-range') {
+                            // 非当前月部分使用空格补全
+                            if (tr == 0 && td < numDayFirst) {
+                                strHtmlDate = strHtmlDate + '<span class="' + strClass + '"></span>';
+                            } else {
+                                numDayNow = tr * 7 + td - numDayFirst + 1;
+                                // 如果没有超过这个月末
+                                if (numDayNow <= arrMonthDay[objNewDate.getMonth()]) {
+                                    // 这个日子对应的时间对象
+                                    objDateNow = new Date(numYearNow, objNewDate.getMonth(), numDayNow);
+
+                                    // 完整data-date属性及其值
+                                    strHtmlFullData = strHtmlYearMonthData + objDateNow.toArray().join('-');
+
+                                    // range选择的匹配规则如下：
+                                    // 1. 获得已经选中到时间范围
+                                    // 2. 起始时间和结束时间是方框表示
+                                    // 3. 之间的时间是选中表示
+                                    var dateBegin = this[SELECTED][0].join('-').toDate();
+                                    var dateEnd = this[SELECTED][1].join('-').toDate();
+
+                                    // 各个时间的时间戳
+                                    var timeNow = objDateNow.getTime();
+                                    var timeBegin = dateBegin.getTime();
+                                    var timeEnd = dateEnd.getTime();
+
+                                    if (timeNow >= timeBegin && timeNow <= timeEnd) {
+                                        // 在时间范围之内
+                                        strClass = strClass + ' ' + SELECTED;
+                                        // 跟开始时间一样
+                                        if (timeNow == timeBegin) {
+                                            strClass = strClass + ' ' + CL.date('begin');
+                                        }
+                                        // 跟结束时间一样
+                                        if (timeNow == timeEnd) {
+                                            strClass = strClass + ' ' + CL.date('end');
+                                        }
+                                        // 今月的第一天还是最后一天
+                                        if (numDayNow == 1) {
+                                            strClass = strClass + ' ' + CL.date('first');
+                                        } else if (numDayNow == arrMonthDay[objNewDate.getMonth()]) {
+                                            strClass = strClass + ' ' + CL.date('last');
+                                        }
+                                    }
+
+                                    // 如果在日期范围内
+                                    // 直接使用时间对象 Date 类作比较
+                                    if (objDateNow >= numMin && objDateNow <= numMax) {
+                                        strHtmlDate = strHtmlDate + '<a href="javascript:;" ' + strHtmlData + ' class="' + strClass + '" ' + strHtmlFullData + '>' + numDayNow + '</a>';
+                                    } else {
+                                        strHtmlDate = strHtmlDate + '<span class="' + strClass + '" ' + strHtmlFullData + '>' + numDayNow + '</span>';
+                                    }
+                                } else {
+                                    strHtmlDate = strHtmlDate + '<span class="' + strClass + '"></span>';
+                                }
+                            }
+                        }
+                    }
+                    strHtmlDate += '</div>';
+                }
+
+                return strHtmlDate;
+            }).call(this) + '</div>';
+
+            return {
+                monthDay: arrMonthDay,
+                html: strHtml,
+                min: numMin,
+                max: numMax
+            };
+        }
+    });
+
+    /**
+     * 月份组装
+     * @param  {Array} arrDate 数组化的日期表示值
+     * @return {Object}        返回的是后续方法需要的数据的纯对象，包括组装的HTML字符数据，月份最大和最小值。
+     */
+    Object.defineProperty(DateTime.prototype, 'getMonthData', {
+        value: function (arrDate) {
+            // 文本框元素
+            var eleInput = this.element.input;
+
+            // 最大月份和最小月份
+            var numMin = eleInput.getAttribute('min') || this.params.min;
+            var numMax = eleInput.getAttribute('max') || this.params.max;
+
+            // 这里使用年月组合做比对
+            var arrMapMinMax = [numMin, numMax].map(function (minMax, index) {
+                if (typeof minMax == 'object' && minMax.getTime) {
+                    minMax = minMax.toArray().slice(0, 2).join('');
+                } else if (typeof minMax == 'string' && /\D/.test(minMax.replace(regDate, '')) == false) {
+                    // 这里对字符串进行比较简单的合法性判别
+                    // 自己人使用不会乱来的
+                    minMax = minMax.replace(regDate, '').slice(0, 6);
+                } else {
+                    minMax = index ? '999912' : '000000';
+                }
+
+                return minMax;
+            });
+
+            numMin = arrMapMinMax[0];
+            numMax = arrMapMinMax[1];
+
+            var arrChinese = ['一', '二', '三', '四', '五', '六', '七', '八', '九', '十', '十一', '十二'];
+
+            // 年份
+            var numYear = arrDate[0] * 1;
+
+            // 类型
+            var strType = this.params.type;
+
+            var strHtml = '<div class="' + CL.month('body') + '">' + (function () {
+                    var strHtmlDate = '';
+                    var strClass = '';
+                    var strMonth = '';
+
+                    for (var i = 1; i <= 12; i += 1) {
+                        // 合法格式字符串
+                        if (i < 10) {
+                            strMonth = '0' + i;
+                        } else {
+                            strMonth = i + '';
+                        }
+
+                        // 基本类名
+                        strClass = CL.date('item');
+
+                        if (strType == 'month') {
+                            if (i == arrDate[1]) {
+                                // 选中态的类名
+                                strClass = strClass + ' ' + SELECTED;
+                            }
+                        } else if (strType == 'month-range') {
+                            // range选择的匹配规则如下：
+                            // 1. 获得已经选中到时间范围
+                            // 2. 起始时间和结束时间是选中表示
+                            // 3. 之间的时间也是选中表示
+                            var strBegin = this[SELECTED][0].slice(0, 2).join('');
+                            var strEnd = this[SELECTED][1].slice(0, 2).join('');
+                            var strNow = numYear + strMonth;
+                            if (strNow >= strBegin && strNow <= strEnd) {
+                                strClass = strClass + ' ' + SELECTED;
+                            }
+                        }
+                        // 是否在范围以内
+                        if (numYear + strMonth >= numMin && numYear + strMonth <= numMax) {
+                            strHtmlDate = strHtmlDate + '<a href="javascript:" class="' + strClass + '" data-year="' + numYear + '" data-value="' + strMonth + '">' + arrChinese[i - 1] + '月</a>';
+                        } else {
+                            strHtmlDate = strHtmlDate + '<span class="' + strClass + '" data-value="' + strMonth + '">' + arrChinese[i - 1] + '月</span>';
+                        }
+                    }
+
+                    return strHtmlDate;
+                }).call(this) +
+                '</div>';
+
+            return {
+                html: strHtml,
+                min: numMin,
+                max: numMax
+            };
+        }
+    });
+
+    /**
+     * 当前日期下这一年每月最大的日期数目
+     * @param  {Array} date 格式化为数组的日期
+     * @return {Array}      返回这一年每月最大的日期数目
+     */
+    Object.defineProperty(DateTime.prototype, 'getMonthDay', {
+        value: function (date) {
+            var arrDate = date;
+            // 如果不是数组
+            if (typeof date != 'object' && !date.map) {
+                arrDate = date.toArray();
+            }
+
+            var arrMonthDay = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+
+            // 如果是闰年
+            if (((arrDate[0] % 4 == 0) && (arrDate[0] % 100 != 0)) || (arrDate[0] % 400 == 0)) {
+                arrMonthDay[1] = 29;
+            }
+
+            return arrMonthDay;
+        }
+    });
+
+
+    /**
+     * 上个月同日期
+     * @param  {Array} date 格式化为数组的日期
+     * @return {Object}     返回Date类型对象
+     */
+    Object.defineProperty(DateTime.prototype, 'getDatePrevMonth', {
+        value: function (date) {
+            // add on 2016-03-31
+            // 原先的加减月份的跨月计算是有些问题的
+            // 因为例如31号的下一月，系统会自动变成下下个月的1号
+            var arrDate = date;
+            // 如果不是数组
+            if (typeof date != 'object' && !date.map) {
+                // 日期数组化
+                arrDate = date.toArray();
+            }
+
+            var numMonth = arrDate[1] * 1;
+            var arrMonthDay = this.getMonthDay(arrDate);
+
+            if (numMonth == 1) {
+                // 上个月是前一年的12月
+                // 12月有31号，无压力
+                return [arrDate[0] - 1, 12, arrDate[2]].join('-').toDate();
+            }
+
+            // 其他月份不跨年
+            // 如果上一个月的最后1天小于本月的最后1天
+            // 嘿嘿嘿嘿
+            // 年不变，月减一，日期下个月
+            if (arrMonthDay[numMonth - 2] < arrDate[2]) {
+                return [arrDate[0], numMonth - 1, arrMonthDay[numMonth - 2]].join('-').toDate();
+            }
+
+            // 年不变，月减一，日期不变
+            return [arrDate[0], numMonth - 1, arrDate[2]].join('-').toDate();
+        }
+    });
+
+
+    /**
+     * 下个月同日期
+     * @param  {Array} date 格式化为数组的日期
+     * @return {Object}     返回Date类型对象
+     */
+    Object.defineProperty(DateTime.prototype, 'getDateNextMonth', {
+        value: function (date) {
+            var arrDate = date;
+            // 如果不是数组
+            if (typeof date != 'object' && !date.map) {
+                // 日期数组化
+                arrDate = date.toArray();
+            }
+
+            var numMonth = arrDate[1] * 1;
+            var arrMonthDay = this.getMonthDay(arrDate);
+
+            if (numMonth == 12) {
+                // 下个月跨年了
+                // 1月份也有31天，无压力
+                return [arrDate[0] + 1, 1, arrDate[2]].join('-').toDate();
+            }
+
+            // 其他月份不跨年
+            // 如果下个月最后1天小于本月最后1天，例如，3月31日
+            if (arrMonthDay[numMonth] < arrDate[2]) {
+                return [arrDate[0], numMonth + 1, arrMonthDay[numMonth]].join('-').toDate();
+            }
+
+            // 其他时候正常
+            return [arrDate[0], numMonth + 1, arrDate[2]].join('-').toDate();
+        }
+    });
+
+    /**
+     * 选择日期
+     * @return {Object} 返回当前实例对象
+     */
+    DateTime.prototype.date = function () {
+        var eleContainer = this.element.container;
+
+
+        var arrDate = this[SELECTED];
+
+        // 上一个月
+        var numPrevMonth = arrDate[1] - 1;
+        // 下一个月
+        var numNextMonth = arrDate[1] * 1 + 1;
+
+        var objCalender = this.getCalendarData(arrDate);
+
+        // 选择日期的完整HTML代码
+        // 1. 日期专属类名容器
+        var strHtml = '<div class="' + CL.date('x') + '">';
+        // 2. 头部月份切换
+        strHtml = strHtml + '<div class="' + CL.date('head') + '">';
+        // 根据前后月份是否在范围之外，决定使用的标签类型
+        // span标签则是禁用态，本组件全部都是如此
+        // 2.1 上个月
+        // datePrevMonth指上个月日期
+        var datePrevMonth = this.getDatePrevMonth(arrDate);
+        // numPrevMonth指上个月
+        var numPrevMonthGet = datePrevMonth.getMonth();
+        var numPrevYearGet = datePrevMonth.getFullYear();
+
+        // add on 2015-12-01
+        // 原来的判断逻辑有问题
+        // 只要上个月份的最大日期比最小限制大就可以了
+        if (new Date(numPrevYearGet, numPrevMonthGet, objCalender.monthDay[numPrevMonthGet]) >= objCalender.min && datePrevMonth <= objCalender.max) {
+            strHtml = strHtml + '<a href="javascript:" class="' + CL.date('prev') + '" data-month="' + numPrevMonth + '" role="button" aria-label="上一月">' + this.svg + '</a>';
+        } else {
+            strHtml = strHtml + '<span class="' + CL.date('prev') + '" aria-label="上一月">' + this.svg + '</span>';
+        }
+
+        // 2.2 下个月
+        var objDateNextMonth = this.getDateNextMonth(arrDate);
+        var numNextMonthGet = objDateNextMonth.getMonth();
+        var numNextYearGet = objDateNextMonth.getFullYear();
+        //if (objDateNextMonth >= objCalender.min && objDateNextMonth <= objCalender.max) {
+        // add on 2015-12-01
+        // 经反馈，如果当前日期是30号，但是最大日期是下月1号，则下个月不能进入
+        // 这是有问题的
+        // 原因是此时的objDateNextMonth > objCalender.max
+        // 因此判断应该从月初
+        if (objDateNextMonth >= objCalender.min && new Date(numNextYearGet, numNextMonthGet, 1) <= objCalender.max) {
+            strHtml = strHtml + '<a href="javascript:" class="' + CL.date('next') + '" data-month="' + numNextMonth + '" role="button" aria-label="下一月">' + this.svg + '</a>';
+        } else {
+            strHtml = strHtml + '<span class="' + CL.date('next') + '" aria-label="下一月">' + this.svg + '</span>';
+        }
+
+        //   头部月份公用结束
+        strHtml = strHtml + '<a href="javascript:" class="' + CL.date('switch') + '" data-type="month" role="button" aria-label="快速切换月份">' + arrDate.slice(0, 2).join('-') + '</a>\
+        </div>';
+
+        // 3. 主体内容来自getCalendarData()方法
+        strHtml += objCalender.html;
+
+        // 今天
+        // 首先，今天要在时间范围内
+        if (new Date() >= objCalender.min && new Date() <= objCalender.max) {
+            strHtml = strHtml + '<a href="javascript:" class="' + CL.date('item') + ' ' + CL.date('now') + '" role="button">今天</a>';
+        } else {
+            strHtml = strHtml + '<span class="' + CL.date('item') + ' ' + CL.date('now') + '">今天</span>';
+        }
+
+        // 容器闭合标签
+        strHtml += '</div>';
+
+        // 设置当前时间选择类型
+        eleContainer.setAttribute('data-type', 'date');
+        eleContainer.innerHTML = strHtml;
+
+        return this;
+    };
+
+    /**
+     * 选择日期范围
+     * @return {Object} 返回当前实例对象
+     */
+    DateTime.prototype['date-range'] = function () {
+        var eleContainer = this.element.container;
+
+
+        // 选择的日期范围数组
+        var arrDates = this[SELECTED];
+        // 当前起始日期
+        // 默认（第一次）打开使用选中日期
+        // 如果有，使用面板存储月份
+        // 因为range选择不是即时更新文本框
+        var arrDate = eleContainer.dataDate || arrDates[0];
+        eleContainer.dataDate = arrDate;
+        // 前一个月
+        var numPrevMonth = arrDate[1] - 1;
+        // 后一个月
+        var numNextMonth = arrDate[1] * 1 + 1;
+
+        // 含时间范围和对应月份日历HTML的对象
+        var objCalender = this.getCalendarData(arrDate);
+
+        // 选择时间范围完整HTML代码
+        // 1. 同样的，range容器
+        var strHtml = '<div class="' + CL.range('x') + '">';
+        // 2. 头部
+        strHtml = strHtml + '<div class="' + CL.date('head') + '">\
+            <div class="' + CL.date('half') + '">';
+        //  2.1 上一个月箭头
+        var datePrevMonth = new Date(arrDate[0], numPrevMonth - 1, arrDate[2]);
+        if (datePrevMonth >= objCalender.min && datePrevMonth <= objCalender.max) {
+            strHtml = strHtml + '<a href="javascript:" class="' + CL.date('prev') + '" data-month="' + numPrevMonth + '" aria-label="上一个月，当前' + arrDate[1] + '月">' + this.svg + '</a>';
+        } else {
+            strHtml = strHtml + '<span class="' + CL.date('prev') + '">' + this.svg + '</span>';
+        }
+        // 今月月份显示
+        strHtml = strHtml + '<span class="' + CL.date('switch') + '">' + new Date(arrDate[0], numPrevMonth, arrDate[2]).toArray().slice(0, 2).join('-') + '</span>\
+        </div>\
+        <div class="' + CL.date('half') + '">';
+
+        // 2.2 下下个月
+        var objDateNextMonth = new Date(arrDate[0], arrDate[1], 1);
+        var objDateAfterMonth = new Date(arrDate[0], numNextMonth, arrDate[2]);
+
+        // 例如是3月31日
+        // 此时 arrDate[1] '03'
+        // numNextMonth 是 4
+
+        // 此时原来的实现是由bug的
+        // 因为下个月没有4月31日，于是，就会变成5月
+        // 因此arrDate[2]应使用1代替
+
+        // 下个月的当前日期在合理范围之内，则使用该月
+        if (objDateAfterMonth >= objCalender.min && objDateAfterMonth <= objCalender.max) {
+            strHtml = strHtml + '<a href="javascript:" class="' + CL.date('next') + '" data-month="' + numNextMonth + '" aria-label="下一个月，当前' + numNextMonth + '月">' + this.svg + '</a>';
+        } else {
+            strHtml = strHtml + '<span class="' + CL.date('next') + '">' + this.svg + '</span>';
+        }
+
+        // 下月月份显示
+        strHtml = strHtml + '<span class="' + CL.date('switch') + '">' + objDateNextMonth.toArray().slice(0, 2).join('-') + '</span>\
+        </div>';
+
+        // 头部闭合
+        strHtml += '</div>';
+
+        // 3. 两个主体列表
+        // 这里要嵌套一层range特有的body
+        strHtml = strHtml + '<div class="' + CL.range('body') + ' ' + CL.range('date', 'body') + '">' +
+            // 根据getCalendarData()方法创建两个月份日历
+            '<div class="' + CL.date('half') + '">' + objCalender.html + '</div>' +
+            '<div class="' + CL.date('half') + '">' + this.getCalendarData(objDateNextMonth.toArray()).html + '</div>' +
+            // 主体标签闭合
+            '</div>';
+
+        // 4. 确定与取消按钮
+        strHtml = strHtml + '<div class="' + CL.range('footer') + '">' +
+            '<button class="ui-button" data-type="primary">确定</button>' +
+            '<button class="ui-button" data-type="normal">取消</button>' +
+            '</div>';
+
+        // 容器闭合标签
+        strHtml += '</div>';
+
+        // 设置当前时间选择类型
+        eleContainer.setAttribute('data-type', 'date-range');
+        eleContainer.innerHTML = strHtml;
+
+        return this;
+    };
+
+    /**
+     * 选择月份
+     * @return {Object} 返回当前实例对象
+     */
+    DateTime.prototype.month = function () {
+        var eleContainer = this.element.container;
+
+        // 当前选择日期
+        var arrDate = this[SELECTED];
+        // 对应的月份数据
+        var objMonth = this.getMonthData(arrDate);
+
+        // 返回的最大值最小值
+        var numMin = objMonth.min;
+        var numMax = objMonth.max;
+
+        // 选择月份的完整HTML代码
+        // 1. month专属类名容器
+        var strHtml = '<div class="' + CL.month('x') + '">';
+        // 2. 月份切换的头部
+        var numYear = arrDate[0] * 1;
+        //    为什么呢？因为年份的范围是当前年份前面6个，后面5个
+        //    例如，假设今年是2015年，则头部年份范围是2009-2020
+        strHtml = strHtml + '<div class="' + CL.date('head') + '">';
+        //    2.1 是否还有上一年
+        if (numYear - 1 >= Math.floor(numMin / 100) && numYear - 1 <= Math.floor(numMax / 100)) {
+            strHtml = strHtml + '<a href="javascript:" class="' + CL.date('prev') + '" data-year="' + (numYear - 1) + '" role="button" aria-label="上一年">' + this.svg + '</a>';
+        } else {
+            strHtml = strHtml + '<span class="' + CL.date('prev') + '" aria-label="上一年">' + this.svg + '</span>';
+        }
+        // 2.2 是否还有下一年
+        if (numYear + 1 >= Math.floor(numMin / 100) && numYear + 1 <= Math.floor(numMax / 100)) {
+            strHtml = strHtml + '<a href="javascript:" class="' + CL.date('next') + '" data-year="' + (numYear + 1) + '" role="button" aria-label="下一年">' + this.svg + '</a>';
+        } else {
+            strHtml = strHtml + '<span class="' + CL.date('next') + '">' + this.svg + '</span>';
+        }
+        // 头部结束
+        strHtml = strHtml + '<a href="javascript:" class="' + CL.date('switch') + '" data-type="year" role="button" aria-label="快速切换年份">' + numYear + '</a>\
+        </div>';
+        // 3. 月份切换主体列表
+        strHtml += objMonth.html;
+
+        // 今月
+        // 首先，今月要在时间范围内
+        var objThisYearMonth = new Date().toArray().slice(0, 2).join('');
+        if (objThisYearMonth >= numMin && objThisYearMonth <= numMax) {
+            strHtml = strHtml + '<a href="javascript:" class="' + CL.date('item') + ' ' + CL.date('now') + '">今月</a>';
+        } else {
+            strHtml = strHtml + '<span class="' + CL.date('item') + ' ' + CL.date('now') + '">今月</span>';
+        }
+
+        // 容器闭合标签
+        strHtml += '</div>';
+
+        // 设置当前时间选择类型
+        eleContainer.setAttribute('data-type', 'month');
+        eleContainer.innerHTML = strHtml;
+
+        return this;
+    };
+
+    /**
+     * 选择月份范围
+     * @return {Object} 返回当前实例对象
+     */
+    DateTime.prototype['month-range'] = function () {
+        var eleContainer = this.element.container;
+
+        // 当前选择日期
+        var arrDates = this[SELECTED];
+        // 当前起始日期
+        // 默认（第一次）打开使用选中日期
+        // 如果有，使用面板存储月份
+        // 因为range选择不是即时更新文本框
+        var arrDate = eleContainer.dataDate || arrDates[0];
+        eleContainer.dataDate = arrDate;
+        // 前一年
+        var numPrevYear = arrDate[0] * 1 - 1;
+        // 后一个年
+        var numNextYear = arrDate[0] * 1 + 1;
+
+        // 含时间范围和对应月份日历HTML的对象
+        var objMonth = this.getMonthData(arrDate);
+        // 最大年份
+        var numMaxYear = objMonth.max.slice(0, 4);
+        var numMinYear = objMonth.min.slice(0, 4);
+
+        // 选择时间范围完整HTML代码
+        // 1. 同样的，range容器
+        var strHtml = '<div class="' + CL.range('x') + '">';
+        // 2. 头部
+        strHtml = strHtml + '<div class="' + CL.date('head') + '">\
+            <div class="' + CL.date('half') + '">';
+        //  2.1 上一年箭头
+        if (numPrevYear >= numMinYear && numPrevYear <= numMaxYear) {
+            strHtml = strHtml + '<a href="javascript:" class="' + CL.date('prev') + '" data-year="' + numPrevYear + '" role="button" aria-label="上一年">' + this.svg + '</a>';
+        } else {
+            strHtml = strHtml + '<span class="' + CL.date('prev') + '" aria-label="上一年">' + this.svg + '</span>';
+        }
+        // 今年年份显示
+        strHtml = strHtml + '<span class="' + CL.date('switch') + '">' + arrDate[0] + '</span>\
+        </div>\
+        <div class="' + CL.date('half') + '">';
+
+        // 2.2 下一年
+        if (numNextYear >= numMinYear && numNextYear < numMaxYear) {
+            strHtml = strHtml + '<a href="javascript:" class="' + CL.date('next') + '" data-year="' + numNextYear + '" role="button" aria-label="下一年">' + this.svg + '</a>';
+        } else {
+            strHtml = strHtml + '<span class="' + CL.date('next') + '" aria-label="下一年">' + this.svg + '</span>';
+        }
+
+        // 下月月份显示
+        strHtml = strHtml + '<span class="' + CL.date('switch') + '">' + numNextYear + '</span>\
+        </div>';
+
+        // 头部闭合
+        strHtml += '</div>';
+
+        // 3. 两个主体列表
+        // 这里要嵌套一层range特有的body
+        strHtml = strHtml + '<div class="' + CL.range('body') + ' ' + CL.range('month', 'body') + '">' +
+            // 根据getCalendarData()方法创建两个月份日历
+            '<div class="' + CL.date('half') + '">' + objMonth.html + '</div>' +
+            '<div class="' + CL.date('half') + '">' + this.getMonthData([numNextYear, arrDate[1], arrDate[2]]).html + '</div>' +
+            // 主体标签闭合
+            '</div>';
+
+        // 4. 确定与取消按钮
+        strHtml = strHtml + '<div class="' + CL.range('footer') + '">' +
+            '<button class="ui-button" data-type="primary">确定</button>' +
+            '<button class="ui-button" data-type="normal">取消</button>' +
+            '</div>';
+
+        // 容器闭合标签
+        strHtml += '</div>';
+
+        // 设置当前时间选择类型
+        eleContainer.setAttribute('data-type', 'month-range');
+        eleContainer.innerHTML = strHtml;
+
+        return this;
+    };
+
+
+    /**
+     * 选择年份
+     * @return {Object} 返回当前实例对象
+     */
+    DateTime.prototype.year = function () {
+        // 元素
+        var eleInput = this.element.input;
+        var eleContainer = this.element.container;
+
+        // 当前选择日期
+        var arrDate = this[SELECTED];
+
+        // 最小年份和最大年份
+        var numMin = eleInput.getAttribute('min') || this.params.min;
+        var numMax = eleInput.getAttribute('max') || this.params.max;
+
+        // 用户可能使用时间对象
+        if (typeof numMin == 'object' && numMin.getFullYear) {
+            numMin = numMin.getFullYear();
+        } else if (typeof numMin == 'string' && /\D/.test(numMin.replace(regDate, '')) == false) {
+            // 这里对字符串进行比较简单的合法性判别
+            // 自己人使用不会乱来的
+            numMin = numMin.toDate().getFullYear();
+        } else {
+            numMin = 0;
+        }
+        if (typeof numMax == 'object' && numMax.getFullYear) {
+            numMax = numMax.getFullYear();
+        } else if (typeof numMax == 'string' && /\D/.test(numMax.replace(regDate, '')) == false) {
+            numMax = numMax.toDate().getFullYear();
+        } else {
+            numMax = 9999;
+        }
+
+        // 选择年份的完整HTML代码
+        // 1. 同样的，year专属类名容器
+        var strHtml = '<div class="' + CL.year('x') + '">';
+        // 2. 头部的年份切换，一切就是12年
+        //    有必要先知道当前的年份
+        var numYear = arrDate[0];
+        //    为什么呢？因为年份的范围是当前年份前面6个，后面5个
+        //    例如，假设今年是2015年，则头部年份范围是2009-2020
+        //    左右切换是没有限制的
+        strHtml = strHtml + '<div class="' + CL.date('head') + '">';
+        //    年份不是你想翻就能翻到
+        //    2.1 上一个12年
+        if (numYear - 12 >= numMin && numYear - 12 <= numMax) {
+            strHtml = strHtml + '<a href="javascript:" class="' + CL.date('prev') + '" data-year="' + (numYear - 12) + '" role="button" aria-label="上一个12年">' + this.svg + '</a>';
+        } else {
+            strHtml = strHtml + '<span class="' + CL.date('prev') + '">' + this.svg + '</span>';
+        }
+        //    2.2 下一个12年
+        if (numYear + 12 >= numMin && numYear + 12 <= numMax) {
+            strHtml = strHtml + '<a href="javascript:" class="' + CL.date('next') + '" data-year="' + (numYear + 12) + '" role="button" aria-label="下一个12年">' + this.svg + '</a>';
+        } else {
+            strHtml = strHtml + '<span class="' + CL.date('next') + '">' + this.svg + '</span>';
+        }
+        // year选择是顶级类别，一定是不可点击的
+        strHtml = strHtml + '<span class="' + CL.date('switch') + '">' + [numYear - 6, numYear + 5].join('-') + '</span></div>';
+
+        // 3. 年份选择的主体
+        strHtml = strHtml + '<div class="' + CL.year('body') + '">' + (function () {
+            var strHtmlDate = '';
+            var strClass = '';
+
+            for (var indexYear = numYear - 6; indexYear < numYear + 6; indexYear += 1) {
+                // 选中态的类名
+                strClass = CL.date('item');
+
+                if (indexYear == numYear) {
+                    strClass = strClass + ' ' + SELECTED;
+                }
+
+                // 是否在范围以内
+                if (indexYear >= numMin && indexYear <= numMax) {
+                    strHtmlDate = strHtmlDate + '<a href="javascript:" class="' + strClass + '">' + indexYear + '</a>';
+                } else {
+                    strHtmlDate = strHtmlDate + '<span class="' + strClass + '">' + indexYear + '</span>';
+                }
+            }
+
+            return strHtmlDate;
+        })() + '</div>';
+
+        // 今年
+        // 首先，今年要在时间范围内
+        var numThisYear = new Date().getFullYear();
+        if (numThisYear >= numMin && numThisYear <= numMax) {
+            strHtml = strHtml + '<a href="javascript:" class="' + CL.date('item') + ' ' + CL.date('now') + '" role="button">今年</a>';
+        } else {
+            strHtml = strHtml + '<span class="' + CL.date('item') + ' ' + CL.date('now') + '">今年</span>';
+        }
+
+        // 头部标签闭合
+        strHtml += '</div>';
+
+        // 容器闭合标签
+        strHtml += '</div>';
+
+        // 设置当前时间选择类型
+        eleContainer.setAttribute('data-type', 'year');
+        eleContainer.innerHTML = strHtml;
+
+        return this;
+    };
+
+    /**
+     * 选择小时
+     * @return {Object} 返回当前实例对象
+     */
+    DateTime.prototype.hour = function () {
+        // 元素
+        var eleContainer = this.element.container;
+        var eleInput = this.element.input;
+
+        // 当前选择时间
+        var arrTime = this[SELECTED];
+
+        // 时间选择的小时间隔，默认是1小时
+        var numStep = eleInput.getAttribute('step') * 1;
+        if (this.params.type != 'hour' || !numStep || numStep < 1) {
+            numStep = 1;
+        } else {
+            numStep = Math.round(numStep);
+        }
+
+        // 最小时间，和最大时间
+        // 这里只比较小时
+        var numMin = (eleInput.getAttribute('min') || this.params.min.toString()).split(':')[0];
+        var numMax = (eleInput.getAttribute('max') || this.params.max.toString()).split(':')[0];
+
+        if (/\D/.test(numMin)) {
+            numMin = 0;
+        } else {
+            numMin *= 1;
+        }
+        if (/\D/.test(numMax)) {
+            numMax = 24;
+        } else {
+            numMax *= 1;
+        }
+
+        // 选择小时的完整HTML
+        // 1. 同样的，专有容器
+        var strHtml = '<div class="' + CL.hour('x') + '">';
+        // 2. 小时没有头部切换，直接列表们
+        strHtml = strHtml + '<div class="' + CL.hour('body') + '">' + (function () {
+            var strHtmlTime = '';
+            var strHour = '';
+            var strClass = '';
+            // 遍历24小时
+            for (var indexHour = 0; indexHour < 24; indexHour += numStep) {
+                strHour = indexHour + '';
+                if (strHour.length == 1) {
+                    strHour = '0' + strHour;
+                }
+
+                // 选中态的类名
+                strClass = CL.date('item');
+                if (strHour == arrTime[0]) {
+                    strClass = strClass + ' ' + SELECTED;
+                }
+
+                // 是否在范围以内
+                if (strHour >= numMin && strHour <= numMax) {
+                    strHtmlTime = strHtmlTime + '<a href="javascript:" class="' + strClass + '">' + strHour + ':00</a>';
+                } else {
+                    strHtmlTime = strHtmlTime + '<span class="' + strClass + '">' + strHour + ':00</span>';
+                }
+            }
+
+            return strHtmlTime;
+        })() + '</div>';
+
+        // 容器闭合标签
+        strHtml += '</div>';
+
+        // 设置当前时间选择类型
+        eleContainer.setAttribute('data-type', 'hour');
+        eleContainer.innerHTML = strHtml;
+
+        return this;
+    };
+
+    /**
+     * 选择分钟
+     * @return {Object} 返回当前实例对象
+     */
+    DateTime.prototype.minute = function () {
+        // 元素
+        var eleContainer = this.element.container;
+        var eleInput = this.element.input;
+
+        // 当前选择时间
+        var arrTime = this[SELECTED];
+
+        // 分钟时间间隔, 默认为5分钟
+        var numStep = eleInput.getAttribute('step') * 1 || 5;
+
+        // 最小时间，和最大时间
+        // 跟小时不同，这里必须符合00:00格式
+        // 由于格式固定，我们直接去除':'后的值进行比较
+        // 例如：10:20 → 1020
+        var numMin = eleInput.getAttribute('min') || (this.params.min + '');
+        var numMax = eleInput.getAttribute('max') || (this.params.max + '');
+
+        if (numMin == 'auto' || /\D/.test(numMin.replace(':', '')) || numMin.split(':').length != 2) {
+            numMin = 0;
+        } else {
+            numMin = numMin.replace(':', '') * 1;
+        }
+        if (numMax == 'auto' || /\D/.test(numMax.replace(':', '')) || numMax.split(':').length != 2) {
+            numMax = 2359;
+        } else {
+            numMax = numMax.replace(':', '') * 1;
+        }
+
+        // 选择分钟的完整HTML
+        // 1. 外部的容器，含有专有容器类名，可以重置内部的一些样式
+        var strHtml = '<div class="' + CL.minute('x') + '" data-step="' + numStep + '">';
+        // 2. 头部小时的左右切换
+        var hour = arrTime[0] * 1;
+        //   首先是公共部分
+        strHtml = strHtml + '<div class="' + CL.date('head') + '">';
+
+
+        //   2.1 可不可往前翻
+        if (hour <= Math.floor(numMin / 100)) {
+            strHtml = strHtml + '<span class="' + CL.date('prev') + '">' + this.svg + '</span>';
+        } else {
+            strHtml = strHtml + '<a href="javascript:" class="' + CL.date('prev') + '" data-hour="' + (hour - 1) + '" role="button" aria-label="上一个小时">' + this.svg + '</a>';
+        }
+        // 2.2 可不可以往后翻
+        if (hour >= Math.floor(numMax / 100)) {
+            strHtml = strHtml + '<span class="' + CL.date('next') + '">' + this.svg + '</span>';
+        } else {
+            strHtml = strHtml + '<a href="javascript:" class="' + CL.date('next') + '" data-hour="' + (hour + 1) + '" role="button" aria-label="下一个小时">' + this.svg + '</a>';
+        }
+
+        // 头部结束的公共html部分
+        strHtml = strHtml + '<a href="javascript:" class="' + CL.date('switch') + '" data-type="hour">' + arrTime[0] + ':00</a></div>';
+
+        // 3. 分钟主体
+        strHtml = strHtml + '<div class="' + CL.minute('body') + '">' + (function () {
+            var strHtmlTime = '';
+            var strMinute = '';
+            var strClass = '';
+            // 遍历60分钟
+            for (var indexMinute = 0; indexMinute < 60; indexMinute += numStep) {
+                strMinute = indexMinute + '';
+                if (strMinute.length == 1) {
+                    strMinute = '0' + strMinute;
+                }
+
+                // 基本样式
+                strClass = CL.date('item');
+
+                // 是否在时间范围内
+                if ((arrTime[0] + strMinute) * 1 >= numMin && (arrTime[0] + strMinute) * 1 <= numMax) {
+                    // 选中态
+                    if (strMinute == arrTime[1]) {
+                        strClass = strClass + ' ' + SELECTED;
+                    }
+                    strHtmlTime = strHtmlTime + '<a href="javascript:" class="' + strClass + '">' + [arrTime[0], strMinute].join(':') + '</a>';
+                } else {
+                    strHtmlTime = strHtmlTime + '<span class="' + strClass + '">' + [arrTime[0], strMinute].join(':') + '</span>';
+                }
+            }
+
+            return strHtmlTime;
+        })() + '</div>';
+
+        // 容器闭合标签
+        strHtml += '</div>';
+
+        // 设置当前时间选择类型
+        eleContainer.setAttribute('data-type', 'minute');
+        eleContainer.innerHTML = strHtml;
+
+        return this;
+    };
+
+    /**
+     * 日期选择面板的显示
+     * @return {Object} 当前实例对象
+     */
+    DateTime.prototype.show = function () {
+        // 元素
+        var eleContainer = this.element.container;
+        var eleTrigger = this.element.trigger;
+        var eleInput = this.element.input;
+
+        if (eleInput.disabled) {
+            return this;
+        }
+
+        // 根据value更新SELECTED
+        this.format();
+
+        // 不同的类名显示不同的内容
+        if (this.params.type == 'time') {
+            this.minute();
+        } else if (this.params.type == 'date-range') {
+            // 存储当前日期范围数据，以便取消的时候可以正确还原
+            if (!this.dataRangeSelected) {
+                this.dataRangeSelected = this[SELECTED];
+            }
+            this['date-range']();
+        } else if (this.params.type == 'month-range') {
+            // 存储当前日期范围数据，以便取消的时候可以正确还原
+            if (!this.dataRangeSelected) {
+                this.dataRangeSelected = this[SELECTED];
+            }
+            this['month-range']();
+        } else if (this[this.params.type]) {
+            this[this.params.type]();
+        } else {
+            this.date();
+        }
+
+        // 如果面板对象在内存中，非文档中，则载入
+        if (document.body.contains(eleContainer) == false) {
+            document.body.appendChild(eleContainer);
+        }
+
+        if (eleTrigger != eleContainer) {
+            eleContainer.style.display = 'block';
+            eleTrigger.classList.add(ACTIVE);
+
+            new Follow(eleTrigger, eleContainer, {
+                position: '4-1'
+            });
+
+            // 如果屏幕外，则偏移
+            // 3是阴影的距离
+            var numLeft = parseFloat(eleContainer.style.left);
+            var numWidth = eleContainer.offsetWidth;
+            if (numLeft + numWidth + 3 > screen.width) {
+                eleContainer.style.left = Math.max(screen.width - numWidth - 3, 0) + 'px';
+            }
+        }
+
+        // 显示回调
+        if (typeof this.callback.show == 'function') {
+            this.callback.show.call(this, eleInput, eleContainer);
+        }
+
+        // 改变显示与隐藏的标志量
+        this.display = true;
+
+        return this;
+    };
+
+    /**
+     * 日期选择面板的隐藏
+     * @return {Object} 当前实例对象
+     */
+    DateTime.prototype.hide = function () {
+        // 元素
+        var eleContainer = this.element.container;
+        var eleTrigger = this.element.trigger;
+        var eleInput = this.element.input;
+
+        if (this.display == true && eleTrigger != eleContainer) {
+            eleContainer.style.display = 'none';
+            eleTrigger.classList.remove(ACTIVE);
+
+            // 焦点位置还原
+            eleInput.focus();
+            eleInput.blur();
+
+            // 隐藏回调
+            if (typeof this.callback.hide == 'function') {
+                this.callback.hide.call(this, eleInput, eleContainer);
+            }
+        }
+
+        // 改变显示与隐藏的标志量
+        this.display = false;
+
+        return this;
+    };
+
+    var funAutoInitAndWatching = function () {
+        // 如果没有开启自动初始化，则返回
+        if (window.autoInit === false) {
+            return;
+        }
+
+        var funSyncRefresh = function (node) {
+            if (node.nodeType != 1 || node.tagName != 'INPUT' || (node.data && node.data.dateTime)) {
+                return;
+            }
+
+            var strType = node.getAttribute('type');
+            if (/^date|year|month|time|hour|minute/.test(strType)) {
+                new DateTime(node);
+            }
+        };
+
+        document.querySelectorAll('input[type]').forEach(funSyncRefresh);
+
+
+        // 如果没有开启观察，不监听DOM变化
+        if (window.watching === false) {
+            return;
+        }
+
+        // DOM Insert自动初始化
+        // IE11+使用MutationObserver
+        // IE9-IE10使用Mutation Events
+        if (window.MutationObserver) {
+            var observerSelect = new MutationObserver(function (mutationsList) {
+                mutationsList.forEach(function (mutation) {
+                    var nodeAdded = mutation.addedNodes;
+
+                    if (nodeAdded.length) {
+                        nodeAdded.forEach(function (eleAdd) {
+                            funSyncRefresh.call(mutation, eleAdd);
+                        });
+                    }
+                });
+            });
+
+            observerSelect.observe(document.body, {
+                childList: true,
+                subtree: true
+            });
+        } else {
+            document.body.addEventListener('DOMNodeInserted', function (event) {
+                // 插入节点
+                funSyncRefresh(event.target);
+            });
+        }
+    };
+
+    if (document.readyState != 'loading') {
+        funAutoInitAndWatching();
+    } else {
+        window.addEventListener('DOMContentLoaded', funAutoInitAndWatching);
+    }
+
+
+    return DateTime;
+}));
+/**
+ * @Validate.js
+ * @author zhangxinxu
+ * @version
+ * Created: 15-08-19
+ */
+
+(function (global, factory) {
+    if (typeof exports === 'object' && typeof module !== 'undefined') {
+        global.Tips = require('./ErrorTip');
+        module.exports = factory();
+    } else if (typeof define === 'function' && (define.amd || define.cmd)) {
+        define(factory);
+    } else {
+        global.Validate = factory();
+    }
+}((typeof global !== 'undefined') ? global
+    : ((typeof window !== 'undefined') ? window
+        : ((typeof self !== 'undefined') ? self : this)), function (require) {
+
+    var ErrorTip = this.ErrorTip;
+    if (typeof require == 'function' && !ErrorTip) {
+        ErrorTip = require('common/ui/ErrorTip');
+    } else if (!ErrorTip) {
+        window.console.error('need ErrorTip.js');
+        return {};
+    }
+
+    /**
+     * 基于HTML5规范的表单验证方法
+     * 根据原生属性:type, required, min, max, minlength, maxlength, step, pattern等属性进行验证
+     * 使用原生checkValidity方法名，以及{
+        badInput: false
+        customError: false
+        patternMismatch: false
+        rangeOverflow: false
+        rangeUnderflow: false
+        stepMismatch: false
+        tooLong: false
+        tooShort: false
+        typeMismatch: false
+        valid: true
+        valueMissing: false
+     }
+     等参数名。
+     * 支持new实例构造，例如：
+     * new Validate(el, options);
+     * 很多验证规则基于其他UI组件特征
+     */
+
+    // 全角转半角方法
+    window.DBC2SBC = function (str) {
+        var result = '';
+        var i, code;
+        for (i = 0; i < str.length; i++) {
+            code = str.charCodeAt(i);
+            if (code >= 65281 && code <= 65373) {
+                result += String.fromCharCode(str.charCodeAt(i) - 65248);
+            } else if (code == 12288) {
+                result += String.fromCharCode(str.charCodeAt(i) - 12288 + 32);
+            } else {
+                result += str.charAt(i);
+            }
+        }
+
+        return result;
+    };
+
+    // 滚动到顶部缓动实现
+    // rate表示缓动速率，默认是2
+    window.scrollTopTo = function (top, callback) {
+        var scrollTop = document.scrollingElement.scrollTop;
+        var rate = 2;
+
+        var funTop = function () {
+            scrollTop = scrollTop + (top - scrollTop) / rate;
+
+            // 临界判断，终止动画
+            if (Math.abs(scrollTop - top) <= 1) {
+                document.scrollingElement.scrollTop = top;
+                callback && callback();
+                return;
+            }
+            document.scrollingElement.scrollTop = scrollTop;
+            // 动画gogogo!
+            requestAnimationFrame(funTop);
+        };
+        funTop();
+    };
+
+    // 一些全局的属性和方法
+    document.validate = (function () {
+        return {
+            reg: {
+                email: '^[a-z0-9._%-]+@([a-z0-9-]+\\.)+[a-z]{2,4}$',
+                number: '^\\-?\\d+(\\.\\d+)?$',
+                url: "^(http|https)\\:\\/\\/[a-z0-9\\-\\.]+\\.[a-z]{2,3}(:[a-z0-9]*)?\\/?([a-z0-9\\-\\._\\:\\?\\,\\'\\/\\\\\\+&amp;%\\$#\\=~])*$",
+                tel: '^1\\d{10}$',
+                zipcode: '^\\d{6}$',
+                date: '^\\d{4}\\-(0\\d|1[0-2])\\-([0-2]\\d|3[0-1])$',
+                time: '^[0-2]\\d\\:[0-5]\\d$',
+                hour: '^[0-2]\\d\\:00$',
+                minute: '^[0-2]\\d\\:[0-5]\\d$',
+                'date-range': '^\\d{4}(\\-\\d{2}){2}\\s至\\s\\d{4}(\\-\\d{2}){2}$',
+                'month-range': '^\\d{4}\\-\\d{2}\\s至\\s\\d{4}\\-\\d{2}$'
+            },
+
+            name: {
+                email: '邮箱',
+                tel: '手机号码',
+                url: '网址',
+                zipcode: '邮编',
+                password: '密码',
+                number: '数值',
+                range: '数值',
+                date: '日期',
+                year: '年份',
+                month: '月份',
+                hour: '小时',
+                minute: '分钟',
+                time: '时间',
+                datetime: '日期时间',
+                'date-range': '日期范围',
+                'month-range': '月份范围'
+            },
+
+            // 选中某范围文字内容的拓展方法
+            selectRange: function (element, start, end) {
+                if (!element) {
+                    return;
+                }
+                if (element.createTextRange) {
+                    var objRange = element.createTextRange();
+                    objRange.collapse(true);
+                    objRange.moveEnd('character', end);
+                    objRange.moveStart('character', start);
+                    objRange.select();
+                } else if (element.focus) {
+                    element.focus();
+                    element.setSelectionRange(start, end);
+                }
+            },
+
+            // 电话号码过滤成符合要求的号码，省去用户自己处理
+            // 例如我们从某个地方复制电话号码，可能是短横线相连
+            // 或者前面带+86
+            getTel: function (tel) {
+                var strTel = tel || '';
+                strTel = strTel.replace('+86', '');
+                // 如果此时剩余所有数字正好11位
+                if (strTel.match(/\d/) && strTel.match(/\d/g).length == 11) {
+                    strTel = strTel.replace(/\D/g, '');
+                }
+                return strTel;
+            },
+
+            // 获得字符长度
+            // @element  Object   input/textarea表单控件元素
+            // @max  Number   返回满足最大值时候的真实字符长度
+            getLength: function (element, max) {
+                if (element.type == 'password') {
+                    return max ? max : element.value.length;
+                }
+                // 语言属性和trim后的值
+                var strAttrLang = element.getAttribute('lang');
+                var strValue = element.value.trim();
+                if (!strAttrLang) {
+                    return max ? max : strValue.length;
+                }
+                if (strValue == '') {
+                    return 0;
+                }
+
+                // 中文和英文计算字符个数的比例
+                var numRatioCh = 1;
+                var numRatioEn = 1;
+
+                if (/zh/i.test(strAttrLang)) {
+                    // 1个英文半个字符
+                    numRatioEn = 0.5;
+                } else if (/en/i.test(strAttrLang)) {
+                    // 1个中文2个字符
+                    numRatioCh = 2;
+                }
+
+                // 下面是中文或全角等字符正则
+                if (!max) {
+                    var lenOriginCh = strValue.replace(/[\x00-\xff]/g, '').length;
+                    var lenOriginEn = strValue.length - lenOriginCh;
+
+                    // 根据比例返回最终长度
+                    return Math.ceil(lenOriginEn * numRatioEn) + Math.ceil(lenOriginCh * numRatioCh);
+                }
+                var numStart = 0;
+                var lenMatch = max;
+
+                strValue.split('').forEach(function (letter, index) {
+                    if (numStart >= max) {
+                        return;
+                    }
+                    if (/[\x00-\xff]/.test(letter)) {
+                        // 如果字符是中文或全角
+                        numStart += numRatioEn;
+                    } else {
+                        // 如果字符是英文
+                        numStart += numRatioCh;
+                    }
+
+                    if (numStart >= max) {
+                        lenMatch = index + 1;
+                    }
+                });
+
+                return lenMatch;
+            },
+
+            // 获得并重置type
+            getType: function (element) {
+                // 控件的类型
+                // 这里不能直接element.type获取，否则，类似email类型直接就是text类型
+                // 但是，有些元素的type是隐式的，例如textarea，因此element.type还是需要的
+                var strAttrType = element.getAttribute('type');
+                var strType = strAttrType || element.type || '';
+                // 高级版本IE浏览器的向下兼容模式，会忽略email类型
+                // 虽然这种情况出现的可能性很小，但是，为了万一
+                // 可以使用type='email '解决此问题
+                // 所以，才会有下面的正则替换，得到最精准的type类型
+                strType = strType.toLowerCase().replace(/\W+$/, '');
+
+                // 对于本来支持的浏览器，需要变成真实的
+                if (strAttrType && strAttrType != strType && !element.isTypeReset) {
+                    var eleInput = document.createElement('input');
+                    eleInput.type = strType;
+
+                    if (eleInput.getAttribute('type') == strType) {
+                        try {
+                            element.type = strType;
+                            element.isTypeReset = true;
+                        } catch (e) {
+                            //
+                        }
+                    }
+                }
+
+                if (strType == 'select-one') {
+                    strType = 'select';
+                }
+
+                // 类似_date_这种干掉浏览器默认类型的处理
+                return strType.replace(/_/g, '');
+            },
+
+            /**
+             * 返回对应的提示信息
+             * @param  {[type]} element 提示元素
+             * @return {String}         返回对应的提示信息
+             */
+            getReportText: function (element) {
+                var defaultPrompt = {
+                    name: this.name,
+                    badInput: '值无效',
+                    customError: '包含错误',
+                    patternMismatch: {
+                        pattern: '内容格式不符合要求',
+                        multiple: '某项内容格式不符合要求'
+                    },
+                    valueMissing: {
+                        radio: '请选择一个选项',
+                        checkbox: '如果要继续，请选中此框',
+                        select: '请选择列表中的一项',
+                        'select-one': '请选择列表中的一项',
+                        empty: '请填写此字段'
+                    },
+                    rangeOverflow: '值偏大',
+                    rangeUnderflow: '值偏小',
+                    stepMismatch: '值不在间隔要求范围内',
+                    tooLong: '内容长度偏大',
+                    tooShort: '内容长度偏小',
+                    typeMismatch: '值和输入框类型不匹配'
+                };
+
+                if (!element) {
+                    return '';
+                }
+
+                // 验证信息
+                var objValidateState = element.validity;
+
+                // 如果没有错误，没有任何返回
+                if (objValidateState.valid == true) {
+                    return '';
+                }
+
+                // 最终的提示文字
+                var strFinalText = '';
+
+                // 元素的id, type等
+                var strId = element.id;
+                var strType = this.getType(element);
+
+                // 元素上自定义的提示信息
+                // 元素存储的提示信息，主要是自定义方法返回的自定义提示
+                var customValidate = element.customValidate || {};
+                var optionPrompt = customValidate.report || {};
+
+                // 错误提示关键字
+                var strName = defaultPrompt.name[strType] || (function () {
+                    if (!customValidate.label || !strId || /checkbox|radio/.test(strType)) {
+                        return;
+                    }
+                    var strTextLabel = '';
+                    // 从label动态获取提示数据
+                    document.querySelectorAll('label[for=' + strId + ']').forEach(function (eleLabel) {
+                        var eleLabelClone = eleLabel.cloneNode(true);
+                        // 只使用裸露的文字作为提示关键字
+                        [].slice.call(eleLabelClone.children).forEach(function (eleChild) {
+                            eleChild.remove();
+                        });
+
+                        // 去除数字和冒号
+                        var strLabelCloneText = eleLabelClone.innerHTML.trim().replace(/\d/g, '').replace('：', '');
+                        // 内容最长的那个元素作为提示文字
+                        if (strLabelCloneText.length > strTextLabel.length) {
+                            strTextLabel = strLabelCloneText;
+                        }
+                    });
+                    // 提示关键字显然不会小于2个字
+                    // 不会是纯数字
+                    if (strTextLabel.length >= 2) {
+                        return strTextLabel;
+                    }
+                })();
+
+                // 开始一个一个确认提示
+                if (objValidateState.valueMissing) {
+                    strFinalText = optionPrompt.valueMissing;
+                    // 如果没有对应的自定义提示
+                    if (!strFinalText) {
+                        // 则使用默认的提示：
+                        // 1. 根据类型关键字组装的提示
+                        if (strType && strName) {
+                            if (strType != 'select') {
+                                strFinalText = strName + '不能为空';
+                            } else {
+                                strFinalText = '您尚未选择' + strName;
+                            }
+                        } else {
+                            // 2. 默认的missing几个错误提示
+                            strFinalText = defaultPrompt.valueMissing[strType];
+                        }
+
+                        strFinalText = strFinalText || defaultPrompt.valueMissing.empty;
+                    }
+                } else if (objValidateState.patternMismatch) {
+                    // 首先，优先使用自定义提示是一样的
+                    strFinalText = optionPrompt.patternMismatch;
+
+                    if (!strFinalText) {
+                        // 然后确定是否是多值
+                        var isMultiple = element.hasAttribute('multiple') && element.value.split(',').length > 1;
+
+                        strFinalText = defaultPrompt.patternMismatch[isMultiple ? 'multiple' : 'pattern'];
+                        // 然后
+                        if (strType && strName) {
+                            // 1. 试试关键字提示
+                            strFinalText = strName + strFinalText;
+                        }
+                    }
+                } else if (objValidateState.badInput) {
+                    // 优先使用自定义提示是一样的
+                    strFinalText = optionPrompt.badInput;
+
+                    if (!strFinalText) {
+                        strFinalText = (strName || '') + defaultPrompt.badInput;
+                    }
+                } else if (objValidateState.typeMismatch) {
+                    // 优先使用自定义提示是一样的
+                    strFinalText = optionPrompt.typeMismatch;
+
+                    if (!strFinalText) {
+                        strFinalText = defaultPrompt.typeMismatch;
+                        if (strName) {
+                            strFinalText = strFinalText.replace('输入框', strName);
+                        }
+                    }
+                } else if (objValidateState.rangeUnderflow || objValidateState.rangeOverflow) {
+                    // 先看看有没有自定义的提示
+                    strFinalText = optionPrompt.rangeUnderflow || optionPrompt.rangeOverflow;
+
+                    if (!strFinalText && strType && strName) {
+                        var strMin = element.getAttribute('min');
+                        var strMax = element.getAttribute('max');
+
+                        if (strType == 'month-range') {
+                            strMin = strMin.slice(0, 7);
+                            strMax = strMax.slice(0, 7);
+                        }
+
+                        var strTextBigger = '必须要大于或等于' + strMin;
+                        var strTextSmall = '必须要小于或等于' + strMax;
+
+                        // 同时范围超出，一定是日期范围
+                        if (objValidateState.rangeUnderflow && objValidateState.rangeOverflow) {
+                            strFinalText = '起始日期' + strTextBigger + '，结束日期' + strTextSmall;
+                        } else if (objValidateState.rangeUnderflow) {
+                            strFinalText = strName + strTextBigger;
+                            // 如果是日期范围
+                            if (strType.slice(-6) == '-range') {
+                                strFinalText = '起始日期' + strTextBigger;
+                            }
+                        } else {
+                            strFinalText = strName + strTextSmall;
+                            // 如果是日期范围
+                            if (strType.slice(-6) == '-range') {
+                                strFinalText = '结束日期' + strTextSmall;
+                            }
+                        }
+                    }
+
+                    strFinalText = strFinalText || '值不在要求的范围内';
+                } else if (objValidateState.stepMismatch) {
+                    // 优先使用自定义提示是一样的
+                    strFinalText = optionPrompt.stepMismatch;
+
+                    if (!strFinalText) {
+                        var numMin = element.getAttribute('min') * 1;
+                        var numMax = element.getAttribute('max') * 1;
+                        var numStep = element.getAttribute('step') * 1 || 1;
+
+                        if (strType == 'number' || strType == 'range') {
+                            strFinalText = '请输入有效的值。两个最接近的有效值是' + (function () {
+                                var numValue = element.value.trim() * 1;
+                                var numClosest = numMin;
+                                for (var start = numMin; start < numMax; start += numStep) {
+                                    if (start < numValue && (start + numStep) > numValue) {
+                                        numClosest = start;
+                                        break;
+                                    }
+                                }
+
+                                return [numClosest, numClosest + numStep].join('和');
+                            })();
+                        } else {
+                            strFinalText = '请' + (element.hasAttribute('readonly') ? '选择' : '输入') + '有效的值。' + (strName || '') + '间隔是' + numStep;
+                        }
+                    }
+
+                    strFinalText = strFinalText || defaultPrompt.stepMismatch;
+                } else if (objValidateState.tooLong || objValidateState.tooShort) {
+                    // 输入内容太多或太少
+                    var strAttrLang = element.getAttribute('lang');
+                    var strTextCharLength = '';
+
+                    if (/zh/i.test(strAttrLang)) {
+                        strTextCharLength = '个汉字(2字母=1汉字)';
+                    } else if (/en/i.test(strAttrLang)) {
+                        strTextCharLength = '个字符(1汉字=2字符)';
+                    }
+
+                    if (objValidateState.tooLong) {
+                        // 先看看有没有自定义的提示
+                        strFinalText = optionPrompt.tooLong;
+
+                        if (!strFinalText) {
+                            var strMaxLength = element.maxlength || element.getAttribute('maxlength');
+
+                            strFinalText = (strName || '') + '内容长度不能大于' + strMaxLength.replace(/\D/g, '') + strTextCharLength;
+                        }
+                    } else {
+                        // 先看看有没有自定义的提示
+                        strFinalText = optionPrompt.tooShort;
+                        if (!strFinalText) {
+                            var strMinLength = element.getAttribute('minlength');
+
+                            strFinalText = '内容长度不能小于' + strMinLength + strTextCharLength;
+                        }
+                    }
+                } else if (objValidateState.customError) {
+                    // 先看看有没有自定义的提示
+                    strFinalText = optionPrompt.customError || defaultPrompt.customError;
+                }
+
+                if (typeof strFinalText == 'function') {
+                    strFinalText = strFinalText.call(element, element);
+                }
+
+                return strFinalText;
+            },
+
+            /*
+            ** 验证一般包括下面几个个方向：
+            ** 1. 是否required同时值为空
+            ** 2. 是否数据匹配错误(pattern, type)
+            ** 3. 是否超出范围(min/max/step)
+            ** 4. 内容超出限制(minlength, maxlength)
+            ** 下面的这些方法就是上面3个方向判断
+            ** 其中，参数element为DOM对象
+            ** 返回数据规则如下：
+            ** 如果没有把柄，返回false;
+            ** 如果真的有误，则返回错误类别：{
+                  type: ''
+               }
+            }
+            */
+
+            /**
+             * 判断元素是否为空的验证
+             * @param  Element  element 验证的DOM元素
+             * @return Object           返回验证的状态对象
+             */
+            getMissingState: function (element) {
+                var objValidateState = {
+                    valueMissing: false
+                };
+
+                // 主要针对required必填或必选属性的验证
+                if (!element || element.disabled) {
+                    return objValidateState;
+                }
+
+                // 类型
+                var strType = this.getType(element);
+
+                // 此时的值才是准确的值（浏览器可能会忽略文本框中的值，例如number类型输入框中的不合法数值）
+                var strValue = element.value;
+
+                if (element.hasAttribute('required')) {
+                    // 根据控件类型进行验证
+                    // 1. 单复选框比较特殊，先处理下
+                    if (strType == 'radio') {
+                        // 单选框，只需验证是否必选，同一name单选组只有要一个设置required即可
+                        var eleRadios = [element];
+                        var eleForm = element.closest('form') || element.parentElement.parentElement;
+
+                        if (element.name && eleForm) {
+                            eleRadios = eleForm.querySelectorAll('input[type="radio"][name="' + element.name + '"]');
+                        }
+
+                        // 如果单选框们没有一个选中，则认为无视了required属性
+                        var isAtLeastOneRadioChecked = [].slice.call(eleRadios).some(function (eleRadio) {
+                            return eleRadio.checked;
+                        });
+
+                        if (isAtLeastOneRadioChecked == false) {
+                            // 没有一个单选框选中
+                            objValidateState.valueMissing = true;
+                        }
+
+                        return objValidateState;
+                    } else if (strType == 'checkbox') {
+                        // 复选框是每一个都必须选中
+                        if (element.checked == false) {
+                            objValidateState.valueMissing = true;
+                        }
+
+                        return objValidateState;
+                    } else if (strType != 'password') {
+                        strValue = strValue.trim();
+                    }
+
+                    if (strValue == '') {
+                        // 重新赋值，清空可能被浏览器默认认为不合法的值
+                        // 但是需要是现代浏览器，低版本IE会不断触发属性改变事件
+                        if (history.pushState) {
+                            element.value = '';
+                        }
+
+                        // 返回验证结果
+                        objValidateState.valueMissing = true;
+                    }
+                }
+
+                return objValidateState;
+            },
+
+            /**
+             * 判断元素是否为空的验证
+             * @param  {Element}  element 验证的DOM元素
+             * @return {Boolean|Object} 返回验证通过布尔值或者出错信息对象
+             */
+            isMissing: function (element) {
+                return this.getMissingState(element).valueMissing;
+            },
+
+            /**
+             * 返回元素值的合法状态
+             * @param  {Element}  element 验证的DOM元素
+             * @param  {RegExp}  regex 验证的正则
+             * @return {Boolean|Object} 返回验证通过布尔值或者出错信息对象
+             */
+            getMismatchState: function (element, regex, params) {
+                var objValidateState = {
+                    patternMismatch: false,
+                    typeMismatch: false
+                };
+
+                // 禁用元素不参与验证
+                if (!element || element.disabled) {
+                    return false;
+                }
+
+                // 原始值和处理值
+                var strInputValue = element.value;
+                var strDealValue = strInputValue;
+
+                // 类型
+                var strType = this.getType(element);
+
+                // 特殊控件不参与验证
+                if (/^radio|checkbox|select$/i.test(strType)) {
+                    return objValidateState;
+                }
+
+                // 全角半角以及前后空格的处理
+                // 适用于type=url/email/tel/zipcode/number/date/time等
+                if (strType != 'password') {
+                    strDealValue = strInputValue.trim();
+                }
+                if (/^text|textarea|password$/i.test(strType) == false) {
+                    strDealValue = window.DBC2SBC(strDealValue);
+                }
+                if (strType == 'tel') {
+                    strDealValue = this.getTel(strDealValue);
+                }
+
+                // 文本框值改变，重新赋值
+                // 即时验证的时候，不赋值，否则，无法输入空格
+                if (document.validate.focusable !== false && document.validate.focusable !== 0 && strDealValue != strInputValue) {
+                    element.value = strDealValue;
+                }
+
+                // 如果没有值，则认为通过，没有错误
+                if (strDealValue == '') {
+                    return objValidateState;
+                }
+
+                // 获取正则表达式，pattern属性获取优先，然后通过type类型匹配。
+                // 注意，不处理为空的情况
+                regex = regex || (function () {
+                        return element.getAttribute('pattern');
+                    })() ||
+                    (function () {
+                        // 文本框类型处理，可能有管道符——多类型重叠，如手机或邮箱
+                        return strType && strType.split('|').map(function (strTypeSplit) {
+                            var regMatch = document.validate.reg[strTypeSplit];
+                            if (regMatch) {
+                                return regMatch;
+                            }
+                        }).join('|');
+                    })();
+
+                // 如果没有正则匹配的表达式，就没有验证的说法，认为出错为false
+                if (!regex) {
+                    return objValidateState;
+                }
+
+                // multiple多数据的处理
+                var isMultiple = element.hasAttribute('multiple');
+                var regNew = new RegExp(regex, params || 'i');
+
+                // 正则验证标志量
+                var isAllPass = true;
+
+                // number,range等类型下multiple是无效的
+                if (isMultiple && /^number|range$/i.test(strType) == false) {
+                    strDealValue.split(',').forEach(function (partValue) {
+                        partValue = partValue.trim();
+                        if (isAllPass && !regNew.test(partValue)) {
+                            isAllPass = false;
+                        }
+                    });
+                } else {
+                    isAllPass = regNew.test(strDealValue);
+                }
+
+                // 根据pattern判断类型
+                if (isAllPass == false) {
+                    if (element.hasAttribute('pattern')) {
+                        objValidateState.patternMismatch = true;
+                    } else {
+                        objValidateState.typeMismatch = true;
+                    }
+                }
+
+                return objValidateState;
+            },
+
+
+            /**
+             * 判断元素值的合法性
+             * @param  {Element}  element 验证的DOM元素
+             * @param  {RegExp}  regex 验证的正则
+             * @return {Boolean|Object} 返回验证通过布尔值或者出错信息对象
+             */
+            isMismatch: function (element, regex, params) {
+                var objValidateState = this.getMismatchState(element, regex, params);
+
+                return objValidateState.patternMismatch || objValidateState.typeMismatch;
+            },
+
+            /**
+             * 判断数值或日期范围超出
+             * @param  {Element}  element 验证的DOM元素
+             * @return {Boolean|Object} 返回验证状态对象
+             */
+            getRangeState: function (element) {
+                var objValidateState = {
+                    badInput: false,
+                    rangeOverflow: false,
+                    rangeUnderflow: false,
+                    stepMismatch: false
+                };
+
+                // 是否数值或日期范围超出
+                if (!element || element.disabled) {
+                    return objValidateState;
+                }
+
+                // 类型和值
+                var strType = this.getType(element);
+                var strValue = element.value.trim();
+
+                if (/radio|checkbox|select|textarea/i.test(strType) || strValue == '') {
+                    return objValidateState;
+                }
+
+                var strAttrMin = element.getAttribute('min');
+                var strAttrMax = element.getAttribute('max');
+                var strAttrStep = Number(element.getAttribute('step')) || 1;
+
+
+                if ((strType == 'number' || strType == 'range') && !/[-+]?[0-9]/.test(strValue)) {
+                    objValidateState.badInput = true;
+                }
+
+                if (strType.slice(-6) != '-range') {
+                    if (strValue == '0' || Number(strValue) == strValue) {
+                        strValue = strValue * 1;
+                    }
+                    if (strAttrMin && strValue < strAttrMin) {
+                        objValidateState.rangeUnderflow = true;
+                    }
+                    if (strAttrMax && strValue > strAttrMax) {
+                        objValidateState.rangeOverflow = true;
+                    }
+
+                    // number, range类型的范围
+                    if ((strType == 'number' || strType == 'range') && strAttrStep && strAttrMin &&
+                        !/^\d+$/.test(Math.abs(strValue - strAttrMin) / strAttrStep)
+                    ) {
+                        objValidateState.stepMismatch = true;
+                    }
+                    // hour, minute, time类型的范围
+                    if ((strType == 'hour' || strType == 'minute' || strType == 'time') && strAttrMin && strAttrStep) {
+                        var minuteValue = strValue.split(':')[1];
+                        var minuteMin = strAttrMin.split(':')[1];
+
+                        if (strType == 'hour' && (minuteValue != minuteMin || (strValue.split(':')[0] - strAttrMin.split(':')[0]) % strAttrStep != 0)) {
+                            // 小时，则是分钟要一致，小时数正好step
+                            objValidateState.stepMismatch = true;
+                        } else if ((minuteValue - minuteMin) % strAttrStep !== 0) {
+                            objValidateState.stepMismatch = true;
+                        }
+                    }
+                } else {
+                    // 时间范围
+                    var arrSplitValue = strValue.split(' ');
+
+                    // 防止month-range时候，min/max设置的是完整时间，
+                    // 如2017-07-07，而不是2017-07
+                    if (strType == 'month-range') {
+                        strAttrMin = strAttrMin && strAttrMin.slice(0, 7);
+                        strAttrMax = strAttrMax && strAttrMax.slice(0, 7);
+                    }
+
+                    if (arrSplitValue.length == 3) {
+                        if (strAttrMin && arrSplitValue[0] < strAttrMin) {
+                            objValidateState.rangeUnderflow = true;
+                        }
+                        if (strAttrMax && arrSplitValue[2] > strAttrMax) {
+                            objValidateState.rangeOverflow = true;
+                        }
+                    }
+                }
+
+                return objValidateState;
+            },
+
+
+            /**
+             * 判断数值或日期范围超出
+             * @param  {Element}  element 验证的DOM元素
+             * @return {Boolean|Object} 返回验证通过布尔值或者出错信息对象
+             */
+            isOut: function (element) {
+                var objValidateState = this.getRangeState(element);
+
+                return objValidateState.badInput || objValidateState.rangeOverflow || objValidateState.rangeUnderflow || objValidateState.stepMismatch;
+            },
+
+            /**
+             * 内容是否超出长度限制的判断
+             * @param  {Element}  element   DOM元素对象
+             * @return {Boolean|Object} 返回验证通过布尔值或者出错信息对象
+             */
+            getLengthState: function (element) {
+                var objValidateState = {
+                    tooLong: false,
+                    tooShort: false
+                };
+                // 是否内容长度溢出的判断
+                if (!element || element.disabled || /^radio|checkbox|select$/i.test(element.type)) {
+                    return objValidateState;
+                }
+
+                //  大小限制
+                var strAttrMinLenght = element.getAttribute('minlength');
+                var strAttrMaxLenght = element.maxlength || element.getAttribute('maxlength');
+                // 值
+                var strValue = element.value;
+
+                if (strValue == '') {
+                    return objValidateState;
+                }
+
+                var numLength = this.getLength(element);
+
+                if (strAttrMinLenght && numLength < strAttrMinLenght) {
+                    objValidateState.tooShort = true;
+                }
+
+                if (strAttrMaxLenght) {
+                    strAttrMaxLenght = strAttrMaxLenght.replace(/\D/g, '');
+                    if (numLength > strAttrMaxLenght) {
+                        objValidateState.tooLong = true;
+                    }
+                }
+
+                return objValidateState;
+            },
+
+            /**
+             * 是否范围超出
+             * @param  {[type]}  element [description]
+             * @return {Boolean}         [description]
+             */
+            isOverflow: function (element) {
+                var objValidateState = this.getLengthState(element);
+                return objValidateState.tooLong || objValidateState.tooShort;
+            },
+
+            /**
+             * 自定义验证状态
+             * @return {[type]} [description]
+             */
+            getCustomState: function (element) {
+                var objValidateState = {
+                    customError: false
+                };
+                var customValidate = element.customValidate;
+
+                if (customValidate && typeof customValidate.method == 'function') {
+                    var dataResult = customValidate.method.call(customValidate.owner, element);
+                    if (dataResult) {
+                        objValidateState.customError = true;
+                        // 记住自定义提示内容
+                        if (typeof dataResult == 'object' && dataResult.customError) {
+                            this.setCustomValidity(element, dataResult.customError);
+                        } else {
+                            this.setCustomValidity(element, dataResult);
+                        }
+                    }
+                }
+
+                return objValidateState;
+            },
+
+            /**
+             * 设置自定义提示内容
+             */
+            setCustomValidity: function (element, content) {
+                if (!content) {
+                    return;
+                }
+                if (!element.customValidate) {
+                    element.customValidate = {
+                        report: {}
+                    };
+                }
+                if (!element.customValidate.report) {
+                    element.customValidate.report = {};
+                }
+
+                element.customValidate.report.customError = content;
+            },
+
+            /**
+             * 判断元素验证通过与否
+             * @param  Element  element 输入框元素或者表单元素
+             * @return {[type]} [description]
+             */
+            checkValidity: function (element) {
+                // 1. 元素不存在不验证
+                // 2. 禁用态表单元素不参与验证
+                if (!element || element.disabled) {
+                    return true;
+                }
+
+                // 3. 提交、重置等元素不参与验证
+                var strType = element.getAttribute('type') || element.type;
+                var strTag = element.tagName.toLowerCase();
+
+                if (/^button|submit|reset|file|image$/.test(strType) == true || strTag == 'button') {
+                    return true;
+                }
+
+                if (element.matches('input, select, textarea') == false && element.children) {
+                    element = element.querySelectorAll('input, select, textarea');
+                }
+
+                if (element.nodeType == 1) {
+                    return this.getValidity(element).valid;
+                }
+
+                if (element.length) {
+                    return [].slice.call(element).every(function (ele) {
+                        return this.checkValidity(ele);
+                    }.bind(this));
+                }
+
+                return true;
+            },
+
+            /**
+             * 获取元素的验证状态
+             * @return {[type]} [description]
+             */
+            getValidity: function (element) {
+                // 性能优化
+                // 如果值不变，且之前已经验证过，
+                // 且不是单复选框，则直接返回
+                // 避免同一元素短时间多次验证
+                if (element.lastValidateState && element.lastValue === element.value && /radio|checkbox/.test(element.type) == false) {
+                    return element.lastValidateState;
+                }
+
+                // 浏览器原生的状态
+                var objValidateState = {
+                    badInput: false,
+                    customError: false,
+                    patternMismatch: false,
+                    rangeOverflow: false,
+                    rangeUnderflow: false,
+                    stepMismatch: false,
+                    tooLong: false,
+                    tooShort: false,
+                    typeMismatch: false,
+                    valid: true,
+                    valueMissing: false
+                };
+
+                // 但是，不足以满足实际需求
+                objValidateState = Object.assign({}, objValidateState, this.getMissingState(element), this.getMismatchState(element), this.getRangeState(element), this.getLengthState(element), this.getCustomState(element));
+
+                var isSomeInvalid = false;
+
+                for (var keyValidate in objValidateState) {
+                    if (keyValidate != 'valid' && objValidateState[keyValidate] == true) {
+                        isSomeInvalid = true;
+                    }
+                }
+
+                objValidateState.valid = !isSomeInvalid;
+
+                element.lastValue = element.value;
+                element.lastValidateState = objValidateState;
+
+                setTimeout(function () {
+                    delete element.lastValidateState;
+                }, 1);
+
+                return objValidateState;
+            },
+
+            /**
+             * 验证并进行错误提示
+             * @param  {Element} element 需要显示提示信息的元素
+             * @param  {Object}  options 可选参数，主要包括label，以及自定义提示和验证方法
+             * @return {[type]}         [description]
+             */
+            reportValidity: function (element, content) {
+                // 验证并设置结果状态
+                content = content || this.getReportText(element);
+
+                // 提示
+                this.errorTip(element, content);
+
+                var isPass = !content;
+
+                this.styleError(element, isPass);
+
+                // 根据提示内容判断验证结果
+                return isPass;
+            },
+
+            /**
+             * 出错还是成功的样式处理
+             * @param  {[type]} element [description]
+             * @param  {[type]} valid   [description]
+             * @return {[type]}         [description]
+             */
+            styleError: function (element, valid) {
+                // 是否有错
+                if (!element) {
+                    return this;
+                }
+
+                if (typeof valid == 'undefined') {
+                    valid = element.validity.valid;
+                }
+
+                var eleTarget = this.getTarget(element);
+
+                if (!eleTarget) {
+                    return valid;
+                }
+
+                var eleForm = element.closest('form') || (element.customValidate && element.customValidate.owner);
+
+                if (element.type == 'radio' && element.name && eleForm) {
+                    // 单选框组是整体去除高亮
+                    eleForm.querySelectorAll('input[type=radio][name=' + element.name + ']').forEach(function (eleRadio) {
+                        var eleTargetRadio = this.getTarget(eleRadio);
+
+                        if (valid) {
+                            eleTargetRadio.classList.remove('error');
+                            eleTargetRadio.removeAttribute('aria-label');
+                        } else {
+                            eleTargetRadio.classList.add('error');
+                        }
+                    }.bind(this));
+                } else if (valid) {
+                    eleTarget.classList.remove('error');
+                    eleTarget.removeAttribute('aria-label');
+                } else {
+                    eleTarget.classList.add('error');
+                }
+
+                return valid;
+            },
+
+            /**
+             * 显示出错信息处理
+             * @param  {Object} element 出错提示原始元素（这里可能会进行转移）
+             * @param  {String} content 出错提示内容
+             * @return {Object}         返回当前上下文
+             */
+            errorTip: function (element, content) {
+                var eleTarget = this.getTarget(element);
+
+                if (!eleTarget || !content) {
+                    return this;
+                }
+
+                // 如果元素隐藏，也不提示
+                var objStyle = window.getComputedStyle(eleTarget);
+
+                if (objStyle.display == 'none' || objStyle.visibility == 'hidden') {
+                    return this;
+                }
+
+                var funShow = function () {
+                    var eleControl = document.validate.errorTip.control;
+                    var eleTarget = document.validate.errorTip.target;
+
+                    new ErrorTip(eleTarget, content, {
+                        onShow: function (eleTrigger, eleTips) {
+                            // 如果tips宽度比较小，居左定位
+                            // 否则，使用默认的居中
+                            var numOffsetX = 0.5 * (eleTips.clientWidth - eleTarget.clientWidth);
+
+                            if (numOffsetX < 0) {
+                                eleTips.style.marginLeft = 0.5 * (eleTips.clientWidth - eleTarget.clientWidth) + 'px';
+                            } else {
+                                eleTips.style.marginLeft = 0;
+                            }
+
+                            // 使提示出现时候不会闪
+                            if (document.validate.focusable === false) {
+                                eleTips.classList.add('none');
+                            } else {
+                                eleTips.classList.remove('none');
+                            }
+                        },
+                        onHide: function () {
+                            var eleForm = eleControl.closest('form');
+
+                            if (!eleForm || !eleForm.isImmediated) {
+                                return;
+                            }
+
+                            // 即时验证的时候，如果出错了，提示隐藏时候，红色仍然保留
+                            document.validate.styleError(eleControl);
+                        }
+                    });
+
+                    // 即时验证不需要focus与选中
+                    // input输入的时候focusable是false
+                    // focus时候focusable是0
+                    if (document.validate.focusable === false || document.validate.focusable === 0) {
+                        return;
+                    }
+
+                    // focus状态还原
+                    document.validate.focusable = null;
+
+                    if (!document.validate.getType(eleControl)) {
+                        return;
+                    }
+
+                    // 如果是内容超出，选中超出的文字内容
+                    if (content.indexOf('内容长度') != -1 && content.indexOf('大') != -1) {
+                        var strValue = eleControl.value;
+                        var numLength = strValue.length;
+                        // var lang = element.getAttribute('lang');
+                        // 中文和英文计算字符个数的比例
+                        // var numRatioCh = 1;
+                        // var numRatioEn = 1;
+                        // if (/zh/i.test(lang)) {
+                        //     // 1个英文半个字符
+                        //     numRatioEn = 0.5;
+                        // } else if (/en/i.test(lang)) {
+                        //     // 1个中文2个字符
+                        //     numRatioCh = 2;
+                        // }
+                        // 获得最大长度的索引位置
+                        var strAttrMaxLength = eleControl.maxlength || eleControl.getAttribute('maxlength').replace(/\D/g, '');
+
+                        if (numLength && strAttrMaxLength) {
+                            document.validate.selectRange(element, document.validate.getLength(element, strAttrMaxLength), numLength);
+                        }
+                    } else if (eleControl.focus && eleControl.select) {
+                        eleControl.focus();
+                        eleControl.select();
+                    }
+                };
+
+                document.validate.errorTip.control = element;
+                document.validate.errorTip.target = eleTarget;
+
+                // 1. 首先，确保el在屏幕内，且需要预留tips的显示的足够距离，这里使用50像素
+                var objRect = eleTarget.getBoundingClientRect();
+                var numScrollTop = -1;
+                if (objRect.top < 50) {
+                    numScrollTop = window.pageYOffset - (50 - objRect.top);
+                } else if (objRect.bottom > window.innerHeight) {
+                    numScrollTop = window.pageYOffset + (objRect.bottom - window.innerHeight);
+                }
+
+                if (numScrollTop >= 0) {
+                    window.scrollTopTo(numScrollTop, funShow);
+                } else {
+                    funShow();
+                }
+
+                return this;
+            },
+
+            /**
+             * 获得对应展示的元素
+             * @param  {Object} el 元素
+             * @return {Object}    返回对应的展示元素（可能就是自身）
+             */
+            getTarget: function (element) {
+                if (!element) {
+                    return null;
+                }
+
+                var eleTarget = element;
+
+                // 根据原生控件元素，确定真实的自定义控件元素
+                // 这里的很多处理跟其他表单UI组件想耦合、关联
+                var strType = element.getAttribute('type') || element.type;
+                var strId = element.id;
+                var strTag = element.tagName.toLowerCase();
+
+                var objStyle = window.getComputedStyle(element);
+
+                // 1. 单复选框
+                if (strType == 'radio' && objStyle.opacity != '1') {
+                    eleTarget = element.parentElement.querySelector('label.ui-radio[for=' + strId + ']');
+                } else if (strType == 'checkbox' && objStyle.opacity != '1') {
+                    eleTarget = element.parentElement.querySelector('label.ui-checkbox[for=' + strId + ']');
+                    // 下拉框
+                } else if (strType == 'select' || strTag == 'select') {
+                    if (objStyle.opacity != '1') {
+                        eleTarget = element.nextElementSibling;
+                    }
+                    // range范围选择框
+                } else if (strType == 'range') {
+                    if (objStyle.display == 'none') {
+                        eleTarget = element.nextElementSibling;
+                    }
+                    // 隐藏元素的目标提示元素的转移
+                } else if (strType == 'hidden' || objStyle.display == 'none' || objStyle.visibility == 'hidden') {
+                    var eleTargetRel = document.getElementById(eleTarget.getAttribute('data-target')) || element.dataTarget;
+                    if (eleTargetRel) {
+                        eleTarget = document.validate.getTarget(eleTargetRel);
+                    }
+                } else if (strType == 'textarea' || strTag == 'textarea') {
+                    if (element.classList.contains('ui-textarea') == false && element.parentElement.querySelector('.ui-textarea')) {
+                        eleTarget = element.parentElement.querySelector('.ui-textarea');
+                    }
+                } else if (strTag == 'input') {
+                    if (element.classList.contains('ui-input') == false && element.parentElement.querySelector('.ui-input')) {
+                        eleTarget = element.parentElement.querySelector('.ui-input');
+                    }
+                }
+
+                return eleTarget;
+            }
+        };
+    })();
+
+    // 重置原生的validity属性和checkValidity方法
+    [HTMLInputElement.prototype, HTMLSelectElement.prototype, HTMLTextAreaElement.prototype].forEach(function (prop) {
+        Object.defineProperty(prop, 'validity', {
+            get: function ValidityState() {
+                return document.validate.getValidity(this);
+            },
+            configurable: true
+        });
+
+        Object.defineProperty(prop, 'checkValidity', {
+            value: function () {
+                return this.validity.valid;
+            },
+            configurable: true
+        });
+
+        Object.defineProperty(prop, 'reportValidity', {
+            value: function (content) {
+                return document.validate.reportValidity(this, content);
+            },
+            configurable: true
+        });
+
+        Object.defineProperty(prop, 'setCustomValidity', {
+            value: function (content) {
+                if (!content) {
+                    return;
+                }
+
+                // 浏览器原生的状态
+                var arrValidateKey = [
+                    'badInput',
+                    'customError',
+                    'patternMismatch',
+                    'rangeOverflow',
+                    'rangeUnderflow',
+                    'stepMismatch',
+                    'tooLong',
+                    'tooShort',
+                    'typeMismatch',
+                    'valueMissing'
+                ];
+
+                if (!this.customValidate) {
+                    this.customValidate = {};
+                }
+                if (!this.customValidate.report) {
+                    this.customValidate.report = {};
+                }
+
+                // 如果content是字符串，则重置所有提示
+                if (typeof content == 'string') {
+                    arrValidateKey.forEach(function (key) {
+                        this.customValidate.report[key] = content;
+                    });
+                } else if (typeof content == 'object') {
+                    Object.assign(this.customValidate.report, content);
+                }
+            },
+            configurable: true
+        });
+    });
+
+    // 表单元素的checkValidity()方法支持
+    Object.defineProperty(HTMLFormElement.prototype, 'checkValidity', {
+        value: function () {
+            return document.validate.checkValidity(this);
+        },
+        configurable: true
+    });
+
+
+    /**
+     * 验证实例方法主体
+     * @param {Object}   el       通常值验证的表单元素
+     * @param {Function} callback 验证成功的回调
+     * @param {Object}   options  可选参数
+     */
+    var Validate = function (element, callback, options) {
+        if (typeof element == 'string') {
+            element = document.querySelector(element);
+        }
+        // el一般指的是form元素
+        if (!element) {
+            return this;
+        }
+
+        var eleForm = element;
+
+        if (eleForm.data && eleForm.data.validate) {
+            return eleForm.data.validate;
+        }
+
+        // 干掉浏览器默认的验证
+        eleForm.setAttribute('novalidate', 'novalidate');
+
+        var defaults = {
+            // 提交时候是全部出错红色高亮，还是仅第一个，默认是全部
+            multiple: true,
+            // 是否开启即时验证
+            immediate: true,
+            // 是否利用label关联元素的innerHTML作为提示关键字
+            label: true,
+            // 自定义验证提示与数据
+            validate: [
+                // 下面为结构示意
+                /*{
+                    id: '',
+                    report: {
+                        // 源自规范，详见：https://www.zhangxinxu.com/wordpress/?p=8895
+                        badInput: '该错误类型对应的提示'
+                        customError: '该错误类型对应的提示'
+                        patternMismatch: '该错误类型对应的提示'
+                        rangeOverflow: '该错误类型对应的提示'
+                        rangeUnderflow: '该错误类型对应的提示'
+                        stepMismatch: '该错误类型对应的提示'
+                        tooLong: '该错误类型对应的提示'
+                        tooShort: '该错误类型对应的提示'
+                        typeMismatch: '该错误类型对应的提示'
+                        valueMissing: '该错误类型对应的提示'
+                    },
+                    method: function () {}
+                }*/
+            ],
+            onError: function () {
+            },
+            onSuccess: function () {
+            }
+        };
+
+        var objParams = Object.assign({}, defaults, options || {});
+
+        // 还原禁用的提交和关闭按钮
+        eleForm.querySelectorAll('[type="submit"]:disabled, [type="image"]:disabled').forEach(function (eleSubmit) {
+            eleSubmit.disabled = false;
+        });
+
+        // 干掉默认的提交
+        eleForm.addEventListener('submit', function (event) {
+            if (this.stopValidate) {
+                return;
+            }
+            event.preventDefault();
+
+            if (this.checkValidity() && typeof callback == 'function') {
+                callback.call(this, eleForm);
+            }
+
+            return false;
+        }.bind(this));
+
+        // 自定义的验证绑定
+        var dataValidate = objParams.validate;
+        // 确保是数组
+        if (dataValidate && !dataValidate.forEach && dataValidate.id) {
+            dataValidate = [dataValidate];
+        }
+
+        // 是否从<label>元素寻找提示关键字
+        var isLabel = objParams.label;
+        // 遍历元素并匹配
+        eleForm.querySelectorAll('input, select, textarea').forEach(function (eleInput) {
+            var strId = eleInput.id;
+
+            // 是否使用自定义的验证和提示
+            var customValidate = {
+                label: isLabel,
+                owner: this
+            };
+
+            if (strId && dataValidate && dataValidate.length) {
+                dataValidate.forEach(function (objValidate) {
+                    if (objValidate.id == strId) {
+                        // 最终的提示文字，是否借助label元素
+                        objValidate.label = isLabel;
+                        // 实例对象存储
+                        objValidate.owner = this;
+                        // 自定义验证参数
+                        customValidate = objValidate;
+                    }
+                }.bind(this));
+            }
+
+            // 记住上一次的值
+            eleInput.lastValue = eleInput.value || '';
+
+            // 绑定在元素上
+            eleInput.customValidate = customValidate;
+        }.bind(this));
+
+        // 暴露的数据
+        this.element = {
+            form: eleForm
+        };
+
+        this.callback = {
+            error: objParams.onError,
+            success: objParams.onSuccess
+        };
+
+        this.data = dataValidate;
+
+        this.params = {
+            multiple: objParams.multiple,
+            immediate: objParams.immediate,
+            label: isLabel
+        };
+
+        // 计数效果
+        this.count();
+
+        // 手机号过滤等增强体验功能
+        this.enhance();
+
+        if (!eleForm.data) {
+            eleForm.data = {};
+        }
+
+        eleForm.data.validate = this;
+
+        return this;
+    };
+
+    /**
+     * 表单内有计数功能元素的处理
+     * 私有
+     * @return {Object} 返回当前实例
+     */
+    Object.defineProperty(Validate.prototype, 'count', {
+        value: function () {
+            // 即时验证
+            var eleForm = this.element.form;
+            // 遍历计数元素
+            eleForm.querySelectorAll('input, textarea').forEach(function (element) {
+                // 对maxlength进行处理
+                var strAttrMaxLength = element.getAttribute('maxlength');
+                if (strAttrMaxLength) {
+                    // 给maxlength设置不合法的值，阻止默认的长度限制
+                    try {
+                        element.setAttribute('maxlength', '_' + strAttrMaxLength + '_');
+                    } catch (e) {
+                        // IE7不能设置不合法的maxlength值 %>_<%
+                        element.removeAttribute('maxlength');
+                        element.maxlength = strAttrMaxLength;
+                    }
+                }
+
+                // 获得限制大小
+                var strAttrMinLength = element.getAttribute('minlength');
+
+                if (!strAttrMaxLength) {
+                    return;
+                }
+                // 过滤非数值字符
+                if (strAttrMaxLength) {
+                    strAttrMaxLength = strAttrMaxLength.replace(/\D/g, '');
+                }
+
+                // 标签名
+                var strTag = element.tagName.toLowerCase();
+                // 类名
+                var CL = {
+                    add: function () {
+                        return ['ui', strTag].concat([].slice.call(arguments)).join('-');
+                    },
+                    toString: function () {
+                        return 'ui-' + strTag;
+                    }
+                };
+
+                // 有没有label元素
+                var eleLabel = element.parentElement.querySelector('.' + CL.add('count')) || eleForm.querySelector('.' + CL.add('count') + '[for="' + element.id + '"]');
+
+                // 如果没有对应label元素，同时不是适合创建label元素的HTML结构，则返回
+                if (!eleLabel && !element.parentElement.classList.contains(CL.add('x'))) {
+                    return;
+                }
+
+                // 元素id必须
+                var strId = element.id;
+                if (!strId) {
+                    // 没有id随机id
+                    strId = ('lulu_' + Math.random()).replace('0.', '');
+                    element.id = strId;
+                }
+
+                // 计数的<label>元素，有则查询，无则新建
+                if (!eleLabel) {
+                    // 生成并载入计数元素
+                    eleLabel = document.createElement('label');
+                    eleLabel.className = CL.add('count');
+                    eleLabel.setAttribute('for', strId);
+                    eleLabel.innerHTML = '<span>0</span><slash>/</slash><span>' + (strAttrMinLength ? strAttrMinLength + '-' : '') + strAttrMaxLength + '</span>';
+                    // 插入到后面
+                    element.parentElement.appendChild(eleLabel);
+                } else if (!eleLabel.hasAttribute('for')) {
+                    eleLabel.setAttribute('for', strId);
+                }
+
+                var eleMin = eleLabel.querySelector('span') || eleLabel;
+
+                // 计数，标红方法
+                var funCount = function () {
+                    var length = document.validate.getLength(element);
+                    // 实时更新现在的字符个数
+                    eleMin.innerHTML = length;
+
+                    // 超出范围或范围不足
+                    if (length != 0 && (length > strAttrMaxLength || (strAttrMinLength && length < strAttrMinLength))) {
+                        eleMin.classList.add('error');
+                    } else {
+                        eleMin.classList.remove('error');
+                    }
+                };
+                // 事件
+                element.addEventListener('input', funCount);
+                // 一开始就计数
+                funCount();
+                // 兼容模式下IE9删除的时候不会触发input事件
+                if (!history.pushState) {
+                    element.addEventListener('blur', funCount);
+                }
+            });
+
+            return this;
+        }
+    });
+
+    /**
+     * 表单内一些元素体验增强处理
+     * 私有方法
+     * @return {Object} 返回当前实例
+     */
+    Object.defineProperty(Validate.prototype, 'enhance', {
+        value: function () {
+            var eleForm = this.element.form;
+
+            eleForm.querySelectorAll('input, textarea').forEach(function (element) {
+                // 输入框类型
+                var strAttrType = document.validate.getType(element);
+
+                // 手机号码粘贴的优化处理
+                if (/^checkbox|radio|range$/i.test(strAttrType) == false) {
+                    element.addEventListener('paste', function (event) {
+                        // 剪切板数据对象
+                        // 输入框类型
+                        var type = this.getAttribute('type') || this.type;
+                        // 剪切板数据对象
+                        var clipboardData = event.clipboardData || window.clipboardData;
+                        // 粘贴内容
+                        var paste = '';
+                        // 剪切板对象可以获取
+                        if (!clipboardData) {
+                            return;
+                        }
+                        // 获取选中的文本内容
+                        var textSelected = '';
+                        if (window.getSelection) {
+                            // 现代浏览器
+                            // 直接window.getSelection().toString()对于IE的输入框无效
+                            textSelected = this.value.slice(element.selectionStart, element.selectionEnd);
+                        } else if (document.selection) {
+                            // 旧IE浏览器
+                            textSelected = document.selection.createRange().text;
+                        }
+                        // 只有输入框没有数据，或全选状态才处理
+                        if (this.value.trim() == '' || textSelected === this.value) {
+                            // 阻止冒泡和默认粘贴行为
+                            event.preventDefault();
+                            event.stopPropagation();
+                            // 获取粘贴数据
+                            paste = clipboardData.getData('text') || '';
+                            // 进行如下处理
+                            // 除非是password，其他都过滤前后空格
+                            if (type != 'password') {
+                                paste = paste.trim();
+                            }
+                            // 邮箱处理，可能会使用#代替@避免被爬虫抓取
+                            if (type == 'email') {
+                                paste = paste.replace('#', '@');
+                            } else if (type == 'tel') {
+                                // 手机号处理
+                                paste = document.validate.getTel(paste);
+                            }
+
+                            // 插入
+                            this.value = paste;
+                        }
+
+                        // 触发input事件
+                        element.dispatchEvent(new CustomEvent('input'));
+                    });
+                }
+            });
+        }
+    });
+
+    /**
+     * 表单即时验证的细节处理
+     * @return {Object} 返回当前实例
+     */
+    Validate.prototype.immediate = function () {
+        // 即时验证
+        var eleForm = this.element.form;
+
+        if (eleForm.isImmediated) {
+            return this;
+        }
+
+        eleForm.querySelectorAll('input, select, textarea').forEach(function (element) {
+            // type类型筛选
+            var strType = element.type;
+            var strAttrType = element.getAttribute('type');
+            // 给每个控件绑定即时验证
+            if (strType == 'button' || strType == 'submit' || strType == 'reset' || strType == 'file' || strType == 'image') {
+                return;
+            }
+
+            // 不同类别不同事件
+            if (strType == 'radio' || strType == 'checkbox') {
+                element.addEventListener('click', function () {
+                    if (this.params.immediate == false) {
+                        return;
+                    }
+                    this.reportValidity(element);
+                }.bind(this));
+            } else if (/select/.test(strType) || /range|date|time|hour|minute|hidden/.test(strAttrType)) {
+                element.addEventListener('change', function () {
+                    if (this.params.immediate == false) {
+                        return;
+                    }
+                    this.reportValidity(element);
+                }.bind(this));
+            } else {
+                // 输入
+                element.addEventListener('focus', function () {
+                    if (this.params.immediate) {
+                        setTimeout(function () {
+                            document.validate.focusable = 0;
+
+                            this.reportValidity(element);
+                        }.bind(this), 20);
+                    }
+                }.bind(this));
+
+                element.addEventListener('input', function () {
+                    if (this.params.immediate == false) {
+                        return;
+                    }
+                    // IE10+下有个bug
+                    // focus placeholder变化时候，会触发input事件，我只能呵呵了
+                    if (document.msHidden != undefined && element.value == '' && !element.lastValue && element.getAttribute('placeholder')) {
+                        element.lastValue = element.value;
+
+                        return;
+                    }
+
+                    document.validate.focusable = false;
+
+                    this.reportValidity(element);
+
+                    element.lastValue = element.value;
+                }.bind(this));
+            }
+        }.bind(this));
+
+        eleForm.isImmediated = true;
+
+        return this;
+    };
+
+    /**
+     * 表单所有元素验证通过的判断处理
+     * @return {Boolean} 是否表单所有元素验证通过
+     */
+    Validate.prototype.checkValidity = function () {
+        var eleForm = this.element.form;
+
+        var isAllPass = true;
+
+        document.validate.focusable = true;
+
+        eleForm.querySelectorAll('input, select, textarea').forEach(function (element) {
+            // 还没有出现不合法的验证
+            if (isAllPass == true || this.params.multiple) {
+                // multiple参数为true的时候，其他都要标红，但提示仅出现在第一个错误元素上
+                var isPass = document.validate.styleError(element);
+
+                if (isAllPass == true && isPass == false) {
+                    this.reportValidity(element);
+                    isAllPass = false;
+                }
+                // 回调触发
+                this.callback[isPass ? 'success' : 'error'].call(this, element);
+            }
+        }.bind(this));
+
+        // 当有过一次提交之后，开启即时验证
+        if (!eleForm.isImmediated && this.params.immediate) {
+            this.immediate();
+        }
+
+        return isAllPass;
+    };
+
+    /**
+     * 出错提示显示
+     * @return {[type]} [description]
+     */
+    Validate.prototype.reportValidity = function (element, content) {
+        if (element) {
+            document.validate.reportValidity(element, content);
+        }
+    };
+
+    return Validate;
+}));
+/**
+ * @Pagination.js
+ * @author zhangxinxu
+ * @version
+ * @Created: 15-06-26
+ * @edit:    19-09-10 native js rewrite
+ */
+
+(function (global, factory) {
+    if (typeof exports === 'object' && typeof module !== 'undefined') {
+        module.exports = factory();
+    } else if (typeof define === 'function' && (define.amd || define.cmd)) {
+        define(factory);
+    } else {
+        global.Pagination = factory();
+    }
+}((typeof global !== 'undefined') ? global
+    : ((typeof window !== 'undefined') ? window
+        : ((typeof self !== 'undefined') ? self : this)), function () {
+
+    /**
+     * 分页组件
+     * 支持new实例构造
+     * eg new Pagination(element, options);
+     **/
+        // ui类名
+        // 类名变量
+    var CL = {
+            add: function () {
+                return ['ui-page'].concat([].slice.call(arguments)).join('-');
+            },
+            join: function () {
+                return CL + ' ' + this.add.apply(this, arguments);
+            },
+            toString: function () {
+                return 'ui-page';
+            }
+        };
+
+    /**
+     * Ajax分页组件
+     * @param {[type]} element [description]
+     * @param {[type]} options [description]
+     */
+    var Pagination = function (element, options) {
+        // 默认参数
+        var defaults = {
+            // 总的数据量
+            total: 0,
+            // 当前的页码
+            current: 1,
+            // 每页显示的数目
+            per: 15,
+            // short 长分页还是短分页
+            mode: 'long',
+            // href也可以是动态Function
+            href: null,
+            onClick: function () {
+            }
+        };
+
+        // 元素的获取与判断
+        var elePagination = element;
+
+        if (typeof element == 'string') {
+            elePagination = document.querySelector(element);
+        }
+
+        // 如果分页容器元素不存在，隐藏
+        if (elePagination) {
+            // 参数还可以取自element元素
+            var objParamsFromElement = {};
+            for (var keyParam in defaults) {
+                if (elePagination.hasAttribute(keyParam)) {
+                    objParamsFromElement[keyParam] = element.getAttribute(keyParam);
+                }
+            }
+
+            // 避如果已经初始化
+            if (elePagination.data && elePagination.data.pagination) {
+                return elePagination.data.pagination;
+            }
+        }
+
+        // 可选参数整合
+        var objParams = Object.assign({}, defaults, objParamsFromElement, options || {});
+
+        // 数据的暴露
+        this.params = Object.assign({}, objParams);
+
+        // onClick作为callback暴露
+        delete this.params.onClick;
+        // 回调暴露
+        this.callback = {
+            click: objParams.onClick
+        };
+        // 元素暴露
+        this.element = {
+            container: elePagination,
+            pagination: elePagination
+        };
+
+        // 前后分页使用的内联SVG代码
+        this.svg = '<svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="200" height="200" viewBox="0 0 200 200"><path d="M85.876,100.5l49.537-50.526c4.089-4.215,4.089-11.049,0-15.262 c-4.089-4.218-10.719-4.218-14.808,0L63.586,92.868c-4.089,4.215-4.089,11.049,0,15.264l57.018,58.156 c4.089,4.215,10.719,4.215,14.808,0c4.089-4.215,4.089-11.049,0-15.262L85.876,100.5z"/></svg>';
+
+        if (!elePagination) {
+            return this;
+        }
+
+        // 事件
+        this.events();
+
+        // 呈现
+        this.show();
+
+        // 存储
+        if (!elePagination.data) {
+            elePagination.data = {};
+        }
+        elePagination.data.pagination = this;
+
+        // 自定义元素的属性
+        Object.keys(this.params).forEach(function (keyParam) {
+            Object.defineProperty(elePagination, keyParam, {
+                writeable: true,
+                enumerable: true,
+                get: function () {
+                    return this.getAttribute(keyParam) || (function () {
+                        if (this.data && this.data.pagination) {
+                            return this.data.pagination.params[keyParam] || null;
+                        }
+                        return null;
+                    })();
+                },
+                set: function (value) {
+                    this.setAttribute(keyParam, value);
+                    // 模板属性变化了，重渲染
+                    if (this.data && this.data.pagination) {
+                        this.data.pagination.params[keyParam] = value;
+                        this.data.pagination.show();
+                    }
+                }
+            });
+        });
+    };
+
+
+    /**
+     * 分页相关的事件处理
+     * @return {[type]} [description]
+     */
+    Pagination.prototype.events = function () {
+        var elePagination = this.element.pagination;
+
+        // 委托点击事件
+        elePagination.addEventListener('click', function (event) {
+            // 一些元素
+            var eleTarget = event.target;
+            // 目标点击元素
+            var eleClicked = eleTarget.closest('a');
+
+            // 未获取到元素返回
+            if (!eleClicked) {
+                return;
+            }
+
+            var numCurrent = eleClicked.getAttribute('data-page');
+            // 改变全局暴露的current值
+            this.params.current = numCurrent * 1;
+
+            // 当前的类名，onClick回调可以准确识别点击DOM元素
+            var strClassName = eleClicked.className;
+
+            // 分页刷新
+            this.show();
+
+            // 此时由于HTML刷新，原来的eleClicked元素已经不复存在
+            // 因此需要重新获取一遍
+
+            if (/prev/.test(strClassName)) {
+                eleClicked = elePagination.querySelector('.' + CL.add('prev'));
+            } else if (/next/.test(strClassName)) {
+                eleClicked = elePagination.querySelector('.' + CL.add('next'));
+            } else {
+                eleClicked = elePagination.querySelector('.' + CL.add('current'));
+            }
+
+            // aria以及键盘访问
+            if (eleClicked) {
+                eleClicked.focus();
+
+                if (window.isKeyEvent == false) {
+                    eleClicked.blur();
+                }
+
+                if (/^javascript/.test(eleClicked.href)) {
+                    event.preventDefault();
+                }
+            }
+
+            this.callback.click.call(this, eleClicked, this.params.current);
+
+
+        }.bind(this));
+    };
+
+    /**
+     * 创建分页字符串的方法
+     * @param  {Object} params  分页相关的数据对象
+     * @param  {String} mode 分页的类型
+     * @return {String}      返回拼接好的HTML字符串
+     */
+    Pagination.prototype.create = function () {
+        var objParams = this.params;
+
+        // 分页一些数据
+        var numTotal = objParams.total * 1 || 0;
+        var numCurrent = objParams.current * 1 || 1;
+        var numPer = objParams.per * 1 || 1;
+
+        // href的支持与处理
+        var strOrFunHref;
+        if (typeof objParams.href == 'string') {
+            strOrFunHref = objParams.href;
+        } else if (!strOrFunHref) {
+            strOrFunHref = 'javascript:';
+        }
+        var funHref = function (index) {
+            if (typeof strOrFunHref == 'function') {
+                return strOrFunHref(index);
+            }
+            return strOrFunHref.toString().replace('${current}', index);
+        };
+
+        // 计算总页数
+        var numPageSize = Math.ceil(numTotal / numPer) || 1;
+
+        // 分页HTML内容
+        var strHtmlPage = '';
+
+        // 1. 首先是通用的前后翻页
+        if (numCurrent > 1) {
+            strHtmlPage = strHtmlPage + '<a href="' + funHref(numCurrent - 1) + '" class="' + CL.join('prev') + '" data-page="' + (numCurrent - 1) + '" aria-label="上一页，当前第' + numCurrent + '页">' + this.svg + '</a>';
+        } else {
+            // 当前是第一页，自然不能往前翻页
+            strHtmlPage = strHtmlPage + '<span class="' + CL.join('prev') + '">' + this.svg + '</span>';
+        }
+
+        // 2. 中间部分
+        // 短分页和长分页
+        var numVisible = 6;
+        if (objParams.mode == 'long') {
+            var funLong = function (numStart) {
+                if (numStart == numCurrent) {
+                    strHtmlPage = strHtmlPage + '<span class="' + CL.join('current') + '" aria-label="第' + numStart + '页，共' + numPageSize + '页" aria-selected="true" role="option">' + numStart + '</span>';
+                } else {
+                    strHtmlPage = strHtmlPage + '<a href="' + funHref(numStart) + '" class="' + CL + '" data-page="' + numStart + '" aria-label="第' + numStart + '页，共' + numPageSize + '页">' + numStart + '</a>';
+                }
+            };
+
+
+            /**
+             * 为了保证体验，在分页数量大的时候，要保证总条目数为7个
+             假设页码总数20，规则如下
+             当前是1: 则 1-5,... 20
+             2: 则 1-5,...,20
+             3: 则 1-5,...,20
+             4: 则 1-5,...,20
+             5: 则 1...456,...,20
+             ...
+
+             参见下面的else if的处理
+             */
+            if (numPageSize <= numVisible) {
+                // 如果页面不大于6个，全部显示
+                for (var start = 1; start <= numPageSize; start++) {
+                    funLong(start);
+                }
+            } else if (numCurrent < numPageSize * 0.5 && numCurrent < numVisible - 1) {
+                // 至少保证current的前后有数据
+                if (numCurrent < numVisible - 1) {
+                    for (start = 1; start < numVisible; start++) {
+                        funLong(start);
+                    }
+                }
+                strHtmlPage = strHtmlPage + '<span class="' + CL.join('ellipsis') + '">...</span>';
+                funLong(numPageSize);
+            } else if (numCurrent > numPageSize * 0.5 && numCurrent > numPageSize - numVisible + 2) {
+                funLong(1);
+                strHtmlPage = strHtmlPage + '<span class="' + CL.join('ellipsis') + '">...</span>';
+                for (start = numPageSize - numVisible + 2; start <= numPageSize; start++) {
+                    funLong(start);
+                }
+            } else {
+                // 前后两处打点
+                funLong(1);
+                strHtmlPage = strHtmlPage + '<span class="' + CL.join('ellipsis') + '">...</span>';
+                funLong(numCurrent - 1);
+                funLong(numCurrent);
+                funLong(numCurrent + 1);
+                strHtmlPage = strHtmlPage + '<span class="' + CL.join('ellipsis') + '">...</span>';
+                funLong(numPageSize);
+            }
+
+        } else if (objParams.mode == 'short') {
+            strHtmlPage = strHtmlPage + '<span class="' + CL.join('text') + '" aria-label="第' + numCurrent + '页，共' + numPageSize + '页" role="option">' + [numCurrent, numPageSize].join('/') + '</span>';
+        }
+
+        // 3. 往后翻页
+        if (numCurrent < numPageSize) {
+            strHtmlPage = strHtmlPage + '<a href="' + funHref(numCurrent + 1) + '" class="' + CL.join('next') + '" data-page="' + (numCurrent + 1) + '" aria-label="下一页，当前第' + numCurrent + '页">' + this.svg + '</a>';
+        } else {
+            strHtmlPage = strHtmlPage + '<span class="' + CL.join('next') + '">' + this.svg + '</span>';
+        }
+
+        return '<div class="' + CL.add('x') + '">' + strHtmlPage + '</div>';
+    };
+
+    /**
+     * 分页显示（也是刷新方法）
+     * @return {Object} 返回当前实例
+     */
+    Pagination.prototype.show = function () {
+        // 数据合法性处理
+        var objParams = this.params;
+
+        objParams.total = Math.max(objParams.total, 0);
+        objParams.per = Math.max(objParams.per, 0);
+
+        // current合法性处理
+        var numMaxCurrent = Math.ceil(objParams.total / objParams.per);
+        if (objParams.current > numMaxCurrent) {
+            objParams.current = numMaxCurrent;
+        } else if (objParams.current < 1) {
+            objParams.current = 1;
+        }
+
+        // 更新分页的HTML内容
+        this.element.pagination.innerHTML = this.create();
+
+        return this;
+    };
+
+    /**
+     * 分页数据刷新，根据元素属性变化
+     * @return {[type]} [description]
+     */
+    Pagination.prototype.refresh = function () {
+        var objParams = this.params;
+        // 元素
+        var elePagination = this.element.pagination;
+
+        for (var keyParam in objParams) {
+            if (elePagination.hasAttribute(keyParam)) {
+                this.params[keyParam] = elePagination.getAttribute(keyParam);
+            }
+        }
+
+        this.show();
+    };
+
+    /**
+     * 支持自定义的<lu-pagination>元素
+     * @return {[type]}   [description]
+     */
+    var funAutoInitAndWatching = function () {
+        // 遍历页面上所有的<ui-pagination>元素
+        document.querySelectorAll('ui-pagination').forEach(function (elePagination) {
+            new Pagination(elePagination);
+        });
+
+        if (window.watching === false) {
+            return;
+        }
+        // 同步更新分页内容的方法
+        var funSyncRefresh = function (node) {
+            if (node.nodeType != 1 || node.matches('ui-pagination') == false) {
+                return;
+            }
+            // 元素
+            var elePagination = node;
+            // 实例对象
+            var objPagination = elePagination.data && elePagination.data.pagination;
+            // 有则刷新无则初始化
+            if (!objPagination) {
+                new Pagination(elePagination);
+            } else {
+                // 更新
+                objPagination.refresh();
+            }
+        };
+
+        // DOM Insert检测自动初始化
+        // IE11+使用MutationObserver
+        // IE9-IE10使用Mutation Events
+        if (window.MutationObserver) {
+            var observerSelect = new MutationObserver(function (mutationsList) {
+                mutationsList.forEach(function (mutation) {
+                    if (mutation.type == 'childList') {
+                        mutation.addedNodes.forEach(function (eleAdd) {
+                            funSyncRefresh(eleAdd);
+                        });
+                    }
+                });
+            });
+
+            observerSelect.observe(document.body, {
+                childList: true,
+                subtree: true
+            });
+        } else {
+            document.body.addEventListener('DOMNodeInserted', function (event) {
+                // 插入节点
+                funSyncRefresh(event.target);
+            });
+        }
+    };
+
+    // 监听-免初始绑定
+    if (document.readyState != 'loading') {
+        funAutoInitAndWatching();
+    } else {
+        window.addEventListener('DOMContentLoaded', funAutoInitAndWatching);
+    }
+
+    return Pagination;
+}));
+/**
+ * @Table.js
+ * @author   zhangxinxu
+ * @version
+ * @created  15-06-28
+ * @edited   17-07-18 非模块化使用支持
+ *           19-12-03 ES5原生语法支持
+ **/
+
+(function (global, factory) {
+    if (typeof exports === 'object' && typeof module !== 'undefined') {
+        global.Drop = require('../ui/Drop');
+        global.Pagination = require('../ui/Pagination');
+        global.Loading = require('../ui/Loading');
+        module.exports = factory();
+    } else if (typeof define === 'function' && (define.amd || define.cmd)) {
+        define(factory);
+    } else {
+        global.Table = factory();
+    }
+}((typeof global !== 'undefined') ? global
+    : ((typeof window !== 'undefined') ? window
+        : ((typeof self !== 'undefined') ? self : this)), function (require) {
+    var Drop = this.Drop;
+    var Pagination = this.Pagination;
+    var Loading = this.Loading;
+
+    if (typeof require == 'function') {
+        if (!Pagination) {
+            Pagination = require('common/ui/Pagination');
+        }
+        if (!Drop) {
+            Drop = require('common/ui/Drop');
+        }
+        // 加载动效
+        if (!Loading) {
+            Loading = require('common/ui/Loading');
+        }
+    } else if (!Loading) {
+        window.console.warn('suggest include Loading.js');
+    }
+
+    // 滚动到顶部缓动实现
+    // rate表示缓动速率，默认是2
+    window.scrollTopTo = function (top, callback) {
+        var scrollTop = document.scrollingElement.scrollTop;
+        var rate = 2;
+
+        var funTop = function () {
+            scrollTop = scrollTop + (top - scrollTop) / rate;
+
+            // 临界判断，终止动画
+            if (Math.abs(scrollTop - top) <= 1) {
+                document.scrollingElement.scrollTop = top;
+                callback && callback();
+                return;
+            }
+            document.scrollingElement.scrollTop = scrollTop;
+            // 动画gogogo!
+            requestAnimationFrame(funTop);
+        };
+        funTop();
+    };
+
+    /**
+     * 项目表格组件
+     * @使用示例
+     *  new Table($('#table'), {});
+     */
+
+    var LOADING = 'loading';
+
+    var CHECKED = 'checked';
+    var SELECTED = 'selected';
+
+    // 一些元素类名
+    var CL = {
+        empty: 'table-null-x',
+        // 错误
+        error: 'table-error-x',
+        // 加载
+        loading: 'ui-loading',
+        // 下面是分页相关的：
+        //   总数据量
+        total: 'table-page-total',
+        //   每页系那是数目
+        per: 'table-page-per',
+        //   分页左侧容器
+        data: 'table-page-data',
+        //   分页列表（右侧）容器
+        page: 'table-page',
+        // 复选框选择器
+        checkbox: '[type="checkbox"]'
+    };
+
+    // 表格
+    var Table = function (element, options) {
+        if (typeof element == 'string') {
+            element = document.querySelector(element);
+        }
+
+        if (!element) {
+            return this;
+        }
+
+        if (element.data && element.data.table) {
+            return element.data.table;
+        }
+
+        var defaultPageOptions = {
+            // 总数据量
+            total: 0,
+            // 每页显示数目
+            per: 15,
+            // 当前的页数
+            current: 1,
+
+            // 与后台交互时候UI分页需要的参数和后台分页参数对应关系
+            // 下面注释的是起点个人中心的接口对应关系
+            // 其中key表示后台分页数据在那个接口名称下，例如，下面注释内容表示的JSON数据结构是：
+            // {
+            //     "code": 0,
+            //     "data": {
+            //         "pageInfo": {
+            //             "pageIndex": 1,
+            //             "pageSize": 20,
+            //             "pageMax": 6,
+            //             "totalCount": 113
+            //          }
+            //     }
+            // }
+            // keyMap: {
+            //     key: 'pageInfo',
+            //     total: 'totalCount',
+            //     per: 'pageSize',
+            //     current: 'pageIndex'
+            // }
+            // 下面这里未注释的是默认设定
+            keyMap: {
+                key: '',
+                total: 'total',
+                per: 'per',
+                current: 'current'
+            }
+        };
+
+        // 默认参数
+        var defaults = {
+            // 请求列表数据的Ajax参数
+            // 默认dataType为'json'
+            ajaxOptions: {},
+            // 分页数目下拉内容
+            pageList: [15, 30, 50],
+            // 一般情况下，pageOptions参数都是使用默认值
+            // 就算有分页字段名称调整，也建议修改defaultPageOptions中的关键字
+            pageOptions: defaultPageOptions,
+            // 对请求的JSON数据进行处理，并返回
+            parse: function (data) {
+                if (typeof data == 'string') {
+                    return data;
+                }
+
+                return '';
+            },
+            // 列表内容显示的回调
+            onShow: function () {
+            },
+            // 点击分页的回调
+            // 如果存在，会替换本组件内置的分页Ajax处理
+            // 经过N多年实践，此参数使用场景不多
+            onPage: null,
+            // 点击复选框的回调
+            onCheck: function () {
+            }
+        };
+
+        // 参数合并
+        var objParams = Object.assign({}, defaults, options || {});
+
+        // 分页合并
+        if (options.pageOptions) {
+            objParams.pageOptions = Object.assign({}, defaultPageOptions, options.pageOptions);
+        }
+
+        // 表格元素
+        var eleTable = element;
+        // 容器元素
+        var eleContainer = eleTable.parentElement;
+        // 空元素
+        var eleEmpty = eleContainer.querySelector('.' + CL.empty);
+        // loading元素
+        var eleLoading = eleContainer.querySelector(CL.loading + ', .' + CL.loading);
+
+        // 分页相关的元素
+        var eleTotal = eleContainer.querySelector('.' + CL.total);
+        var elePer = eleContainer.querySelector('.' + CL.per);
+        var eleData = eleContainer.querySelector('.' + CL.data);
+        var elePage = eleContainer.querySelector('.' + CL.page);
+
+        // 元素之类
+        this.element = {
+            container: eleContainer,
+            table: eleTable,
+            empty: eleEmpty,
+            loading: eleLoading,
+            total: eleTotal,
+            per: elePer,
+            data: eleData,
+            page: elePage
+        };
+
+        // 回调之类
+        this.callback = {
+            parse: objParams.parse,
+            page: objParams.onPage,
+            check: objParams.onCheck,
+            show: objParams.onShow
+        };
+
+        // 数据之类
+        this.params = {
+            page: objParams.pageOptions,
+            ajax: objParams.ajaxOptions,
+            list: objParams.pageList
+        };
+
+        // ajax数据
+        this.events();
+
+        // 获得数据
+        var eleTbody = eleTable.querySelector('tbody');
+        if (!eleTbody) {
+            window.console.error('<tbody>元素必需');
+            return;
+        }
+
+        if (eleTbody.innerHTML.trim() == '') {
+            this.isFirstAjax = true;
+            this.ajax();
+        } else {
+            // 认为是列表第一页支出，
+            // 这样的交互可以有更好体验
+            this.page();
+        }
+
+        // 存储实例
+        if (!eleTable.data) {
+            eleTable.data = {};
+        }
+        eleTable.data.table = this;
+    };
+
+
+    /**
+     * 列表解决方案中的事件处理
+     * @return {[type]} [description]
+     */
+    Table.prototype.events = function () {
+        // 实例暴露的参数
+        var objParams = this.params;
+        var objElement = this.element;
+        var objCallback = this.callback;
+
+        // 一些事件
+        // 单复选框选中效果
+        var eleTable = objElement.table;
+
+        eleTable.addEventListener('click', function (event) {
+            var eleCheckbox = event.target;
+
+            if (!eleCheckbox || eleCheckbox.type != 'checkbox') {
+                return;
+            }
+
+            var eleTr = eleCheckbox.closest('tr');
+
+            // 如果不是第一td中的checkbox，忽略
+            if (eleTr.querySelector(':first-child ' + CL.checkbox) !== eleCheckbox) {
+                return;
+            }
+
+            // 获取所有的td标签中的复选框
+            // 需要tr单元行显示，需要第一个子元素，需要可用
+            var eleAllTdCheckbox = [];
+
+            eleTable.querySelectorAll('tr').forEach(function (tr) {
+                if (tr.clientWidth == 0) {
+                    return;
+                }
+
+                var eleTdCheckbox = tr.querySelector('td:first-child ' + CL.checkbox + ':enabled');
+                if (eleTdCheckbox) {
+                    eleAllTdCheckbox.push(eleTdCheckbox);
+                }
+            });
+
+            // 全选和非全选标志量
+            var isAllChecked = false;
+            var isAllUnchecked = false;
+            // 全选
+            var eleTh = eleCheckbox.closest('th');
+            // 点击的是全选复选框
+            if (eleTh) {
+                isAllChecked = eleCheckbox[CHECKED];
+                isAllUnchecked = !isAllChecked;
+                // 下面所有的td复选框同步
+                eleAllTdCheckbox.forEach(function (eleTdCheckbox) {
+                    eleTdCheckbox[CHECKED] = isAllChecked;
+                });
+            } else {
+                var numLengthChecked = [].slice.call(eleAllTdCheckbox).filter(function (eleTdCheckbox) {
+                    return eleTdCheckbox[CHECKED];
+                }).length;
+                // 是否取消全选
+                isAllChecked = (eleAllTdCheckbox.length == numLengthChecked);
+                // 是否全部非选
+                isAllUnchecked = (numLengthChecked == 0);
+            }
+            // 改变全选复选框的状态
+            var eleThCheckbox = eleTable.querySelector('th:first-child ' + CL.checkbox);
+            if (eleThCheckbox) {
+                eleThCheckbox[CHECKED] = isAllChecked;
+            }
+
+            // 根据复选框状态决定表格行样式
+            eleAllTdCheckbox.forEach(function (eleTdCheckbox) {
+                eleTdCheckbox.closest('tr').classList[eleTdCheckbox[CHECKED] ? 'add' : 'remove'](SELECTED);
+            });
+
+            // 回调
+            objCallback.check.call(this, isAllChecked, isAllUnchecked, eleCheckbox, eleAllTdCheckbox);
+
+        }.bind(this));
+
+        // 点击列表，只有不是a元素或者是复选框本事，选中当前复选框
+        eleTable.addEventListener('click', function (event) {
+            var eleTarget = event.target;
+            var eleCheckbox = null;
+
+            if (eleTarget && /^(?:a|input|textarea|tbody|i|select|label|th)$/i.test(eleTarget.tagName) == false) {
+                eleCheckbox = eleTarget.closest('tr') && eleTarget.closest('tr').querySelector('td:first-child ' + CL.checkbox + ':enabled');
+                if (eleCheckbox) {
+                    eleCheckbox.click();
+                }
+            }
+        });
+
+        // 切换每页数目的dropList
+        // 求得当前选中的分页数
+        // 优先本地存储
+        var strStoreId = eleTable.id;
+        var numCurrentPer = objParams.page.per;
+        var elePer = objElement.per;
+
+        if (elePer) {
+            if (strStoreId && window.localStorage && localStorage[strStoreId]) {
+                numCurrentPer = localStorage[strStoreId];
+                objParams.page.per = numCurrentPer;
+            }
+            // 赋值
+            elePer.innerHTML = numCurrentPer;
+
+            if (!Drop) {
+                window.console.error('need Drop.js');
+                return;
+            }
+
+            // 下拉
+            this.dropList = new Drop(elePer).list(objParams.list.map(function (number) {
+                return {
+                    value: number
+                };
+            }), {
+                width: 60,
+                onSelect: function (data) {
+                    var numPerNew = data.value;
+
+                    // 记住当前选择的分页数
+                    if (window.localStorage && strStoreId) {
+                        localStorage[strStoreId] = numPerNew;
+                    }
+
+                    // 如果分页有变
+                    if (objParams.page.per != numPerNew) {
+                        // 改变分页数目
+                        objParams.page.per = numPerNew;
+                        // 当前页重置为1
+                        objParams.page.current = 1;
+                        // 重新刷新
+                        this.ajax();
+                    }
+                }.bind(this)
+            });
+        }
+    };
+
+
+    /**
+     * 列表数据请求
+     * @param  {[type]} options [description]
+     * @return {[type]}         [description]
+     */
+    Table.prototype.ajax = function (options) {
+        options = options || {};
+
+        // 暴露的参数和元素
+        var objParams = this.params;
+        var objElement = this.element;
+        var objCallback = this.callback;
+
+        // 列表元素
+        var eleTable = objElement.table;
+        var eleContainer = objElement.container;
+
+        // 避免重复请求
+        if (eleTable.getAttribute('aria-busy') == 'true') {
+            return this;
+        }
+
+        // 列表容器元素
+        var eleTbody = eleTable.querySelector('tbody');
+
+        // ajax请求参数
+        var objAjax = Object.assign({}, objParams.ajax, options);
+
+        // ajax地址是必需项
+        if (!objAjax.url) {
+            return this;
+        }
+
+        if (/^\/\//.test(objAjax.url)) {
+            objAjax.url = location.protocol + objAjax.url;
+        }
+
+        // 1. ajax发送的data数据走合并策略
+        var data = options.data || {};
+        var dataOptions = objParams.ajax.data || {};
+
+        if (typeof dataOptions == 'function') {
+            dataOptions = dataOptions() || {};
+        }
+
+        // 发送给后台的分页数据的键值对
+        var dataPage = {};
+        var objKeyMap = objParams.page.keyMap;
+
+        if (objKeyMap) {
+            dataPage[objKeyMap['current']] = objParams.page.current;
+            dataPage[objKeyMap['per']] = objParams.page.per;
+        }
+
+        // current和per数据的更新
+        var objDataSend = Object.assign({}, dataPage, dataOptions, data);
+
+        if (objKeyMap) {
+            objParams.page.current = objDataSend[objKeyMap['current']];
+            objParams.page.per = objDataSend[objKeyMap['per']];
+        }
+
+        // 2. url get请求地址合并
+        var objAjaxParams = new URLSearchParams(objDataSend);
+        // URL处理
+        var strUrlAjax = objAjax.url;
+
+        // 查询字符串的处理
+        var strUrlSearch = '?';
+        if (strUrlAjax.split('?').length > 1) {
+            strUrlSearch = strUrlSearch + strUrlAjax.split('?')[1];
+        }
+
+        // URL拼接
+        strUrlAjax = strUrlAjax.split('?')[0] + strUrlSearch + '&' + objAjaxParams.toString();
+
+        // 3. 回调方法的处理
+        // ajax发生错误的处理
+        var funError = function (content) {
+            var eleError = eleContainer.querySelector('.' + CL.error);
+
+            if (!eleError) {
+                eleError = document.createElement('div');
+                eleError.className = CL.error;
+                // 创建的错误元素插到列表的后面
+                eleTable.insertAdjacentElement('afterend', eleError);
+
+                objElement.error = eleError;
+            }
+            eleError.style.display = 'block';
+            eleError.innerHTML = content || '数据没有获取成功';
+
+            if (typeof objAjax.error == 'function') {
+                objAjax.error();
+            }
+        };
+        // 请求完成的事件处理
+        var funComplete = function () {
+            // 请求结束标志量
+            eleTable.removeAttribute('aria-busy');
+            // 去除中间的大loading
+            if (objElement.loading) {
+                objElement.loading.style.display = 'none';
+            }
+
+            // 去掉分页的小loading
+            if (this.pagination) {
+                var elePageLoading = this.pagination.element.container.querySelector('.' + LOADING);
+                if (elePageLoading) {
+                    elePageLoading.classList.remove(LOADING);
+                }
+            }
+            if (typeof objAjax.complete == 'function') {
+                objAjax.complete();
+            }
+
+            // 呈现与动画
+            this.show();
+        };
+
+        // 执行Ajax请求的方法
+        var funAjax = function () {
+            // IE9不支持跨域
+            if (!history.pushState && /\/\//.test(strUrlAjax) && strUrlAjax.split('//')[1].split('/')[0] != location.host) {
+                funComplete.call(this);
+                funError('当前浏览器不支持跨域数据请求');
+                return;
+            }
+
+
+            var xhr = new XMLHttpRequest();
+
+            xhr.open('GET', strUrlAjax);
+
+            xhr.onload = function () {
+                var json = {};
+
+                try {
+                    json = JSON.parse(xhr.responseText) || {};
+                } catch (event) {
+                    funError('解析异常，请稍后重试');
+                    return;
+                }
+
+                // 出错处理
+                // 0认为是成功
+                // 关键字支持code或者error
+                // { code: 0 } 或 { error: 0 } 都认为成功
+                if (json.code !== 0 && json.error !== 0) {
+                    funError(json.msg || '返回数据格式不符合要求');
+
+                    return;
+                }
+
+                var strHtml = objCallback.parse(json);
+
+                // 如果解析后无数据，显示空提示信息
+                if (history.pushState) {
+                    eleTbody.innerHTML = strHtml || '';
+                } else {
+                    // IE9 tbody不能直接innerHTML
+                    var eleTemp = document.createElement('div');
+                    eleTemp.innerHTML = '<table><tbody>' + (strHtml || '') + '</tbody></table>';
+
+                    eleTbody.parentNode.replaceChild(eleTemp.firstChild.firstChild, eleTbody);
+                }
+
+
+                var eleEmpty = objElement.empty;
+                if (!strHtml || !strHtml.trim()) {
+                    if (!eleEmpty) {
+                        eleEmpty = document.querySelector('div');
+                        eleEmpty.className = CL.empty;
+                        // 插入到列表元素后面
+                        eleTable.insertAdjacentElement('afterend', eleEmpty);
+
+                        objElement.empty = eleEmpty;
+                    }
+                    eleEmpty.style.display = 'block';
+                }
+
+                // 获得后端返回的分页总数
+                var jsonKey = objKeyMap.key;
+                // 总数目
+                var numTotal;
+
+                if (jsonKey) {
+                    numTotal = json.data[jsonKey][objKeyMap['total']];
+                } else {
+                    numTotal = json.data[objKeyMap['total']];
+                }
+
+                // 修改总数值并显示
+                if (numTotal || numTotal == 0) {
+                    if (objElement.total) {
+                        objElement.total.innerHTML = numTotal;
+                    }
+
+                    objParams.page.total = numTotal;
+                }
+
+                // 左侧切换分页数目元素显示
+                if (objElement.data) {
+                    objElement.data.style.display = 'block';
+                }
+
+                this.page();
+
+                if (typeof objAjax.success == 'function') {
+                    objAjax.success(json);
+                }
+
+                funComplete.call(this);
+            }.bind(this);
+
+            xhr.onerror = function () {
+                funError('网络异常，数据没有获取成功，您可以稍后重试！');
+                funComplete.call(this);
+            };
+
+            xhr.send();
+
+            // 标记输入框忙碌状态
+            eleTable.setAttribute('aria-busy', 'true');
+        };
+
+        // 滚动到表格上边缘
+        var numScrollTop = window.pageYOffset;
+
+        // loading元素
+        var eleLoading = objElement.loading;
+        if (!eleLoading) {
+            eleLoading = document.createElement('div');
+            eleLoading.className = CL.loading;
+            // 插入到列表元素后面
+            eleTable.insertAdjacentElement('afterend', eleLoading);
+
+            objElement.loading = eleLoading;
+        }
+
+        // 显示loading
+        eleLoading.style.paddingBottom = '';
+
+        if (window.getComputedStyle(eleLoading).display == 'none') {
+            var eleThead = eleTable.querySelector('thead');
+
+            eleLoading.style.height = (eleTable.clientHeight - (eleThead ? eleThead.clientHeight : 0)) + 'px';
+
+            if (eleTbody.innerHTML.trim() == '') {
+                eleLoading.style.height = '';
+            }
+        }
+
+        // 微调圈圈的位置
+        var numDistance = parseFloat(eleLoading.style.height) - window.innerHeight;
+
+        // loading尺寸比浏览器窗口还大
+        // 微调未知，使在窗体居中位置
+        if (numDistance > 0) {
+            eleLoading.style.paddingBottom = numDistance + 'px';
+        }
+
+        // loading显示
+        eleLoading.style.display = 'block';
+
+        // 其他元素隐藏
+        if (objElement.empty) {
+            objElement.empty.style.display = 'none';
+        }
+        if (objElement.error) {
+            objElement.error.style.display = 'none';
+        }
+
+        eleTbody.innerHTML = '';
+
+        // 请求走起
+        // 判断是否需要先滚动
+        var objBound = eleTable.getBoundingClientRect();
+        // 第一次不定位
+        if (!this.isFirstAjax && objBound.top < 0) {
+            numScrollTop = objBound.top + numScrollTop;
+            window.scrollTopTo(numScrollTop, function () {
+                funAjax.call(this);
+            }.bind(this));
+        } else if (!this.isFirstAjax && objBound.top > window.innerHeight) {
+            numScrollTop = numScrollTop - objBound.top;
+            window.scrollTopTo(numScrollTop, function () {
+                funAjax.call(this);
+            }.bind(this));
+        } else {
+            funAjax.call(this);
+
+            this.isFirstAjax = false;
+        }
+
+        return this;
+    };
+
+    /**
+     * 分页的处理
+     * @param  {[type]} total [description]
+     * @return {[type]}       [description]
+     */
+    Table.prototype.page = function (total) {
+        if (!this.element.page) {
+            return this;
+        }
+        if (!Pagination) {
+            window.console.error('need Pagination.js');
+            return this;
+        }
+        var objPage = this.params.page;
+
+        // 显示分页
+        if (this.pagination) {
+            this.pagination.params = Object.assign(this.pagination.params, objPage);
+            this.pagination.show();
+        } else {
+            this.pagination = new Pagination(this.element.page, {
+                total: total || objPage.total,
+                current: objPage.current,
+                per: objPage.per,
+                mode: objPage.mode || 'long',
+                onClick: function (eleClicked, numCurrent) {
+                    // 更新分页
+                    objPage.current = numCurrent;
+                    // 自定义分页事件
+                    if (typeof this.callback.page == 'function') {
+                        this.callback.page.call(this, eleClicked, numCurrent);
+                    } else {
+                        // 显示小loading
+                        eleClicked.classList.add(LOADING);
+
+                        // ajax再次
+                        this.ajax();
+                    }
+                }.bind(this)
+            });
+        }
+    };
+
+    /**
+     * 列表请求完毕显示的方法
+     * @return {[type]} [description]
+     */
+    Table.prototype.show = function () {
+        // 显示loading
+        if (this.element.loading) {
+            this.element.loading.style.paddingBottom = '';
+        }
+
+        //没有全选
+        var eleThCheckbox = this.element.table.querySelector('th:first-child ' + CL.checkbox);
+        if (eleThCheckbox) {
+            eleThCheckbox[CHECKED] = false;
+        }
+
+        // 列表显示的回调
+        if (typeof this.callback.show == 'function') {
+            this.callback.show.call(this);
+        }
+
+        return this;
+    };
+
+    return Table;
+}));
+/**
+ * @Form.js
+ * @author zhangxinxu
+ * @version
+ * @created  16-03-01
+ * @edited   19-12-02    ES5原生语法支持
+ */
+
+(function (global, factory) {
+    if (typeof exports === 'object' && typeof module !== 'undefined') {
+        global.LightTip = require('../ui/LightTip');
+        global.Loading = require('../ui/Loading');
+        global.Validate = require('../ui/Validate');
+        module.exports = factory();
+    } else if (typeof define === 'function' && (define.amd || define.cmd)) {
+        define(factory);
+    } else {
+        global.Form = factory();
+    }
+}((typeof global !== 'undefined') ? global
+    : ((typeof window !== 'undefined') ? window
+        : ((typeof self !== 'undefined') ? self : this)), function (require) {
+    var LightTip = this.LightTip;
+    var Loading = this.Loading;
+    var Validate = this.Validate;
+    // require
+    if (typeof require == 'function') {
+        // 轻tips
+        if (!LightTip) {
+            LightTip = require('common/ui/LightTip');
+        }
+        // 加载
+        if (!Loading) {
+            Loading = require('common/ui/Loading');
+        }
+        // 验证
+        if (!Validate) {
+            Validate = require('common/ui/Validate');
+        }
+    } else if (!Validate) {
+        window.console.error('need Validate.js');
+
+        return {};
+    } else if (!LightTip) {
+        window.console.error('need LightTip.js');
+
+        return {};
+    } else if (!Loading) {
+        window.console.warn('need Loading.js');
+    }
+
+    /**
+     * 表单解决方案组件
+     * @使用示例
+     *  new Form('#form', {}, {});
+     */
+    var DISABLED = 'disabled';
+
+    // 表单
+    var Form = function (element, optionCallback, optionValidate) {
+        if (typeof element == 'string') {
+            element = document.querySelector(element);
+        }
+        if (!element) {
+            return this;
+        }
+
+        // 避免重复初始化
+        if (element.data && element.data.form) {
+            return element.data.form;
+        }
+
+        // optionCallback可以是对象也可以直接是成功回调
+        /*
+            optionCallback = {
+                avoidSend: function () {},    // 验证成功之后，请求发送前的条件约束
+                success: function () {},
+                error: function () {},
+                complete: function () {}
+            };
+        */
+        optionCallback = optionCallback || function () {
+        };
+        if (typeof optionCallback == 'function') {
+            optionCallback = {
+                success: optionCallback
+            };
+        }
+
+        optionValidate = optionValidate || {};
+
+        // 表单元素
+        var eleForm = element;
+        // 通过submit按钮找到找到关联的我们肉眼所见的提交按钮
+        var eleBtnSubmit = eleForm.querySelector('[type="submit"], [type="image"]');
+        if (!eleBtnSubmit) {
+            eleBtnSubmit = eleForm.querySelector('button:nth-of-last-type()');
+        }
+
+        if (!eleBtnSubmit) {
+            return this;
+        }
+
+        // 下拉框的初始化
+        if (window.autoInit === false) {
+            // 下拉框
+            eleForm.querySelectorAll('select').forEach(function (eleSelect) {
+                if (eleSelect.refresh) {
+                    eleSelect.refresh();
+                }
+            });
+        }
+
+        // 暴露的元素
+        this.element = {
+            form: eleForm,
+            submit: eleBtnSubmit
+        };
+
+        // 回调方法们
+        this.callback = optionCallback;
+
+        // 绑定表单验证
+        this.validate = new Validate(eleForm, function () {
+            // 验证成功之后
+            if (!optionCallback.avoidSend || !optionCallback.avoidSend.call(this, eleForm)) {
+                this.ajax();
+            }
+        }.bind(this), optionValidate);
+
+        if (!eleForm.data) {
+            eleForm.data = {};
+        }
+
+        eleForm.data.form = this;
+
+        return this;
+    };
+
+    /**
+     * 表单提交的处理
+     * @return {[type]} [description]
+     */
+    Form.prototype.ajax = function () {
+        // 回调
+        var optionCallback = this.callback;
+        // 元素
+        var eleForm = this.element.form;
+        var eleButton = null;
+        var eleSubmit = this.element.submit;
+
+        // 我们肉眼所见的按钮，进行一些状态控制
+        eleButton = eleSubmit.id && document.querySelector('label[for=' + eleSubmit.id + ']');
+        if (!eleButton) {
+            eleButton = eleSubmit;
+        }
+        this.element.button = eleButton;
+
+        // 请求地址
+        var strUrl = eleForm.action.split('#')[0] || location.href.split('#')[0];
+        // 请求类型
+        var strMethod = eleForm.method || 'POST';
+
+        // IE9不支持cros跨域
+        if (!history.pushState && new URL(strUrl).host != location.host) {
+            new LightTip().error('当前浏览器不支持跨域数据请求。');
+            return;
+        }
+
+        // 提交数据
+        // 1. 菊花转起来
+        eleButton.loading = true;
+        // 2. 提交按钮禁用
+        eleSubmit.setAttribute(DISABLED, DISABLED);
+
+        // 3. 数据
+        var objFormData = new FormData(eleForm);
+        if (optionCallback.beforeSend) {
+            optionCallback.beforeSend.call(this, xhr, objFormData);
+        }
+        // 请求类型不同，数据地址也不一样
+        var strSearchParams = '';
+
+        if (strMethod.toLowerCase() == 'get') {
+            strSearchParams = new URLSearchParams(objFormData).toString();
+
+            if (strUrl.split('?').length > 1) {
+                strUrl = strUrl + '&' + strSearchParams;
+            } else {
+                strUrl = strUrl + '?' + strSearchParams;
+            }
+        }
+
+        // 4. 请求走起来
+        var xhr = new XMLHttpRequest();
+        xhr.open(strMethod, strUrl);
+
+        // 请求结束
+        xhr.onload = function () {
+            var json = {};
+
+            try {
+                json = JSON.parse(xhr.responseText);
+
+                if (json && (json.code == 0 || json.error == 0)) {
+                    // 成功回调
+                    if (optionCallback.success) {
+                        optionCallback.success.call(this, json);
+                    } else {
+                        // 如果没有成功回调，组件自己提示成功
+                        new LightTip().success(json.msg || '操作成功。');
+                    }
+                } else {
+                    new LightTip().error((json && json.msg) || '返回数据格式不符合要求。');
+
+                    // 失败回调
+                    if (optionCallback.error) {
+                        optionCallback.error.call(this, json);
+                    }
+                }
+            } catch (event) {
+                new LightTip().error(json.msg || '返回数据解析出错。');
+                // 回调
+                if (optionCallback.error) {
+                    optionCallback.error.call(this, event);
+                }
+            }
+
+            funLoadend(json);
+        }.bind(this);
+
+        // 请求错误
+        xhr.onerror = function () {
+            new LightTip().error('网络异常，刚才的操作没有成功，您可以稍后重试。');
+            // 回调
+            if (optionCallback.error) {
+                optionCallback.error.apply(this, arguments);
+            }
+
+            funLoadend();
+        }.bind(this);
+
+
+        // 请求结束，无论成功还是失败
+        // xhr.onloadend IE9不支持，因此这里使用
+        // 其他方法代替
+        var funLoadend = function () {
+            // 菊花关闭
+            eleButton.loading = false;
+            // 表单恢复提交
+            eleSubmit.removeAttribute(DISABLED);
+            // 回调
+            if (optionCallback.complete) {
+                optionCallback.complete.apply(this, arguments);
+            }
+        };
+
+        xhr.send(objFormData);
+    };
+
+    /**
+     * 执行表单的提交
+     * @return {Object} 返回当前实例对象
+     */
+    Form.prototype.submit = function () {
+        this.element.form.dispatchEvent(new CustomEvent('submit'));
+
+        return this;
+    };
+
+    return Form;
+}));
