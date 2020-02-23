@@ -7,5 +7,5 @@ COPY ./conf/supervisor.ini /etc/supervisor.d/
 COPY ./entry.sh /
 RUN chmod +x /entry.sh
 EXPOSE 80
-ENTRYPOINT ["/tmp/entry.sh"]
+ENTRYPOINT ["/entry.sh"]
 #ENTRYPOINT ["/usr/bin/supervisord","-n", "-c","/etc/supervisord.conf"]
