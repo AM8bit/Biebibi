@@ -17,7 +17,6 @@ work_dir = pathlib.Path(__file__).parent.absolute()
 os.chdir(work_dir)
 s = client.ServerProxy("http://localhost:6800/rpc")
 
-
 def m4s_to_mp4(name):
     out = f'download/{name}.mp4'
     video_m4s_dir = 'caches/video/'
