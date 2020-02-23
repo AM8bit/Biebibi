@@ -1,13 +1,18 @@
-import daemon
-import time, sys, os, glob, subprocess
-import threading
-from xmlrpc import client
+import os
 import socket
+import subprocess
+import sys
+import threading
+import time
+from xmlrpc import client
+
+import daemon
 
 cached_list = { }
 converted_list = []
 jobs = []
 s = client.ServerProxy("http://localhost:6800/rpc")
+
 
 def m4s_to_mp4(name):
     out = f'download/{name}.mp4'
@@ -58,8 +63,11 @@ def is_convertd(v_md5):
 
 def rev_jobs():
     sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    sock.bind(('127.0.0.1', 7000))
-    sock.listen()
+    try:
+        sock.bind(('127.0.0.1', 7000))
+        sock.listen()
+    except:
+        exit()
     while True:
         connection, client_address = sock.accept()
         try:
