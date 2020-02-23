@@ -6,4 +6,4 @@ COPY ./src /var/www/localhost/htdocs/
 COPY ./conf/supervisor.ini /etc/supervisor.d/
 EXPOSE 80
 CMD while true; do sleep 2; df -h; done
-#ENTRYPOINT ["/usr/bin/supervisord","-c","/etc/supervisord.conf"]
+ENTRYPOINT ["/usr/bin/supervisord","-c","/etc/supervisord.conf"]
