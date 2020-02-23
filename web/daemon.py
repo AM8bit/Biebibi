@@ -1,4 +1,5 @@
 import os
+import pathlib
 import socket
 import subprocess
 import sys
@@ -11,6 +12,9 @@ import daemon
 cached_list = { }
 converted_list = []
 jobs = []
+
+work_dir = pathlib.Path(__file__).parent.absolute()
+os.chdir(work_dir)
 s = client.ServerProxy("http://localhost:6800/rpc")
 
 
