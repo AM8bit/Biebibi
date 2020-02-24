@@ -33,7 +33,7 @@ Also web version
 The web version is a standalone version and currently uses lighttpd + CGI as the operating environment.
 You can deploy it with docker
 
-Docker depoly
+Docker deploy
 -------------
 
 ```shell
