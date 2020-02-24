@@ -38,7 +38,7 @@ Docker depoly
 
 ```shell
 git clone https://github.com/AM8bit/Biebibi.git
-cd docker
+cd Biebibi/docker
 docker build -t biebibi_web .
 docker run -d -it -p 8080:80 --name biebibi --rm biebibi_web
 ```
