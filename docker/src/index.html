@@ -190,7 +190,6 @@
             $('#video_cache_detail > button').on('click', function(){
                 if( navigator.userAgent.toLowerCase().indexOf('micromessenger') > -1 || typeof navigator.wxuserAgent !== "undefined" ) {
                     $('#download_progress').html('<p style="text-align: center;font-size: 18px;color: #ffa3a3;">当前浏览器不支持下载!</p>')
-                    $('#download_progress').show()
                     return
                 }
                 download_element = function (vid) {
@@ -204,6 +203,7 @@
                 if (/(iPhone|iPad|iPod|iOS)/i.test(navigator.userAgent)) {
                     download_element(vid)
                 } else if (/(Android)/i.test(navigator.userAgent)) {
+                    $('#video_cache_detail > button')[0].loading = false
                     download_element(vid)
                 } else {
                     try {
@@ -213,6 +213,7 @@
                         $('#download_progress').show()
                         download_video(vid, filename)
                     }else {
+                        $('#video_cache_detail > button')[0].loading = false
                         download_element(vid)
                     }
                 }
