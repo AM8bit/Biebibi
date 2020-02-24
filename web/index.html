@@ -71,7 +71,6 @@
         }
 
         .tips {
-            font-family: 'kaiti', 'STKaiti';
             padding: 10px 1em;
             border-radius: 6px;
             border-left: solid #ffcccc;
@@ -80,7 +79,6 @@
 
         .section_main h3 {
             font-size: 20px;
-            font-family: x-locale-heading-primary, zillaslab, Palatino, "Palatino Linotype", x-locale-heading-secondary, 'Source Han Serif SC', STZhongsong, simsun, serif;
             border-bottom: 3px solid #ffdbf7;
         }
 
@@ -138,7 +136,7 @@
     <video id="player" playsinline controls>
         <source src="" type="video/mp4" />
     </video>
-    <button class="ui-button get-btn-class" style="float: right; margin-top: 10px;" id="get_btn" data-type="primary">下载
+    <button class="ui-button get-btn-class" data-type="primary" style="float: right; margin-top: 10px;">下载
     </button>
     <div id="download_progress">
         <progress class="ui-progress" value="0.4" style="height: 12px;margin-top: 12px;" width="100%"></progress>
@@ -168,20 +166,6 @@
             return filename.replace(/[ !！~#$%^&*\(\)\+`]/g, '')
         }
 
-        var saveData = (function () {
-            var a = document.createElement("a");
-            document.body.appendChild(a);
-            a.style = "display: none";
-            return function (data, fileName) {
-                blob = new Blob([data], {type: "application/octet-stream"}),
-                    url = window.URL.createObjectURL(blob);
-                a.href = url;
-                a.download = fileName;
-                a.click();
-                window.URL.revokeObjectURL(url);
-            };
-        }());
-
         function download_video(vid, filename){
 
             $.ajax({
@@ -196,21 +180,20 @@
                     return xhr;
                 },
                 success: function (response) {
-                    //saveAs(response, filename + '.mp4')
-                    saveData(response, safe_name(filename) + '.mp4')
+                    saveAs(response, safe_name(filename) + '.mp4')
+                    if ($('#video_cache_detail > button')[0]) $('#video_cache_detail > button')[0].loading = false
+                    $('#download_progress').hide()
                 }
             });
         }
 
         function set_video_dom(vid, filename) {
             $('#download_progress').hide()
+            $('#video_cache_detail > button')[0].loading = false
             $('#video_cache_detail > button').unbind()
             $('#video_cache_detail > button').on('click', function(){
                 if( navigator.userAgent.toLowerCase().indexOf('micromessenger') > -1 || typeof navigator.wxuserAgent !== "undefined" ) {
-                    new Dialog().alert('当前浏览器不支持下载～', {
-                        title: '提示',
-                        type: 'custom'
-                    });
+                    $('#download_progress').html('<p style="text-align: center;font-size: 18px;color: #ffa3a3;">当前浏览器不支持下载!</p>')
                     return
                 }
                 download_element = function (vid) {
@@ -219,6 +202,7 @@
                     mp4_a.download = vid + '.mp4'
                     mp4_a.click()
                 }
+                this.loading = true
                 //兼容处理
                 if (/(iPhone|iPad|iPod|iOS)/i.test(navigator.userAgent)) {
                     download_element(vid)
