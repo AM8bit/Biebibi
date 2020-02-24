@@ -2,6 +2,7 @@
 trap "printf ""\nExiting...""; exit 0;" INT
 USER_AGENT="User-Agent: Mozilla/5.0  AppleWebKit/601.1.46 (KHTML, like Gecko) Mobile/13C75 MicroMessenger/6.5.15 NetType/4G Language/zh_CN"
 rm -rf caches/*; mkdir -p download caches
+md5_sum=$(command -v md5sum || command -v md5)
 function m4s_get() {
   body=`curl "$1" -H "$USER_AGENT" \
   -H 'Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8' \
@@ -16,10 +17,10 @@ function m4s_get() {
             -H 'Accept: */*' \
             -H 'Accept-Language: en-US,en;q=0.5' \
             -H 'Referer: https://www.bilibili.com/' \
-            --compressed -o "caches/$(echo $m4s_link | md5).m4s"
+            --compressed -o "caches/$(echo $m4s_link | $md5_sum | awk '{print $1}').m4s"
   done
-  ffmpeg -i "caches/$(echo $video_m4s | md5).m4s" \
-         -i "caches/$(echo $audio_m4s | md5).m4s" -c copy "download/${title}.mp4"
+  ffmpeg -i "caches/$(echo $video_m4s | $md5_sum | awk '{print $1}').m4s" \
+         -i "caches/$(echo $audio_m4s | $md5_sum | awk '{print $1}').m4s" -c copy "download/${title}.mp4"
   if [[ $? == 0 ]];then echo "[ download/$title.mp4 ] saved!"; fi
 }
 if [ -z "$1" ];then printf "usage: \n $0 https://www.bilibili.com/video/avXXXXXXX/\n"; exit 1; fi
